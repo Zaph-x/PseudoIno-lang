@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\tests\\Lexer.Tests\\Lexer.Tests.csproj": {}
+    "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\Tests\\Lexer.Tests\\Lexer.Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\tests\\Lexer.Tests\\Lexer.Tests.csproj": {
+    "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\Tests\\Lexer.Tests\\Lexer.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\tests\\Lexer.Tests\\Lexer.Tests.csproj",
+        "projectUniqueName": "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\Tests\\Lexer.Tests\\Lexer.Tests.csproj",
         "projectName": "Lexer.Tests",
-        "projectPath": "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\tests\\Lexer.Tests\\Lexer.Tests.csproj",
+        "projectPath": "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\Tests\\Lexer.Tests\\Lexer.Tests.csproj",
         "packagesPath": "C:\\Users\\flufg\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\tests\\Lexer.Tests\\obj\\",
+        "outputPath": "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\Tests\\Lexer.Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
