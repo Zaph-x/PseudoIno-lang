@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\flufg\\Desktop\\programming\\c#\\Compiler\\Compiler.csproj": {}
+    "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\Compiler.csproj": {}
   },
   "projects": {
-    "C:\\Users\\flufg\\Desktop\\programming\\c#\\Compiler\\Compiler.csproj": {
+    "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\Compiler.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\flufg\\Desktop\\programming\\c#\\Compiler\\Compiler.csproj",
+        "projectUniqueName": "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\Compiler.csproj",
         "projectName": "Compiler",
-        "projectPath": "C:\\Users\\flufg\\Desktop\\programming\\c#\\Compiler\\Compiler.csproj",
+        "projectPath": "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\Compiler.csproj",
         "packagesPath": "C:\\Users\\flufg\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\flufg\\Desktop\\programming\\c#\\Compiler\\obj\\",
+        "outputPath": "C:\\Users\\flufg\\Desktop\\uni\\Projekter, rapporter og processanalyser\\p4\\Compiler\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
