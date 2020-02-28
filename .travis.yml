@@ -1,0 +1,11 @@
+language: csharp
+dotnet: 3.1
+git:
+  quiet: true
+
+isntall:
+  - dotnet restore
+
+script:
+  - dotnet build
+  - dotnet test Tests/*.Tests/*.csproj
