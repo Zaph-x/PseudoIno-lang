@@ -8,9 +8,9 @@ install:
 - dotnet restore
 
 script:
- - dotnet build
- - dotnet test Tests/*.Tests/*.csproj
+- dotnet build
+- dotnet test Tests/*.Tests/*.csproj
 
 global:
-  - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-  - DOTNET_CLI_TELEMETRY_OPTOUT=1
+- DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+- DOTNET_CLI_TELEMETRY_OPTOUT=1
