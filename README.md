@@ -1,4 +1,4 @@
-# P4 Program Repo
+# P4 Program Repo [![Build Status](https://travis-ci.com/Zaph-x/P4-program.svg?token=1NahDsgHPV3GoDxtzAyp&branch=master)](https://travis-ci.com/Zaph-x/P4-program)
 
 This is the program repository, for a 4th semester, P4 project.
 The purpose is to create a compiler, that will compile a source language to an Arduino.
