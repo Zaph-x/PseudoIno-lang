@@ -5,6 +5,7 @@ git:
   quiet: true
 
 install:
+  - dotnet clean
   - dotnet restore
 
 script:
