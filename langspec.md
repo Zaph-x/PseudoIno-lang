@@ -39,3 +39,59 @@ numeric b;
 
 b = 3;
 ```
+#### String
+#### Math expression
+- +numeric
+- -numeric
+- \*numeric
+- /numeric
+
+
+
+#### Array
+Writing the array declaration and initialization as a Regular Expression it would be
+- a is numeric [5]
+- a is string [5]
+- a is bool [5]
+
+Accessing array element:
+- a@i
+
+Multi-dim array
+- a is numeric [5][5]
+- a is string [5][5]
+- a is bool [5][5]
+
+Accessing array element:
+- a@i@j
+
+## Keywords
+Here is a list of keywords
+### Loops
+#### For
+
+for x in y
+  #Do stuff
+end for
+
+for x in 0 to 5
+  #Do stuff
+end for
+
+for x in 0 to 5
+  #Do stuff
+  x is x + 1;
+end for
+
+#### While
+
+#### map
+map is some double for loop thing or single
+
+map(a,math expression)
+
+for i in 0 to 4
+  for j in 0 to 4
+    a@i@j = 0;
+  end for
+end for
