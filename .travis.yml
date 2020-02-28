@@ -5,11 +5,11 @@ git:
   quiet: true
 
 install:
-  - dotnet restore
+- dotnet restore
 
 script:
-  - dotnet build
-  - dotnet test Tests/*.Tests/*.csproj
+ - dotnet build
+ - dotnet test Tests/*.Tests/*.csproj
 
 global:
   - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
