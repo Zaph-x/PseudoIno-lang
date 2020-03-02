@@ -8,6 +8,7 @@ install:
 - dotnet restore
 
 script:
+- dotnet clean
 - dotnet build
 - dotnet test Tests/*.Tests/*.csproj
 
