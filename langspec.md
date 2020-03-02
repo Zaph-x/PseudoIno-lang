@@ -81,6 +81,12 @@ Accessing array element:
 - a@i@j
 
 ## Keywords
+
+##DPIN
+- a is (DPIN[0-13])
+##APIN
+- a is (APIN[0-5])
+
 Here is a list of keywords
 ### Loops
 Examples of "for" and "while"
@@ -140,4 +146,17 @@ end else if
 
 else if (a+1 is 5?)
 end else if
-####
+#### sizeoff
+a is sizeoff(b)
+
+###Functions
+call
+- call foo with (a,b,c)
+
+declaration
+```
+func foo with (a,b,c)
+  # do stuff here
+  return a
+end foo
+´´´
