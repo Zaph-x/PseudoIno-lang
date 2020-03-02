@@ -10,35 +10,51 @@ A numeric is a float or an integer. The specific type is decided on the first as
 
 #### Floats
 
-Writing the float assignment as a Regular Expression it would be `(numeric\s+)?([a-zA-Z]|_[a-zA-Z])[a-zA-Z0-9_]*(\s*?=\s*?(0|-?([1-9][0-9]*))\.([0-9]*))?;`
+Writing the float assignment as a Regular Expression it would be `(numeric\s+)?([a-zA-Z]|_[a-zA-Z])[a-zA-Z0-9_]*(\s*?is\s*?(0|-?([1-9][0-9]*))\.([0-9]*))?`
 
 Bellow are some examples of assignment of floats.
 
 ```
-numeric foo = 0.0;
-numeric bar_2 = -1.4;
-numeric _baz= 2.2;
-numeric A = -110.9;
-numeric b;
+numeric foo is 0.0
+numeric bar_2 is -1.4
+numeric _baz is 2.2
+numeric A is -110.9
+numeric b
 
-b = -43.2;
+b is -43.2
 ```
 
 #### Integers
 
-Writing the integer assignment as a Regular Expression it would be `(numeric\s+)?([a-zA-Z]|_[a-zA-Z])[a-zA-Z0-9_]*(\s*?=\s*?(0|-?([1-9][0-9]*)))?;`
+Writing the integer assignment as a Regular Expression it would be `(numeric\s+)?([a-zA-Z]|_[a-zA-Z])[a-zA-Z0-9_]*(\s*?is\s*?(0|-?([1-9][0-9]*)))?`
 
-Bellow are some examples of assignment of floats.
+Bellow are some examples of assignment of integers.
 
 ```
-numeric foo = 0;
-numeric bar_2 = -1;
-numeric _baz= 2;
-numeric A = -110;
-numeric b;
+numeric foo is 0
+numeric bar_2 is -1
+numeric _baz is 2
+numeric A is -110
+numeric b
 
-b = 3;
+b is 3
 ```
+####Boolean
+Examples:
+Assignment:
+- a is true
+- a is false
+
+Comparison
+- a is true?
+- a is false?
+- a is b?
+- a is not b?
+- a less or equal b?
+- a greater or equal b?
+- a and b?
+- a or b?
+
 #### String
 a = "text"
 #### Math expression
@@ -108,3 +124,20 @@ end for
 \#< insert text here >#
 
 ##EBNF
+
+##Statements
+if (a is true? and b is true? and c is true?)
+end if
+
+if (a+1 is 5?)
+end if
+
+else
+end else
+
+else if (a is true? and b is true? and c is true?)
+end else if
+
+else if (a+1 is 5?)
+end else if
+####
