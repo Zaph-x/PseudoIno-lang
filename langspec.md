@@ -1,4 +1,4 @@
-# S
+# Declarative UH
 
 Based on ASCII character set.
 
@@ -40,13 +40,12 @@ numeric b;
 b = 3;
 ```
 #### String
+a = "text"
 #### Math expression
 - +numeric
 - -numeric
 - \*numeric
 - /numeric
-
-
 
 #### Array
 Writing the array declaration and initialization as a Regular Expression it would be
@@ -68,30 +67,44 @@ Accessing array element:
 ## Keywords
 Here is a list of keywords
 ### Loops
+Examples of "for" and "while"
 #### For
-
+```
 for x in y
-  #Do stuff
+  \#Do stuff
 end for
 
 for x in 0 to 5
-  #Do stuff
+  \#Do stuff
 end for
 
 for x in 0 to 5
-  #Do stuff
+  \#Do stuff
   x is x + 1;
 end for
-
+```
 #### While
-
+```
+while()
+  \#< do stuff >#
+end while
+```
 #### map
 map is some double for loop thing or single
 
 map(a,math expression)
-
+```
 for i in 0 to 4
   for j in 0 to 4
     a@i@j = 0;
   end for
 end for
+```
+
+##Comments
+####Single-line
+\# insert text here
+####Multi-line
+\#< insert text here >#
+
+##EBNF
