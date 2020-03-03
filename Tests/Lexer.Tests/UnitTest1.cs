@@ -1,4 +1,6 @@
+using Compiler;
 using NUnit.Framework;
+using Compiler;
 
 namespace Lexer.Tests
 {
@@ -12,7 +14,10 @@ namespace Lexer.Tests
         [Test]
         public void Test1()
         {
-            Assert.Pass();
+            Recogniser r = new Recogniser();
+            if(r.InputString("a is 4") == 0)
+                Assert.Pass();
+            Assert.Fail();
         }
     }
 }
