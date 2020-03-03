@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Compiler
+namespace Core
 {
     class Program
     {
@@ -8,7 +8,5 @@ namespace Compiler
         {
             Console.WriteLine("Hello World!");
         }
-        
-        
     }
 }
