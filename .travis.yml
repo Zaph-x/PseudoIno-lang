@@ -3,6 +3,9 @@ mono: none
 dotnet: 3.1
 git:
   quiet: true
+os:
+- linux
+- windows
 
 install:
 - dotnet restore
