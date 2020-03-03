@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Lexer;
+using System.Text.RegularExpressions;
 
 namespace Lexer.Tests
 {
@@ -35,6 +36,50 @@ namespace Lexer.Tests
             if(recogniser.InputString("neiojsfj3324") == 0)
                 Assert.Fail();
             Assert.Pass();
+        }
+        
+        [Test]
+        public void ScanNum1()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.ScanDigtig("2") == 2)
+                Assert.Pass();
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void ScanNum2()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.ScanDigtig("1.1") == 1.1)
+                Assert.Pass();
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void ScanNum3()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.ScanDigtig("         2 ") == 2)
+                Assert.Pass();
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void ScanNum4()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.ScanDigtig("   1.1 ") == 1.1)
+                Assert.Pass();
+            Assert.Fail();
+        }
+        [Test]
+        public void ScanNum5()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.ScanDigtig("3 3") == 3)
+                Assert.Pass();
+            Assert.Fail();
         }
     }
 }
