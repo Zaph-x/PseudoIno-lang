@@ -9,11 +9,20 @@ namespace Lexer.Objects
         public int Line {get;private set;} 
         public int Offset {get;private set;}
 
-        public Token(TokenType type, string val, int line, int offset) {
+        public Token(TokenType type, string val, int line, int offset)
+        {
             this.Type = type;
             this.Value = val;
             this.Line = line;
             this.Offset = offset;
-        } 
+        }
+
+        public Token(TokenType type, int line, int offset)
+        {
+            this.Type = type;
+            this.Value = "";
+            this.Line = line;
+            this.Offset = offset;
+        }
     }
 }
