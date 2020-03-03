@@ -11,12 +11,30 @@ namespace Lexer.Tests
         }
 
         [Test]
-        public void Test1()
+        public void CorrectInputTest()
         {
-            Recogniser r = new Recogniser();
-            if(r.InputString("a is 4") == 0)
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.InputString("a is 4") == 0)
                 Assert.Pass();
             Assert.Fail();
+        }
+        
+        [Test]
+        public void WrongInput1()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.InputString("a 2 is") == 0)
+                Assert.Fail();
+            Assert.Pass();
+        }
+        
+        [Test]
+        public void WrongInput2()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.InputString("neiojsfj3324") == 0)
+                Assert.Fail();
+            Assert.Pass();
         }
     }
 }
