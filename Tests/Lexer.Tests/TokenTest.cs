@@ -16,7 +16,7 @@ namespace Lexer.Tests
         {
             Token token = new Token(TokenType.VAL, "test", 1, 4);
 
-            Assert.IsTrue(token.Type == TokenType.VAL);
+            Assert.AreEqual(TokenType.VAL, token.Type, "The token did not match the desired type");
         }
     }
 }
