@@ -1,6 +1,6 @@
 using System;
 
-namespace Compiler
+namespace Lexer
 {
     public class Recogniser
     {

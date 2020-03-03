@@ -1,6 +1,5 @@
-using Compiler;
 using NUnit.Framework;
-using Compiler;
+using Lexer;
 
 namespace Lexer.Tests
 {
