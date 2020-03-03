@@ -7,13 +7,8 @@ os:
 - linux
 - windows
 
-before_install:
-- |-
-  case $TRAVIS_OS_NAME in windows)
-    choco install dotnetcore-sdk ;;
-  esac
-
 install:
+- choco install dotnetcore-sdk
 - dotnet restore
 
 script:
