@@ -5,10 +5,8 @@ git:
   quiet: true
 os:
 - linux
-- windows
 
 install:
-- choco install dotnetcore-sdk
 - dotnet restore
 
 script:
