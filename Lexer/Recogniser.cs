@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -21,6 +23,55 @@ namespace Lexer
             MatchCollection collection = regex.Matches(s);
             return Convert.ToInt32(collection.First().ToString());
         }
-        
+
+        public List<string> ReadFile(string filePath)
+        {
+            int counter = 0;  
+            string line;
+            List<string> lines = new List<string>();
+            System.IO.StreamReader file = new System.IO.StreamReader(filePath); //@"c:\test.txt"  
+            while((line = file.ReadLine()) != null)  
+            {  
+                lines.Add(line);  
+                counter++;  
+            }
+            file.Close();
+            return lines;
+        }
+
+        public bool FileExist(string filePath)
+        {
+            return File.Exists(filePath);
+        }
+
+        public int FileLineCount(string filePath)
+        {
+            System.IO.StreamReader file =   
+                new System.IO.StreamReader(filePath);
+            int counter = 0;
+            while(file.ReadLine() != null)
+                counter++;
+            return counter;
+        }
+
+        public void onetime()
+        {
+            using (FileStream fs = File.Create("fileExist")) {}
+            
+            List<string> lines = new List<string>();
+            for (int i = 0; i < 10; i++)
+            {
+                lines.Add(i.ToString());
+            }
+            
+            using (System.IO.StreamWriter file = 
+                new System.IO.StreamWriter("fileWith10Lines"))
+            {
+                foreach (string line in lines)
+                {
+                    file.WriteLine(line);
+                }
+            }
+        }
     }
 }
