@@ -2,6 +2,8 @@ using NUnit.Framework;
 using Lexer;
 using System.Text.RegularExpressions;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Lexer.Tests
 {
@@ -11,7 +13,7 @@ namespace Lexer.Tests
         public void Setup()
         {
             Recogniser recogniser = new Recogniser();
-            recogniser.onetime();
+            onetime();
         }
 
         [Test]
@@ -178,6 +180,28 @@ namespace Lexer.Tests
             if(recogniser.FileLineCount("fileWith10Lines") == 0)
                 Assert.Fail();
             Assert.Pass();
+        }
+
+        // Helper functions
+
+        public void onetime()
+        {
+            using (FileStream fs = File.Create("fileExist")) {}
+            
+            List<string> lines = new List<string>();
+            for (int i = 0; i < 10; i++)
+            {
+                lines.Add(i.ToString());
+            }
+            
+            using (System.IO.StreamWriter file = 
+                new System.IO.StreamWriter("fileWith10Lines"))
+            {
+                foreach (string line in lines)
+                {
+                    file.WriteLine(line);
+                }
+            }
         }
     }
 }

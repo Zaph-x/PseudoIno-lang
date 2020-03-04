@@ -36,7 +36,6 @@ namespace Lexer
             }
             //MatchCollection collection = regex.Matches(s);
             //return Convert.ToInt32(collection.First().ToString());
-            //TODO Lav det her om til exeption. M�ske i try catch
             throw new InvalidSyntaxException($"{inputString} was not recognised as a digit.");
         }
 
@@ -68,26 +67,6 @@ namespace Lexer
             while(file.ReadLine() != null)
                 counter++;
             return counter;
-        }
-
-        public void onetime()
-        {
-            using (FileStream fs = File.Create("fileExist")) {}
-            
-            List<string> lines = new List<string>();
-            for (int i = 0; i < 10; i++)
-            {
-                lines.Add(i.ToString());
-            }
-            
-            using (System.IO.StreamWriter file = 
-                new System.IO.StreamWriter("fileWith10Lines"))
-            {
-                foreach (string line in lines)
-                {
-                    file.WriteLine(line);
-                }
-            }
         }
 
         public int SplitCountString(string inputString)
