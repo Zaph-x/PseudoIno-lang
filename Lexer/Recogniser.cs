@@ -27,12 +27,12 @@ namespace Lexer
             return regex.IsMatch(inputString);
         }
 
-        public float ScanDigtig(string inputString)
+        public float ScanDigit(string inputString)
         {
             Regex regex = new Regex(DIGIT_REGEX);
             if (regex.IsMatch(inputString))
             {
-                return float.Parse(inputString,System.Globalization.NumberStyles.Float, new System.Globalization.CultureInfo("en-US"));
+                return float.Parse(inputString, System.Globalization.NumberStyles.Float, new System.Globalization.CultureInfo("en-US"));
             }
             //MatchCollection collection = regex.Matches(s);
             //return Convert.ToInt32(collection.First().ToString());
@@ -41,48 +41,19 @@ namespace Lexer
 
         public List<string> ReadFile(string filePath)
         {
-            int counter = 0;  
+            int counter = 0;
             string line;
             List<string> lines = new List<string>();
-            System.IO.StreamReader file = new System.IO.StreamReader(filePath); //@"c:\test.txt"  
-            while((line = file.ReadLine()) != null)  
-            {  
-                lines.Add(line);  
-                counter++;  
+            StreamReader file = new StreamReader(filePath); //@"c:\test.txt"  
+            while ((line = file.ReadLine()) != null)
+            {
+                lines.Add(line);
+                counter++;
             }
             file.Close();
             return lines;
         }
 
-        public bool FileExist(string filePath)
-        {
-            return File.Exists(filePath);
-        }
-
-        public int FileLineCount(string filePath)
-        {
-            System.IO.StreamReader file =   
-                new System.IO.StreamReader(filePath);
-            int counter = 0;
-            while(file.ReadLine() != null)
-                counter++;
-            return counter;
-        }
-
-        public int SplitCountString(string inputString)
-        {
-            string[] splittetArray = inputString.Split(" ");
-            List<string> ss = new List<string>();
-            foreach (var s in splittetArray)
-            {
-                if (s != "")
-                {
-                    ss.Add(s);
-                }
-            }
-            return ss.Count;
-        }
-        
         public List<string> SplitString(string inputString)
         {
             string[] splittetArray = inputString.Split(" ");
