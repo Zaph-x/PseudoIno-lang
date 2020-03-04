@@ -94,7 +94,14 @@ namespace Lexer.Tests
             Assert.Fail();
         }
         
-
+        /*[Test]
+        public void ScanNum8()
+        {
+            Recogniser recogniser = new Recogniser();
+            if (recogniser.IsDigit("a"))
+                Assert.Fail();
+            Assert.Pass();
+        }*/
 
         [Test]
         public void SplitCountString()

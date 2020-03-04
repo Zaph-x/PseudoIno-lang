@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Lexer.Objects;
 
 namespace Lexer
 {
@@ -11,10 +12,16 @@ namespace Lexer
         public int InputString(string inputString)
         {
             if (inputString == "a is 4")
-          {
+            {
                 return 0;
             }
             return 1;
+        }
+
+        public bool IsDigit(string inputString)
+        {
+            Regex regex = new Regex(@"(-?[0-9]*)\.?([0-9]*)");
+            return regex.IsMatch(inputString);
         }
 
         public float ScanDigtig(string inputString)
@@ -26,7 +33,7 @@ namespace Lexer
             }
             //MatchCollection collection = regex.Matches(s);
             //return Convert.ToInt32(collection.First().ToString());
-            //TODO Lav det her om til exeption. Måske i try catch
+            //TODO Lav det her om til exeption. Mï¿½ske i try catch
             return 0 ;
         }
 
@@ -107,5 +114,18 @@ namespace Lexer
             }
             return ss;
         }
+
+        public bool IsKeyword(string input)
+        {
+            if (Lexer.Objects.Keywords.Keys.ContainsKey(input))
+                return true;
+            return false;
+        }
+
+        /*public TokenType GetKeywordToken(string input)
+        {
+            TokenType token;
+            return Lexer.Objects.Keywords.Keys.TryGetValue(input, token);
+        }*/
     }
 }
