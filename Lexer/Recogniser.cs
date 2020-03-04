@@ -37,7 +37,7 @@ namespace Lexer
             //MatchCollection collection = regex.Matches(s);
             //return Convert.ToInt32(collection.First().ToString());
             //TODO Lav det her om til exeption. M�ske i try catch
-            throw new InvalidSyntaxException("")
+            throw new InvalidSyntaxException($"{inputString} was not recognised as a digit.");
         }
 
         public List<string> ReadFile(string filePath)
