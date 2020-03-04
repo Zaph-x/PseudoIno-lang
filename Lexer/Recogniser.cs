@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Lexer.Exceptions;
 using Lexer.Objects;
 
 namespace Lexer
 {
     public class Recogniser
     {
+        const string DIGIT_REGEX = @"(-?[0-9]*)(\.?[0-9]+)?";
+
         public int InputString(string inputString)
         {
             if (inputString == "a is 4")
@@ -20,13 +23,13 @@ namespace Lexer
 
         public bool IsDigit(string inputString)
         {
-            Regex regex = new Regex(@"(-?[0-9]*)(\.?[0-9]+)?");
+            Regex regex = new Regex(DIGIT_REGEX);
             return regex.IsMatch(inputString);
         }
 
         public float ScanDigtig(string inputString)
         {
-            Regex regex = new Regex(@"(-?[0-9]*)\.?([0-9]*)");
+            Regex regex = new Regex(DIGIT_REGEX);
             if (regex.IsMatch(inputString))
             {
                 return float.Parse(inputString,System.Globalization.NumberStyles.Float, new System.Globalization.CultureInfo("en-US"));
@@ -34,7 +37,7 @@ namespace Lexer
             //MatchCollection collection = regex.Matches(s);
             //return Convert.ToInt32(collection.First().ToString());
             //TODO Lav det her om til exeption. M�ske i try catch
-            return 0 ;
+            throw new InvalidSyntaxException("")
         }
 
         public List<string> ReadFile(string filePath)
