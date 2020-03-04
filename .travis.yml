@@ -12,7 +12,7 @@ install:
 script:
 - dotnet clean
 - dotnet build
-- dotnet test Tests/*.Tests/*.csproj
+- dotnet test
 
 global:
 - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
