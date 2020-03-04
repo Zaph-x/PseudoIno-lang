@@ -7,12 +7,12 @@ os:
 - linux
 
 install:
-- dotnet restore
+- dotnet restore --nologo
 
 script:
-- dotnet clean
-- dotnet build
-- dotnet test
+- dotnet clean -v m --nologo
+- dotnet build --nologo
+- dotnet test -v n --nologo --no-build
 
 global:
 - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
