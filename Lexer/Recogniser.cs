@@ -20,7 +20,7 @@ namespace Lexer
 
         public bool IsDigit(string inputString)
         {
-            Regex regex = new Regex(@"(-?[0-9]*)\.?([0-9]*)");
+            Regex regex = new Regex(@"(-?[0-9]*)(\.?[0-9]+)?");
             return regex.IsMatch(inputString);
         }
 
