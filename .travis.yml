@@ -7,7 +7,7 @@ os:
 - linux
 
 install:
-- dotnet restore --nologo
+- dotnet restore
 
 script:
 - dotnet clean -v m --nologo
