@@ -51,6 +51,9 @@ namespace Lexer.Objects
 
         /* variable things */
         VAR,
-        VAL
+        VAL,
+        
+        /* error token*/
+        ERROR
     }
 }
