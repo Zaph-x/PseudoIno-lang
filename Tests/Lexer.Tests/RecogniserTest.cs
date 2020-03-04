@@ -57,7 +57,7 @@ namespace Lexer.Tests
         [Test]
         public void Test_ScanDigit_CanScanFloats()
         {
-            Assert.AreEqual(1.1, recogniser.ScanDigit("1.1"), "Recogniser did not recognise the digit (Float)");
+            Assert.AreEqual(1.1f, recogniser.ScanDigit("1.1"), "Recogniser did not recognise the digit (Float)");
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace Lexer.Tests
         [Test]
         public void Test_ScanDigit_CanRemoveWhitespacesForFloats()
         {
-            Assert.AreEqual(111.1011, recogniser.ScanDigit("      111.1011"), "Recogniser did not recognise the digit (Float)");
+            Assert.AreEqual(111.1011f, recogniser.ScanDigit("      111.1011"), "Recogniser did not recognise the digit (Float)");
         }
         [Test]
         public void Test_ScanDigit_CanScanNegativeDigits()
@@ -78,9 +78,9 @@ namespace Lexer.Tests
         }
 
         [Test]
-        public void Test_ScanDigit_CanDoArithmeticOperationsOnResult()
+        public void Test_ScanDigit_CanScanNegativeFloats()
         {
-            Assert.AreEqual(-1.1, recogniser.ScanDigit("-1.1"), "Recogniser did not recognise the digit (Float)");
+            Assert.AreEqual(-1.1f, recogniser.ScanDigit("-1.1"), "Recogniser did not recognise the digit (Float)");
         }
 
         [Test]
