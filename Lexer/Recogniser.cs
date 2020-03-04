@@ -12,7 +12,7 @@ namespace Lexer
         public int InputString(string inputString)
         {
             if (inputString == "a is 4")
-          {
+            {
                 return 0;
             }
             return 1;
@@ -27,7 +27,7 @@ namespace Lexer
             }
             //MatchCollection collection = regex.Matches(s);
             //return Convert.ToInt32(collection.First().ToString());
-            //TODO Lav det her om til exeption. Måske i try catch
+            //TODO Lav det her om til exeption. Mï¿½ske i try catch
             return 0 ;
         }
 
@@ -111,9 +111,15 @@ namespace Lexer
 
         public bool IsKeyword(string input)
         {
-            
-            
-            return true;
+            if (Lexer.Objects.Keywords.Keys.ContainsKey(input))
+                return true;
+            return false;
         }
+
+        /*public TokenType GetKeywordToken(string input)
+        {
+            TokenType token;
+            return Lexer.Objects.Keywords.Keys.TryGetValue(input, token);
+        }*/
     }
 }
