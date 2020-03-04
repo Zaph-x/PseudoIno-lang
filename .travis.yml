@@ -12,7 +12,7 @@ install:
 script:
 - dotnet clean -v m --nologo
 - dotnet build --nologo
-- dotnet test -v n --nologo --no-build
+- dotnet test --nologo
 
 global:
 - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
