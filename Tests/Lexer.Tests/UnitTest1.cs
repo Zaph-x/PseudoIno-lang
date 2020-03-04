@@ -83,6 +83,46 @@ namespace Lexer.Tests
                 Assert.Pass();
             Assert.Fail();
         }
+
+        [Test]
+        public void SplitCountString()
+        {
+            string inputString = "a is 1";
+            Recogniser recogniser = new Recogniser();
+            if (recogniser.SplitCountString(inputString) == 3)
+                Assert.Pass();
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void SplitCountStringExtraWhiteSpace()
+        {
+            string inputString = "a           is  1";
+            Recogniser recogniser = new Recogniser();
+            if (recogniser.SplitCountString(inputString) == 3)
+                Assert.Pass();
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void SplitCountString0()
+        {
+            string inputString = "";
+            Recogniser recogniser = new Recogniser();
+            if (recogniser.SplitCountString(inputString) == 0)
+                Assert.Pass();
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void SplitCountStringNewLineFail()
+        {
+            string inputString = "test \n test";
+            Recogniser recogniser = new Recogniser();
+            if (recogniser.SplitCountString(inputString) == 2)
+                Assert.Fail();
+            Assert.Pass();
+        }
         
         [Test]
         public void FileExist()
