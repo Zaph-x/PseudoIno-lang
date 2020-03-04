@@ -87,5 +87,19 @@ namespace Lexer
             }
             return ss.Count;
         }
+        
+        public List<string> SplitString(string inputString)
+        {
+            string[] splittetArray = inputString.Split(" ");
+            List<string> ss = new List<string>();
+            foreach (var s in splittetArray)
+            {
+                if (s != "")
+                {
+                    ss.Add(s);
+                }
+            }
+            return ss;
+        }
     }
 }
