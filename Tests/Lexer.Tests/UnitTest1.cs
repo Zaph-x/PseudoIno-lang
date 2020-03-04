@@ -9,6 +9,8 @@ namespace Lexer.Tests
         [SetUp]
         public void Setup()
         {
+            Recogniser recogniser = new Recogniser();
+            recogniser.onetime();
         }
 
         [Test]
@@ -80,6 +82,42 @@ namespace Lexer.Tests
             if(recogniser.ScanDigtig("3 3") == 3)
                 Assert.Pass();
             Assert.Fail();
+        }
+        
+        [Test]
+        public void FileExist()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.FileExist("fileExist"))
+                Assert.Pass();
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void FileNotExist()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.FileExist("fileNotExist"))
+                Assert.Fail();
+            Assert.Pass();
+        }
+        
+        [Test]
+        public void FileLineCountQuals10()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.FileLineCount("fileWith10Lines") == 10)
+                Assert.Pass();
+            Assert.Fail();
+        }
+        
+        [Test]
+        public void FileLineCountNotQuals0()
+        {
+            Recogniser recogniser = new Recogniser();
+            if(recogniser.FileLineCount("fileWith10Lines") == 0)
+                Assert.Fail();
+            Assert.Pass();
         }
     }
 }
