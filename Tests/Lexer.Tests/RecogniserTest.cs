@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Lexer.Tests
 {
-    public class Tests
+    public class RecogniserTest
     {
         Recogniser recogniser = new Recogniser();
 
