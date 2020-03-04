@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Lexer.Objects;
 
 namespace Lexer
 {
@@ -29,7 +30,13 @@ namespace Lexer
             {
                 throw new FileNotFoundException();
             }
+
+            foreach (var element in Elements)
+            {
+                //check keyword
+                //check digit
+                //check id
+            }
         }
-        
     }
 }

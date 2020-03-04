@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Lexer.Objects;
 
 namespace Lexer
 {
@@ -100,6 +101,13 @@ namespace Lexer
                 }
             }
             return ss;
+        }
+
+        public bool IsKeyword(string input)
+        {
+            
+            
+            return true;
         }
     }
 }
