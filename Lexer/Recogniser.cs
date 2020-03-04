@@ -18,6 +18,12 @@ namespace Lexer
             return 1;
         }
 
+        public bool IsDigit(string inputString)
+        {
+            Regex regex = new Regex(@"(-?[0-9]*)\.?([0-9]*)");
+            return regex.IsMatch(inputString);
+        }
+
         public float ScanDigtig(string inputString)
         {
             Regex regex = new Regex(@"(-?[0-9]*)\.?([0-9]*)");
