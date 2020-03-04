@@ -10,7 +10,7 @@ namespace Lexer
 {
     public class Recogniser
     {
-        const string DIGIT_REGEX = @"(-?[0-9]*)(\.?[0-9]+)?";
+        const string DIGIT_REGEX = @"(-?[0-9]+)(\.?[0-9]+)?";
 
         public int InputString(string inputString)
         {
