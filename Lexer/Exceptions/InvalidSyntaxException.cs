@@ -2,7 +2,7 @@ using System;
 
 namespace Lexer.Exceptions
 {
-    class InvalidSyntaxException : Exception
+    public class InvalidSyntaxException : Exception
     {
         public InvalidSyntaxException(string message) : base(message)
         {
