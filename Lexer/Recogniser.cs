@@ -15,16 +15,17 @@ namespace Lexer
             return 1;
         }
 
-        public int ScanDigtig(string s)
+        public float ScanDigtig(string inputString)
         {
-            Regex regex = new Regex("[0-9]*.[0-9]*");
-            if (regex.IsMatch(s))
+            Regex regex = new Regex(@"(-?[0-9]*)\.?([0-9]*)");
+            if (regex.IsMatch(inputString))
             {
-                return Convert.ToInt32(s);
+                return float.Parse(inputString,System.Globalization.NumberStyles.Float, new System.Globalization.CultureInfo("en-US"));
             }
             //MatchCollection collection = regex.Matches(s);
             //return Convert.ToInt32(collection.First().ToString());
-            return -3;
+            //TODO Lav det her om til exeption. Måske i try catch
+            return 0 ;
         }
         
     }
