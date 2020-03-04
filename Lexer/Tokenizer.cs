@@ -10,6 +10,7 @@ namespace Lexer
         private List<string> Lines;
         private List<string> Elements;
         
+        public List<Token> Tokens = new List<Token>();
         
         public Tokenizer(string inputFile)
         {
@@ -33,7 +34,13 @@ namespace Lexer
 
             foreach (var element in Elements)
             {
-                //check keyword
+                if (recogniser.IsKeyword(element))
+                {
+                    string a = "is";
+                    Token token = new Token(Keywords.Keys[a],a,0,0); ;
+                    Tokens.Add(token);
+                }
+                
                 //check digit
                 //check id
             }
