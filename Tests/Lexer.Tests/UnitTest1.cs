@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using Lexer;
+using Lexer.Exceptions;
 using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
@@ -9,17 +10,19 @@ namespace Lexer.Tests
 {
     public class Tests
     {
+        Recogniser recogniser = new Recogniser();
+
         [SetUp]
         public void Setup()
         {
-            Recogniser recogniser = new Recogniser();
+            
             onetime();
         }
 
         [Test]
         public void CorrectInputTest()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.InputString("a is 4") == 0)
                 Assert.Pass();
             Assert.Fail();
@@ -28,7 +31,7 @@ namespace Lexer.Tests
         [Test]
         public void WrongInput1()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.InputString("a 2 is") == 0)
                 Assert.Fail();
             Assert.Pass();
@@ -37,7 +40,7 @@ namespace Lexer.Tests
         [Test]
         public void WrongInput2()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.InputString("neiojsfj3324") == 0)
                 Assert.Fail();
             Assert.Pass();
@@ -46,16 +49,25 @@ namespace Lexer.Tests
         [Test]
         public void ScanNum1()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.ScanDigtig("2222") == 2222)
                 Assert.Pass();
             Assert.Fail();
+        }
+
+        [Test]
+        public void Test_WrongInputShouldThrowException()
+        {
+            Assert.Throws<InvalidSyntaxException>(() => {
+                recogniser.ScanDigtig("NotAValidDigit");
+            }, "Recogniser failed to catch invalid digit");
+
         }
         
         [Test]
         public void ScanNum2()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.ScanDigtig("1.1")-1.1 <0.0001)
                 Assert.Pass();
             Assert.Fail();
@@ -64,7 +76,7 @@ namespace Lexer.Tests
         [Test]
         public void ScanNum3()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.ScanDigtig("         22 ") == 22)
                 Assert.Pass();
             Assert.Fail();
@@ -73,7 +85,7 @@ namespace Lexer.Tests
         [Test]
         public void ScanNum4()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.ScanDigtig("   111.1011 ")-111.1011<0.0)
                 Assert.Pass();
             Assert.Fail();
@@ -81,7 +93,7 @@ namespace Lexer.Tests
         [Test]
         public void ScanNum6()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if (recogniser.ScanDigtig("-2222") == -2222)
                 Assert.Pass();
             Assert.Fail();
@@ -90,7 +102,7 @@ namespace Lexer.Tests
         [Test]
         public void ScanNum7()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if (recogniser.ScanDigtig("-0111.221")+0111.221<0.0001)
 	         Assert.Pass();
             Assert.Fail();
@@ -99,7 +111,7 @@ namespace Lexer.Tests
         /*[Test]
         public void ScanNum8()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if (recogniser.IsDigit("a"))
                 Assert.Fail();
             Assert.Pass();
@@ -109,7 +121,7 @@ namespace Lexer.Tests
         public void SplitCountString()
         {
             string inputString = "a is 1";
-            Recogniser recogniser = new Recogniser();
+            
             if (recogniser.SplitCountString(inputString) == 3)
                 Assert.Pass();
             Assert.Fail();
@@ -120,7 +132,7 @@ namespace Lexer.Tests
         public void SplitCountStringExtraWhiteSpace()
         {
             string inputString = "a           is  1";
-            Recogniser recogniser = new Recogniser();
+            
             if (recogniser.SplitCountString(inputString) == 3)
                 Assert.Pass();
             Assert.Fail();
@@ -130,7 +142,7 @@ namespace Lexer.Tests
         public void SplitCountString0()
         {
             string inputString = "";
-            Recogniser recogniser = new Recogniser();
+            
             if (recogniser.SplitCountString(inputString) == 0)
                 Assert.Pass();
             Assert.Fail();
@@ -140,7 +152,7 @@ namespace Lexer.Tests
         public void SplitCountStringNewLineFail()
         {
             string inputString = "test \n test";
-            Recogniser recogniser = new Recogniser();
+            
             if (recogniser.SplitCountString(inputString) == 2)
                 Assert.Fail();
             Assert.Pass();
@@ -149,7 +161,7 @@ namespace Lexer.Tests
         [Test]
         public void FileExist()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.FileExist("fileExist"))
                 Assert.Pass();
             Assert.Fail();
@@ -158,7 +170,7 @@ namespace Lexer.Tests
         [Test]
         public void FileNotExist()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.FileExist("fileNotExist"))
                 Assert.Fail();
             Assert.Pass();
@@ -167,7 +179,7 @@ namespace Lexer.Tests
         [Test]
         public void FileLineCountQuals10()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.FileLineCount("fileWith10Lines") == 10)
                 Assert.Pass();
             Assert.Fail();
@@ -176,7 +188,7 @@ namespace Lexer.Tests
         [Test]
         public void FileLineCountNotQuals0()
         {
-            Recogniser recogniser = new Recogniser();
+            
             if(recogniser.FileLineCount("fileWith10Lines") == 0)
                 Assert.Fail();
             Assert.Pass();
