@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace Lexer.Tests
 {
@@ -12,15 +13,15 @@ namespace Lexer.Tests
     {
         private string FakeContent = "Hello, World!";
         private byte[] FakeUTF8Bytes;
-        Recogniser recogniser = new Recogniser();
-        private MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
         private StreamReader FakeReader;
+        Recogniser recogniser = new Recogniser();
+        
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
             FakeUTF8Bytes = Encoding.UTF8.GetBytes(FakeContent);
+            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
             FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
-            onetime();
         }
         
         [Test]

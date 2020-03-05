@@ -1,26 +1,21 @@
 using System.Collections.Generic;
 using Lexer.Objects;
 using NUnit.Framework;
+using System.IO;
+using System.Text;
 
 namespace Lexer.Tests
 {
     [TestFixture]
     public class TokenizerTest
     { 
-        [SetUp]
-        public void SetUp() 
+        private string FakeContent = "Hello, World!";
+        private byte[] FakeUTF8Bytes;
+
+        [OneTimeSetUp]
+        public void OnetimeSetUp() 
         {
-            List<string> lines = new List<string>();
-            lines.Add("a is 5");
-            
-            using (System.IO.StreamWriter file = 
-                new System.IO.StreamWriter("program"))
-            {
-                foreach (string line in lines)
-                {
-                    file.WriteLine(line);
-                }
-            }
+            FakeUTF8Bytes = Encoding.UTF8.GetBytes(FakeContent);
         }
 
         [Test]
@@ -30,47 +25,93 @@ namespace Lexer.Tests
         }
         
         [Test]
-        public void ValTypeTest()
+        public void Test_Pop_ReturnsCorrectCharacter()
         {
-            Tokenizer tokenizer = new Tokenizer("program");
-            if (tokenizer.Tokens[0].Type == new Token(TokenType.VAR,"a",0,0).Type)
-            {
-                Assert.Pass();
-            }
-            Assert.Fail();
+            MemoryStream FakeAsciiStream = new MemoryStream(FakeUTF8Bytes);
+            StreamReader FakeReader = new StreamReader(FakeAsciiStream, Encoding.UTF8, false);
+ 
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+
+            Assert.AreEqual('H', tokenizer.Pop(), "Pop did not set the correct character");
         }
-        
+
         [Test]
-        public void KeywordTypeTest()
+        public void Test_Pop_ShouldNotReturnWrongCharacter()
         {
-            Tokenizer tokenizer = new Tokenizer("program");
-            if (tokenizer.Tokens[1].Type == new Token(TokenType.ASSIGN,"is",0,0).Type)
-            {
-                Assert.Pass();
-            }
-            Assert.Fail();
+            MemoryStream FakeAsciiStream = new MemoryStream(FakeUTF8Bytes);
+            StreamReader FakeReader = new StreamReader(FakeAsciiStream, Encoding.UTF8, false);
+ 
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+
+            Assert.AreNotEqual('W', tokenizer.Pop(), "Pop got the correct character when it should not");
         }
-        
+
         [Test]
-        public void KeywordValTest()
+        public void Test_Peek_ShouldPeekCurrectChar()
         {
-            Tokenizer tokenizer = new Tokenizer("program");
-            if (tokenizer.Tokens[1].Value == new Token(TokenType.ASSIGN,"is",0,0).Value)
-            {
-                Assert.Pass();
-            }
-            Assert.Fail();
+            MemoryStream FakeAsciiStream = new MemoryStream(FakeUTF8Bytes);
+            StreamReader FakeReader = new StreamReader(FakeAsciiStream, Encoding.UTF8, false);
+
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.Pop();
+            
+            Assert.AreEqual('e', tokenizer.Peek(), "Peek did not get the correct character");
         }
-        
+
         [Test]
-        public void DigitTypeTest()
+        public void Test_Peek_ShouldNotPeekWrongChar()
         {
-            Tokenizer tokenizer = new Tokenizer("program");
-            if (tokenizer.Tokens[2].Type == new Token(TokenType.NUMERIC,"5",0,0).Type)
-            {
-                Assert.Pass();
-            }
-            Assert.Fail();
+            MemoryStream FakeAsciiStream = new MemoryStream(FakeUTF8Bytes);
+            StreamReader FakeReader = new StreamReader(FakeAsciiStream, Encoding.UTF8, false);
+
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.Pop();
+            
+            Assert.AreNotEqual('W', tokenizer.Peek(), "Peek got the correct character when it should not");
         }
+
+        // [Test]
+        // public void ValTypeTest()
+        // {
+            // Tokenizer tokenizer = new Tokenizer("program");
+            // if (tokenizer.Tokens[0].Type == new Token(TokenType.VAR,"a",0,0).Type)
+            // {
+                // Assert.Pass();
+            // }
+            // Assert.Fail();
+        // }
+//
+        // [Test]
+        // public void KeywordTypeTest()
+        // {
+            // Tokenizer tokenizer = new Tokenizer("program");
+            // if (tokenizer.Tokens[1].Type == new Token(TokenType.ASSIGN,"is",0,0).Type)
+            // {
+                // Assert.Pass();
+            // }
+            // Assert.Fail();
+        // }
+//
+        // [Test]
+        // public void KeywordValTest()
+        // {
+            // Tokenizer tokenizer = new Tokenizer("program");
+            // if (tokenizer.Tokens[1].Value == new Token(TokenType.ASSIGN,"is",0,0).Value)
+            // {
+                // Assert.Pass();
+            // }
+            // Assert.Fail();
+        // }
+//
+        // [Test]
+        // public void DigitTypeTest()
+        // {
+            // Tokenizer tokenizer = new Tokenizer("program");
+            // if (tokenizer.Tokens[2].Type == new Token(TokenType.NUMERIC,"5",0,0).Type)
+            // {
+                // Assert.Pass();
+            // }
+            // Assert.Fail();
+        // }
     }
 }
