@@ -14,20 +14,26 @@ namespace Lexer
         
         Recogniser recogniser = new Recogniser();
         
-        public char CurrentChar {get;private set;}
-        public char NextChar {get;private set;}
+        private char CurrentChar {get; set;}
+        private char NextChar {get; set;}
         private int Line {get;set;}
         private int Offset {get;set;}
+        private StreamReader reader;
 
         public Tokenizer(StreamReader stream)
         {
             recogniser = new Recogniser();
-            
+            reader = stream;
+        }
+        
+        public char Current()
+        {
+            return CurrentChar;
         }
 
-        public Token Token(TokenType type, string val)
+        public void Token(TokenType type, string val)
         {
-            return new Token()
+        //    return new Token()
         }
 /*         public Tokenizer(string inputFile) */
         // {
@@ -90,7 +96,8 @@ namespace Lexer
         /// </summary>
         public char Pop()
         {
-            CurrentChar = reader.Read();
+            CurrentChar = (char)reader.Read();
+            return CurrentChar;
         }
         
         /// <summary>
@@ -98,7 +105,8 @@ namespace Lexer
         /// </summary>
         public char Peek()
         {
-            NextChar = reader.Peek();
+            NextChar = (char)reader.Peek();
+            return NextChar;
         }
 
    /*      private void FileToElements(string inputFile) */
