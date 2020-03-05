@@ -15,7 +15,7 @@ namespace Lexer
         public Tokenizer(string inputFile)
         {
             Recogniser recogniser = new Recogniser();
-            if (recogniser.FileExist(inputFile))
+            if (File.Exists(inputFile))
             {
                 Lines = recogniser.ReadFile(inputFile);
                 foreach (var line in Lines)
