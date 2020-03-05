@@ -10,9 +10,9 @@ install:
 - dotnet restore
 
 script:
-- dotnet clean
-- dotnet build
-- dotnet test Tests/*.Tests/*.csproj
+- dotnet clean -v m --nologo
+- dotnet build --nologo
+- dotnet test --nologo
 
 global:
 - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
