@@ -37,6 +37,30 @@ namespace Lexer.Tests
             Assert.AreNotEqual(0, recogniser.InputString("neiojsfj3324"), "Recogniser recognised the string when it should not");
 
         }
+        
+        [Test]
+        public void Test_IsDigit_AcceptsADigitChar()
+        {
+            Assert.IsTrue(recogniser.IsDigit('2'), "The character '2' was not recignised as a digit");
+        }
+
+        [Test]
+        public void Test_IsDigit_RejectsAlphabeCharacters()
+        {
+            Assert.IsFalse(recogniser.IsDigit('a'), "The character 'a' was accepted when it shouldn't be");
+        }
+
+        [Test]
+        public void Test_IsAcceptedCharacter_AcceptActualCharacters()
+        {
+            Assert.IsTrue(recogniser.IsAcceptedCharacter('a'), "The character 'a' was not recognised as a character");
+        }
+
+        [Test]
+        public void Test_IsAcceptedCharacter_RejectDigits()
+        {
+            Assert.IsFalse(recogniser.IsAcceptedCharacter('4'), "The character '4' was not rejected when it should be");
+        }
 
         [Test]
         public void Test_ScanDigit_CanScanIntegers()
