@@ -21,10 +21,19 @@ namespace Lexer
             return 1;
         }
 
-        public bool IsDigit(string inputString)
+        private bool IsBetween(char checking, char lower, char upper)
         {
-            Regex regex = new Regex(DIGIT_REGEX);
-            return regex.IsMatch(inputString);
+            return checking >= lower && checking <= upper;
+        }
+
+        public bool IsDigit(char character)
+        {
+            return IsBetween(character, '0', '9');
+        }
+
+        public bool IsAcceptedCharacter(char character)
+        {
+            return IsBetween(character, 'a', 'z') || IsBetween(character, 'A', 'Z');
         }
 
         public float ScanDigit(string inputString)
