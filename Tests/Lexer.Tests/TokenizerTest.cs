@@ -9,7 +9,7 @@ namespace Lexer.Tests
     [TestFixture]
     public class TokenizerTest
     { 
-        private string FakeContent = "Hello, World!";
+        private string FakeContent = @"a is 5";
         private byte[] FakeUTF8Bytes;
 
         [OneTimeSetUp]
@@ -27,19 +27,19 @@ namespace Lexer.Tests
         [Test]
         public void Test_Pop_ReturnsCorrectCharacter()
         {
-            MemoryStream FakeAsciiStream = new MemoryStream(FakeUTF8Bytes);
-            StreamReader FakeReader = new StreamReader(FakeAsciiStream, Encoding.UTF8, false);
+            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
+            StreamReader FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
  
             Tokenizer tokenizer = new Tokenizer(FakeReader);
 
-            Assert.AreEqual('H', tokenizer.Pop(), "Pop did not set the correct character");
+            Assert.AreEqual('a', tokenizer.Pop(), "Pop did not set the correct character");
         }
 
         [Test]
         public void Test_Pop_ShouldNotReturnWrongCharacter()
         {
-            MemoryStream FakeAsciiStream = new MemoryStream(FakeUTF8Bytes);
-            StreamReader FakeReader = new StreamReader(FakeAsciiStream, Encoding.UTF8, false);
+            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
+            StreamReader FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
  
             Tokenizer tokenizer = new Tokenizer(FakeReader);
 
@@ -49,20 +49,20 @@ namespace Lexer.Tests
         [Test]
         public void Test_Peek_ShouldPeekCurrectChar()
         {
-            MemoryStream FakeAsciiStream = new MemoryStream(FakeUTF8Bytes);
-            StreamReader FakeReader = new StreamReader(FakeAsciiStream, Encoding.UTF8, false);
+            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
+            StreamReader FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.Pop();
             
-            Assert.AreEqual('e', tokenizer.Peek(), "Peek did not get the correct character");
+            Assert.AreEqual(' ', tokenizer.Peek(), "Peek did not get the correct character");
         }
 
         [Test]
         public void Test_Peek_ShouldNotPeekWrongChar()
         {
-            MemoryStream FakeAsciiStream = new MemoryStream(FakeUTF8Bytes);
-            StreamReader FakeReader = new StreamReader(FakeAsciiStream, Encoding.UTF8, false);
+            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
+            StreamReader FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.Pop();

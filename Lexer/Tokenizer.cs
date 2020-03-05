@@ -52,6 +52,11 @@ namespace Lexer
             NextChar = (char)reader.Peek();
             return NextChar;
         }
+
+        public void GenerateTokens()
+        {
+            
+        }
         
     }
 }
