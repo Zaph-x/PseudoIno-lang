@@ -9,21 +9,28 @@ namespace Lexer.Tests
 {
     [TestFixture]
     public class TokenizerTest
-    { 
-        private string FakeContent = @"a is 
-5";
-        private byte[] FakeUTF8Bytes;
-
-        [OneTimeSetUp]
-        public void OnetimeSetUp() 
-        {
-            FakeUTF8Bytes = Encoding.UTF8.GetBytes(FakeContent);
-        }
-
+    {
         [Test]
-        public void ATest()
+        public void Test_GenerateTokens_TokenListIsEmpty()
         {
-            Assert.Pass();
+            string content = "";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
+            
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            
+            Assert.IsEmpty(tokenizer.Tokens, "TokenList was not empty");
+        }
+        
+        [Test]
+        public void Test_GenerateTokens_TokenListNotEmpty()
+        {
+            string content = "a is 4";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
+            
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            
+            Assert.IsNotEmpty(tokenizer.Tokens, "TokenList was empty. Should contain elements");
         }
         
         [Test]
@@ -111,7 +118,7 @@ namespace Lexer.Tests
         
         public StreamReader CreateFakeReader(string content, Encoding enc)
         {
-            byte[] fakeBytes = enc.GetBytes(FakeContent);
+            byte[] fakeBytes = enc.GetBytes(content);
             return new StreamReader(new MemoryStream(fakeBytes), enc, false);
         }
     }
