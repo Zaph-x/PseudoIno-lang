@@ -59,8 +59,11 @@ namespace Lexer
         public char Pop()
         {
             CurrentChar = (char)reader.Read();
+
             if (IsEOL())
                 Line++;
+                Pop();
+            }
             return CurrentChar;
         }
         
