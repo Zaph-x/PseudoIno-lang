@@ -130,7 +130,7 @@ namespace Lexer
         {
             return (int)character == '\uffff';
         }
-        
+
         private bool IsSpace()
         {
             return CurrentChar == ' ';
@@ -169,7 +169,7 @@ namespace Lexer
         private void ScanComment()
         {
             string subString = CurrentChar.ToString();
-            while(!IsEOL(Peek()) && !IsEOF(Peek()))
+            while (!IsEOL(Peek()) && !IsEOF(Peek()))
             {
                 Pop();
                 subString += CurrentChar;
@@ -180,7 +180,7 @@ namespace Lexer
         private void ScanMultiLineComment()
         {
             string subString = CurrentChar.ToString();
-            while(!IsEOF(Peek()) && !subString.Contains("#>"))
+            while (!IsEOF(Peek()) && !subString.Contains("#>"))
             {
                 Pop();
                 subString += CurrentChar;
@@ -210,6 +210,7 @@ namespace Lexer
             {
                 return;
             }
+            // TODO Disse kommer til at returnere noget forkert i value. Det skal lige gennemtjekkes
             if (Peek() == '@')
             {
                 Tokens.Add(Token(TokenType.VAR, subString));
@@ -249,14 +250,12 @@ namespace Lexer
             while (!IsEOF(NextChar)) // EOF
             {
                 Pop();
-                if (recogniser.IsDigit(CurrentChar))
-                    ScanNumeric();
-                else if (recogniser.IsAcceptedCharacter(CurrentChar))
-                    ScanCharacter();
-                else if (CurrentChar == '#')
-                    ScanComment();
-                else if (CurrentChar == '<' && Peek() == '#')
-                    ScanMultiLineComment();
+                if (IsSpace()) { continue; }
+                else if (recogniser.IsDigit(CurrentChar)) { ScanNumeric(); }
+                else if (recogniser.IsAcceptedCharacter(CurrentChar)) { ScanCharacter(); }
+                else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanCharacter(); }
+                else if (CurrentChar == '#') { ScanComment(); }
+                else if (CurrentChar == '<' && Peek() == '#') { ScanMultiLineComment(); }
 
             }
 
