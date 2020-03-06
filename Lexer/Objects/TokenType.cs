@@ -12,6 +12,8 @@ namespace Lexer.Objects
         // scoping
         BEGIN,
         END,
+        ARRAYLEFT,
+        ARRAYRIGHT,
         // loops
         FOR,
         WHILE,
