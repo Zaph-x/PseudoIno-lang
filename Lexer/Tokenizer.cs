@@ -16,9 +16,9 @@ namespace Lexer
         
         private char CurrentChar {get; set;}
         private char NextChar {get; set;}
-        private int Line {get;set;}
-        private int Offset {get;set;}
-        private long BufferOffset {get;set;}
+        public int Line {get;private set;}
+        public int Offset {get;private set;}
+        public long BufferOffset {get;private set;}
         private StreamReader reader;
 
         /// <summary>
@@ -29,6 +29,8 @@ namespace Lexer
         {
             recogniser = new Recogniser();
             reader = stream;
+            Offset = 0;
+            Line = 1;
             BufferOffset = 0;
         }
         
@@ -56,6 +58,7 @@ namespace Lexer
 
         /// <summary>
         /// Sets current character as the next character in the stream and advances in the stream.
+        /// This is also responsible for counting up lines and the offset, to provide context for error handling.
         /// </summary>
         /// <returns>
         /// The next character in the stream.
@@ -63,13 +66,15 @@ namespace Lexer
         public char Pop()
         {
             CurrentChar = (char)reader.Read();
-
+            
             BufferOffset++;
             if (IsEOL())
             {
                 Line++;
-                Pop();
+                Offset = 0;
             }
+
+            Offset++;
             return CurrentChar;
         }
         
@@ -84,7 +89,14 @@ namespace Lexer
             NextChar = (char)reader.Peek();
             return NextChar;
         }
-
+        
+        /// <summary>
+        /// Peeks the nth character in the stream and sets NextChar to the value of the character
+        /// </summary>
+        /// <param name="positions">The amount of possitions to look ahead in the stream</param>
+        /// <returns>
+        /// The character n positions ahead.
+        /// </returns>
         public char Peek(int positions)
         {
             reader.BaseStream.Position = BufferOffset + positions -1;
