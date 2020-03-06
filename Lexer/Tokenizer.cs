@@ -14,8 +14,8 @@ namespace Lexer
         
         private char CurrentChar {get; set;}
         private char NextChar {get; set;}
-        private long Line {get;set;}
-        private long Offset {get;set;}
+        private int Line {get;set;}
+        private int Offset {get;set;}
         private long BufferOffset {get;set;}
         private StreamReader reader;
 
@@ -64,6 +64,7 @@ namespace Lexer
 
             BufferOffset++;
             if (IsEOL())
+            {
                 Line++;
                 Pop();
             }
