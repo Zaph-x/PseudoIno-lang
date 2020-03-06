@@ -71,48 +71,18 @@ namespace Lexer.Tests
             Assert.AreNotEqual('W', tokenizer.Peek(), "Peek got the correct character when it should not");
         }
 
-        // [Test]
-        // public void ValTypeTest()
-        // {
-            // Tokenizer tokenizer = new Tokenizer("program");
-            // if (tokenizer.Tokens[0].Type == new Token(TokenType.VAR,"a",0,0).Type)
-            // {
-                // Assert.Pass();
-            // }
-            // Assert.Fail();
-        // }
-//
-        // [Test]
-        // public void KeywordTypeTest()
-        // {
-            // Tokenizer tokenizer = new Tokenizer("program");
-            // if (tokenizer.Tokens[1].Type == new Token(TokenType.ASSIGN,"is",0,0).Type)
-            // {
-                // Assert.Pass();
-            // }
-            // Assert.Fail();
-        // }
-//
-        // [Test]
-        // public void KeywordValTest()
-        // {
-            // Tokenizer tokenizer = new Tokenizer("program");
-            // if (tokenizer.Tokens[1].Value == new Token(TokenType.ASSIGN,"is",0,0).Value)
-            // {
-                // Assert.Pass();
-            // }
-            // Assert.Fail();
-        // }
-//
-        // [Test]
-        // public void DigitTypeTest()
-        // {
-            // Tokenizer tokenizer = new Tokenizer("program");
-            // if (tokenizer.Tokens[2].Type == new Token(TokenType.NUMERIC,"5",0,0).Type)
-            // {
-                // Assert.Pass();
-            // }
-            // Assert.Fail();
-        // }
+        [Test]
+        public void Test_Peek_CanPeekMultipleCharacters()
+        {
+            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
+            StreamReader FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
+
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.Pop();
+
+            Assert.AreEqual(' ', tokenizer.Peek(), "Tokenizer did not find the correct character");
+            Assert.AreEqual('i', tokenizer.Peek(2), "Tokenizer did not find the correct character");
+            Assert.AreEqual(' ', tokenizer.Peek(), "Tokenizer did not find the correct character");
+        }
     }
 }

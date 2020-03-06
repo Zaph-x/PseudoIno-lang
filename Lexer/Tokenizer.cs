@@ -10,8 +10,6 @@ namespace Lexer
 {
     public class Tokenizer
     {
-       /*private List<string> Lines;
-         private List<string> Elements = new List<string>();*/
         public List<Token> Tokens = new List<Token>();
         
         Recogniser recogniser = new Recogniser();
@@ -20,20 +18,38 @@ namespace Lexer
         private char NextChar {get; set;}
         private int Line {get;set;}
         private int Offset {get;set;}
+        private long BufferOffset {get;set;}
         private StreamReader reader;
 
+        /// <summary>
+        /// The constructor for the Tokenizer class. This will set the iniitiate a reader and a recogniser.
+        /// </summary>
+        /// <param name="stream">The StreamReader responsible for reading a class</param>
         public Tokenizer(StreamReader stream)
         {
             recogniser = new Recogniser();
             reader = stream;
+            BufferOffset = 0;
         }
         
+        /// <summary>
+        /// A function to continously return the current character.
+        /// </summary>
+        /// <returns>
+        /// The current character
+        /// </returns>
         public char Current()
         {
             return CurrentChar;
         }
 
-        public Lexer.Objects.Token Token(TokenType type, string val)
+        /// <summary>
+        /// A function to generate a token.
+        /// </summary>
+        /// <returns>
+        /// A token from the value.
+        /// </returns>
+        public Token Token(TokenType type, string val)
         {
             return new Token(type, val, Line, Offset);
         }
@@ -41,10 +57,15 @@ namespace Lexer
         /// <summary>
         /// Sets current character as the next character in the stream and advances in the stream.
         /// </summary>
+        /// <returns>
+        /// The next character in the stream.
+        /// </returns>
         public char Pop()
         {
             CurrentChar = (char)reader.Read();
-            if (CurrentChar == '\n')
+
+            BufferOffset++;
+            if (IsEOL())
             {
                 Line++;
                 Pop();
@@ -55,12 +76,29 @@ namespace Lexer
         /// <summary>
         /// Peeks the next character in the stream and sets NextChar to the value
         /// </summary>
+        /// <returns>
+        /// The next character.
+        /// </returns>
         public char Peek()
         {
             NextChar = (char)reader.Peek();
             return NextChar;
         }
 
+        public char Peek(int positions)
+        {
+            reader.BaseStream.Position = BufferOffset + positions -1;
+            NextChar = (char)reader.BaseStream.ReadByte();
+            reader.BaseStream.Position = BufferOffset - positions +1;
+            return NextChar;
+        }
+
+        /// <summary>
+        /// Checks if the current character is end of line.
+        /// <summary>
+        /// <returns>
+        /// True if the current character is end of line, otherwise false.
+        /// </returns>
         private bool IsEOL()
         {
             return CurrentChar == '\n';
@@ -70,7 +108,7 @@ namespace Lexer
         {
             return CurrentChar == 0 || CurrentChar == -1;
         }
-
+        
         private void ScanNumeric()
         {
             string subString = "";
@@ -141,7 +179,9 @@ namespace Lexer
                 
             }
         }
-
+        /// <summary>
+        /// A function to to generate tokens. This is done by reading from the stream.
+        /// </summary>
         public void GenerateTokens()
         {
             string subString = "";
