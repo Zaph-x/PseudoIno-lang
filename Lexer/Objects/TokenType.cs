@@ -10,7 +10,7 @@ namespace Lexer.Objects
         // function call
         CALL,
         // scoping
-        BEGIN,
+        FUNC,
         END,
         // array
         ARRAYLEFT,
@@ -38,8 +38,7 @@ namespace Lexer.Objects
         LOOP_FN,
         // comments
         COMMENT,
-        MULT_COMNT_START,
-        MULT_COMNT_END,
+        MULT_COMNT,
         
         /* TYPES */
         NUMERIC,
@@ -58,6 +57,7 @@ namespace Lexer.Objects
         VAL,
         
         /* error token*/
-        ERROR
+        ERROR,
+        
     }
 }
