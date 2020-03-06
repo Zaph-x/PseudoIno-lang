@@ -152,15 +152,22 @@ namespace Lexer
             string subString = "";
             if (recogniser.IsAcceptedCharacter(Current()))
             {
-                while (recogniser.IsAcceptedCharacter(Peek()))
+                subString += Pop();
+                while (recogniser.IsAcceptedCharacter(CurrentChar))
                 {
-                    subString.Append(Pop());
-                    if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
-                    {
-                        Tokens.Add(Token(tokenType,subString));
-                    }
+                    subString += Pop();
                 }
-
+                if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
+                {
+                    Tokens.Add(Token(tokenType,subString));
+                    return;
+                }
+                Tokens.Add(Token(TokenType.VAR,subString));
+                subString = "";
+                if (Peek() == '\n')
+                {
+                    return;
+                }
                 if (Peek() == '@')
                 {
                     Tokens.Add(Token(TokenType.VAR,subString));
@@ -200,8 +207,8 @@ namespace Lexer
         {
             while (Peek() != 0 || Peek() != -1) // EOF
             {
-                if (IsEOL())
-                    break;
+                if (CurrentChar == ' ' || CurrentChar == '\0')
+                    Pop();
                 ScanNumeric();
                 ScanCharacter();
             }
