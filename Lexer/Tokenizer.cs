@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml.Schema;
+using Lexer.Exceptions;
 using Lexer.Objects;
 
 namespace Lexer
@@ -63,29 +65,95 @@ namespace Lexer
         {
             return CurrentChar == '\n';
         }
+        
+        private bool IsEOF()
+        {
+            return CurrentChar == 0 || CurrentChar == -1;
+        }
+
+        private void ScanNumeric()
+        {
+            string subString = "";
+            if (recogniser.IsDigit(Current()))
+            {
+                while (recogniser.IsDigit(Peek()))
+                {
+                    subString.Append(Pop());
+                }
+                if (Peek() == '.')
+                {
+                    subString.Append(Pop());
+                    while (recogniser.IsDigit(Peek()))
+                    {
+                        subString.Append(Pop());
+                    }    
+                }
+
+                if (Peek() != ' ' || Peek() != '\n')
+                {
+                    throw new InvalidSyntaxException($"Numeric literal can only contain numbers. Error at line {Line}:{Offset}");
+                }
+                Tokens.Add(Token(TokenType.NUMERIC,subString));
+            }
+        }
+
+        private void ScanCharacter()
+        {
+            string subString = "";
+            if (recogniser.IsAcceptedCharacter(Current()))
+            {
+                while (recogniser.IsAcceptedCharacter(Peek()))
+                {
+                    subString.Append(Pop());
+                    if (recogniser.IsKeyword(subString))
+                    {
+                        
+                    }
+                }
+
+                if (Peek() == '@')
+                {
+                    
+                }
+                else if (Peek() == '?')
+                {
+                    Tokens.Add(Token(TokenType.VAR,subString));
+                    Pop();
+                    Tokens.Add(Token(TokenType.OP_QUESTIONMARK,"?"));
+                }
+                else if (Peek() == '[')
+                {
+                    Tokens.Add(Token(TokenType.VAR,subString));
+                    Pop();
+                    Tokens.Add(Token(TokenType.ARRAYLEFT,"["));
+                }
+                else if (Peek() == ']')
+                {
+                    Tokens.Add(Token(TokenType.VAR,subString));
+                    Pop();
+                    Tokens.Add(Token(TokenType.ARRAYRIGHT,"]"));   
+                }
+
+                /*if (Peek() != ' ' || Peek() != '\n')
+                {
+                    throw new InvalidSyntaxException($"Illegal symbol. Error at line {Line}:{Offset}");
+                }*/
+                
+            }
+        }
 
         public void GenerateTokens()
         {
             string subString = "";
-            char subChar = '0';
-            while ((subChar = Peek()) != 0)
+            while (Peek() != 0 || Peek() != -1) // EOF
             {
-                subString.Append(Pop());
-                if (subChar == '\n')
-                {
-                    Line++;
-                    Offset = 0;
-                }
-                if (recogniser.IsDigit(subChar))
-                {
-                    while (recogniser.IsDigit(Peek()))
-                    {
-                        Token(TokenType.NUMERIC,subString); 
-                    }
-                    
-                }
-                    
+                if (IsEOL())
+                    break;
+                ScanNumeric();
+                ScanCharacter();
+                
             }
+            
         }
         
     }
