@@ -11,14 +11,14 @@ namespace Lexer
     public class Tokenizer
     {
         public List<Token> Tokens = new List<Token>();
-        
+
         Recogniser recogniser = new Recogniser();
-        
-        private char CurrentChar {get; set;}
-        private char NextChar {get; set;}
-        public int Line {get;private set;}
-        public int Offset {get;private set;}
-        public long BufferOffset {get;private set;}
+
+        private char CurrentChar { get; set; }
+        private char NextChar { get; set; }
+        public int Line { get; private set; }
+        public int Offset { get; private set; }
+        public long BufferOffset { get; private set; }
         private StreamReader reader;
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Lexer
             Line = 1;
             BufferOffset = 0;
         }
-        
+
         /// <summary>
         /// A function to continously return the current character.
         /// </summary>
@@ -66,7 +66,7 @@ namespace Lexer
         public char Pop()
         {
             CurrentChar = (char)reader.Read();
-            
+
             BufferOffset++;
             if (IsEOL())
             {
@@ -77,7 +77,7 @@ namespace Lexer
             Offset++;
             return CurrentChar;
         }
-        
+
         /// <summary>
         /// Peeks the next character in the stream and sets NextChar to the value
         /// </summary>
@@ -89,7 +89,7 @@ namespace Lexer
             NextChar = (char)reader.Peek();
             return NextChar;
         }
-        
+
         /// <summary>
         /// Peeks the nth character in the stream and sets NextChar to the value of the character
         /// </summary>
@@ -99,9 +99,9 @@ namespace Lexer
         /// </returns>
         public char Peek(int positions)
         {
-            reader.BaseStream.Position = BufferOffset + positions -1;
+            reader.BaseStream.Position = BufferOffset + positions - 1;
             NextChar = (char)reader.BaseStream.ReadByte();
-            reader.BaseStream.Position = BufferOffset - positions +1;
+            reader.BaseStream.Position = BufferOffset - positions + 1;
             return NextChar;
         }
 
@@ -115,105 +115,122 @@ namespace Lexer
         {
             return CurrentChar == '\n';
         }
-        
+
+        private bool IsEOL(char character)
+        {
+            return character == '\n';
+        }
+
         private bool IsEOF()
         {
-            return CurrentChar == 0 || CurrentChar == -1;
+            return (int)CurrentChar == '\uffff';
+        }
+
+        private bool IsEOF(char character)
+        {
+            return (int)character == '\uffff';
         }
         
+        private bool IsSpace()
+        {
+            return CurrentChar == ' ';
+        }
+        private bool IsSpace(char character)
+        {
+            return character == ' ';
+        }
+
         private void ScanNumeric()
         {
-            string subString = "";
-            if (recogniser.IsDigit(Current()))
+            string subString = CurrentChar.ToString();
+            while (recogniser.IsDigit(Peek()))
             {
+                Pop();
+                subString += CurrentChar;
+            }
+            if (Peek() == '.')
+            {
+                Pop();
+                subString += CurrentChar;
                 while (recogniser.IsDigit(Peek()))
                 {
-                    subString.Append(Pop());
+                    Pop();
+                    subString += CurrentChar;
                 }
-                if (Peek() == '.')
-                {
-                    subString.Append(Pop());
-                    while (recogniser.IsDigit(Peek()))
-                    {
-                        subString.Append(Pop());
-                    }    
-                }
-
-                if (Peek() != ' ' || Peek() != '\n')
-                {
-                    throw new InvalidSyntaxException($"Numeric literal can only contain numbers. Error at line {Line}:{Offset}");
-                }
-                Tokens.Add(Token(TokenType.NUMERIC,subString));
             }
+
+            if (!IsEOL(NextChar) && !IsEOF(NextChar) && !IsSpace(NextChar))
+            {
+                throw new InvalidSyntaxException($"Numeric literal can only contain numbers. Error at line {Line}:{Offset}. Found '{NextChar}({(int)NextChar})'.");
+            }
+            Tokens.Add(Token(TokenType.NUMERIC, subString));
         }
 
         private void ScanCharacter()
         {
-            string subString = "";
-            if (recogniser.IsAcceptedCharacter(Current()))
+            string subString = CurrentChar.ToString();
+            while (recogniser.IsAcceptedCharacter(Peek()))
             {
                 subString += Pop();
-                while (recogniser.IsAcceptedCharacter(CurrentChar))
-                {
-                    subString += Pop();
-                }
-                if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
-                {
-                    Tokens.Add(Token(tokenType,subString));
-                    return;
-                }
-                Tokens.Add(Token(TokenType.VAR,subString));
-                subString = "";
-                if (Peek() == '\n')
-                {
-                    return;
-                }
-                if (Peek() == '@')
-                {
-                    Tokens.Add(Token(TokenType.VAR,subString));
-                    Pop();
-                    Tokens.Add(Token(TokenType.ARRAYINDEX,subString));
-                }
-                else if (Peek() == '?')
-                {
-                    Tokens.Add(Token(TokenType.VAR,subString));
-                    Pop();
-                    Tokens.Add(Token(TokenType.OP_QUESTIONMARK,"?"));
-                }
-                else if (Peek() == '[')
-                {
-                    Tokens.Add(Token(TokenType.VAR,subString));
-                    Pop();
-                    Tokens.Add(Token(TokenType.ARRAYLEFT,"["));
-                }
-                else if (Peek() == ']')
-                {
-                    Tokens.Add(Token(TokenType.VAR,subString));
-                    Pop();
-                    Tokens.Add(Token(TokenType.ARRAYRIGHT,"]"));   
-                }
-
-                /*if (Peek() != ' ' || Peek() != '\n')
-                {
-                    throw new InvalidSyntaxException($"Illegal symbol. Error at line {Line}:{Offset}");
-                }*/
-                
             }
+            if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
+            {
+                Tokens.Add(Token(tokenType, subString));
+                return;
+            }
+            Tokens.Add(Token(TokenType.VAR, subString));
+            subString = "";
+            if (Peek() == '\n')
+            {
+                return;
+            }
+            if (Peek() == '@')
+            {
+                Tokens.Add(Token(TokenType.VAR, subString));
+                Pop();
+                Tokens.Add(Token(TokenType.ARRAYINDEX, subString));
+            }
+            else if (Peek() == '?')
+            {
+                Tokens.Add(Token(TokenType.VAR, subString));
+                Pop();
+                Tokens.Add(Token(TokenType.OP_QUESTIONMARK, "?"));
+            }
+            else if (Peek() == '[')
+            {
+                Tokens.Add(Token(TokenType.VAR, subString));
+                Pop();
+                Tokens.Add(Token(TokenType.ARRAYLEFT, "["));
+            }
+            else if (Peek() == ']')
+            {
+                Tokens.Add(Token(TokenType.VAR, subString));
+                Pop();
+                Tokens.Add(Token(TokenType.ARRAYRIGHT, "]"));
+            }
+
+            /*if (Peek() != ' ' || Peek() != '\n')
+            {
+                throw new InvalidSyntaxException($"Illegal symbol. Error at line {Line}:{Offset}");
+            }*/
         }
         /// <summary>
         /// A function to to generate tokens. This is done by reading from the stream.
         /// </summary>
         public void GenerateTokens()
         {
-            while (Peek() != 0 || Peek() != -1) // EOF
+            Peek();
+            while (!IsEOF(NextChar)) // EOF
             {
-                if (CurrentChar == ' ' || CurrentChar == '\0')
-                    Pop();
-                ScanNumeric();
-                ScanCharacter();
+                Pop();
+                if (recogniser.IsDigit(CurrentChar))
+                    ScanNumeric();
+                else if (recogniser.IsAcceptedCharacter(CurrentChar))
+                    ScanCharacter();
+
             }
-            
+
         }
-        
+
     }
 }
