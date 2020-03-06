@@ -43,7 +43,10 @@ namespace Lexer
         {
             CurrentChar = (char)reader.Read();
             if (CurrentChar == '\n')
+            {
                 Line++;
+                Pop();
+            }
             return CurrentChar;
         }
         
