@@ -143,15 +143,17 @@ namespace Lexer
                 while (recogniser.IsAcceptedCharacter(Peek()))
                 {
                     subString.Append(Pop());
-                    if (recogniser.IsKeyword(subString))
+                    if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
                     {
-                        
+                        Tokens.Add(Token(tokenType,subString));
                     }
                 }
 
                 if (Peek() == '@')
                 {
-                    
+                    Tokens.Add(Token(TokenType.VAR,subString));
+                    Pop();
+                    Tokens.Add(Token(TokenType.ARRAYINDEX,subString));
                 }
                 else if (Peek() == '?')
                 {
@@ -184,14 +186,12 @@ namespace Lexer
         /// </summary>
         public void GenerateTokens()
         {
-            string subString = "";
             while (Peek() != 0 || Peek() != -1) // EOF
             {
                 if (IsEOL())
                     break;
                 ScanNumeric();
                 ScanCharacter();
-                
             }
             
         }
