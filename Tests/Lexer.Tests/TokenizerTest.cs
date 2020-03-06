@@ -9,7 +9,8 @@ namespace Lexer.Tests
     [TestFixture]
     public class TokenizerTest
     { 
-        private string FakeContent = @"a is 5";
+        private string FakeContent = @"a is 
+5";
         private byte[] FakeUTF8Bytes;
 
         [OneTimeSetUp]

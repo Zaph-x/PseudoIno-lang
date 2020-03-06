@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Lexer.Objects;
 
 namespace Lexer
@@ -30,9 +31,9 @@ namespace Lexer
             return CurrentChar;
         }
 
-        public void Token(TokenType type, string val)
+        public Lexer.Objects.Token Token(TokenType type, string val)
         {
-        //    return new Token()
+            return new Token(type, val, Line, Offset);
         }
 
         /// <summary>
@@ -41,6 +42,8 @@ namespace Lexer
         public char Pop()
         {
             CurrentChar = (char)reader.Read();
+            if (CurrentChar == '\n')
+                Line++;
             return CurrentChar;
         }
         
@@ -53,9 +56,33 @@ namespace Lexer
             return NextChar;
         }
 
+        private bool IsEOL()
+        {
+            return CurrentChar == '\n';
+        }
+
         public void GenerateTokens()
         {
-            
+            string subString = "";
+            char subChar = '0';
+            while ((subChar = Peek()) != 0)
+            {
+                subString.Append(Pop());
+                if (subChar == '\n')
+                {
+                    Line++;
+                    Offset = 0;
+                }
+                if (recogniser.IsDigit(subChar))
+                {
+                    while (recogniser.IsDigit(Peek()))
+                    {
+                        Token(TokenType.NUMERIC,subString); 
+                    }
+                    
+                }
+                    
+            }
         }
         
     }
