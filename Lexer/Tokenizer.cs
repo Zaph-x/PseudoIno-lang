@@ -166,6 +166,32 @@ namespace Lexer
             Tokens.Add(Token(TokenType.NUMERIC, subString));
         }
 
+        private void ScanComment()
+        {
+            string subString = CurrentChar.ToString();
+            while(!IsEOL(Peek()) && !IsEOF(Peek()))
+            {
+                Pop();
+                subString += CurrentChar;
+            }
+            Tokens.Add(Token(TokenType.COMMENT, subString));
+        }
+
+        private void ScanMultiLineComment()
+        {
+            string subString = CurrentChar.ToString();
+            while(!IsEOF(Peek()) && !subString.Contains("#>"))
+            {
+                Pop();
+                subString += CurrentChar;
+            }
+            if (IsEOF(Peek()) && !subString.Contains("#>"))
+            {
+                throw new InvalidSyntaxException("Multiline comments must be closed before reaching end of file.");
+            }
+            Tokens.Add(Token(TokenType.MULT_COMNT, subString));
+        }
+
         private void ScanCharacter()
         {
             string subString = CurrentChar.ToString();
@@ -227,10 +253,21 @@ namespace Lexer
                     ScanNumeric();
                 else if (recogniser.IsAcceptedCharacter(CurrentChar))
                     ScanCharacter();
+                else if (CurrentChar == '#')
+                    ScanComment();
+                else if (CurrentChar == '<' && Peek() == '#')
+                    ScanMultiLineComment();
 
             }
 
         }
 
+        public void PrettyPrintTokens()
+        {
+            foreach (Token token in Tokens)
+            {
+                Console.WriteLine($"({token.Line}:{token.Offset}) => {token.Type.ToString()} - {token.Value}");
+            }
+        }
     }
 }
