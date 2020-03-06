@@ -94,13 +94,16 @@ namespace Lexer.Tests
             
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             while(tokenizer.Pop() != '\n')
-            {
-                Console.WriteLine(tokenizer.Current());
-            }
+            {/* Intentional blank */}
 
             tokenizer.Pop();
 
             Assert.AreEqual(2, tokenizer.Line, "Tokenizer did not return correct line number.");
+        }
+
+        [Test]
+        public void Test_Pop_DoesNotReturnWrongLine()
+        {
         }
 
 
