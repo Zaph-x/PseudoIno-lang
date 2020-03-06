@@ -161,7 +161,7 @@ namespace Lexer
 
             if (!IsEOL(NextChar) && !IsEOF(NextChar) && !IsSpace(NextChar))
             {
-                throw new InvalidSyntaxException($"Numeric literal can only contain numbers. Error at line {Line}:{Offset}. Found '{NextChar}({(int)NextChar})'.");
+                throw new InvalidSyntaxException($"Numeric literal can only contain numbers. Found '{NextChar}({(int)NextChar})'. Error at line {Line}:{Offset}.");
             }
             Tokens.Add(Token(TokenType.NUMERIC, subString));
         }
@@ -187,7 +187,7 @@ namespace Lexer
             }
             if (IsEOF(Peek()) && !subString.Contains("#>"))
             {
-                throw new InvalidSyntaxException("Multiline comments must be closed before reaching end of file.");
+                throw new InvalidSyntaxException($"Multiline comments must be closed before reaching end of file. Error at line {Line}:{Offset}.");
             }
             Tokens.Add(Token(TokenType.MULT_COMNT, subString));
         }
