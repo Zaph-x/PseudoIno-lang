@@ -56,6 +56,13 @@ namespace Lexer
             return NextChar;
         }
 
+        public char Peek(int positions)
+        {
+            reader.BaseStream.Position = 3;
+            Console.WriteLine(reader.BaseStream.Position);
+            return 'c';
+        }
+
         private bool IsEOL()
         {
             return CurrentChar == '\n';
