@@ -84,5 +84,10 @@ namespace Lexer.Tests
             Assert.AreEqual('i', tokenizer.Peek(2), "Tokenizer did not find the correct character");
             Assert.AreEqual(' ', tokenizer.Peek(), "Tokenizer did not find the correct character");
         }
+
+        [Test]
+        public void Test_GenerateTokens_thing()
+        {
+        }
     }
 }
