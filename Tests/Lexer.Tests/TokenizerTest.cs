@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Lexer.Objects;
 using NUnit.Framework;
+using System;
 using System.IO;
 using System.Text;
 
@@ -28,8 +29,8 @@ namespace Lexer.Tests
         [Test]
         public void Test_Pop_ReturnsCorrectCharacter()
         {
-            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
-            StreamReader FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
+            string content = @"a is 4";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8); 
  
             Tokenizer tokenizer = new Tokenizer(FakeReader);
 
@@ -38,10 +39,10 @@ namespace Lexer.Tests
 
         [Test]
         public void Test_Pop_ShouldNotReturnWrongCharacter()
-        {
-            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
-            StreamReader FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
- 
+        { 
+            string content = @"a is 4";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8); 
+
             Tokenizer tokenizer = new Tokenizer(FakeReader);
 
             Assert.AreNotEqual('W', tokenizer.Pop(), "Pop got the correct character when it should not");
@@ -49,9 +50,9 @@ namespace Lexer.Tests
 
         [Test]
         public void Test_Peek_ShouldPeekCurrectChar()
-        {
-            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
-            StreamReader FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
+        {   
+            string content = @"a is 4";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8); 
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.Pop();
@@ -62,8 +63,8 @@ namespace Lexer.Tests
         [Test]
         public void Test_Peek_ShouldNotPeekWrongChar()
         {
-            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
-            StreamReader FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
+            string content = @"a is 4";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.Pop();
@@ -74,8 +75,8 @@ namespace Lexer.Tests
         [Test]
         public void Test_Peek_CanPeekMultipleCharacters()
         {
-            MemoryStream FakeUTF8Stream = new MemoryStream(FakeUTF8Bytes);
-            StreamReader FakeReader = new StreamReader(FakeUTF8Stream, Encoding.UTF8, false);
+            string content = @"a is 4";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8); 
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.Pop();
@@ -83,6 +84,32 @@ namespace Lexer.Tests
             Assert.AreEqual(' ', tokenizer.Peek(), "Tokenizer did not find the correct character");
             Assert.AreEqual('i', tokenizer.Peek(2), "Tokenizer did not find the correct character");
             Assert.AreEqual(' ', tokenizer.Peek(), "Tokenizer did not find the correct character");
+        }
+
+        [Test]
+        public void Test_Pop_ReturnProvidesCorrectLineNumber()
+        {
+            string content = "a is 4\nb is 5\nc is a + b";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
+            
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            while(tokenizer.Pop() != '\n')
+            {
+                Console.WriteLine(tokenizer.Current());
+            }
+
+            tokenizer.Pop();
+
+            Assert.AreEqual(2, tokenizer.Line, "Tokenizer did not return correct line number.");
+        }
+
+
+        // Helper functions
+        
+        public StreamReader CreateFakeReader(string content, Encoding enc)
+        {
+            byte[] fakeBytes = enc.GetBytes(FakeContent);
+            return new StreamReader(new MemoryStream(fakeBytes), enc, false);
         }
     }
 }
