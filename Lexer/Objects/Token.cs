@@ -56,7 +56,10 @@ namespace Lexer.Objects
             this.Offset = offset;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// A function to format tokens, when printed to the screen or in other ways used as a string
+        /// </summary>
+        /// <returns>A string representation of the token</returns>
         public override string ToString() => $"({Line}:{Offset}) {Type} => {Value}";
     }
 }
