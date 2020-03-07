@@ -24,5 +24,7 @@ namespace Lexer.Objects
             this.Line = line;
             this.Offset = offset;
         }
+
+        public override string ToString() => $"({Line}:{Offset}) {Type} => {Value}";
     }
 }
