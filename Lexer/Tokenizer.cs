@@ -183,6 +183,18 @@ namespace Lexer
             Tokens.Add(Token(TokenType.RANGE, subString));
         }
 
+        private void ScanString()
+        {
+            string subString = CurrentChar.ToString();
+
+            while (Peek() != '"')
+            {
+                Pop();
+                subString += CurrentChar;
+            }
+            Tokens.Add(Token(TokenType.STRING, subString));
+        }
+
         private void ScanComment()
         {
             string subString = CurrentChar.ToString();
