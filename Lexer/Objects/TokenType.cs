@@ -44,6 +44,7 @@ namespace Lexer.Objects
         NUMERIC,
         STRING,
         BOOL,
+        RANGE,
         
         /* Arithmetic operators */
         OP_PLUS,
