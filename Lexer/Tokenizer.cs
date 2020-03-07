@@ -148,22 +148,39 @@ namespace Lexer
                 Pop();
                 subString += CurrentChar;
             }
-            if (Peek() == '.')
+            // Make sure it isn't a range
+            if (Peek() == '.' && recogniser.IsDigit(Peek(2)))
             {
                 Pop();
                 subString += CurrentChar;
+
                 while (recogniser.IsDigit(Peek()))
                 {
                     Pop();
                     subString += CurrentChar;
                 }
-            }
-
-            if (!IsEOL(NextChar) && !IsEOF(NextChar) && !IsSpace(NextChar))
-            {
-                throw new InvalidSyntaxException($"Numeric literal can only contain numbers. Found '{NextChar}({(int)NextChar})'. Error at line {Line}:{Offset}.");
+                if (!IsEOL(NextChar) && !IsEOF(NextChar) && !IsSpace(NextChar))
+                {
+                    throw new InvalidSyntaxException($"Numeric literal can only contain numbers. Found '{NextChar}({(int)NextChar})'. Error at line {Line}:{Offset}.");
+                }
             }
             Tokens.Add(Token(TokenType.NUMERIC, subString));
+        }
+
+        private void ScanRange()
+        {
+            string subString = CurrentChar.ToString();
+            // This should in reality only run once
+            while (Peek() == '.')
+            {
+                Pop();
+                subString += CurrentChar;
+            }
+            if (subString.Length != 2)
+            {
+                throw new InvalidSyntaxException($"Invalid range symbol. Range symbol must be '..' but was '{subString}'. Error at line {Line}:{Offset}.");
+            }
+            Tokens.Add(Token(TokenType.RANGE, subString));
         }
 
         private void ScanComment()
@@ -253,6 +270,7 @@ namespace Lexer
                 if (IsSpace()) { continue; }
                 else if (recogniser.IsDigit(CurrentChar)) { ScanNumeric(); }
                 else if (recogniser.IsAcceptedCharacter(CurrentChar)) { ScanCharacter(); }
+                else if (CurrentChar == '.') { ScanRange(); }
                 else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanCharacter(); }
                 else if (CurrentChar == '#') { ScanComment(); }
                 else if (CurrentChar == '<' && Peek() == '#') { ScanMultiLineComment(); }

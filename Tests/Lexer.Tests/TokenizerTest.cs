@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using Lexer.Objects;
 using Lexer.Exceptions;
@@ -87,6 +88,30 @@ namespace Lexer.Tests
         public void Test_GenerateTokens_ThrowsExceptionOnInvalidMultilineComment()
         {
             string content = "<# comment";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
+
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+
+            Assert.Throws<InvalidSyntaxException>(() => tokenizer.GenerateTokens());
+        }
+
+        [Test]
+        public void Test_GenerateTokens_CanGenerateRanges()
+        {
+            string content = "a is 0..5";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
+
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+
+
+            Assert.AreEqual(5, tokenizer.Tokens.Count, $"The tokenizer found the wrong amount of tokens.");
+        }
+
+        [Test]
+        public void Test_GenerateTokens_CanNotGenrateInvalidRanges()
+        {
+            string content = "a is 0...5";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
