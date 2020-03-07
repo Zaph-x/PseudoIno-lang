@@ -1,8 +1,5 @@
 # Lexer.dll v.1.0.0.0 API documentation
 
-Created by 
-[mddox](https://github.com/loxsmoke/mddox) on 07/03/2020
-
 # All types
 
 |   |   |   |
