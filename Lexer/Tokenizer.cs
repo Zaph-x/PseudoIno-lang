@@ -408,7 +408,7 @@ namespace Lexer
                     Tokens.Add(Token(TokenType.OP_MODULO));
                     break;
                 default:
-                    throw new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.")
+                    throw new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
             }
         }
 
@@ -417,8 +417,9 @@ namespace Lexer
         /// </summary>
         public void GenerateTokens()
         {
+            // Ensure we are not dealing with an empty file.
             Peek();
-            while (!IsEOF(NextChar)) // EOF
+            while (!IsEOF(NextChar))
             {
                 Pop();
                 if (IsSpace()) { continue; }
