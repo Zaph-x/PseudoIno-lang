@@ -159,6 +159,10 @@ namespace Lexer
                     Pop();
                     subString += CurrentChar;
                 }
+                if (subString.Last() == '.')
+                {
+                    subString += "0";
+                }
                 if (!IsEOL(NextChar) && !IsEOF(NextChar) && !IsSpace(NextChar))
                 {
                     throw new InvalidSyntaxException($"Numeric literal can only contain numbers. Found '{NextChar}({(int)NextChar})'. Error at line {Line}:{Offset}.");
