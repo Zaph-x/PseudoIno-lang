@@ -8,6 +8,9 @@ using Lexer.Objects;
 
 namespace Lexer
 {
+    /// <summary>
+    /// The class responsible for recognising characters in the language
+    /// </summary>
     public class Recogniser
     {
         /// <summary>

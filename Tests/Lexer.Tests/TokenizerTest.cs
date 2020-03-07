@@ -72,10 +72,10 @@ namespace Lexer.Tests
 
         #endregion
 
-        [TestCase(dummy_1,30)]
+        [TestCase(dummy_1,32)]
         [TestCase(dummy_2,3)]
         [TestCase(dummy_3,0)]
-        [TestCase(dummy_4, 36)]
+        [TestCase(dummy_4, 38)]
         public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens(string content, int expectedAmountOfTokens)
         {
             

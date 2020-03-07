@@ -2,8 +2,15 @@ using System.Collections.Generic;
 
 namespace Lexer.Objects
 {
+    /// <summary>
+    /// A class containing a dictionary of keywords
+    /// </summary>
     public class Keywords
     {
+        /// <summary>
+        /// A dictionary of the possible keywords.
+        /// </summary>
+        /// <returns>A token type</returns>
         public static Dictionary<string,TokenType> Keys = new Dictionary<string,TokenType>()
         {
             {"is",TokenType.ASSIGN},

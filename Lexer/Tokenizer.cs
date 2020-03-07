@@ -8,17 +8,48 @@ using Lexer.Objects;
 
 namespace Lexer
 {
+    /// <summary>
+    /// The class responsible for generating the tokens from the source language
+    /// </summary>
     public class Tokenizer
     {
+        /// <summary>
+        /// The list of tokens generated when the source language is being scanned
+        /// </summary>
         public List<Token> Tokens = new List<Token>();
 
+        /// <summary>
+        /// Initialisation of the recogniser
+        /// </summary>
         Recogniser recogniser = new Recogniser();
-
+        /// <summary>
+        /// The current character in the sequencce
+        /// </summary>
+        /// <value>Is set when <c>Pop()</c> is called</value>
         private char CurrentChar { get; set; }
+        /// <summary>
+        /// The next character in the sequence
+        /// </summary>
+        /// <value>Is set when <c>Peek()</c> is called</value>
         private char NextChar { get; set; }
+        /// <summary>
+        /// The current line of the current character
+        /// </summary>
+        /// <value>Is incremented whenever <c>Pop()</c> reaches a newline character</value>
         public int Line { get; private set; }
+        /// <summary>
+        /// The current offset of the current character
+        /// </summary>
+        /// <value>Is incremented whenever <c>Pop()</c> is called. Resets when the Line is updated</value>
         public int Offset { get; private set; }
+        /// <summary>
+        /// The offset of the buffer. This is set such that the scanner can look ahead.
+        /// </summary>
+        /// <value>Is incremented each tile <c>Pop()</c> is called</value>
         public long BufferOffset { get; private set; }
+        /// <summary>
+        /// The stream that the scanner is reading from
+        /// </summary>
         private StreamReader reader;
 
         /// <summary>
@@ -123,7 +154,7 @@ namespace Lexer
 
         /// <summary>
         /// Checks if the current character is end of line.
-        /// <summary>
+        /// </summary>
         /// <returns>
         /// True if the current character is end of line, otherwise false.
         /// </returns>
@@ -233,7 +264,7 @@ namespace Lexer
         /// <summary>
         /// This function will scan a sequence of characters providing a range token to the token list.
         /// The function will traverse while the next character is a period (.) symbol.
-        /// <exception cref="InvalidSyntaxException">When the traversed sequence does not produce a token with the value of exavtly '..'</exception>
+        /// <exception cref="Lexer.Exceptions.InvalidSyntaxException">When the traversed sequence does not produce a token with the value of exavtly '..'</exception>
         /// </summary>
         private void ScanRange()
         {
@@ -260,7 +291,7 @@ namespace Lexer
         /// "I am a valid string,.!-/()*?#$"
         /// </c>
         /// </example>
-        /// <exception cref="InvalidSyntaxExecption">When the traversed sequence is not closed by a quotation symbol</exception>
+        /// <exception cref="Lexer.Exceptions.InvalidSyntaxException">When the traversed sequence is not closed by a quotation symbol</exception>
         /// </summary>
         private void ScanString()
         {
@@ -303,12 +334,12 @@ namespace Lexer
         /// The function will traverse the sequence, until it meets a sequence representing the end of a multiline comment.
         /// <example>An example of a valid multiline comment:
         /// <c>
-        /// <# This is a valid multiline comment #>
-        /// <# This is also
-        /// a valid multiline comment#>
+        /// &lt;# This is a valid multiline comment #&gt;
+        /// &lt;# This is also
+        /// a valid multiline comment#&gt;
         /// </c>
         /// </example>
-        /// <exception cref="InvalidSyntaxExecption">When the traversed sequence is not closed by a quotation symbol</exception>
+        /// <exception cref="Lexer.Exceptions.InvalidSyntaxException">When the traversed sequence is not closed by a quotation symbol</exception>
         /// </summary>
         private void ScanMultiLineComment()
         {
@@ -388,6 +419,7 @@ namespace Lexer
         /// If the current character is an asterisk, a times operator will be added
         /// If the current character is a forward slash, a divide operator will be added
         /// If the current character is a percentage symbol, a modulo operator will be added
+        /// <exception cref="Lexer.Exceptions.InvalidSyntaxException">Should never be thrown</exception>
         /// </summary>
         private void ScanOperators()
         {
@@ -407,6 +439,12 @@ namespace Lexer
                     break;
                 case '%':
                     Tokens.Add(Token(TokenType.OP_MODULO));
+                    break;
+                case '(':
+                    Tokens.Add(Token(TokenType.OP_LPAREN));
+                    break;
+                case ')':
+                    Tokens.Add(Token(TokenType.OP_RPAREN));
                     break;
                 default:
                     throw new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
@@ -430,19 +468,11 @@ namespace Lexer
                 else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanWord(); }
                 else if (CurrentChar == '#') { ScanComment(); }
                 else if (CurrentChar == '<' && Peek() == '#') { ScanMultiLineComment(); }
-                else if ("+-*/%".Contains(CurrentChar)) { ScanOperators(); }
+                else if ("+-*/%()".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
 
             }
 
-        }
-
-        public void PrettyPrintTokens()
-        {
-            foreach (Token token in Tokens)
-            {
-                Console.WriteLine($"({token.Line}:{token.Offset}) => {token.Type.ToString()} - {token.Value}");
-            }
         }
     }
 }
