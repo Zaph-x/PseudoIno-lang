@@ -21,6 +21,11 @@ namespace Lexer.Objects
             {"?", TokenType.OP_QUESTIONMARK},
             {"DPIN",TokenType.DPIN},
             {"APIN", TokenType.APIN},
+            {"true", TokenType.BOOL},
+            {"false", TokenType.BOOL},
+            {"loop", TokenType.LOOP_FN},
+            {"while", TokenType.WHILE},
+            {"for", TokenType.FOR}
        };
     }
 }
