@@ -203,7 +203,7 @@ namespace Lexer
         /// </code>
         /// </example>
         /// </summary>
-        private void ScanNumeric() 
+        private void ScanNumeric()
         {
             string subString = CurrentChar.ToString();
             while (recogniser.IsDigit(Peek()))
@@ -267,6 +267,11 @@ namespace Lexer
             string subString = CurrentChar.ToString();
 
             while (Peek() != '"' && !IsEOF(Peek()))
+            {
+                Pop();
+                subString += CurrentChar;
+            }
+            if (NextChar == '"')
             {
                 Pop();
                 subString += CurrentChar;
@@ -426,6 +431,7 @@ namespace Lexer
                 else if (CurrentChar == '#') { ScanComment(); }
                 else if (CurrentChar == '<' && Peek() == '#') { ScanMultiLineComment(); }
                 else if ("+-*/%".Contains(CurrentChar)) { ScanOperators(); }
+                else if (CurrentChar == '"') { ScanString(); }
 
             }
 

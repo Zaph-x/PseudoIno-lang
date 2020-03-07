@@ -12,7 +12,7 @@ namespace Lexer.Tests
     [TestFixture]
     public class TokenizerTest
     {
-        #region Dummy strings
+        #region Dummy accept strings
         private const string dummy_1 = @"# This is a dummy program to test the token generator
             <# This multiline comment
             should also be accepted #>
@@ -42,11 +42,41 @@ namespace Lexer.Tests
 
         #endregion
 
+        #region Dummy reject strings
+
+        private const string reject_dummy_1 = @"# This is a dummy program to test the token generator
+            <# This multiline comment
+            should not be accepted
+            a is 4
+            b is 6
+            c is a + b
+            func test with (numeric x, numeric y, numeric z)
+                x + y equals z?
+            end test";
+        private const string reject_dummy_2 = @"
+        
+        
+        
+        a is 2...5";
+        private const string reject_dummy_3 = @"func foo with (numeric bar, string baz)
+            x is bar
+            y is baz
+        end foo
+        
+        a is 4
+        b is ""human
+        c is ""dog""
+        if b equals c?
+            a is a + 1
+        end if";
+
+        #endregion
+
         [TestCase(dummy_1,30)]
         [TestCase(dummy_2,3)]
         [TestCase(dummy_3,0)]
         [TestCase(dummy_4, 36)]
-        public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens_1(string content, int expectedAmountOfTokens)
+        public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens(string content, int expectedAmountOfTokens)
         {
             
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
@@ -57,18 +87,11 @@ namespace Lexer.Tests
             Assert.AreEqual(expectedAmountOfTokens, tokenizer.Tokens.Count, "Tokenizer did not generate the correct amount of tokens.");
         }
 
-        [Test]
-        public void Test_GenerateTokens_CanTraverseEntireFileAndThrowErrors()
+        [TestCase(reject_dummy_1)]
+        [TestCase(reject_dummy_2)]
+        [TestCase(reject_dummy_3)]
+        public void Test_GenerateTokens_CanTraverseEntireFileAndThrowErrors(string content)
         {
-            string content = @"# This is a dummy program to test the token generator
-            <# This multiline comment
-            should also be accepted
-            a is 4
-            b is 6
-            c is a + b
-            func test with (numeric x, numeric y, numeric z)
-                x + y equals z?
-            end test";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
