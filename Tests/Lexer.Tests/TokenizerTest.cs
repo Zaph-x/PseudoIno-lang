@@ -12,10 +12,8 @@ namespace Lexer.Tests
     [TestFixture]
     public class TokenizerTest
     {
-        [Test]
-        public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens()
-        {
-            string content = @"# This is a dummy program to test the token generator
+        #region Dummy strings
+        private const string dummy_1 = @"# This is a dummy program to test the token generator
             <# This multiline comment
             should also be accepted #>
             a is 4
@@ -24,13 +22,39 @@ namespace Lexer.Tests
             func test with (numeric x, numeric y, numeric z)
                 x + y equals z?
             end test";
+        private const string dummy_2 = @"
+        
+        
+        
+        a is 2";
+        private const string dummy_3 = @"";
+        private const string dummy_4 = @"func foo with (numeric bar, string baz)
+            x is bar
+            y is baz
+        end foo
+        
+        a is 4
+        b is ""human""
+        c is ""dog""
+        if b equals c?
+            a is a + 1
+        end if";
+
+        #endregion
+
+        [TestCase(dummy_1,30)]
+        [TestCase(dummy_2,3)]
+        [TestCase(dummy_3,0)]
+        [TestCase(dummy_4, 36)]
+        public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens_1(string content, int expectedAmountOfTokens)
+        {
+            
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
 
-            Assert.IsNotEmpty(tokenizer.Tokens);
-            Assert.AreEqual(30, tokenizer.Tokens.Count, "Tokenizer did not generate the correct amount of tokens.");
+            Assert.AreEqual(expectedAmountOfTokens, tokenizer.Tokens.Count, "Tokenizer did not generate the correct amount of tokens.");
         }
 
         [Test]
