@@ -195,8 +195,17 @@ namespace Lexer.Tests
         }
 
         [Test]
-        public void Test_Pop_DoesNotReturnWrongLine()
+        public void Test_Peek_CanPeekAhead()
         {
+            string content = "abcdefghijklmnopqrstuvxyz";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
+
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.Pop();
+            char lookAheadChar = tokenizer.Peek(2);
+            tokenizer.Pop();
+            
+            Assert.AreEqual(lookAheadChar, tokenizer.Peek(), "Tokenizer did not peek ahead correctly.");
         }
 
 
