@@ -44,7 +44,7 @@ The class responsible for generating the tokens from the source language
 
 | Name | Summary |
 |---|---|
-| **Tokenizer(StreamReader stream)** | The constructor for the Tokenizer class. This will set the iniitiate a reader and a recogniser. |
+| **Tokenizer([StreamReader](https://docs.microsoft.com/en-us/dotnet/api/system.io.streamreader) stream)** | The constructor for the Tokenizer class. This will set the iniitiate a reader and a recogniser. |
 ## Methods
 
 | Name | Returns | Summary |
@@ -60,12 +60,12 @@ The class responsible for generating the tokens from the source language
 
 | Name | Type | Summary |
 |---|---|---|
-| **Tokens** | List\<[Token](#token-class)\> | The list of tokens generated when the source language is being scanned |
+| **Tokens** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[Token](#token-class)\> | The list of tokens generated when the source language is being scanned |
 # InvalidSyntaxException Class
 
 Namespace: Lexer.Exceptions
 
-Base class: Exception
+Base class: [Exception](https://docs.microsoft.com/en-us/dotnet/api/system.exception)
 
 This exception will be thrown when the scanner or parser finds unexpexted syntax errors
 
@@ -73,11 +73,11 @@ This exception will be thrown when the scanner or parser finds unexpexted syntax
 
 | Name | Type | Summary |
 |---|---|---|
-| **TargetSite** | MethodBase |  |
+| **TargetSite** | [MethodBase](https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase) |  |
 | **StackTrace** | string |  |
 | **Message** | string |  |
-| **Data** | IDictionary |  |
-| **InnerException** | Exception |  |
+| **Data** | [IDictionary](https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary) |  |
+| **InnerException** | [Exception](https://docs.microsoft.com/en-us/dotnet/api/system.exception) |  |
 | **HelpLink** | string |  |
 | **Source** | string |  |
 | **HResult** | int |  |
@@ -86,7 +86,7 @@ This exception will be thrown when the scanner or parser finds unexpexted syntax
 | Name | Summary |
 |---|---|
 | **InvalidSyntaxException(string message)** | The constructor of the exception, taking only one parameter. |
-| **InvalidSyntaxException(string message, Exception innerException)** | The constructor of the exception, taking two parameters. |
+| **InvalidSyntaxException(string message, [Exception](https://docs.microsoft.com/en-us/dotnet/api/system.exception) innerException)** | The constructor of the exception, taking two parameters. |
 # Keywords Class
 
 Namespace: Lexer.Objects
@@ -97,7 +97,7 @@ A class containing a dictionary of keywords
 
 | Name | Type | Summary |
 |---|---|---|
-| **Keys** | Dictionary\<string, [TokenType](#tokentype-enum)\> | A dictionary of the possible keywords. |
+| **Keys** | [Dictionary](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2)\<string, [TokenType](#tokentype-enum)\> | A dictionary of the possible keywords. |
 # Token Class
 
 Namespace: Lexer.Objects
