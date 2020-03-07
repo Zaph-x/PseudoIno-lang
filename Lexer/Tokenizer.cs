@@ -196,6 +196,10 @@ namespace Lexer
                 Pop();
                 subString += CurrentChar;
             }
+            if (!subString.EndsWith('"'))
+            {
+                throw new InvalidSyntaxException($"Strings must be closed. Error at line {Line}:{Offset}.");
+            }
             Tokens.Add(Token(TokenType.STRING, subString));
         }
 
