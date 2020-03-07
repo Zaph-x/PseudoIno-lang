@@ -21,7 +21,6 @@ namespace Lexer.Objects
         WHILE,
         // logic
         IF,
-        ELIF,
         ELSE,
         // bool operators
         OP_GREATER,
