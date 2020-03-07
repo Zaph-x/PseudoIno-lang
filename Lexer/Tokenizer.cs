@@ -356,25 +356,21 @@ namespace Lexer
             // TODO Disse kommer til at returnere noget forkert i value. Det skal lige gennemtjekkes
             if (Peek() == '@')
             {
-                Tokens.Add(Token(TokenType.VAR, subString));
                 Pop();
                 Tokens.Add(Token(TokenType.ARRAYINDEX, subString));
             }
             else if (Peek() == '?')
             {
-                Tokens.Add(Token(TokenType.VAR, subString));
                 Pop();
                 Tokens.Add(Token(TokenType.OP_QUESTIONMARK, "?"));
             }
             else if (Peek() == '[')
             {
-                Tokens.Add(Token(TokenType.VAR, subString));
                 Pop();
                 Tokens.Add(Token(TokenType.ARRAYLEFT, "["));
             }
             else if (Peek() == ']')
             {
-                Tokens.Add(Token(TokenType.VAR, subString));
                 Pop();
                 Tokens.Add(Token(TokenType.ARRAYRIGHT, "]"));
             }

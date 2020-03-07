@@ -13,6 +13,45 @@ namespace Lexer.Tests
     public class TokenizerTest
     {
         [Test]
+        public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens()
+        {
+            string content = @"# This is a dummy program to test the token generator
+            <# This multiline comment
+            should also be accepted #>
+            a is 4
+            b is 6
+            c is a + b
+            func test with (numeric x, numeric y, numeric z)
+                x + y equals z?
+            end test";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
+
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+
+            Assert.IsNotEmpty(tokenizer.Tokens);
+            Assert.AreEqual(30, tokenizer.Tokens.Count, "Tokenizer did not generate the correct amount of tokens.");
+        }
+
+        [Test]
+        public void Test_GenerateTokens_CanTraverseEntireFileAndThrowErrors()
+        {
+            string content = @"# This is a dummy program to test the token generator
+            <# This multiline comment
+            should also be accepted
+            a is 4
+            b is 6
+            c is a + b
+            func test with (numeric x, numeric y, numeric z)
+                x + y equals z?
+            end test";
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
+
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Assert.Throws<InvalidSyntaxException>(tokenizer.GenerateTokens);
+        }
+
+        [Test]
         public void Test_GenerateTokens_TokenListIsEmpty()
         {
             string content = "";
@@ -92,7 +131,7 @@ namespace Lexer.Tests
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
 
-            Assert.Throws<InvalidSyntaxException>(() => tokenizer.GenerateTokens());
+            Assert.Throws<InvalidSyntaxException>(tokenizer.GenerateTokens);
         }
 
         [Test]
@@ -116,7 +155,7 @@ namespace Lexer.Tests
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
 
-            Assert.Throws<InvalidSyntaxException>(() => tokenizer.GenerateTokens());
+            Assert.Throws<InvalidSyntaxException>(tokenizer.GenerateTokens);
         }
 
         [Test]
@@ -204,7 +243,7 @@ namespace Lexer.Tests
             tokenizer.Pop();
             char lookAheadChar = tokenizer.Peek(2);
             tokenizer.Pop();
-            
+
             Assert.AreEqual(lookAheadChar, tokenizer.Peek(), "Tokenizer did not peek ahead correctly.");
         }
 
