@@ -116,9 +116,13 @@ namespace Lexer.Objects
         
         /* TYPES */
         ///<summary>
-        /// Numeric token type
+        /// Numeric integer token type
         /// </summary>
-        NUMERIC,
+        NUMERIC_INT,
+        /// <summary>
+        /// Numeric float token type
+        /// </summary>
+        NUMERIC_FLOAT,
         ///<summary>
         /// String token type
         /// </summary>

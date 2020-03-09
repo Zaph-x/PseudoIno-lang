@@ -66,17 +66,6 @@ namespace Lexer
         }
 
         /// <summary>
-        /// A function to continously return the current character.
-        /// </summary>
-        /// <returns>
-        /// The current character
-        /// </returns>
-        public char Current()
-        {
-            return CurrentChar;
-        }
-
-        /// <summary>
         /// A function to generate a token with a value. 
         /// This will be used for tokens where it is imperative that the value is carried over to the target language.
         /// </summary>
@@ -257,8 +246,10 @@ namespace Lexer
                 {
                     subString += "0";
                 }
+                Tokens.Add(Token(TokenType.NUMERIC_FLOAT, subString));
+                return;
             }
-            Tokens.Add(Token(TokenType.NUMERIC, subString));
+            Tokens.Add(Token(TokenType.NUMERIC_INT, subString));
         }
 
         /// <summary>
@@ -344,12 +335,12 @@ namespace Lexer
         private void ScanMultiLineComment()
         {
             string subString = CurrentChar.ToString();
-            while (!IsEOF(Peek()) && !subString.Contains("#>"))
+            while (!IsEOF(Peek()) && !subString.Contains(">#"))
             {
                 Pop();
                 subString += CurrentChar;
             }
-            if (IsEOF(Peek()) && !subString.Contains("#>"))
+            if (!subString.Contains(">#"))
             {
                 throw new InvalidSyntaxException($"Multiline comments must be closed before reaching end of file. Error at line {Line}:{Offset}.");
             }
@@ -380,7 +371,7 @@ namespace Lexer
             }
             if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
             {
-                Tokens.Add(Token(tokenType, subString));
+                Tokens.Add(Token(tokenType));
                 return;
             }
             Tokens.Add(Token(TokenType.VAR, subString));
@@ -389,26 +380,25 @@ namespace Lexer
             {
                 return;
             }
-            // TODO Disse kommer til at returnere noget forkert i value. Det skal lige gennemtjekkes
             if (Peek() == '@')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.ARRAYINDEX, subString));
+                Tokens.Add(Token(TokenType.ARRAYINDEX));
             }
             else if (Peek() == '?')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.OP_QUESTIONMARK, "?"));
+                Tokens.Add(Token(TokenType.OP_QUESTIONMARK));
             }
             else if (Peek() == '[')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.ARRAYLEFT, "["));
+                Tokens.Add(Token(TokenType.ARRAYLEFT));
             }
             else if (Peek() == ']')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.ARRAYRIGHT, "]"));
+                Tokens.Add(Token(TokenType.ARRAYRIGHT));
             }
         }
 
@@ -466,8 +456,8 @@ namespace Lexer
                 else if (recogniser.IsAcceptedCharacter(CurrentChar)) { ScanWord(); }
                 else if (CurrentChar == '.') { ScanRange(); }
                 else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanWord(); }
-                else if (CurrentChar == '#') { ScanComment(); }
-                else if (CurrentChar == '<' && Peek() == '#') { ScanMultiLineComment(); }
+                else if (CurrentChar == '#' && Peek() != '<') { ScanComment(); }
+                else if (CurrentChar == '#' && Peek() == '<') { ScanMultiLineComment(); }
                 else if ("+-*/%()".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
 
