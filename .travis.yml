@@ -3,15 +3,7 @@ mono: none
 git:
   quiet: true
 
-install:
-- dotnet restore
-
-script:
-- dotnet clean -v m --nologo
-- dotnet build --nologo
-- dotnet test --nologo
-
-global:
+env:
 - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 - DOTNET_CLI_TELEMETRY_OPTOUT=1
 
@@ -30,3 +22,8 @@ jobs:
     language: csharp
     dotnet: 3.1
     mono: none
+    script:
+    - dotnet restore
+    - dotnet clean -v m --nologo
+    - dotnet build --nologo
+    - dotnet test --nologo
