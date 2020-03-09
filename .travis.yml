@@ -26,9 +26,9 @@ jobs:
     - choco install dotnetcore --version=3.1.1
     script:
     - dotnet restore
-    - dotnet clean -v m --nologo
-    - dotnet build --nologo
-    - dotnet test --nologo
+    - dotnet clean -v m
+    - dotnet build
+    - dotnet test
   - os: linux
     language: csharp
     dotnet: 3.1
