@@ -21,7 +21,7 @@ global:
 jobs:
   include:
   - os: windows
-    language: python
+    language: c
     install:
     - choco install dotnetcore
     script:
