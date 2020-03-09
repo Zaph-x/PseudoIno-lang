@@ -21,14 +21,14 @@ global:
 jobs:
   include:
   - os: windows
-    language: c
+    language: csharp
     install:
-    - choco install dotnetcore
+    - choco install dotnetcore-sdk
     script:
-    - C:\Program Files\dotnet\dotnet restore
-    - C:\Program Files\dotnet\dotnet clean -v m
-    - C:\Program Files\dotnet\dotnet build
-    - C:\Program Files\dotnet\dotnet test
+    - dotnet restore
+    - dotnet clean -v m
+    - dotnet build
+    - dotnet test
   - os: linux
     language: csharp
     dotnet: 3.1
