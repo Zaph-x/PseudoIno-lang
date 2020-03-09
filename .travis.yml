@@ -17,3 +17,21 @@ script:
 global:
 - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 - DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+jobs:
+  include:
+  - os: windows
+    language: csharp
+    dotnet: 3.1
+    mono: none
+    install:
+    - choco install dotnetcore
+    script:
+    - dotnet restore
+    - dotnet clean -v m --nologo
+    - dotnet build --nologo
+    - dotnet test --nologo
+  - os: linux
+    language: csharp
+    dotnet: 3.1
+    mono: none
