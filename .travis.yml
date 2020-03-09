@@ -24,6 +24,7 @@ jobs:
     language: c
     install:
     - choco install dotnetcore
+    - shutdown /r
     script:
     - dotnet restore
     - dotnet clean -v m
