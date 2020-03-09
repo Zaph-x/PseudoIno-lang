@@ -49,7 +49,6 @@ The class responsible for generating the tokens from the source language
 
 | Name | Returns | Summary |
 |---|---|---|
-| **Current()** | char | A function to continously return the current character. |
 | **GenerateTokens()** | void | A function to to generate tokens. This is done by reading from the stream and using any of the scan functions. |
 | **Peek()** | char | Peeks the next character in the stream and sets NextChar to the value |
 | **Peek(int positions)** | char | Peeks the nth character in the stream and sets NextChar to the value of the character |
@@ -157,7 +156,8 @@ An enum to determine the token type of a given token
 | **LOOP_FN** | Mandatory loop function token type |
 | **COMMENT** | Comment token type |
 | **MULT_COMNT** | Multiline comment token type |
-| **NUMERIC** | Numeric token type |
+| **NUMERIC_INT** | Numeric integer token type |
+| **NUMERIC_FLOAT** | Numeric float token type |
 | **STRING** | String token type |
 | **BOOL** | Bool token type |
 | **RANGE** | Range token type |

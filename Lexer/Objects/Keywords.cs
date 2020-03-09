@@ -32,7 +32,12 @@ namespace Lexer.Objects
             {"false", TokenType.BOOL},
             {"loop", TokenType.LOOP_FN},
             {"while", TokenType.WHILE},
-            {"for", TokenType.FOR}
+            {"for", TokenType.FOR},
+            {"wait", TokenType.WAIT},
+            {"ms", TokenType.TIME_MS},
+            {"s", TokenType.TIME_SEC},
+            {"m", TokenType.TIME_MIN},
+            {"h", TokenType.TIME_HR},
        };
     }
 }

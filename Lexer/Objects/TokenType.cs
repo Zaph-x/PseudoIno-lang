@@ -181,6 +181,25 @@ namespace Lexer.Objects
         /// Error token type
         /// </summary>
         ERROR,
-        
+        /// <summary>
+        /// Wait token type
+        /// </summary>
+        WAIT,
+        /// <summary>
+        /// Millisecond token type
+        /// </summary>
+        TIME_MS,
+        /// <summary>
+        /// Second token type
+        /// </summary>
+        TIME_SEC,
+        /// <summary>
+        /// Minute token type
+        /// </summary>
+        TIME_MIN,
+        /// <summary>
+        /// Hour token type
+        /// </summary>
+        TIME_HR,
     }
 }
