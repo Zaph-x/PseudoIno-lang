@@ -23,8 +23,7 @@ jobs:
   - os: windows
     language: c
     install:
-    - choco install dotnetcore --version=3.1.1
-    - choco upgrade dotnetcore --version=3.1.1
+    - choco install dotnetcore
     script:
     - dotnet restore
     - dotnet clean -v m
