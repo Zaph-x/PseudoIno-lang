@@ -13,8 +13,8 @@ jobs:
     language: csharp
     install:
     - choco install dotnetcore-sdk
-    script:
     - dotnet restore
+    script:
     - dotnet clean -v m
     - dotnet build
     - dotnet test
@@ -22,8 +22,9 @@ jobs:
     language: csharp
     dotnet: 3.1
     mono: none
-    script:
+    install:
     - dotnet restore
+    script:
     - dotnet clean -v m --nologo
     - dotnet build --nologo
     - dotnet test --nologo
