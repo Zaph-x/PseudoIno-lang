@@ -1,19 +1,30 @@
 language: csharp
 mono: none
-dotnet: 3.1
 git:
   quiet: true
-os:
-- linux
-
-install:
-- dotnet restore
-
-script:
-- dotnet clean -v m --nologo
-- dotnet build --nologo
-- dotnet test --nologo
 
 global:
 - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 - DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+jobs:
+  include:
+  - os: windows
+    language: csharp
+    install:
+    - choco install dotnetcore-sdk
+    - dotnet restore
+    script:
+    - dotnet clean -v m
+    - dotnet build
+    - dotnet test
+  - os: linux
+    language: csharp
+    dotnet: 3.1
+    mono: none
+    install:
+    - dotnet restore
+    script:
+    - dotnet clean -v m --nologo
+    - dotnet build --nologo
+    - dotnet test --nologo
