@@ -22,11 +22,13 @@ namespace Parser
             
         }
 
-        public void Apply()
+        public void Apply(Token Token)
         {
-            
+            Stack.Pop();
+            for (int i = Stack.Count; i > 0; i--)
+            {
+                Stack.Push(Token);
+            }
         }
-        
-        
     }
 }
