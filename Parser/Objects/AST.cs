@@ -1,4 +1,4 @@
-namespace Parser.O
+namespace Parser.Objects
 {
     public class AST
     {
