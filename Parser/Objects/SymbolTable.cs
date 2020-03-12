@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Lexer.Exceptions;
 using Lexer.Objects;
 
-namespace Parser
+namespace Parser.Objects
 {
     public class SymbolTable
     {
