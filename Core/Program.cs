@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System;
 using System.Reflection;
+using Lexer;
 
 namespace Core
 {
@@ -24,6 +25,8 @@ namespace Core
                 {
                     Console.Error.WriteLine(e.Message);
                 }
+                Tokenizer tokennizer = new Tokenizer(reader);
+                tokennizer.GenerateTokens();
             }
 
         }
