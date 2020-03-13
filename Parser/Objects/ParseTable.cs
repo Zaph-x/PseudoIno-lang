@@ -17,9 +17,17 @@ namespace Parser.Objects
             throw new InvalidSyntaxException("Expected stack not empty but was empty");
         }
 
-        public void Match(Token token)
+        public void Match(StreamToken tokens,Token token)
         {
-            
+            List<Token> alltokens = new List<Token>();
+            StreamToken TokenStream = new StreamToken(alltokens);
+            if (TokenStream.Peek() == token){
+                TokenStream.Advance();
+            }
+            else
+            {
+                throw new InvalidSyntaxException("Expected token but was not token");
+            }
         }
 
         public void Apply(Token Token)
