@@ -42,7 +42,7 @@ namespace Core.Tests
         [TestCase("--Output")]
         public void Test_Parse_ShouldAcceptValidOptions(string option)
         {
-            Program.Parse(new string[] { "test.pi", option });
+            Program.ParseOptions(new string[] { "test.pi", option });
 
             Assert.IsEmpty(writer.ToString(), "The expected option gave an exception.");
         }
@@ -65,7 +65,7 @@ namespace Core.Tests
             Program.Main(new string[] { path, "-d" });
 
             Assert.IsTrue(writer.ToString() == "", $"The compiler failed to compile the source code.\n\nOutput: {writer.ToString()}");
-            
+
             using (FileStream fs = File.Open(path, FileMode.Truncate)) {}
 
         }

@@ -8,7 +8,7 @@ namespace Core
     {
         public static void Main(string[] args)
         {
-            CommandLineOptions options = Parse(args);
+            CommandLineOptions options = ParseOptions(args);
             if (options?.InputFile == null)
             {
                 Help();
@@ -43,7 +43,7 @@ namespace Core
             System.Console.WriteLine("    -o | --Output        Tells the compiler not to write to the Arduino, and instead produce a file.");
         }
 
-        public static CommandLineOptions Parse(string[] args)
+        public static CommandLineOptions ParseOptions(string[] args)
         {
             CommandLineOptions options = new CommandLineOptions();
             for (int i = 0; i < args.Length; i++)
