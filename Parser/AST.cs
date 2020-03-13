@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+
 
 namespace Parser
 {
@@ -7,54 +9,58 @@ namespace Parser
     /// <summary>
     /// This is the AST main class
     /// </summary>
-    public class AST
+    public class AST:List<AST>
     {
-        public List<string> ListAST = new List<string>();
-        public AST(List<string> List)
+        public Lexer.Objects.TokenType type;
+        public string value;
+        public int line, offset;
+        //List of children
+        public List<AST> ListChildren = new List<AST>();
+
+        public AST(Lexer.Objects.TokenType Type, string Value, int Line, int Offset )
         {
-            this.ListAST = List;
-            System.Console.WriteLine("Preorder tree walk of the AST:\n");
-            Preorder(1);
+            this.type = Type;
+            this.value = Value;
+            this.line = Line;
+            this.offset = Offset;
         }
-
-        private int GetRightChild(int index)
+        /// <summary>
+        /// Add child to the list of the AST nodes.
+        /// </summary>
+        /// <param name="child">Ast child element</param>
+        public void addChild(AST child)
         {
-            int i = ((2 * index) + 1);
-
-            if (i <= ListAST[index].Length)
+            if (child != null)
             {
-                return i;
-            }
-            else
-            {
-                throw new System.NotImplementedException("No right child found.");
-
-            }
-        }
-        private int Getleftchild(int index)
-        {
-            int i = (2 * index);
-            if (i <= ListAST[index].Length)
-            {
-                return i;
-            }
-            else
-            {
-                throw new System.NotImplementedException("No left child found.");
-
-            }
-
-        }
-        public void Preorder(int index)
-        {
-           
-            if (index > 0)
-            {
-                System.Console.WriteLine(ListAST[index]); // visiting root
-                Preorder(Getleftchild(index)); //visiting left subtree
-                Preorder(GetRightChild(index)); //visiting right subtree
+                this.ListChildren.Add(child);
             }
         }
+        /// <summary>
+        /// Gets a child in the ASTChildren list.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>AST node</returns>
+        public AST getChild(int index)
+        {
+            return ListChildren[index];
+        }
+        /// <summary>
+        ///   Gets the first child in the AST node list.  
+        /// </summary>
+        /// <returns></returns>
+        public AST getFirstChild()
+        {
+            return this.getChild(0);
+        }
+        /// <summary>
+        /// Get the last child in the AST node list.
+        /// </summary>
+        /// <returns>AST node</returns>
+        public AST getLastChild()
+        {
+            return this.getChild(this.Count);
+        }
+
     }
 }
 
