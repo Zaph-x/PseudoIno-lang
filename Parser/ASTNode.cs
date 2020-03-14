@@ -56,7 +56,7 @@ namespace Parser
         /// <returns>ASTNode node</returns>
         public ASTNode getLastChild()
         {
-            return this.getChild(this.Count);
+            return this.getChild(ListChildren.Count-1);
         }
 
     }
