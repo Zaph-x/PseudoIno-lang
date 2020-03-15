@@ -6,37 +6,28 @@ namespace Parser.Objects
 {
     public class ParseTable
     {
-        public Stack<Token> Stack = new Stack<Token>();
+        //public List<(string A, string a)> LLTable = new List<(string A, string a)>();
+        public int[][] LLTable = new int[][10];
 
-        public Token TopOfStack()        {
-        
-            if (Stack.TryPop(out Token token))
-            {
-                return token;
-            }
-            throw new InvalidSyntaxException("Expected stack not empty but was empty");
-        }
-
-        public void Match(StreamToken tokens,Token token)
+        public ParseTable()
         {
-            List<Token> alltokens = new List<Token>();
-            StreamToken TokenStream = new StreamToken(alltokens);
-            if (TokenStream.Peek() == token){
-                TokenStream.Advance();
-            }
-            else
+            // LLTable init. Set all slots to error stages 
+            for (int i = 0; i < 10; i++)
             {
-                throw new InvalidSyntaxException("Expected token but was not token");
+                for (int j = 0; j < 10; j++)
+                {
+                    LLTable[i][j] = 0;
+                }
             }
         }
 
-        public void Apply(Token Token)
+        public string Get(int x, int y)
         {
-            Stack.Pop();
-            for (int i = Stack.Count; i > 0; i--)
+            if (LLTable[x][y] == 0)
             {
-                Stack.Push(Token);
+                throw new InvalidSyntaxException("Parse table encountered invalid move");
             }
+            return "hej";
         }
     }
 }
