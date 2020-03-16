@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Lexer.Exceptions;
 using Lexer.Objects;
@@ -7,27 +8,55 @@ namespace Parser.Objects
     public class ParseTable
     {
         //public List<(string A, string a)> LLTable = new List<(string A, string a)>();
-        public string[,] LLTable = new string[10,10];
-
+        public TokenType[,] LLTable;
+        private int tokenTypeMax = 0, nonTerminalMax = 0;
         public ParseTable()
         {
-            // LLTable init. Set all slots to error stages 
-            for (int i = 0; i < 10; i++)
+            // LLTable init. Set all slots to error stages
+            
+            while (Enum.IsDefined(typeof(TokenType),tokenTypeMax))
             {
-                for (int j = 0; j < 10; j++)
+                tokenTypeMax++;
+            }
+            
+            while (Enum.IsDefined(typeof(TokenType),nonTerminalMax))
+            {
+                nonTerminalMax++;
+            }
+                
+            LLTable = new TokenType[tokenTypeMax,nonTerminalMax];
+            
+            for (int i = 0; i < nonTerminalMax; i++)
+            {
+                for (int j = 0; j < tokenTypeMax; j++)
                 {
-                    LLTable[i,j] = "error";
+                    LLTable[i,j] = TokenType.ERROR;
                 }
             }
         }
 
-        public string Get(int x, int y)
+        public TokenType Get(Token tokenA, Token tokenB)
         {
-            if (LLTable[x,y] == "error")
+            int x = (int) tokenA.Type;
+            int y = (int) tokenB.Type;
+            
+            if (LLTable[x,y] == TokenType.ERROR)
             {
                 throw new InvalidSyntaxException("Parse table encountered invalid move");
             }
-            return "test";
+            return LLTable[x,y];
+        }
+
+        public void PrintParseTable()
+        {
+            for (int i = 0; i < nonTerminalMax; i++)
+            {
+                for (int j = 0; j < tokenTypeMax; j++)
+                {
+                    Console.Write($"{LLTable[i,j]} ");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }
