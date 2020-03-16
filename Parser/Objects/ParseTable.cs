@@ -7,7 +7,7 @@ namespace Parser.Objects
     public class ParseTable
     {
         //public List<(string A, string a)> LLTable = new List<(string A, string a)>();
-        public int[][] LLTable = new int[][10];
+        public string[,] LLTable = new string[10,10];
 
         public ParseTable()
         {
@@ -16,18 +16,18 @@ namespace Parser.Objects
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    LLTable[i][j] = 0;
+                    LLTable[i,j] = "error";
                 }
             }
         }
 
         public string Get(int x, int y)
         {
-            if (LLTable[x][y] == 0)
+            if (LLTable[x,y] == "error")
             {
                 throw new InvalidSyntaxException("Parse table encountered invalid move");
             }
-            return "hej";
+            return "test";
         }
     }
 }
