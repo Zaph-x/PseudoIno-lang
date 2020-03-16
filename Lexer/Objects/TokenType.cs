@@ -201,5 +201,6 @@ namespace Lexer.Objects
         /// Hour token type
         /// </summary>
         TIME_HR,
+        ENDOFLINE
     }
 }
