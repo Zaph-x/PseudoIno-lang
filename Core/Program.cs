@@ -40,6 +40,10 @@ namespace Core
                 Tokenizer tokenizer = new Tokenizer(reader);
                 verbosePrinter.Info("Generating tokens...");
                 tokenizer.GenerateTokens();
+                if (Tokenizer.HasError) {
+                    verbosePrinter.Error("Encountered syntax errors. Stopping.");
+                    return 5;
+                }
                 verbosePrinter.Info($" Generated {tokenizer.Tokens.Count} tokens.");
             }
 
