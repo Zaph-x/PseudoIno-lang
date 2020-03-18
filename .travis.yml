@@ -34,4 +34,5 @@ jobs:
     - dotnet clean -v m --nologo
     - dotnet build --nologo
     - dotnet test --nologo
-    - sudo sh ./CompileTest.sh
+    - sudo chmod +x ./CompileTest.sh
+    - sudo ./CompileTest.sh
