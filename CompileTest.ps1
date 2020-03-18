@@ -26,6 +26,7 @@ function ExpectNoError() {
 }
 Set-Location $exePath
 .\Core.exe
+Write-Host "Checking passing compilations" -ForegroundColor Green
 for ($i = 1; $i -lt $countPass; $i++) {
     $proc = Start-Process -FilePath ".\Core.exe" -ArgumentList "$pathBack\premade-programs\pass\$i.pi v" -WorkingDirectory "." -NoNewWindow -PassThru -Wait
 
@@ -38,6 +39,7 @@ for ($i = 1; $i -lt $countPass; $i++) {
     }
     ExpectNoError -exitcode $proc.ExitCode -id $i
 }
+Write-Host "Checking failing compilations" -ForegroundColor Green
 for ($i = 1; $i -lt $countFail; $i++) {
     $proc = Start-Process -FilePath ".\Core.exe" -ArgumentList "$pathBack\premade-programs\fail\$i.pi -v" -WorkingDirectory "." -NoNewWindow  -PassThru
     
