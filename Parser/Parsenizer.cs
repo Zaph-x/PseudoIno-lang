@@ -9,7 +9,7 @@ namespace Parser
     {
         // public AST Ast = new AST();
         public Stack<Token> Stack = new Stack<Token>();
-        public StreamToken TokenStream;
+        public TokenStream TokenStream;
         private ParseTable _parseTable;
         private bool accepted = false;
         private int line = 0;
@@ -17,7 +17,7 @@ namespace Parser
 
         public Parsenizer(List<Token> tokens)
         {
-             TokenStream = new StreamToken(tokens);
+             TokenStream = new TokenStream(tokens);
              _parseTable = new ParseTable();
         }
 
@@ -30,7 +30,7 @@ namespace Parser
             throw new InvalidSyntaxException("Expected stack not empty but was empty");
         }
 
-        public void Match(StreamToken tokens,Token token)
+        public void Match(TokenStream tokens,Token token)
         {
             if (TokenStream.Peek() == token)
                 TokenStream.Advance();
@@ -47,17 +47,17 @@ namespace Parser
             }
         }
 
-        public void CreateAndFillAST(List<Token> tokens)
+        public void CreateAndFillAST()
         {
             // Create AST and fill with tokens
-            Stack.Push(new Token(TokenType.ENDOFLINE,1,1));
+            Stack.Push(new Token(TokenType.LINEBREAK,1,1));
             accepted = false;
             while (!accepted)
             {
                 if (IsTokenType(TopOfStack()))
                 {
                     Match(TokenStream,TopOfStack());
-                    if (TopOfStack().Type == TokenType.ENDOFLINE)
+                    if (TopOfStack().Type == TokenType.LINEBREAK)
                     {
                         accepted = true;
                         Stack.Pop();
@@ -119,7 +119,7 @@ namespace Parser
                 case TokenType.OP_MODULO:
                 case TokenType.OP_RPAREN:
                 case TokenType.ARRAYLEFT:
-                case TokenType.ENDOFLINE:
+                case TokenType.LINEBREAK:
                 case TokenType.MULT_COMNT:
                 case TokenType.OP_GREATER:
                 case TokenType.ARRAYINDEX:
