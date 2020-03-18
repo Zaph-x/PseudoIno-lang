@@ -17,7 +17,7 @@ function ExpectNoError() {
     exitcode=$1
     if [ $1 -ne 0 ]
     then
-        tput setaf 1;echo "[file: $2.pi ($exitcode)] Compiler compiled when  it should not. Exiting."
+        tput setaf 1;echo "[file: $2.pi ($exitcode)] Compiler dit not compile when it should. Exiting."
         exit -1
     elif [ $1 -ge 124 ]; then
         tput setaf 1;echo "Compiler exited with code $exitcode... (http://www.gnu.org/software/coreutils/manual/html_node/timeout-invocation.html)"
@@ -32,7 +32,7 @@ tput setaf 2;echo "Checking passing compilations!"
 tput setaf 9
 for ((i=1;i<=$passCount;i++))
 do
-    $(timeout --preserve-status 4s ./Core "$pathBack/premade-programs/pass/$i.pi" -v &> /dev/null) &>/dev/null
+    $(timeout --preserve-status 4s ./Core "$pathBack/premade-programs/pass/$i.pi")
     ExpectNoError $? $i
 done
 
@@ -40,7 +40,7 @@ tput setaf 2;echo "Checking failing compilations!"
 tput setaf 9
 for ((i=1;i<=$failCount;i++))
 do
-    $(timeout --preserve-status 4s ./Core "$pathBack/premade-programs/fail/$i.pi" -v &> /dev/null) &>/dev/null
+    $(timeout --preserve-status 4s ./Core "$pathBack/premade-programs/fail/$i.pi")
     ExpectError $? $i
 done
 cd $pathBack
