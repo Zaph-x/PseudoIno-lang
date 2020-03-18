@@ -18,6 +18,7 @@ jobs:
     - dotnet clean -v m
     - dotnet build
     - dotnet test
+    - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
     - powershell ./CompileTest.ps1
   - os: linux
     language: csharp
@@ -33,4 +34,4 @@ jobs:
     - dotnet clean -v m --nologo
     - dotnet build --nologo
     - dotnet test --nologo
-    - sudo ./CompileTest.sh
+    - sudo sh ./CompileTest.sh
