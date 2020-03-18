@@ -28,7 +28,7 @@ Set-Location $exePath
 .\Core.exe
 Write-Host "Checking passing compilations" -ForegroundColor Green
 for ($i = 1; $i -lt $countPass; $i++) {
-    $proc = Start-Process -FilePath ".\Core.exe" -ArgumentList "$pathBack\premade-programs\pass\$i.pi v" -WorkingDirectory "." -NoNewWindow -PassThru -Wait
+    $proc = Start-Process -FilePath ".\Core.exe" -ArgumentList "$pathBack\premade-programs\pass\$i.pi -v" -WorkingDirectory "." -NoNewWindow -PassThru
 
     $hasTimeout = $null
     $proc | Wait-Process -Timeout 4 -ErrorAction SilentlyContinue -ErrorVariable hasTimeout
