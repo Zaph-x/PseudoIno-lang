@@ -61,6 +61,7 @@ namespace Lexer.Objects
         /// Else statement token type
         /// </summary>
         ELSE,
+        //TODO Add LEQ and GRQ
         // bool operators
         ///<summary>
         /// Bool greater than operator token type
@@ -201,6 +202,6 @@ namespace Lexer.Objects
         /// Hour token type
         /// </summary>
         TIME_HR,
-        ENDOFLINE
+        LINEBREAK
     }
 }
