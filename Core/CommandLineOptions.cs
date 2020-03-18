@@ -17,5 +17,10 @@ namespace Core
         /// </summary>
         /// <value>False</value>
         public bool DryRun { get; set; }
+        /// <summary>
+        /// If this is set to true, the compiler will print additional information
+        /// </summary>
+        /// <value>False</value>
+        public bool Verbose {get;set;}
     }
 }

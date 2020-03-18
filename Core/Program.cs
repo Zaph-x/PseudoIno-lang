@@ -44,6 +44,7 @@ namespace Core
             System.Console.WriteLine("Optional Parameters:");
             System.Console.WriteLine("    -d | --DryRun        Runs the compiler without producing an output.");
             System.Console.WriteLine("    -o | --Output        Tells the compiler not to write to the Arduino, and instead produce a file.");
+            System.Console.WriteLine("    -v | --Verbose       Prints additional information when compiling.");
         }
 
         public static CommandLineOptions ParseOptions(string[] args)
@@ -60,6 +61,10 @@ namespace Core
                     case "-o":
                     case "--output":
                         options.OutputFile = true;
+                        break;
+                    case "-v":
+                    case "--verbose":
+                        options.Verbose = true;
                         break;
                     default:
                         if (args[i].StartsWith('-'))
