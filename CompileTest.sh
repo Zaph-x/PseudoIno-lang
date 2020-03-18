@@ -32,7 +32,7 @@ tput setaf 2;echo "Checking passing compilations!"
 tput setaf 9
 for ((i=1;i<=$passCount;i++))
 do
-    $(timeout --preserve-status 4s ./Core "$pathBack/premade-programs/pass/$i.pi")
+    $(timeout --preserve-status 4s ./Core "$pathBack/premade-programs/pass/$i.pi" &> /dev/null)  &> /dev/null
     ExpectNoError $? $i
 done
 
@@ -40,7 +40,7 @@ tput setaf 2;echo "Checking failing compilations!"
 tput setaf 9
 for ((i=1;i<=$failCount;i++))
 do
-    $(timeout --preserve-status 4s ./Core "$pathBack/premade-programs/fail/$i.pi")
+    $(timeout --preserve-status 4s ./Core "$pathBack/premade-programs/fail/$i.pi" &> /dev/null)  &> /dev/null
     ExpectError $? $i
 done
 cd $pathBack
