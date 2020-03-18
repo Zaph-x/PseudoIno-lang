@@ -8,7 +8,8 @@ namespace Parser.Objects
     public class ParseTable
     {
         //public List<(string A, string a)> LLTable = new List<(string A, string a)>();
-        public TokenType[,] LLTable;
+        public TokenType[,] LLTableOld;
+        public Dictionary<TokenType, ParseToken> LLTable;
         private int tokenTypeMax = 0, nonTerminalMax = 0;
         public ParseTable()
         {
@@ -24,13 +25,13 @@ namespace Parser.Objects
                 nonTerminalMax++;
             }
                 
-            LLTable = new TokenType[tokenTypeMax,nonTerminalMax];
+            LLTableOld = new TokenType[tokenTypeMax,nonTerminalMax];
             
             for (int i = 0; i < nonTerminalMax; i++)
             {
                 for (int j = 0; j < tokenTypeMax; j++)
                 {
-                    LLTable[i,j] = TokenType.ERROR;
+                    LLTableOld[i,j] = TokenType.ERROR;
                 }
             }
         }
@@ -40,11 +41,11 @@ namespace Parser.Objects
             int x = (int) tokenA.Type;
             int y = (int) tokenB.Type;
             
-            if (LLTable[x,y] == TokenType.ERROR)
+            if (LLTableOld[x,y] == TokenType.ERROR)
             {
                 throw new InvalidSyntaxException("Parse table encountered invalid move");
             }
-            return LLTable[x,y];
+            return LLTableOld[x,y];
         }
 
         public void PrintParseTable()
@@ -53,10 +54,30 @@ namespace Parser.Objects
             {
                 for (int j = 0; j < tokenTypeMax; j++)
                 {
-                    Console.Write($"{LLTable[i,j]} ");
+                    Console.Write($"{LLTableOld[i,j]} ");
                 }
                 Console.WriteLine();
             }
+        }
+
+        public void AddKeyToLLTable(TokenType tokenType, ParseToken parseToken)
+        {
+            if (LLTable.ContainsKey(tokenType))
+                LLTable[tokenType] = parseToken;
+            else
+                LLTable.Add(tokenType,parseToken);
+        }
+
+        public ParseToken GetValueFromLLTable(TokenType tokenType)
+        {
+            if (LLTable.ContainsKey(tokenType))
+                return LLTable[tokenType];
+            throw new InvalidSyntaxException("Key not in LLTable");
+        }
+
+        public void FillWithCFG()
+        {
+            AddKeyToLLTable(TokenType.IF,ParseToken.IFSTMNT);
         }
     }
 }
