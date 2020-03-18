@@ -18,13 +18,17 @@ Expr -> String .
 Expr -> Pin .
 Expr -> ArrInit .
 
-MathExpr -> MathOp Numeric .
+MathExpr -> OP_PLUS Numeric .
+MathExpr -> OP_MINUS Numeric .
+MathExpr -> OP_TIMES Numeric .
+MathExpr -> OP_DIVIDE Numeric .
+MathExpr -> OP_MODULO Numeric .
 
-MathOp -> + .
-MathOp -> - .
-MathOp -> * .
-MathOp -> / .
-MathOp -> % .
+OP_PLUS -> + .
+OP_MINUS -> - .
+OP_TIMES -> * .
+OP_DIVIDE -> / .
+OP_MODULO -> % .
 
 LeftArr -> [ .
 
@@ -32,15 +36,17 @@ RightArr -> ] .
 
 ArrInit -> LeftArr Numeric RightArr .
 
-BoolExpr -> BoolOp Value .
+BoolExpr -> OP_GREATER Value .
+BoolExpr -> OP_EQUAL Value .
+BoolExpr -> OP_LESS Value .
+BoolExpr -> OP_AND Value .
+BoolExpr -> OP_OR Value .
 
-BoolOp -> EQL .
-BoolOp -> AND .
-BoolOp -> OR .
-BoolOp -> LE .
-BoolOp -> GR .
-BoolOp -> LEQ .
-BoolOp -> GRQ .
+OP_EQUAL -> equal .
+OP_AND -> and .
+OP_OR -> or .
+OP_LESS -> less .
+OP_GREATER -> greater .
 
 IfStmnt -> if BoolExpr .
 
