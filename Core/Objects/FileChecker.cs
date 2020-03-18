@@ -2,7 +2,7 @@ using System.Text;
 using System.IO;
 using Core.Exceptions;
 
-namespace Core
+namespace Objects.Core
 {
     public class FileChecker
     {
