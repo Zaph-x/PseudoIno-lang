@@ -1,6 +1,6 @@
 # This is a dummy program to test the token generator
-#< This multiline comment >#
-should also be accepted 
+#< This multiline comment
+should also be accepted >#
 
 a is 4
 b is 6
