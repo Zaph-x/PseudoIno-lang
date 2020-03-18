@@ -96,7 +96,7 @@ namespace Lexer.Tests
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
-            Assert.IsTrue(tokenizer.HasError);
+            Assert.IsTrue(Tokenizer.HasError);
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace Lexer.Tests
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
-            Assert.IsTrue(tokenizer.HasError);
+            Assert.IsTrue(Tokenizer.HasError);
         }
 
         [Test]
@@ -204,7 +204,7 @@ namespace Lexer.Tests
             Tokenizer tokenizer = new Tokenizer(FakeReader);
 
             tokenizer.GenerateTokens();
-            Assert.IsTrue(tokenizer.HasError);
+            Assert.IsTrue(Tokenizer.HasError);
         }
 
         [Test]
