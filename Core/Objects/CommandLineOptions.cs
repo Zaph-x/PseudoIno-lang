@@ -1,4 +1,4 @@
-namespace Objects.Core
+namespace Core.Objects
 {
     public class CommandLineOptions
     {
