@@ -1,9 +1,8 @@
 using System.Text;
 using NUnit.Framework;
-using Moq;
-using Core;
 using System.IO;
 using Core.Exceptions;
+using Core.Objects;
 
 namespace Core.Tests
 {
