@@ -76,5 +76,32 @@ namespace Parser.Tests
 
             Assert.IsNull(expr.Parent);
         }
+
+        [Test]
+        public void Test_RemoveChild_ChildIsRemoved_WithIndex()
+        {
+            AstNode node = new AstNode(ParseToken.BEGIN, "", 3,2);
+            AstNode expr = new AstNode(ParseToken.EXPR, "", 3,2);
+            node.AddChild(expr);
+
+            Assert.IsNotEmpty(node.Children, "Child was not added to node.");
+
+            node.RemoveChild(0);
+            Assert.IsEmpty(node.Children, "Child was not removed.");
+        }
+
+        [Test]
+        public void Test_RemoveChild_ParentIsNull_WithIndex()
+        {
+            AstNode node = new AstNode(ParseToken.BEGIN, "", 3,2);
+            AstNode expr = new AstNode(ParseToken.EXPR, "", 3,2);
+            node.AddChild(expr);
+
+            Assert.IsNotEmpty(node.Children, "Child was not added to node.");
+
+            node.RemoveChild(0);
+
+            Assert.IsNull(expr.Parent);
+        }
     }
 }
