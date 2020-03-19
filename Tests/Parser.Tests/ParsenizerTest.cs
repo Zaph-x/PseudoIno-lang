@@ -1,8 +1,8 @@
 using NUnit.Framework;
 
-namespace Parser.Test
+namespace Parser.Tests
 {
-    public class ParserTest
+    public class ParsenizerTest
     {
         [SetUp]
         public void Setup()
@@ -10,7 +10,7 @@ namespace Parser.Test
         }
 
         [Test]
-        public void Test_ParseTable_Apply()
+        public void Test_Parsenizer_Apply()
         {
             Assert.Pass();
         }
