@@ -43,6 +43,13 @@ namespace Parser.Objects
             Children.Remove(child);
             child.Parent = null;
         }
+        
+        public void RemoveChild(int index)
+        {
+            AstNode child = Children[index];
+            Children.RemoveAt(index);
+            child.Parent = null;
+        }
 
     }
 }
