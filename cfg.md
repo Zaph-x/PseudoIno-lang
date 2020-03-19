@@ -3,12 +3,12 @@ Current CFG
 Start -> Stmnts.
 
 Stmnts -> Stmnt Stmnts .
-Stmnts -> Trmnl .
+Stmnts -> .
 
-Stmnt -> Identifier is Expr .
-Stmnt -> BeginStmnt .
-Stmnt -> IfStmnt .
-Stmnt -> Function .
+Stmnt -> Identifier is Expr Trmnl  .
+Stmnt -> BeginStmnt Trmnl .
+Stmnt -> IfStmnt Trmnl .
+Stmnt -> Function Trmnl .
 
 
 Expr -> Numeric .
@@ -48,7 +48,7 @@ OP_OR -> or .
 OP_LESS -> less .
 OP_GREATER -> greater .
 
-IfStmnt -> if BoolExpr .
+IfStmnt -> if Value BoolExpr .
 
 Pin -> DPin Numeric.
 Pin -> APin Numeric.
