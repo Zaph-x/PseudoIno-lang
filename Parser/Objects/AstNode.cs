@@ -1,26 +1,48 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+
 namespace Parser.Objects
 {
     public class AstNode
     {
         public AstNode Parent { get; set; }
-        public ParseToken Token { get; set; } // TODO Dette burde være den nuværende token
-        public List<AstNode> Children { get; set; } = new List<AstNode>();
+        public List<AstNode> Children { get; private set; } = new List<AstNode>();
+        public ParseToken Type { get; set; }
+        public string Value { get; set; }
 
-        public AstNode(AstNode parent = null, object token)
+        // TODO Pass these from the scanner Token
+        private long Line { get; set; }
+        private int Offset { get; set; }
+
+        // For Terminals
+        public AstNode(ParseToken type, string value, long line, int offset)
         {
-            this.Parent = parent;
-            this.Token = token;
+            this.Type = type;
+            this.Value = value;
+            this.Line = line;
+            this.Offset = offset;
         }
 
+        // For Non-Terminals
+        public AstNode(ParseToken type, long line, int offset)
+        {
+            this.Type = type;
+            this.Value = "";
+            this.Line = line;
+            this.Offset = offset;
+        }
         public void AddChild([NotNull]AstNode child)
         {
             Children.Add(child);
+            child.Parent = this;
         }
 
-        public void TryReduceChildren(List<AstNode> nodes)
+        public void RemoveChild([NotNull]AstNode child)
         {
-
+            Children.Remove(child);
+            child.Parent = null;
         }
+
     }
 }
