@@ -1,14 +1,15 @@
-Current CFG
-```
+# Current CFG
+
+```cfg
 Start -> Stmnts.
 
 Stmnts -> Stmnt Stmnts .
-Stmnts -> Trmnl .
+Stmnts -> .
 
-Stmnt -> Identifier is Expr .
-Stmnt -> BeginStmnt .
-Stmnt -> IfStmnt .
-Stmnt -> Function .
+Stmnt -> Identifier is Expr Trmnl  .
+Stmnt -> BeginStmnt Trmnl .
+Stmnt -> IfStmnt Trmnl .
+Stmnt -> Function Trmnl .
 
 
 Expr -> Numeric .
@@ -48,7 +49,7 @@ OP_OR -> or .
 OP_LESS -> less .
 OP_GREATER -> greater .
 
-IfStmnt -> if BoolExpr .
+IfStmnt -> if Value BoolExpr .
 
 Pin -> DPin Numeric.
 Pin -> APin Numeric.
@@ -84,4 +85,39 @@ Value -> Identifier .
 Value -> Numeric .
 
 Trmnl -> LINEBREAK .
+```
+
+## Words in the language
+
+```word
+ε
+Identifier is Numeric LINEBREAK
+Identifier is String LINEBREAK
+Identifier is DPin Numeric LINEBREAK
+Identifier is APin Numeric LINEBREAK
+if Identifier greater Identifier LINEBREAK
+if Identifier greater Numeric LINEBREAK
+if Identifier equal Identifier LINEBREAK
+if Identifier equal Numeric LINEBREAK
+if Identifier less Identifier LINEBREAK
+Identifier is Numeric′ + Numeric LINEBREAK
+Identifier is Numeric′ - Numeric LINEBREAK
+Identifier is Numeric′ * Numeric LINEBREAK
+Identifier is Numeric′ / Numeric LINEBREAK
+Identifier is Numeric′ % Numeric LINEBREAK
+Identifier is Value′ greater Identifier LINEBREAK
+Identifier is Value′ greater Numeric LINEBREAK
+Identifier is Value′ equal Identifier LINEBREAK
+Identifier is Value′ equal Numeric LINEBREAK
+Identifier is Value′ less Identifier LINEBREAK
+Identifier is Value′ less Numeric LINEBREAK
+Identifier is Value′ and Identifier LINEBREAK
+Identifier is Value′ and Numeric LINEBREAK
+Identifier is Value′ or Identifier LINEBREAK
+Identifier is Value′ or Numeric LINEBREAK
+Identifier is [ Numeric ] LINEBREAK
+Identifier is Numeric LINEBREAK Identifier is Numeric LINEBREAK
+Identifier is Numeric LINEBREAK Identifier is String LINEBREAK
+Identifier is String LINEBREAK Identifier is Numeric LINEBREAK
+Identifier is String LINEBREAK Identifier is String LINEBREAK
 ```
