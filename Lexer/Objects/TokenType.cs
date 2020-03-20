@@ -7,15 +7,11 @@ namespace Lexer.Objects
     {
         /* Keywords */
         
+        BEGIN,
         ///<summary>
         /// Assignment token type
         /// </summary>
         ASSIGN, // a is 4
-        // function
-        ///<summary>
-        /// Size of function token type
-        /// </summary>
-        SIZE_OF, // sizeof(a)
         // function call
         ///<summary>
         /// Call token type
@@ -181,7 +177,7 @@ namespace Lexer.Objects
         ///<summary>
         /// Error token type
         /// </summary>
-        ERROR,
+        ERROR = -1,
         /// <summary>
         /// Wait token type
         /// </summary>
@@ -202,6 +198,27 @@ namespace Lexer.Objects
         /// Hour token type
         /// </summary>
         TIME_HR,
-        LINEBREAK
+        LINEBREAK,
+        
+        //Parser
+        START,
+        STMNTS,
+        STMNT,
+        EXPR,
+        MATHEXPR,
+        ARRINIT,
+        BOOLEXPR,
+        IFSTMNT,
+        PIN,
+        FUNCCALL,
+        ARGLIST,
+        FUNCTION,
+        CODEBLOCK,
+        ENDFUNC,
+        BEGINSTMNT,
+        LOOPW,
+        LOOPF,
+        ENDWHILE,
+        ENDFOR,
     }
 }
