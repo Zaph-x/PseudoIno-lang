@@ -1,5 +1,3 @@
-Current CFG
-```
 Start -> Stmnts.
 
 Stmnts -> Stmnt Stmnts .
@@ -84,4 +82,3 @@ Value -> Identifier .
 Value -> Numeric .
 
 Trmnl -> LINEBREAK .
-```
