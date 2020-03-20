@@ -202,6 +202,9 @@ namespace Lexer.Objects
         /// Hour token type
         /// </summary>
         TIME_HR,
+        /// <summary>
+        /// Line break token. This is equivalent to \n
+        /// </summary>
         LINEBREAK
     }
 }

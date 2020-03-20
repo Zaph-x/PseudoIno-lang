@@ -52,8 +52,6 @@ namespace Lexer
         /// </summary>
         private StreamReader reader;
 
-        public bool IsNonTerminal { get; private set; }
-
         /// <summary>
         /// The constructor for the Tokenizer class. This will set the iniitiate a reader and a recogniser.
         /// </summary>
@@ -78,7 +76,6 @@ namespace Lexer
         /// </returns>
         public Token Token(TokenType type, string val)
         {
-            IsNonTerminal = false;
             return new Token(type, val, Line, Offset);
         }
 
@@ -92,7 +89,6 @@ namespace Lexer
         /// </returns>
         public Token Token(TokenType type)
         {
-            IsNonTerminal = true;
             return new Token(type, "", Line, Offset);
         }
 
