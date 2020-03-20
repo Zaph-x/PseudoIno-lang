@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Lexer.Exceptions;
 using Lexer.Objects;
@@ -8,12 +9,12 @@ namespace Parser
     public class Parsenizer
     {
         // public AST Ast = new AST();
-        public Stack<Token> Stack = new Stack<Token>();
+        public Stack<ParseToken> Stack = new Stack<ParseToken>();
         public TokenStream TokenStream;
         private ParseTable _parseTable;
         private bool accepted = false;
         private int line = 0;
-        private TokenType p;
+        private ParseToken p;
 
         public Parsenizer(List<Token> tokens)
         {
@@ -21,9 +22,9 @@ namespace Parser
              _parseTable = new ParseTable();
         }
 
-        public Token TopOfStack()        
+        public ParseToken TopOfStack()        
         {
-            if (Stack.TryPop(out Token token))
+            if (Stack.TryPop(out ParseToken token))
             {
                 return token;
             }
@@ -38,7 +39,7 @@ namespace Parser
                 throw new InvalidSyntaxException("Expected token but was not token");
         }
 
-        public void Apply(Token Token)
+        public void Apply(ParseToken Token)
         {
             Stack.Pop();
             for (int i = Stack.Count; i > 0; i--)
@@ -50,14 +51,14 @@ namespace Parser
         public void CreateAndFillAST()
         {
             // Create AST and fill with tokens
-            Stack.Push(new Token(TokenType.LINEBREAK,1,1));
+            Stack.Push(ParseToken.TRMNL);
             accepted = false;
             while (!accepted)
             {
-                if (IsTokenType(TopOfStack()))
+                if (Enum.IsDefined(typeof(ParseToken),TopOfStack()))
                 {
                     Match(TokenStream,TopOfStack());
-                    if (TopOfStack().Type == TokenType.LINEBREAK)
+                    if (TopOfStack() == ParseToken.TRMNL)
                     {
                         accepted = true;
                         Stack.Pop();
@@ -65,14 +66,14 @@ namespace Parser
                 }
                 else
                 {
-                    p = _parseTable.Get(TopOfStack(),TokenStream.Peek());
-                    if (p == TokenType.ERROR)
+                    p = _parseTable[TopOfStack(),TokenStream.Peek()];
+                    if (p == ParseToken.ERROR)
                     {
                         throw new InvalidSyntaxException("ParseTable encountered error state");
                     }
                     else
                     {
-                        //Apply(p);
+                        Apply(p);
                     }
                 }
             }
