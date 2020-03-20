@@ -1,84 +1,75 @@
-Start -> Stmnts.
+Prog -> Stmts .
 
-Stmnts -> Stmnt Stmnts .
-Stmnts -> .
+Type -> string
+| numeric
+| bool
+| array
+| Pin.
 
-Stmnt -> Identifier is Expr Trmnl  .
-Stmnt -> BeginStmnt Trmnl .
-Stmnt -> IfStmnt Trmnl .
-Stmnt -> Function Trmnl .
+Stmts -> Stmt Stmts
+| .
 
+FuncStmts -> FuncStmt FuncStmts
+| .
 
-Expr -> Numeric .
-Expr -> Numeric' MathExpr .
-Expr -> Value' BoolExpr .
-Expr -> String .
-Expr -> Pin .
-Expr -> ArrInit .
+Stmt -> id assign Assignment
+| IfStmnt
+| FuncCall .
 
-MathExpr -> OP_PLUS Numeric .
-MathExpr -> OP_MINUS Numeric .
-MathExpr -> OP_TIMES Numeric .
-MathExpr -> OP_DIVIDE Numeric .
-MathExpr -> OP_MODULO Numeric .
+FuncStmt -> id assign Val Expr
+| IfStmnt 
+| BeginStmt .
 
-OP_PLUS -> + .
-OP_MINUS -> - .
-OP_TIMES -> * .
-OP_DIVIDE -> / .
-OP_MODULO -> % .
+Assignment -> Val Expr
+| [numeric] Arr .
 
-LeftArr -> [ .
+Expr -> Math_Op Val Expr
+| Bool_Op Val Expr
+| .
 
-RightArr -> ] .
+Math_Op -> +
+| -
+| *
+| /
+| % .
 
-ArrInit -> LeftArr Numeric RightArr .
+Bool_Op -> equals
+| and
+| or
+| Greater OrEqual 
+| Less OrEqual .
 
-BoolExpr -> OP_GREATER Value .
-BoolExpr -> OP_EQUAL Value .
-BoolExpr -> OP_LESS Value .
-BoolExpr -> OP_AND Value .
-BoolExpr -> OP_OR Value .
+OrEqual -> Or Equal
+| .
 
-OP_EQUAL -> equal .
-OP_AND -> and .
-OP_OR -> or .
-OP_LESS -> less .
-OP_GREATER -> greater .
+Val -> id
+| numeric
+| string
+| Pin .
 
-IfStmnt -> if Value BoolExpr .
+Arr -> [numeric] Arr
+| .
 
-Pin -> DPin Numeric.
-Pin -> APin Numeric.
+Pin -> dpin
+| apin .
 
-FuncCall -> Func Identifier with ArgList Terminal .
+IfStmnt -> if Val Bool_Op Val Epxr FuncStmts end if.
 
-ArgList -> .
-ArgList -> Type Identifier ArgList .
+FuncCall -> func id Optnl_Args  FuncStmts end id.
 
-Function -> FuncCall CodeBlock EndFunc .
+BeginStmt -> begin Beginable.
 
-CodeBlock -> Stmnts .
+Beginable -> LoopW
+| LoopF.
 
-EndFunc -> End Func .
+LoopW -> while Val BoolExpr do FuncStmts end while .
 
-BeginStmnt -> Begin .
+LoopF -> For id In Range do FuncStmts end for.
 
-Begin -> LoopF .
-Begin -> LoopW .
+Optnl_Args -> with Arg ArgList
+| .
 
-LoopW -> While BoolExpr Do CodeBlock EndWhile .
+ArgList -> Arg ArgList 
+| .
 
-EndWhile -> End While .
-
-LoopF -> For Identifier In Range Do CodeBlock EndFor .
-
-EndFor -> End For .
-
-Range -> Identifier LeftArr Numeric to Numeric RightArr .
-Range -> LeftArr Numeric to Numeric RightArr .
-
-Value -> Identifier .
-Value -> Numeric .
-
-Trmnl -> LINEBREAK .
+Arg -> Type id.

@@ -9,8 +9,17 @@ namespace Parser
     public class Parsenizer
     {
         // public AST Ast = new AST();
+        /// <summary>
+        /// A stack of tokens to build AstNodes from.
+        /// </summary>
+        /// <typeparam name="ParseToken"></typeparam>
+        /// <returns>A stack of tokens</returns>
         public Stack<ParseToken> Stack = new Stack<ParseToken>();
+        /// <summary>
+        /// A stream of tokens.
+        /// </summary>
         public TokenStream TokenStream;
+        
         private ParseTable _parseTable;
         private bool accepted = false;
         private int line = 0;

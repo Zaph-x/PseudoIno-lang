@@ -30,9 +30,9 @@ namespace Parser.Objects
             new Dictionary<Token, Dictionary<Token, ParseToken>>();
 
         /// <summary>
-        /// The indexing to get a given token from the Dictionary. This property allows 
+        /// The indexing to get a given token from the Dictionary. This property allows for array like indexing of the tokens, where one can call ParseTable[ASSIGN, NUMERIC];
         /// </summary>
-        /// <value></value>
+        /// <value>A parse token representing the tokens provided.</value>
         public ParseToken this[Token key1, Token key2]
         {
             get
