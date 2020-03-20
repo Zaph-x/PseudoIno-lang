@@ -6,9 +6,9 @@ namespace Parser.Objects
     public class TokenStream
     {
         private int Index { get; set; }
-        private List<Token> Tokens;
+        private List<ScannerToken> Tokens;
         
-        public TokenStream(List<Token> tokens)
+        public TokenStream(List<ScannerToken> tokens)
         {
             Tokens = tokens;
         }
