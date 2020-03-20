@@ -14,7 +14,7 @@ namespace Parser
         /// </summary>
         /// <typeparam name="ParseToken"></typeparam>
         /// <returns>A stack of tokens</returns>
-        public Stack<ParseToken> Stack = new Stack<ParseToken>();
+        public Stack<Token> Stack = new Stack<Token>();
         /// <summary>
         /// A stream of tokens.
         /// </summary>
@@ -23,7 +23,7 @@ namespace Parser
         private ParseTable _parseTable;
         private bool accepted = false;
         private int line = 0;
-        private ParseToken p;
+        private Token p;
 
         public Parsenizer(List<Token> tokens)
         {
@@ -31,9 +31,9 @@ namespace Parser
              _parseTable = new ParseTable();
         }
 
-        public ParseToken TopOfStack()        
+        public Token TopOfStack()        
         {
-            if (Stack.TryPop(out ParseToken token))
+            if (Stack.TryPop(out Token token))
             {
                 return token;
             }
@@ -48,7 +48,7 @@ namespace Parser
                 throw new InvalidSyntaxException("Expected token but was not token");
         }
 
-        public void Apply(ParseToken Token)
+        public void Apply(Token Token)
         {
             Stack.Pop();
             for (int i = Stack.Count; i > 0; i--)
@@ -60,14 +60,14 @@ namespace Parser
         public void CreateAndFillAST()
         {
             // Create AST and fill with tokens
-            Stack.Push(ParseToken.TRMNL);
+            Stack.Push(new Token(TokenType.BEGIN,"",1,1));
             accepted = false;
             while (!accepted)
             {
-                if (Enum.IsDefined(typeof(ParseToken),TopOfStack()))
+                if (Enum.IsDefined(typeof(Token),TopOfStack()))
                 {
                     Match(TokenStream,TopOfStack());
-                    if (TopOfStack() == ParseToken.TRMNL)
+                    if (TopOfStack() == new Token(TokenType.BEGIN,"",1,1))
                     {
                         accepted = true;
                         Stack.Pop();
@@ -76,9 +76,9 @@ namespace Parser
                 else
                 {
                     p = _parseTable[TopOfStack(),TokenStream.Peek()];
-                    if (p == ParseToken.ERROR)
+                    if (p == new Token(TokenType.BEGIN,"",1,1))
                     {
-                        throw new InvalidSyntaxException("ParseTable encountered error state");
+                        new InvalidSyntaxException("ParseTable encountered error state");
                     }
                     else
                     {
@@ -114,22 +114,16 @@ namespace Parser
                 case TokenType.LOOP_FN:
                 case TokenType.OP_LESS:
                 case TokenType.OP_PLUS:
-                case TokenType.SIZE_OF:
                 case TokenType.STRING:
-                case TokenType.TIME_HR:
-                case TokenType.TIME_MS:
                 case TokenType.COMMENT:
                 case TokenType.OP_EQUAL:
                 case TokenType.OP_MINUS:
                 case TokenType.OP_TIMES:
-                case TokenType.TIME_MIN:
-                case TokenType.TIME_SEC:
                 case TokenType.OP_DIVIDE:
                 case TokenType.OP_LPAREN:
                 case TokenType.OP_MODULO:
                 case TokenType.OP_RPAREN:
                 case TokenType.ARRAYLEFT:
-                case TokenType.LINEBREAK:
                 case TokenType.MULT_COMNT:
                 case TokenType.OP_GREATER:
                 case TokenType.ARRAYINDEX:

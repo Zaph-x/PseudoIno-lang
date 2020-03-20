@@ -26,14 +26,14 @@ namespace Parser.Objects
         /// </example>
         /// </summary>
         /// <returns>A ParseTable Dictionary</returns>
-        private Dictionary<Token, Dictionary<Token, ParseToken>> dict = 
-            new Dictionary<Token, Dictionary<Token, ParseToken>>();
+        private Dictionary<Token, Dictionary<Token, Token>> dict = 
+            new Dictionary<Token, Dictionary<Token, Token>>();
 
         /// <summary>
         /// The indexing to get a given token from the Dictionary. This property allows for array like indexing of the tokens, where one can call ParseTable[ASSIGN, NUMERIC];
         /// </summary>
         /// <value>A parse token representing the tokens provided.</value>
-        public ParseToken this[Token key1, Token key2]
+        public Token this[Token key1, Token key2]
         {
             get
             {
@@ -44,7 +44,7 @@ namespace Parser.Objects
             {
                 if (!dict.ContainsKey(key1))
                 {
-                    dict[key1] = new Dictionary<Token, ParseToken>();
+                    dict[key1] = new Dictionary<Token, Token>();
                 }
                 dict[key1][key2] = value;
             }
