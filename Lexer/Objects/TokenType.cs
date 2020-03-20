@@ -6,7 +6,9 @@ namespace Lexer.Objects
     public enum TokenType
     {
         /* Keywords */
-        
+        /// <summary>
+        /// A token represeting a begin statement
+        /// </summary>
         BEGIN,
         ///<summary>
         /// Assignment token type
@@ -110,7 +112,7 @@ namespace Lexer.Objects
         /// Multiline comment token type
         /// </summary>
         MULT_COMNT,
-        
+
         /* TYPES */
         ///<summary>
         /// Numeric integer token type
@@ -132,7 +134,7 @@ namespace Lexer.Objects
         /// Range token type
         /// </summary>
         RANGE,
-        
+
         /* Arithmetic operators */
         ///<summary>
         /// Plus token type
@@ -172,7 +174,7 @@ namespace Lexer.Objects
         /// Value token type
         /// </summary>
         VAL,
-        
+
         /* error token*/
         ///<summary>
         /// Error token type
@@ -202,26 +204,113 @@ namespace Lexer.Objects
         /// Line break token. This is equivalent to \n
         /// </summary>
         LINEBREAK,
-        
+
         //Parser
+        /// <summary>
+        /// A token representing the start of a program
+        /// </summary>
         START,
+        /// <summary>
+        /// A token representing a collection of statments
+        /// </summary>
         STMNTS,
+        /// <summary>
+        /// A token representing a statement
+        /// </summary>
         STMNT,
+        /// <summary>
+        /// A token representing a collection of function statements
+        /// <example>These statements include
+        /// if a equals 4?
+        /// for a in 1..4
+        /// while a equals b?
+        /// </example>
+        /// </summary>
+        FUNC_STMTS,
+        /// <summary>
+        /// A token representing a function statement
+        /// </summary>
+        FUNC_STMT,
+        /// <summary>
+        /// A token representing a collection of assignment tokens
+        /// </summary>
+        ASSIGNMENT,
+
+        /// <summary>
+        /// A token representing an expression
+        /// </summary>
         EXPR,
+        /// <summary>
+        /// A token representing a mathematical expression
+        /// </summary>
         MATHEXPR,
+        /// <summary>
+        /// A token representing an array initialisation
+        /// </summary>
         ARRINIT,
-        BOOLEXPR,
+        /// <summary>
+        /// A token representing a mathematical operator
+        /// </summary>
+        MATH_OP,
+        /// <summary>
+        /// A token representing an expression with a boolean value
+        /// </summary>
+        BOOL_OP,
+        /// <summary>
+        /// A token representing an if if statement
+        /// </summary>
         IFSTMNT,
+        /// <summary>
+        /// A token representing a pin in the program
+        /// </summary>
         PIN,
-        FUNCCALL,
+        /// <summary>
+        /// A token representing a function call
+        /// </summary>
+        FUNC_CALL,
+        /// <summary>
+        /// A token representing an argument list for a function
+        /// </summary>
         ARGLIST,
+        /// <summary>
+        /// A token representing a function definition
+        /// </summary>
         FUNCTION,
-        CODEBLOCK,
+        /// <summary>
+        /// A token representing the optional function arguments
+        /// </summary>
+        OPT_ARGS,
+        /// <summary>
+        /// A token representing the list of arguments for a given function
+        /// </summary>
+        ARG_LIST,
+        /// <summary>
+        /// A token representing an argument in the argument list
+        /// </summary>
+        ARG,
+        /// <summary>
+        /// A token representing the end of a function
+        /// </summary>
         ENDFUNC,
+        /// <summary>
+        /// A token representing a begin statement
+        /// </summary>
         BEGINSTMNT,
+        /// <summary>
+        /// A token representing a while loop
+        /// </summary>
         LOOPW,
+        /// <summary>
+        /// A token representing a for loop
+        /// </summary>
         LOOPF,
+        /// <summary>
+        /// A token representing the end of a while loop
+        /// </summary>
         ENDWHILE,
+        /// <summary>
+        /// A token representing the end of a for loop
+        /// </summary>
         ENDFOR,
     }
 }
