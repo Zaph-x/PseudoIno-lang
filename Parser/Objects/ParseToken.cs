@@ -5,6 +5,7 @@ namespace Parser.Objects
     /// </summary>
     public enum ParseToken
     {
+        ERROR = -1,
         START,
         STMNTS,
         STMNT,
