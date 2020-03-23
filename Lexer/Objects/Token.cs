@@ -33,5 +33,10 @@ namespace Lexer.Objects
         /// </summary>
         /// <returns>A string representation of the token</returns>
         public override string ToString() => $"({Line}:{Offset}) {Type} => {Value}";
+
+        public override int GetHashCode()
+        {
+            return Type.GetHashCode();
+        }
     }
 }
