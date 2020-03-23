@@ -3,12 +3,12 @@ using Lexer.Objects;
 
 namespace Parser.Objects
 {
-    public class StreamToken
+    public class TokenStream
     {
         private int Index { get; set; }
-        private List<Token> Tokens;
+        private List<ScannerToken> Tokens;
         
-        public StreamToken(List<Token> tokens)
+        public TokenStream(List<ScannerToken> tokens)
         {
             Tokens = tokens;
         }

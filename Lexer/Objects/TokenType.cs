@@ -5,17 +5,18 @@ namespace Lexer.Objects
     /// </summary>
     public enum TokenType
     {
+        /* error token*/
+        ///<summary>
+        /// Error token type
+        /// </summary>
+        ERROR = -1,
         /* Keywords */
         
+        BEGIN,
         ///<summary>
         /// Assignment token type
         /// </summary>
         ASSIGN, // a is 4
-        // function
-        ///<summary>
-        /// Size of function token type
-        /// </summary>
-        SIZE_OF, // sizeof(a)
         // function call
         ///<summary>
         /// Call token type
@@ -61,6 +62,7 @@ namespace Lexer.Objects
         /// Else statement token type
         /// </summary>
         ELSE,
+        //TODO Add LEQ and GRQ
         // bool operators
         ///<summary>
         /// Bool greater than operator token type
@@ -176,11 +178,6 @@ namespace Lexer.Objects
         /// </summary>
         VAL,
         
-        /* error token*/
-        ///<summary>
-        /// Error token type
-        /// </summary>
-        ERROR,
         /// <summary>
         /// Wait token type
         /// </summary>
@@ -201,5 +198,28 @@ namespace Lexer.Objects
         /// Hour token type
         /// </summary>
         TIME_HR,
+        LINEBREAK,
+        
+        //Parser
+        START,
+        STMNTS,
+        STMNT,
+        EXPR,
+        MATHEXPR,
+        ARRINIT,
+        BOOLEXPR,
+        IFSTMNT,
+        PIN,
+        FUNCCALL,
+        ARGLIST,
+        FUNCTION,
+        CODEBLOCK,
+        ENDFUNC,
+        BEGINSTMNT,
+        LOOPW,
+        LOOPF,
+        ENDWHILE,
+        ENDFOR,
+        ASSIGNMENT
     }
 }
