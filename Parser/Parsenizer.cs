@@ -70,7 +70,9 @@ namespace Parser
                 {
                     Console.WriteLine($"TOS: {TopOfStack().GetHashCode()}");
                     int x = TopOfStack().GetHashCode();
-                    _p = _parseTable[TopOfStack(),TokenStream.Current()];
+                    TokenType t1 = TopOfStack().Type;
+                    TokenType t2 = TokenStream.Current().Type;
+                    _p = _parseTable[TopOfStack().Type,TokenStream.Current().Type];
                     if (_p.First().Type == TokenType.ERROR)
                     {
                         throw new InvalidSyntaxException("ParseTable encountered error state");

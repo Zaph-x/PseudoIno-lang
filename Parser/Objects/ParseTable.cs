@@ -7,11 +7,11 @@ namespace Parser.Objects
 {
     public class ParseTable
     {
-        private Dictionary<Token, Dictionary<Token, List<ParseToken>>> dict = 
-            new Dictionary<Token, Dictionary<Token, List<ParseToken>>>();
+        private Dictionary<TokenType, Dictionary<TokenType, List<ParseToken>>> dict = 
+            new Dictionary<TokenType, Dictionary<TokenType, List<ParseToken>>>();
 
         private int xt = 0;
-        public List<ParseToken> this[Token key1, Token key2]
+        public List<ParseToken> this[TokenType key1, TokenType key2]
         {
             get
             {
@@ -22,7 +22,7 @@ namespace Parser.Objects
             {
                 if (!dict.ContainsKey(key1))
                 {
-                    dict[key1] = new Dictionary<Token, List<ParseToken>>();
+                    dict[key1] = new Dictionary<TokenType, List<ParseToken>>();
                 }
                 dict[key1][key2] = value;
             }
@@ -44,9 +44,11 @@ namespace Parser.Objects
             parseTokens.Add(parseToken3);
             parseTokens.Add(parseToken4);
 
-            this[parseToken, scannerToken] = parseTokens;
-            
-            
+            this[parseToken.Type, scannerToken.Type].Add(parseTokens[0]);
+            this[parseToken.Type, scannerToken.Type].Add(parseTokens[1]);
+            this[parseToken.Type, scannerToken.Type].Add(parseTokens[2]);
+            List<ParseToken> d = this[parseToken.Type, scannerToken.Type];
+
             scannerToken = new ScannerToken(TokenType.VAL,"5",1,1);
             parseToken = new ParseToken(TokenType.ASSIGNMENT,"",1,1);
             
@@ -56,13 +58,14 @@ namespace Parser.Objects
             parseTokens.Add(parseToken2);
             parseTokens.Add(parseToken3);
 
-            this[parseToken, scannerToken] = parseTokens;
+            this[parseToken.Type, scannerToken.Type].Add(parseTokens[0]);
+            this[parseToken.Type, scannerToken.Type].Add(parseTokens[1]);
 
             scannerToken = new ScannerToken(TokenType.LINEBREAK,"",1,1);
             parseToken = new ParseToken(TokenType.EXPR,"",1,1);
             
             parseTokens.Clear();
-            this[parseToken, scannerToken] = parseTokens;
+            this[parseToken.Type, scannerToken.Type].Add(parseTokens[0]);
 
         }
     }
