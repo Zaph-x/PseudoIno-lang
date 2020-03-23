@@ -5,6 +5,11 @@ namespace Lexer.Objects
     /// </summary>
     public enum TokenType
     {
+        /* error token*/
+        ///<summary>
+        /// Error token type
+        /// </summary>
+        ERROR = -1,
         /* Keywords */
         
         BEGIN,
@@ -173,11 +178,6 @@ namespace Lexer.Objects
         /// </summary>
         VAL,
         
-        /* error token*/
-        ///<summary>
-        /// Error token type
-        /// </summary>
-        ERROR = -1,
         /// <summary>
         /// Wait token type
         /// </summary>
@@ -220,5 +220,6 @@ namespace Lexer.Objects
         LOOPF,
         ENDWHILE,
         ENDFOR,
+        ASSIGNMENT
     }
 }
