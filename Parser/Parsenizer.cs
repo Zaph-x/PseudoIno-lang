@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Lexer.Exceptions;
 using Lexer.Objects;
 using Parser.Objects;
@@ -14,24 +15,25 @@ namespace Parser
         private ParseTable _parseTable;
         private bool accepted = false;
         private int line = 0;
-        private ParseToken _p;
+        private List<ParseToken> _p;
 
         public Parsenizer(List<ScannerToken> tokens)
         {
              TokenStream = new TokenStream(tokens);
              _parseTable = new ParseTable();
+             _parseTable.InitTable();
         }
 
-        public ParseToken TopOfStack()        
+        private ParseToken TopOfStack()        
         {
-            if (Stack.TryPop(out ParseToken token))
+            if (Stack.TryPeek(out ParseToken token))
             {
                 return token;
             }
             throw new InvalidSyntaxException("Expected stack not empty but was empty");
         }
 
-        public void Match(TokenStream tokens,Token token)
+        private void Match(TokenStream tokens,Token token)
         {
             if (TokenStream.Peek() == token)
                 TokenStream.Advance();
@@ -39,23 +41,23 @@ namespace Parser
                 throw new InvalidSyntaxException("Expected token but was not token");
         }
 
-        public void Apply(ParseToken Token)
+        private void Apply(List<ParseToken> Tokens)
         {
             Stack.Pop();
-            for (int i = Stack.Count; i > 0; i--)
+            for (int i = Tokens.Count; i > 0; i--)
             {
-                Stack.Push(Token);
+                Stack.Push(Tokens[i]);
             }
         }
 
         public void CreateAndFillAST()
         {
             // Create AST and fill with tokens
-            Stack.Push(new ParseToken(TokenType.LINEBREAK,1,1));
+            Stack.Push(new ParseToken(TokenType.STMNT,1,1));
             accepted = false;
             while (!accepted)
             {
-                if (Enum.IsDefined(typeof(ParseToken),TopOfStack()))
+                if (Enum.IsDefined(typeof(TokenType),TopOfStack().Type) && (int)TopOfStack().Type <= 43) // less than 43
                 {
                     Match(TokenStream,TopOfStack());
                     if (TopOfStack().Type == TokenType.LINEBREAK)
@@ -66,8 +68,10 @@ namespace Parser
                 }
                 else
                 {
-                    _p = _parseTable[TopOfStack(),TokenStream.Peek()];
-                    if (_p.Type == TokenType.ERROR)
+                    Console.WriteLine($"TOS: {TopOfStack().GetHashCode()}");
+                    int x = TopOfStack().GetHashCode();
+                    _p = _parseTable[TopOfStack(),TokenStream.Current()];
+                    if (_p.First().Type == TokenType.ERROR)
                     {
                         throw new InvalidSyntaxException("ParseTable encountered error state");
                     }
