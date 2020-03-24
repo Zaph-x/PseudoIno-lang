@@ -10,7 +10,12 @@ namespace Parser.Objects
         
         public TokenStream(List<ScannerToken> tokens)
         {
-            Tokens = tokens;
+            Tokens = new List<ScannerToken>();
+            Tokens.Add(new ScannerToken(TokenType.START,"",1,1));
+            foreach (var var in tokens)
+            {
+                Tokens.Add(var);
+            }
         }
 
         public Token Peek()
