@@ -21,7 +21,7 @@ namespace Parser.Test
             scannerTokens.Add(new ScannerToken(TokenType.NUMERIC_INT,"5",1,2));
 
             TokenStream streamToken = new TokenStream(scannerTokens);
-            
+            streamToken.Advance();
             Assert.AreEqual(streamToken.Current().Type,TokenType.VAR);
         }
         
@@ -34,7 +34,7 @@ namespace Parser.Test
             tokens.Add(new ScannerToken(TokenType.NUMERIC_INT,"5",1,2));
 
             TokenStream streamToken = new TokenStream(tokens);
-            
+            streamToken.Advance();
             Assert.AreEqual(streamToken.Peek().Type,TokenType.ASSIGN);
         }
         
@@ -47,6 +47,7 @@ namespace Parser.Test
             tokens.Add(new ScannerToken(TokenType.NUMERIC_INT,"5",1,2));
 
             TokenStream streamToken = new TokenStream(tokens);
+            streamToken.Advance();
             streamToken.Advance();
             Assert.AreEqual(streamToken.Peek().Type,TokenType.NUMERIC_INT);
         }

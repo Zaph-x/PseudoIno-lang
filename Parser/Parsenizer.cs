@@ -68,19 +68,12 @@ namespace Parser
                 }
                 else
                 {
-                    Console.WriteLine($"TOS: {TopOfStack().GetHashCode()}");
-                    int x = TopOfStack().GetHashCode();
-                    int t1 = (int)TopOfStack();
-                    int t2 = (int)TokenStream.Peek().Type;
                     _p = _parseTable[TopOfStack(),TokenStream.Peek().Type];
                     if (_p.First() == TokenType.ERROR)
                     {
                         throw new InvalidSyntaxException("ParseTable encountered error state");
                     }
-                    else
-                    {
-                        Apply(_p);
-                    }
+                    Apply(_p);
                 }
             }
         }
