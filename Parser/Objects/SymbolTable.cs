@@ -2,25 +2,29 @@ using System.Collections.Generic;
 using Lexer.Exceptions;
 using Lexer.Objects;
 using System.Collections;
+using System;
 
 namespace Parser.Objects
 {
     public class SymbolTable
     {
-        Dictionary<string,TokenType> symbolTable = new Dictionary<string, TokenType>();
+        //Dictionary<string,TokenType> symbolTable = new Dictionary<string, TokenType>();
 
-        //use stack to store scopes in dictionary. The last value is the Outermost scope asf
-        Stack<Dictionary<string, TokenType>> StackScope = new Stack<Dictionary<string, TokenType>>();
-
-
-        // Not used yet but have to at some point
-        private List<Dictionary<string,TokenType>> scopeLayers = new List<Dictionary<string, TokenType>>();
-        
-        public bool EnterSymbol(string name, TokenType type)
+        //use stack/list to store scopes in the symboltable. The first value is the Outermost scope and so on.
+        //public Stack <Dictionary<string, TokenType>> StackScope = new Stack <Dictionary<string, TokenType>>();
+        public List<Dictionary<string, TokenType>> ScopeList = new List<Dictionary<string, TokenType>>();
+        public int Currentscope = 0;
+        public void EnterSymbol(string name, TokenType type)
         {
-            symbolTable.Add(name, type);
+            ScopeList.Add(new Dictionary<string, TokenType>());
+            try
             {
-                throw new InvalidSyntaxException($"Could not add {type.ToString()} {name} symbol to table");
+                ScopeList[ScopeList.Count].Add(name, type);
+                Currentscope = ScopeList.Count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
 
