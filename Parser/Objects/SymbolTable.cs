@@ -19,7 +19,7 @@ namespace Parser.Objects
             ScopeList.Add(new Dictionary<string, TokenType>());
             try
             {
-                ScopeList[ScopeList.Count].Add(name, type);
+                ScopeList[ScopeList.Count-1].Add(name, type);
                 Currentscope = ScopeList.Count;
             }
             catch (Exception ex)
