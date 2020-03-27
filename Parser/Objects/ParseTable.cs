@@ -9,11 +9,13 @@ namespace Parser.Objects
     public class ParseTable
     {
         private List<TokenType>[,] dict = new List<TokenType>[65,65];
-
+      
+        
         private int xt = 0;
 
         public List<TokenType> this[TokenType key1, TokenType key2]
         {
+
             get
             {
                 int keyx = (int) key1;

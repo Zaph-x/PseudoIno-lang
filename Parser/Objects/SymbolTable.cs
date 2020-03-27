@@ -8,39 +8,34 @@ namespace Parser.Objects
 {
     public class SymbolTable
     {
-        //Dictionary<string,TokenType> symbolTable = new Dictionary<string, TokenType>();
 
-        //use stack/list to store scopes in the symboltable. The first value is the Outermost scope and so on.
-        //public Stack <Dictionary<string, TokenType>> StackScope = new Stack <Dictionary<string, TokenType>>();
-        public List<Dictionary<string, TokenType>> ScopeList = new List<Dictionary<string, TokenType>>();
-        public int Currentscope = 0;
-        public void EnterSymbol(string name, TokenType type)
+        Dictionary<string, TokenType> DicSymbolTable = new Dictionary<string, TokenType>();
+      
+
+        //public SymbolTable()
+        //{
+           
+        //}
+        public TokenType RetrieveSymbol(string name)
         {
-            ScopeList.Add(new Dictionary<string, TokenType>());
-            try
+            if (DicSymbolTable.TryGetValue(name, out TokenType tokenType))
             {
-                ScopeList[ScopeList.Count-1].Add(name, type);
-                Currentscope = ScopeList.Count;
+                return DicSymbolTable[name];
             }
-            catch (Exception ex)
+            throw new InvalidSyntaxException($"Symbol {name} was not in symbol table");
+        }
+        public void AddSym(string name, TokenType type)
+        {
+
+            if (DicSymbolTable.TryAdd(name, type)) 
             {
-                throw ex;
+                DicSymbolTable.Add(name, type);
             }
+            throw new InvalidSyntaxException($"Symbol {name} was not added in symbol table");
         }
-
-        public Token RetrieveSymbol(string name, TokenType type)
+        public void RemoveSym(string name, TokenType type)
         {
-            //if (DicSymbolTable.TryGetValue(name, out TokenType tokenType))
-            return new ScannerToken(type, name, 1, 1);
-            //throw new InvalidSyntaxException($"Symbol {name} was not in symbol table");
-        }
-        public void AddSym(TokenType symbol)
-        {
-
-        }
-        public void RemoveSym(TokenType symbol)
-        {
-
+            DicSymbolTable.Remove(name);
         }
 
         public void OpenScope()
