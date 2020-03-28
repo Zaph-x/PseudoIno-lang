@@ -36,17 +36,24 @@ namespace Parser.Objects
         /// <param name="type"></param>
         public void AddSym(string name, TokenType type)
         {
-            LookUp(name);
+           if(LookUp(name,Current)==true)
+            {
+                Symboltable.Add(new Dictionary<string, TokenType> ;
+            }
             //if (DicSymbolTable.TryAdd(name, type))
             //{
             //    DicSymbolTable.Add(name, type);
             //}
-            throw new InvalidSyntaxException($"Symbol {name} was not added in symbol table");
+            throw new InvalidSyntaxException($"Symbol {name} was not added in symbol table, since it is there already");
         }
-        public LookUp(string Name, int Level)
+        public bool LookUp(string Name, int Level)
         {
-            ScopeTracker.Contains(SymbolTable )
-            if string 
+      
+            if (ScopeTracker.Contains(new SymbolTable(Level, Name)))
+            {
+                throw new InvalidSyntaxException($"Symbol { Name } was not added in the symbol table, since it exist allready there at scope {Level}");
+            }
+            return true;
         }
     }
 }

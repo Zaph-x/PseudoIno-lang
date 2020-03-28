@@ -20,5 +20,11 @@ namespace Parser.Objects
             this.Open = Open;
             this.Close = Close;
         }
+        public SymbolTable(int Level, string Name)
+        {
+            this.Level = Level;
+            this.Name = Name;
+           
+        }
     }
 }
