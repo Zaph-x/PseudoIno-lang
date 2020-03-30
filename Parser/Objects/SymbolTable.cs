@@ -8,23 +8,31 @@ namespace Parser.Objects
 {
     public class SymbolTable
     {
-      public  int Level;
-      public  string Name;
-        bool Open;
-        bool Close;
+      //  level=0
+      //depth=0
+        public void a()
+        {
+            //level = 1
+            //depth = 1
 
-        public SymbolTable(int Level, string Name, bool Open, bool Close)
-        {
-            this.Level = Level;
-            this.Name = Name;
-            this.Open = Open;
-            this.Close = Close;
+            int a; //   level=0
+                    //depth = 2
         }
-        public SymbolTable(int Level, string Name)
+     
+        public void b()
+               //level=1
+               //depth=1
         {
-            this.Level = Level;
-            this.Name = Name;
-           
+            for (int i = 0; i < length; i++)2 float  1.0++
+            {
+             //depth=2
+                int a;
+                //
+                //depth=3
+            }
         }
+
+    
+
     }
 }
