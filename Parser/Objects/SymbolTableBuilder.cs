@@ -18,8 +18,8 @@ namespace Parser.Objects
         }
 
 
-        //Dictionary for lookup of scope and name to see if there are duplicates. The dictionary also have open and close params.
-        Dictionary<string,Tuple<int,bool,bool>> ScopeTracker = new Dictionary<string, Tuple<int,bool, bool>>();
+        //Dictionary for lookup of scope and name to see if there are duplicates. The dictionary also have open and close params. Tuple<level,depth,open, close>
+        Dictionary<string,Tuple<int,int,bool,bool>> ScopeTracker = new Dictionary<string, Tuple<int,int,bool, bool>>();
         //List for symboltable content name and type
         List<Dictionary<string, TokenType>> Symboltable = new List<Dictionary<string, TokenType>>(); 
         void OpenScope()
@@ -28,7 +28,7 @@ namespace Parser.Objects
         }
         void CloseScope(string name)
         {
-            ScopeTracker[name] = Tuple.Create(ScopeTracker[name].Item1, ScopeTracker[name].Item2, true);
+            ScopeTracker[name] = Tuple.Create(ScopeTracker[name].Item1, ScopeTracker[name].Item2, ScopeTracker[name].Item3, ScopeTracker[name].Item4==true);
             
         }
         public TokenType RetrieveSymbol(string name)
@@ -66,6 +66,7 @@ namespace Parser.Objects
         }
         public bool LookUp(string Name, int Level)
         {
+
 
             if (ScopeTracker.ContainsKey(Name))
             {
