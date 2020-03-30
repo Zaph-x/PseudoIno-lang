@@ -57,10 +57,10 @@ namespace Parser
             accepted = false;
             while (!accepted)
             {
-                if (Enum.IsDefined(typeof(TokenType),TopOfStack()) && (int)TopOfStack() <= 43) // less than 43
+                if (Enum.IsDefined(typeof(TokenType),TopOfStack()) && (int)TopOfStack() <= 49) // less than 49
                 {
                     Match(TokenStream,TopOfStack());
-                    if (TopOfStack() == TokenType.LINEBREAK)
+                    if (TopOfStack() == TokenType.NEWLINE)
                     {
                         accepted = true;
                     }
@@ -69,9 +69,14 @@ namespace Parser
                 else
                 {
                     _p = _parseTable[TopOfStack(),TokenStream.Peek().Type];
+                    if (_p.Count == 0)
+                    {
+                        Stack.Pop();
+                        return;
+                    }
                     if (_p.First() == TokenType.ERROR)
                     {
-                        throw new InvalidSyntaxException("ParseTable encountered error state");
+                        throw new InvalidSyntaxException( $"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
                     }
                     Apply(_p);
                 }
