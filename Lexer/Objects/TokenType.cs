@@ -198,21 +198,31 @@ namespace Lexer.Objects
         /// Hour token type
         /// </summary>
         TIME_HR,
-        LINEBREAK,
+        WITH,
+        EQUALS,
+        DO,
+        IN,
+        NUMERIC,
+        NEWLINE,
         
         //Parser
+        PROG,
         START,
         STMNTS,
         STMNT,
         EXPR,
         MATHEXPR,
+        MATH_OP,
         ARRINIT,
         BOOLEXPR,
+        BOOL_OP,
         IFSTMNT,
         PIN,
         FUNCCALL,
         ARGLIST,
         FUNCTION,
+        FUNCSTMNT,
+        FUNCSTMNTS,
         CODEBLOCK,
         ENDFUNC,
         BEGINSTMNT,
@@ -220,6 +230,12 @@ namespace Lexer.Objects
         LOOPF,
         ENDWHILE,
         ENDFOR,
-        ASSIGNMENT
+        OREQUAL,
+        ASSIGNMENT,
+        TYPE,
+        ARG,
+        OPTNL_ARGS,
+        BEGINABLE,
+        ARR
     }
 }
