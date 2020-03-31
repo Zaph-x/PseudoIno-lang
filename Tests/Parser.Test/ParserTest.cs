@@ -175,11 +175,57 @@ namespace Parser.Test
         }
         
         [Test]
+        public void Test_ParseTable_FuncCall_WITHARGS_Bool() // - done
+        {
+            List<ScannerToken> list = new List<ScannerToken>();
+            list.Add(new ScannerToken(TokenType.FUNC,"a",1,1));
+            list.Add(new ScannerToken(TokenType.VAR,1,3));
+            list.Add(new ScannerToken(TokenType.WITH,1,5));
+            list.Add(new ScannerToken(TokenType.BOOL,1,7));
+            list.Add(new ScannerToken(TokenType.VAL,1,9));
+            list.Add(new ScannerToken(TokenType.NEWLINE,"",1,11));
+            
+            Parsenizer parsenizer = new Parsenizer(list);
+            parsenizer.CreateAndFillAST();
+            
+            Assert.Pass();
+        }
+        
+        [Test]
         public void Test_ParseTable_FuncCall() // - done
         {
             List<ScannerToken> list = new List<ScannerToken>();
             //list.Add(new ScannerToken(TokenType.CALL,"a",1,1));
             list.Add(new ScannerToken(TokenType.FUNC,"",1,3));
+            list.Add(new ScannerToken(TokenType.VAR,"5",1,5));
+            list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            
+            Parsenizer parsenizer = new Parsenizer(list);
+            parsenizer.CreateAndFillAST();
+            
+            Assert.Pass();
+        }
+        
+        [Test]
+        public void Test_ParseTable_FuncCall_1() // - done
+        {
+            List<ScannerToken> list = new List<ScannerToken>();
+            //list.Add(new ScannerToken(TokenType.CALL,"a",1,1));
+            list.Add(new ScannerToken(TokenType.FUNC,"",1,3));
+            list.Add(new ScannerToken(TokenType.VAR,"5",1,5));
+            list.Add(new ScannerToken(TokenType.WITH,"5",1,5));
+            list.Add(new ScannerToken(TokenType.NUMERIC,"5",1,5));
+            list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
+            list.Add(new ScannerToken(TokenType.NUMERIC,"5",1,5));
+            list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
+            list.Add(new ScannerToken(TokenType.NUMERIC,"5",1,5));
+            list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
+            list.Add(new ScannerToken(TokenType.VAR,"5",1,5));
+            list.Add(new ScannerToken(TokenType.OP_PLUS,"5",1,5));
+            list.Add(new ScannerToken(TokenType.VAR,"5",1,5));
+            list.Add(new ScannerToken(TokenType.EQUALS,"5",1,5));
+            list.Add(new ScannerToken(TokenType.VAR,"5",1,5));
+            list.Add(new ScannerToken(TokenType.END,"5",1,5));
             list.Add(new ScannerToken(TokenType.VAR,"5",1,5));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
             

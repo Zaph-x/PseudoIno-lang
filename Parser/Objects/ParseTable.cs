@@ -370,6 +370,8 @@ namespace Parser.Objects
             this[TokenType.ARGLIST,TokenType.NEWLINE].Clear();
             //ATGLIST
             this[TokenType.ARGLIST,TokenType.VAL].Clear();
+            //ATGLIST
+            this[TokenType.ARGLIST,TokenType.NUMERIC].Clear();
             
             //ARG
             this[TokenType.ARG,TokenType.NUMERIC].Clear();
@@ -379,6 +381,9 @@ namespace Parser.Objects
             this[TokenType.ARG,TokenType.STRING].Clear();
             this[TokenType.ARG,TokenType.STRING].Add(TokenType.TYPE);
             //this[TokenType.ARG,TokenType.STRING].Add(TokenType.STRING);
+            //ARG
+            this[TokenType.ARG,TokenType.BOOL].Clear();
+            this[TokenType.ARG,TokenType.BOOL].Add(TokenType.TYPE);
             
         }
     }
