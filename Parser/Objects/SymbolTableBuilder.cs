@@ -17,7 +17,7 @@ namespace Parser.Objects
             set { currenLevel = value; }
         }
 
-
+        //test
         //Dictionary for lookup of scope and name to see if there are duplicates. The dictionary also have open and close params. Tuple<level,depth,open, close>
         Dictionary<string,Tuple<int,int,bool,bool>> ScopeTracker = new Dictionary<string, Tuple<int,int,bool, bool>>();
         //List for symboltable content name and type
