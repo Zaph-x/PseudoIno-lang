@@ -1,123 +1,75 @@
-# Current CFG
+Prog -> Stmts .
 
-```cfg
-Start -> Stmnts.
+Type -> string
+| numeric
+| bool
+| array
+| Pin.
 
-Stmnts -> Stmnt Stmnts .
-Stmnts -> .
+Stmts -> Stmt Stmts
+| .
 
-Stmnt -> Identifier is Expr Trmnl  .
-Stmnt -> BeginStmnt Trmnl .
-Stmnt -> IfStmnt Trmnl .
-Stmnt -> Function Trmnl .
+FuncStmts -> FuncStmt FuncStmts
+| .
 
+Stmt -> id assign Assignment
+| IfStmnt
+| FuncCall .
 
-Expr -> Numeric .
-Expr -> Numeric' MathExpr .
-Expr -> Value' BoolExpr .
-Expr -> String .
-Expr -> Pin .
-Expr -> ArrInit .
+FuncStmt -> id assign Val Expr
+| IfStmnt 
+| BeginStmt .
 
-MathExpr -> OP_PLUS Numeric .
-MathExpr -> OP_MINUS Numeric .
-MathExpr -> OP_TIMES Numeric .
-MathExpr -> OP_DIVIDE Numeric .
-MathExpr -> OP_MODULO Numeric .
+Assignment -> Val Expr
+| [numeric] Arr .
 
-OP_PLUS -> + .
-OP_MINUS -> - .
-OP_TIMES -> * .
-OP_DIVIDE -> / .
-OP_MODULO -> % .
+Expr -> Math_Op Val Expr
+| Bool_Op Val Expr
+| .
 
-LeftArr -> [ .
+Math_Op -> +
+| -
+| *
+| /
+| % .
 
-RightArr -> ] .
+Bool_Op -> equals
+| and
+| or
+| Greater OrEqual 
+| Less OrEqual .
 
-ArrInit -> LeftArr Numeric RightArr .
+OrEqual -> Or Equal
+| .
 
-BoolExpr -> OP_GREATER Value .
-BoolExpr -> OP_EQUAL Value .
-BoolExpr -> OP_LESS Value .
-BoolExpr -> OP_AND Value .
-BoolExpr -> OP_OR Value .
+Val -> id
+| numeric
+| string
+| Pin .
 
-OP_EQUAL -> equal .
-OP_AND -> and .
-OP_OR -> or .
-OP_LESS -> less .
-OP_GREATER -> greater .
+Arr -> [numeric] Arr
+| .
 
-IfStmnt -> if Value BoolExpr .
+Pin -> dpin
+| apin .
 
-Pin -> DPin Numeric.
-Pin -> APin Numeric.
+IfStmnt -> if Val Bool_Op Val Epxr FuncStmts end if.
 
-FuncCall -> Func Identifier with ArgList Terminal .
+FuncCall -> func id Optnl_Args  FuncStmts end id.
 
-ArgList -> .
-ArgList -> Type Identifier ArgList .
+BeginStmt -> begin Beginable.
 
-Function -> FuncCall CodeBlock EndFunc .
+Beginable -> LoopW
+| LoopF.
 
-CodeBlock -> Stmnts .
+LoopW -> while Val BoolExpr do FuncStmts end while .
 
-EndFunc -> End Func .
+LoopF -> For id In Range do FuncStmts end for.
 
-BeginStmnt -> Begin .
+Optnl_Args -> with Arg ArgList
+| .
 
-Begin -> LoopF .
-Begin -> LoopW .
+ArgList -> Arg ArgList 
+| .
 
-LoopW -> While BoolExpr Do CodeBlock EndWhile .
-
-EndWhile -> End While .
-
-LoopF -> For Identifier In Range Do CodeBlock EndFor .
-
-EndFor -> End For .
-
-Range -> Identifier LeftArr Numeric to Numeric RightArr .
-Range -> LeftArr Numeric to Numeric RightArr .
-
-Value -> Identifier .
-Value -> Numeric .
-
-Trmnl -> LINEBREAK .
-```
-
-## Words in the language
-
-```word
-ε
-Identifier is Numeric LINEBREAK
-Identifier is String LINEBREAK
-Identifier is DPin Numeric LINEBREAK
-Identifier is APin Numeric LINEBREAK
-if Identifier greater Identifier LINEBREAK
-if Identifier greater Numeric LINEBREAK
-if Identifier equal Identifier LINEBREAK
-if Identifier equal Numeric LINEBREAK
-if Identifier less Identifier LINEBREAK
-Identifier is Numeric′ + Numeric LINEBREAK
-Identifier is Numeric′ - Numeric LINEBREAK
-Identifier is Numeric′ * Numeric LINEBREAK
-Identifier is Numeric′ / Numeric LINEBREAK
-Identifier is Numeric′ % Numeric LINEBREAK
-Identifier is Value′ greater Identifier LINEBREAK
-Identifier is Value′ greater Numeric LINEBREAK
-Identifier is Value′ equal Identifier LINEBREAK
-Identifier is Value′ equal Numeric LINEBREAK
-Identifier is Value′ less Identifier LINEBREAK
-Identifier is Value′ less Numeric LINEBREAK
-Identifier is Value′ and Identifier LINEBREAK
-Identifier is Value′ and Numeric LINEBREAK
-Identifier is Value′ or Identifier LINEBREAK
-Identifier is Value′ or Numeric LINEBREAK
-Identifier is [ Numeric ] LINEBREAK
-Identifier is Numeric LINEBREAK Identifier is Numeric LINEBREAK
-Identifier is Numeric LINEBREAK Identifier is String LINEBREAK
-Identifier is String LINEBREAK Identifier is Numeric LINEBREAK
-Identifier is String LINEBREAK Identifier is String LINEBREAK
-```
+Arg -> Type id.

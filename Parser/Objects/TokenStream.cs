@@ -6,11 +6,16 @@ namespace Parser.Objects
     public class TokenStream
     {
         private int Index { get; set; }
-        private List<Token> Tokens;
+        private List<ScannerToken> Tokens;
         
-        public TokenStream(List<Token> tokens)
+        public TokenStream(List<ScannerToken> tokens)
         {
-            Tokens = tokens;
+            Tokens = new List<ScannerToken>();
+            Tokens.Add(new ScannerToken(TokenType.START,"",1,1));
+            foreach (var var in tokens)
+            {
+                Tokens.Add(var);
+            }
         }
 
         public Token Peek()

@@ -16,7 +16,7 @@ namespace Lexer
         /// <summary>
         /// The list of tokens generated when the source language is being scanned
         /// </summary>
-        public List<Token> Tokens = new List<Token>();
+        public List<ScannerToken> Tokens = new List<ScannerToken>();
 
         /// <summary>
         /// Initialisation of the recogniser
@@ -76,10 +76,10 @@ namespace Lexer
         /// <returns>
         /// A token from the value.
         /// </returns>
-        public Token Token(TokenType type, string val)
+        public ScannerToken Token(TokenType type, string val)
         {
             IsNonTerminal = false;
-            return new Token(type, val, Line, Offset);
+            return new ScannerToken(type, val, Line, Offset);
         }
 
         /// <summary>
@@ -90,10 +90,10 @@ namespace Lexer
         /// <returns>
         /// A token without a value.
         /// </returns>
-        public Token Token(TokenType type)
+        public ScannerToken Token(TokenType type)
         {
             IsNonTerminal = true;
-            return new Token(type, "", Line, Offset);
+            return new ScannerToken(type, "", Line, Offset);
         }
 
         /// <summary>

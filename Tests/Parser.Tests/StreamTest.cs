@@ -15,38 +15,39 @@ namespace Parser.Tests
         [Test]
         public void Test_Stream_Current_type()
         {
-            List<Token> tokens = new List<Token>();
-            tokens.Add(new Token(TokenType.VAR,"a",1,1));
-            tokens.Add(new Token(TokenType.ASSIGN,1,2));
-            tokens.Add(new Token(TokenType.NUMERIC_INT,"5",1,2));
+            List<ScannerToken> scannerTokens = new List<ScannerToken>();
+            scannerTokens.Add(new ScannerToken(TokenType.VAR,"a",1,1));
+            scannerTokens.Add(new ScannerToken(TokenType.ASSIGN,1,2));
+            scannerTokens.Add(new ScannerToken(TokenType.NUMERIC_INT,"5",1,2));
 
-            TokenStream streamToken = new TokenStream(tokens);
-            
+            TokenStream streamToken = new TokenStream(scannerTokens);
+            streamToken.Advance();
             Assert.AreEqual(streamToken.Current().Type,TokenType.VAR);
         }
         
         [Test]
         public void Test_Stream_Peek_type()
         {
-            List<Token> tokens = new List<Token>();
-            tokens.Add(new Token(TokenType.VAR,"a",1,1));
-            tokens.Add(new Token(TokenType.ASSIGN,1,2));
-            tokens.Add(new Token(TokenType.NUMERIC_INT,"5",1,2));
+            List<ScannerToken> tokens = new List<ScannerToken>();
+            tokens.Add(new ScannerToken(TokenType.VAR,"a",1,1));
+            tokens.Add(new ScannerToken(TokenType.ASSIGN,1,2));
+            tokens.Add(new ScannerToken(TokenType.NUMERIC_INT,"5",1,2));
 
             TokenStream streamToken = new TokenStream(tokens);
-            
+            streamToken.Advance();
             Assert.AreEqual(streamToken.Peek().Type,TokenType.ASSIGN);
         }
         
         [Test]
         public void Test_Stream_Advance_type()
         {
-            List<Token> tokens = new List<Token>();
-            tokens.Add(new Token(TokenType.VAR,"a",1,1));
-            tokens.Add(new Token(TokenType.ASSIGN,1,2));
-            tokens.Add(new Token(TokenType.NUMERIC_INT,"5",1,2));
+            List<ScannerToken> tokens = new List<ScannerToken>();
+            tokens.Add(new ScannerToken(TokenType.VAR,"a",1,1));
+            tokens.Add(new ScannerToken(TokenType.ASSIGN,1,2));
+            tokens.Add(new ScannerToken(TokenType.NUMERIC_INT,"5",1,2));
 
             TokenStream streamToken = new TokenStream(tokens);
+            streamToken.Advance();
             streamToken.Advance();
             Assert.AreEqual(streamToken.Peek().Type,TokenType.NUMERIC_INT);
         }
