@@ -3,7 +3,7 @@ using Lexer.Objects;
 using NUnit.Framework;
 using Parser.Objects;
 
-namespace Parser.Test
+namespace Parser.Tests
 {
     public class StreamTest
     {

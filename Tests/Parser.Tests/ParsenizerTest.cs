@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Parser.Test
+namespace Parser.Tests
 {
     public class ParsenizerTest
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Lexer.Objects;
 using NUnit.Framework;
 
-namespace Parser.Test
+namespace Parser.Tests
 {
     public class ParserTest
     {

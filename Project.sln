@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Tests", "Tests\Core.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser", "Parser\Parser.csproj", "{1F73A1DD-E306-4C76-A4E8-1BA034FFE582}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser.Test", "Tests\Parser.Test\Parser.Test.csproj", "{113630AA-2E4C-41BF-9EF0-D8C4480BD127}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser.Test", "Tests\Parser.Tests\Parser.Tests.csproj", "{113630AA-2E4C-41BF-9EF0-D8C4480BD127}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
