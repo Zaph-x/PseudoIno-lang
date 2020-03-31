@@ -197,6 +197,7 @@ namespace Parser.Objects
             this[TokenType.EXPR,TokenType.DO].Add(TokenType.DO);*/
             
             this[TokenType.EXPR,TokenType.END].Clear();
+            this[TokenType.EXPR,TokenType.VAR].Clear();
             
             
             //MATH_OP - done
@@ -367,12 +368,17 @@ namespace Parser.Objects
             
             //ATGLIST
             this[TokenType.ARGLIST,TokenType.NEWLINE].Clear();
+            //ATGLIST
+            this[TokenType.ARGLIST,TokenType.VAL].Clear();
             
             //ARG
             this[TokenType.ARG,TokenType.NUMERIC].Clear();
             this[TokenType.ARG,TokenType.NUMERIC].Add(TokenType.TYPE);
             this[TokenType.ARG,TokenType.NUMERIC].Add(TokenType.VAL);
-            
+            //ARG
+            this[TokenType.ARG,TokenType.STRING].Clear();
+            this[TokenType.ARG,TokenType.STRING].Add(TokenType.TYPE);
+            //this[TokenType.ARG,TokenType.STRING].Add(TokenType.STRING);
             
         }
     }

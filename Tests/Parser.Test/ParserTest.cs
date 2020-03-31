@@ -27,6 +27,23 @@ namespace Parser.Test
         }
         
         [Test]
+        public void Test_ParseTable_Assignment_With_Expr() // - done
+        {
+            List<ScannerToken> list = new List<ScannerToken>();
+            list.Add(new ScannerToken(TokenType.VAR,"a",1,1));
+            list.Add(new ScannerToken(TokenType.ASSIGN,1,3));
+            list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
+            list.Add(new ScannerToken(TokenType.OP_PLUS,"5",1,5));
+            list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
+            list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            
+            Parsenizer parsenizer = new Parsenizer(list);
+            parsenizer.CreateAndFillAST();
+            
+            Assert.Pass();
+        }
+        
+        [Test]
         public void Test_ParseTable_Assignment_Array() // - done
         {
             List<ScannerToken> list = new List<ScannerToken>();
@@ -124,13 +141,30 @@ namespace Parser.Test
         }
         
         [Test]
-        public void Test_ParseTable_FuncCall_WITHARGS() // - done
+        public void Test_ParseTable_FuncCall_WITHARGS_Numeric() // - done
         {
             List<ScannerToken> list = new List<ScannerToken>();
             list.Add(new ScannerToken(TokenType.FUNC,"a",1,1));
             list.Add(new ScannerToken(TokenType.VAR,1,3));
             list.Add(new ScannerToken(TokenType.WITH,1,5));
             list.Add(new ScannerToken(TokenType.NUMERIC,1,7));
+            list.Add(new ScannerToken(TokenType.VAL,1,9));
+            list.Add(new ScannerToken(TokenType.NEWLINE,"",1,11));
+            
+            Parsenizer parsenizer = new Parsenizer(list);
+            parsenizer.CreateAndFillAST();
+            
+            Assert.Pass();
+        }
+        
+        [Test]
+        public void Test_ParseTable_FuncCall_WITHARGS_String() // - done
+        {
+            List<ScannerToken> list = new List<ScannerToken>();
+            list.Add(new ScannerToken(TokenType.FUNC,"a",1,1));
+            list.Add(new ScannerToken(TokenType.VAR,1,3));
+            list.Add(new ScannerToken(TokenType.WITH,1,5));
+            list.Add(new ScannerToken(TokenType.STRING,1,7));
             list.Add(new ScannerToken(TokenType.VAL,1,9));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,11));
             
@@ -163,6 +197,28 @@ namespace Parser.Test
             list.Add(new ScannerToken(TokenType.IF,1,3));
             list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
             list.Add(new ScannerToken(TokenType.OP_GREATER,"5",1,5));
+            list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
+            list.Add(new ScannerToken(TokenType.END,"5",1,5));
+            list.Add(new ScannerToken(TokenType.IF,"5",1,5));
+            list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            
+            Parsenizer parsenizer = new Parsenizer(list);
+            parsenizer.CreateAndFillAST();
+            
+            Assert.Pass();
+        }
+
+        [Test]
+        public void Test_ParseTable_If_With_Statement() // - not working
+        {
+            List<ScannerToken> list = new List<ScannerToken>();
+            //list.Add(new ScannerToken(TokenType.BEGIN,"a",1,1));
+            list.Add(new ScannerToken(TokenType.IF,1,3));
+            list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
+            list.Add(new ScannerToken(TokenType.OP_GREATER,"5",1,5));
+            list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
+            list.Add(new ScannerToken(TokenType.VAR,"a",1,5));
+            list.Add(new ScannerToken(TokenType.ASSIGN,"5",1,5));
             list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
             list.Add(new ScannerToken(TokenType.END,"5",1,5));
             list.Add(new ScannerToken(TokenType.IF,"5",1,5));
