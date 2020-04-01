@@ -53,7 +53,7 @@ namespace SymbolTable
                 Symboltable.Add(new Dictionary<string, TokenType>());
                 Symboltable[Symboltable.Count - 1].Add(name, type);
                 //Add name, level, open, close param
-                ScopeTracker.Add(name, Tuple.Create(CurrentLevelProp,true, false));
+               // ScopeTracker.Add(name, Tuple.Create(CurrentLevelProp,true, false));
 
             }
             else
