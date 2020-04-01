@@ -11,12 +11,17 @@ namespace SymbolTable
     /// </summary>
     public class NodeSymbolTab
     {
+        /// <summary>
+        /// Children list 
+        /// </summary>
         public List<NodeSymbolTab> ChildrenList = new List<NodeSymbolTab>();
+
         /// <summary>
         /// Parent property
         /// </summary>
-        public NodeSymbolTab Parent { get ; set; }
-        public Guid Id = Guid.NewGuid(); 
+        public NodeSymbolTab Parent { get; set; }
+        public Guid Id = Guid.NewGuid();
+
         /// <summary>
         /// Constructor to add name and type for children.
         /// </summary>
@@ -27,31 +32,51 @@ namespace SymbolTable
             this.name = name;
             this.type = type;
         }
-       //name and type for the node
-       public string name;
-       public TokenType type;
+        /// <summary>
+        /// constructer 2 for find child
+        /// </summary>
+        /// <param name="name"></param>
+        public NodeSymbolTab(string name)
+        {
+            this.name = name;
+        }
+
+        //name and type for the node
+        public string name;
+        public TokenType type;
+
         /// <summary>
         /// Add child to Childrenlist. Set parent property of the child node. Input parameters are name and type of the node.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="type"></param>
-        public void AddNode(string name, TokenType type) 
+        public void AddNode(string name, TokenType type)
         {
-           
-                if (ChildrenList.Any(x => x.name == name)==false)
-                {
-                    ChildrenList.Add(new NodeSymbolTab(name, type) { Parent = this });
-                }
+
+            if (ChildrenList.Any(x => x.name == name) == false)
+            {
+                ChildrenList.Add(new NodeSymbolTab(name, type) { Parent = this });
+            }
             else
             {
-                throw new Exception($"Symboltable contains the name {name}");
+                throw new Exception($"Symbol table contains the name {name}");
             }
-                
-           
         }
-        
-        
-        //TODO ID, Openscope, Closescope, Search node 
-        
+        public NodeSymbolTab Findnode(string name)
+        {
+            //foreach (var item in ChildrenList)
+            //{
+            //    if(item.name == name)
+            //    {
+            //        return item;
+            //    }
+            //}
+            //todo fix mig skal ikke returnere null men en fejl kode ting.
+            //return null;
+            var childreturn = ChildrenList.Where(child => child.name == name).ToList();
+            return childreturn[0];
+        }
+        //TODO  Openscope, Closescope 
+
     }
 }
