@@ -5,8 +5,8 @@ using System.Collections;
 using System;
 using System.Linq;
 
-namespace Parser.Objects
-{
+namespace SymbolTable
+{ 
     class SymbolTableBuilder
     {
         //current level scope
