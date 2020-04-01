@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Lexer.Objects;
+using System.Linq;
 
 namespace SymbolTable
 {
@@ -12,9 +13,10 @@ namespace SymbolTable
     {
         public List<NodeSymbolTab> ChildrenList = new List<NodeSymbolTab>();
         /// <summary>
-        /// Parent prop
+        /// Parent property
         /// </summary>
         public NodeSymbolTab Parent { get ; set; }
+        public Guid Id = Guid.NewGuid(); 
         /// <summary>
         /// Constructor to add name and type for children.
         /// </summary>
@@ -28,15 +30,28 @@ namespace SymbolTable
        //name and type for the node
        public string name;
        public TokenType type;
-        
+        /// <summary>
+        /// Add child to Childrenlist. Set parent property of the child node. Input parameters are name and type of the node.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
         public void AddNode(string name, TokenType type) 
         {
-            ChildrenList.Add(new NodeSymbolTab(name, type) { Parent=this});
-            
+           
+                if (ChildrenList.Any(x => x.name == name)==false)
+                {
+                    ChildrenList.Add(new NodeSymbolTab(name, type) { Parent = this });
+                }
+            else
+            {
+                throw new Exception($"Symboltable contains the name {name}");
+            }
+                
+           
         }
         
         
-        //TODO ID, Add children, Openscope, Closescope Add parent,
+        //TODO ID, Openscope, Closescope, Search node 
         
     }
 }
