@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using Lexer.Exceptions;
 using Lexer.Objects;
 using Parser.Objects;
@@ -13,6 +14,7 @@ namespace Parser
         public Stack<TokenType> Stack = new Stack<TokenType>();
         public TokenStream TokenStream;
         private ParseTable _parseTable;
+        private AstNode _astNode = new AstNode(new ParseToken(TokenType.START,"",0,0),"",0,0 );
         private bool accepted = false;
         private int line = 0;
         private List<TokenType> _p;
@@ -53,14 +55,15 @@ namespace Parser
         public void CreateAndFillAST()
         {
             // Create AST and fill with tokens
+            Stack.Push(TokenType.EOF);
             Stack.Push(TokenType.STMNT);
             accepted = false;
             while (!accepted)
             {
-                if (Enum.IsDefined(typeof(TokenType),TopOfStack()) && (int)TopOfStack() <= 49) // less than 49
+                if (Enum.IsDefined(typeof(TokenType),TopOfStack()) && (int)TopOfStack() <= 50) // less than 50
                 {
                     Match(TokenStream,TopOfStack());
-                    if (TopOfStack() == TokenType.NEWLINE)
+                    if (TopOfStack() == TokenType.EOF)
                     {
                         accepted = true;
                     }
@@ -79,6 +82,25 @@ namespace Parser
                         throw new InvalidSyntaxException( $"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
                     }
                     Apply(_p);
+                    InsertInAST(_p);
+                }
+            }
+        }
+
+        public void InsertInAST(List<TokenType> list)
+        {
+            foreach (var tokenType in list)
+            {
+                switch (tokenType)
+                {
+                    case TokenType.STMNT:
+                        _astNode.AddChild(new AstNode(new ParseToken(tokenType,"",0,0),"",0,0 ));
+                        break;
+                    case TokenType.VAR:
+                        //_astNode.AddChild();
+                        break;
+                    default:
+                        break;
                 }
             }
         }

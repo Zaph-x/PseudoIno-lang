@@ -19,6 +19,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.ASSIGN,1,3));
             list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -36,6 +37,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.OP_PLUS,"5",1,5));
             list.Add(new ScannerToken(TokenType.VAL,"5",1,5));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -53,6 +55,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.VAL,"5",1,7));
             list.Add(new ScannerToken(TokenType.ARRAYRIGHT,"",1,9));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,11));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -73,6 +76,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.VAL,"5",1,7));
             list.Add(new ScannerToken(TokenType.ARRAYRIGHT,"",1,9));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -96,6 +100,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.END,"",1,5));
             list.Add(new ScannerToken(TokenType.WHILE,"",1,5));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -119,6 +124,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.END,"",1,5));
             list.Add(new ScannerToken(TokenType.FOR,"",1,5));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -133,6 +139,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.FUNC,"a",1,1));
             list.Add(new ScannerToken(TokenType.VAR,1,3));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -150,6 +157,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.NUMERIC,1,7));
             list.Add(new ScannerToken(TokenType.VAL,1,9));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,11));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -167,6 +175,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.STRING,1,7));
             list.Add(new ScannerToken(TokenType.VAL,1,9));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,11));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -184,6 +193,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.BOOL,1,7));
             list.Add(new ScannerToken(TokenType.VAL,1,9));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,11));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -199,6 +209,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.FUNC,"",1,3));
             list.Add(new ScannerToken(TokenType.VAR,"5",1,5));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -228,6 +239,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.END,"5",1,5));
             list.Add(new ScannerToken(TokenType.VAR,"5",1,5));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -247,6 +259,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.END,"5",1,5));
             list.Add(new ScannerToken(TokenType.IF,"5",1,5));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();
@@ -269,6 +282,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.END,"5",1,5));
             list.Add(new ScannerToken(TokenType.IF,"5",1,5));
             list.Add(new ScannerToken(TokenType.NEWLINE,"",1,7));
+            list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
             parsenizer.CreateAndFillAST();

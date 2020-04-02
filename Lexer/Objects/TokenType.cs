@@ -204,6 +204,7 @@ namespace Lexer.Objects
         IN,
         NUMERIC,
         NEWLINE,
+        EOF,
         
         //Parser
         PROG,
