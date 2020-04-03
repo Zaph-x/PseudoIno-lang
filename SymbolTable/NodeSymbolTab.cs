@@ -32,14 +32,6 @@ namespace SymbolTable
             this.name = name;
             this.type = type;
         }
-        /// <summary>
-        /// constructer 2 for find child
-        /// </summary>
-        /// <param name="name"></param>
-        public NodeSymbolTab(string name)
-        {
-            this.name = name;
-        }
 
         //name and type for the node
         public string name;
@@ -64,16 +56,6 @@ namespace SymbolTable
         }
         public NodeSymbolTab Findnode(string name)
         {
-            //foreach (var item in ChildrenList)
-            //{
-            //    if(item.name == name)
-            //    {
-            //        return item;
-            //    }
-            //}
-            //todo fix mig skal ikke returnere null men en fejl kode ting.
-            //return null;
-            //var childreturn = ChildrenList.Where(child => child.name == name).ToList();
             return ChildrenList.Where(child => child.name == name).First();
         }
         //TODO  Openscope, Closescope 
