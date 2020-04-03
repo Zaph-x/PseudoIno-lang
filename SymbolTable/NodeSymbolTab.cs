@@ -73,8 +73,8 @@ namespace SymbolTable
             //}
             //todo fix mig skal ikke returnere null men en fejl kode ting.
             //return null;
-            var childreturn = ChildrenList.Where(child => child.name == name).ToList();
-            return childreturn[0];
+            //var childreturn = ChildrenList.Where(child => child.name == name).ToList();
+            return ChildrenList.Where(child => child.name == name).First();
         }
         //TODO  Openscope, Closescope 
 
