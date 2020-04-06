@@ -23,13 +23,13 @@ namespace Core.Objects
             {
                 if (File.Exists(Options.LogFile))
                 {
-                    File.AppendAllText(Options.LogFile, obj.ToString()+"\n");
+                    File.AppendAllText(Options.LogFile, obj.ToString() + "\n");
                 }
                 else
                 {
                     using (var stream = File.Create(Options.LogFile))
                     { }
-                    File.AppendAllText(Options.LogFile, obj.ToString()+"\n");
+                    File.AppendAllText(Options.LogFile, obj.ToString() + "\n");
                 }
             }
         }
@@ -39,8 +39,8 @@ namespace Core.Objects
             if (Options.Verbose)
             {
                 Console.WriteLine(obj);
-                log(obj);
             }
+            log(obj);
         }
 
         public void Error(object obj)
@@ -50,8 +50,8 @@ namespace Core.Objects
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Error.WriteLine(obj);
                 Console.ResetColor();
-                log("ERROR: " + obj);
             }
+            log("ERROR: " + obj);
         }
     }
 }
