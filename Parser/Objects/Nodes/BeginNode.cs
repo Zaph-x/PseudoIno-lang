@@ -6,7 +6,8 @@ namespace Parser.Objects.Nodes
         public BeginNode()
         {}
 
-        public override void Accept(Visitor visitor) {
+        public override void Accept(Visitor visitor) 
+        {
             visitor.Visit(this);
         }
     }
