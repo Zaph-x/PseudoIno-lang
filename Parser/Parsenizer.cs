@@ -14,7 +14,7 @@ namespace Parser
         public Stack<TokenType> Stack = new Stack<TokenType>();
         public TokenStream TokenStream;
         private ParseTable _parseTable;
-        private AstNode _astNode = new AstNode(new ParseToken(TokenType.START,"",0,0),"",0,0 );
+        //private AstNode _astNode = new AstNode(new ParseToken(TokenType.START,"",0,0),"",0,0 );
         private bool accepted = false;
         private int line = 0;
         private List<TokenType> _p;
@@ -94,7 +94,7 @@ namespace Parser
                 switch (tokenType)
                 {
                     case TokenType.STMNT:
-                        _astNode.AddChild(new AstNode(new ParseToken(tokenType,"",0,0),"",0,0 ));
+                        //_astNode.AddChild(new AstNode(new ParseToken(tokenType,"",0,0),"",0,0 ));
                         break;
                     case TokenType.VAR:
                         //_astNode.AddChild();

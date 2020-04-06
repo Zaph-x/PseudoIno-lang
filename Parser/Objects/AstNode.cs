@@ -18,6 +18,6 @@ namespace Parser.Objects
 
         public override string ToString() => $"line={Line}; offset={Offset}";
 
-        public void Accept(Visitor visitor);
+        public abstract void Accept(Visitor visitor);
     }
 }
