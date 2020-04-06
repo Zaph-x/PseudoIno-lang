@@ -15,41 +15,41 @@ namespace Parser.Objects
         private long Line { get; set; }
         private int Offset { get; set; }
 
-        // For Terminals
-        public AstNode(ParseToken type, string value, long line, int offset)
-        {
-            this.Type = type;
-            this.Value = value;
-            this.Line = line;
-            this.Offset = offset;
-        }
+        // // For Terminals
+        // public AstNode(ParseToken type, string value, long line, int offset)
+        // {
+        //     this.Type = type;
+        //     this.Value = value;
+        //     this.Line = line;
+        //     this.Offset = offset;
+        // }
 
-        // For Non-Terminals
-        public AstNode(ParseToken type, long line, int offset)
-        {
-            this.Type = type;
-            this.Value = "";
-            this.Line = line;
-            this.Offset = offset;
-        }
-        public void AddChild([NotNull]AstNode child)
-        {
-            Children.Add(child);
-            child.Parent = this;
-        }
+        // // For Non-Terminals
+        // public AstNode(ParseToken type, long line, int offset)
+        // {
+        //     this.Type = type;
+        //     this.Value = "";
+        //     this.Line = line;
+        //     this.Offset = offset;
+        // }
+        // public void AddChild([NotNull]AstNode child)
+        // {
+        //     Children.Add(child);
+        //     child.Parent = this;
+        // }
 
-        public void RemoveChild([NotNull]AstNode child)
-        {
-            Children.Remove(child);
-            child.Parent = null;
-        }
+        // public void RemoveChild([NotNull]AstNode child)
+        // {
+        //     Children.Remove(child);
+        //     child.Parent = null;
+        // }
         
-        public void RemoveChild(int index)
-        {
-            AstNode child = Children[index];
-            Children.RemoveAt(index);
-            child.Parent = null;
-        }
+        // public void RemoveChild(int index)
+        // {
+        //     AstNode child = Children[index];
+        //     Children.RemoveAt(index);
+        //     child.Parent = null;
+        // }
 
     }
 }
