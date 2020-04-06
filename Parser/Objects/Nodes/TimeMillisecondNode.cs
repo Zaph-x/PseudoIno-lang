@@ -1,7 +1,13 @@
+using Lexer.Objects;
+
 namespace Parser.Objects.Nodes
 {
-    public class BeginNode : AstNode
+    public class TimeMillisecondNode : AstNode
     {
+        public TimeMillisecondNode()
+        {
+            Type = TokenType.TIME_MS;
+        }
         public override void Accept(Visitor visitor)
         {
             throw new System.NotImplementedException();

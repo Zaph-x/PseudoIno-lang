@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Lexer.Objects;
 
 namespace Parser.Objects
 {
@@ -9,13 +10,13 @@ namespace Parser.Objects
     {
         public AstNode Parent { get; set; }
         public List<AstNode> Children { get; private set; } = new List<AstNode>();
-        public ParseToken Type { get; set; }
+        public TokenType Type { get; set; }
         public string Value { get; set; }
 
         // TODO Pass these from the scanner Token
         private long Line { get; set; }
         private int Offset { get; set; }
 
-        void Accept(Visitor visitor);
+        public abstract void Accept(Visitor visitor);
     }
 }
