@@ -14,8 +14,10 @@ namespace Parser.Objects
         public string Value { get; set; }
 
         // TODO Pass these from the scanner Token
-        private long Line { get; set; }
+        long Line { get; set; }
         private int Offset { get; set; }
+
+        public override string ToString() => $"line={Line}; offset={Offset}";
 
         public abstract void Accept(Visitor visitor);
     }
