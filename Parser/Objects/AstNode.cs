@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -14,5 +15,7 @@ namespace Parser.Objects
         // TODO Pass these from the scanner Token
         private long Line { get; set; }
         private int Offset { get; set; }
+
+        void Accept(Visitor visitor);
     }
 }
