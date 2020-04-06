@@ -1,9 +1,9 @@
 using System;
 namespace Parser.Objects.Nodes
 {
-    public class BeginNode : AstNode
+    public class AssugnNode : AstNode
     {
-        public BeginNode()
+        public AssugnNode()
         {}
 
         public override void Accept(Visitor visitor) {
