@@ -45,6 +45,12 @@ namespace Core
                     return 5;
                 }
                 verbosePrinter.Info($" Generated {tokenizer.Tokens.Count} tokens.");
+                if (options.Verbose) {
+                    foreach (var token in tokenizer.Tokens)
+                    {
+                        verbosePrinter.Info(token);
+                    }
+                }
             }
 
             timer.Stop();
@@ -87,6 +93,15 @@ namespace Core
                     case "-v":
                     case "--verbose":
                         options.Verbose = true;
+                        break;
+                    case "-l":
+                    case "--logfile":
+                        if (args.Length - 1 <= i +1) {
+                            ++i;
+                            options.LogFile = args[i];
+                        } else {
+                            Console.Error.WriteLineAsync($"Error: Log file not provided");
+                        }
                         break;
                     default:
                         if (args[i].StartsWith('-'))

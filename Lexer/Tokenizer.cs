@@ -456,8 +456,7 @@ namespace Lexer
         public void GenerateTokens()
         {
             // Ensure we are not dealing with an empty file.
-            Peek();
-            while (!IsEOF(NextChar))
+            while (!IsEOF(Peek()))
             {
                 Pop();
                 if (IsSpace()) { continue; }
