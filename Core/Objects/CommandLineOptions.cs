@@ -22,5 +22,10 @@ namespace Core.Objects
         /// </summary>
         /// <value>False</value>
         public bool Verbose {get;set;}
+        /// <summary>
+        /// A file to write tokens and other log things to.
+        /// </summary>
+        /// <value>null</value>
+        public string LogFile {get;set;}
     }
 }
