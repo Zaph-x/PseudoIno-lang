@@ -11,19 +11,10 @@ namespace Lexer.Exceptions
         /// The constructor of the exception, taking only one parameter.
         /// </summary>
         /// <param name="message">The message to show the user</param>
-        public InvalidSyntaxException(string message) : base(message)
+        public InvalidSyntaxException(string message)
         {
-            
-        }
-
-        /// <summary>
-        /// The constructor of the exception, taking two parameters.
-        /// </summary>
-        /// <param name="message">The message to show the user</param>
-        /// <param name="innerException">The inner exception of the exception</param>
-        public InvalidSyntaxException(string message, Exception innerException) : base(message, innerException)
-        {
-            
+            Console.Error.WriteLine(message);
+            Tokenizer.HasError = true;
         }
     }
 }

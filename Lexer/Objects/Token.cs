@@ -1,5 +1,3 @@
-
-
 namespace Lexer.Objects
 {
     /// <summary>

@@ -72,13 +72,13 @@ namespace Lexer.Tests
 
         #endregion
 
-        [TestCase(dummy_1,32)]
-        [TestCase(dummy_2,3)]
-        [TestCase(dummy_3,0)]
+        [TestCase(dummy_1, 32)]
+        [TestCase(dummy_2, 3)]
+        [TestCase(dummy_3, 0)]
         [TestCase(dummy_4, 38)]
         public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens(string content, int expectedAmountOfTokens)
         {
-            
+
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
@@ -95,7 +95,8 @@ namespace Lexer.Tests
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
-            Assert.Throws<InvalidSyntaxException>(tokenizer.GenerateTokens);
+            tokenizer.GenerateTokens();
+            Assert.IsTrue(Tokenizer.HasError);
         }
 
         [Test]
@@ -177,8 +178,8 @@ namespace Lexer.Tests
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
-
-            Assert.Throws<InvalidSyntaxException>(tokenizer.GenerateTokens);
+            tokenizer.GenerateTokens();
+            Assert.IsTrue(Tokenizer.HasError);
         }
 
         [Test]
@@ -202,7 +203,8 @@ namespace Lexer.Tests
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
 
-            Assert.Throws<InvalidSyntaxException>(tokenizer.GenerateTokens);
+            tokenizer.GenerateTokens();
+            Assert.IsTrue(Tokenizer.HasError);
         }
 
         [Test]

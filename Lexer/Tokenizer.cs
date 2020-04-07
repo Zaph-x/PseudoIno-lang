@@ -16,7 +16,7 @@ namespace Lexer
         /// <summary>
         /// The list of tokens generated when the source language is being scanned
         /// </summary>
-        public List<ScannerToken> Tokens = new List<ScannerToken>();
+        public List<Token> Tokens = new List<Token>();
 
         /// <summary>
         /// Initialisation of the recogniser
@@ -47,12 +47,18 @@ namespace Lexer
         /// </summary>
         /// <value>Is incremented each tile <c>Pop()</c> is called</value>
         public long BufferOffset { get; private set; }
+
+        /// <summary>
+        /// A bool value to check if the tokenizer found any illegal syntax
+        /// </summary>
+        /// <value>False, unless a syntax error has been found</value>
+        public static bool HasError {get; set;}
+
         /// <summary>
         /// The stream that the scanner is reading from
         /// </summary>
         private StreamReader reader;
 
-        public bool IsNonTerminal { get; private set; }
 
         /// <summary>
         /// The constructor for the Tokenizer class. This will set the iniitiate a reader and a recogniser.
@@ -76,9 +82,8 @@ namespace Lexer
         /// <returns>
         /// A token from the value.
         /// </returns>
-        public ScannerToken Token(TokenType type, string val)
+        public Token Token(TokenType type, string val)
         {
-            IsNonTerminal = false;
             return new ScannerToken(type, val, Line, Offset);
         }
 
@@ -90,9 +95,8 @@ namespace Lexer
         /// <returns>
         /// A token without a value.
         /// </returns>
-        public ScannerToken Token(TokenType type)
+        public Token Token(TokenType type)
         {
-            IsNonTerminal = true;
             return new ScannerToken(type, "", Line, Offset);
         }
 
@@ -272,7 +276,7 @@ namespace Lexer
             }
             if (subString.Length != 2)
             {
-                throw new InvalidSyntaxException($"Invalid range symbol. Range symbol must be '..' but was '{subString}'. Error at line {Line}:{Offset}.");
+                new InvalidSyntaxException($"Invalid range symbol. Range symbol must be '..' but was '{subString}'. Error at line {Line}:{Offset}.");
             }
             Tokens.Add(Token(TokenType.RANGE));
         }
@@ -304,7 +308,7 @@ namespace Lexer
             }
             if (!subString.EndsWith('"'))
             {
-                throw new InvalidSyntaxException($"Strings must be closed. Error at line {Line}:{Offset}.");
+                new InvalidSyntaxException($"Strings must be closed. Error at line {Line}:{Offset}.");
             }
             Tokens.Add(Token(TokenType.STRING, subString));
         }
@@ -346,7 +350,7 @@ namespace Lexer
             }
             if (!subString.Contains(">#"))
             {
-                throw new InvalidSyntaxException($"Multiline comments must be closed before reaching end of file. Error at line {Line}:{Offset}.");
+                new InvalidSyntaxException($"Multiline comments must be closed before reaching end of file. Error at line {Line}:{Offset}.");
             }
             Tokens.Add(Token(TokenType.MULT_COMNT, subString));
         }
@@ -441,7 +445,8 @@ namespace Lexer
                     Tokens.Add(Token(TokenType.OP_RPAREN));
                     break;
                 default:
-                    throw new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
+                    new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
+                    return;
             }
         }
 
@@ -451,8 +456,7 @@ namespace Lexer
         public void GenerateTokens()
         {
             // Ensure we are not dealing with an empty file.
-            Peek();
-            while (!IsEOF(NextChar))
+            while (!IsEOF(Peek()))
             {
                 Pop();
                 if (IsSpace()) { continue; }
