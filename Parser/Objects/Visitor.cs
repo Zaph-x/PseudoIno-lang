@@ -10,7 +10,17 @@ namespace Parser.Objects
             throw new NotImplementedException();
         }
 
+        internal void Visit(StatementNode statementNode)
+        {
+            throw new NotImplementedException();
+        }
+
         internal void Visit(AssugnNode assugnNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Visit(ProgramNode programNode)
         {
             throw new NotImplementedException();
         }

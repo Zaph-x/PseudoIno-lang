@@ -1,13 +1,15 @@
+using System.Collections.Generic;
 using System;
 using Lexer.Objects;
 
 namespace Parser.Objects.Nodes
 {
-    public class FuncNode : StatementNode
+    public class ProgramNode : AstNode
     {
-        public FuncNode()
+        public List
+        public ProgramNode()
         {
-            this.Type = TokenType.FUNC;
+            this.Type = TokenType.PROG;
         }
 
         public override void Accept(Visitor visitor) {
