@@ -9,30 +9,32 @@ global:
 
 jobs:
   include:
-  - os: windows
-    language: csharp
-    install:
-    - choco install dotnetcore-sdk
-    - dotnet restore
-    script:
-    - dotnet clean -v m
-    - dotnet build
-    - dotnet test
-    - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
-    - powershell ./CompileTest.ps1
-  - os: linux
-    language: csharp
-    dotnet: 3.1
-    mono: none
-    addons:
-      apt:
-        packages:
-        - coreutils
-    install:
-    - dotnet restore
-    script:
-    - dotnet clean -v m --nologo
-    - dotnet build --nologo
-    - dotnet test --nologo
-    - sudo chmod +x ./CompileTest.sh
-    - sudo ./CompileTest.sh
+  - stage: windows
+    - os: windows
+      language: csharp
+      install:
+      - choco install dotnetcore-sdk
+      - dotnet restore
+      script:
+      - dotnet clean -v m
+      - dotnet build
+      - dotnet test
+      - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+      - powershell ./CompileTest.ps1
+  - stage: linux
+    - os: linux
+      language: csharp
+      dotnet: 3.1
+      mono: none
+      addons:
+        apt:
+          packages:
+          - coreutils
+      install:
+      - dotnet restore
+      script:
+      - dotnet clean -v m --nologo
+      - dotnet build --nologo
+      - dotnet test --nologo
+      - sudo chmod +x ./CompileTest.sh
+      - sudo ./CompileTest.sh
