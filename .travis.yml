@@ -1,35 +1,27 @@
-
 language: csharp
 mono: none
+dotnet: 3.1
 git:
   quiet: true
+
+script:
+  - dotnet restore
+  - dotnet clean -v m
+  - dotnet build
+  - dotnet test
 
 matrix:
   include:
   - name: "Windows build"
     os: windows
-    install:
+    before_install:
     - choco install dotnetcore-sdk
-    script:
-    - dotnet restore
-    - dotnet clean -v m
-    - dotnet build
-    - dotnet test
+    after_success:
     - powershell.exe -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
     - powershell.exe ./CompileTest.ps1
   - name: "Linux build"
     os: linux
-    install:
-    - wget https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-    - sudo dpkg -i packages-microsoft-prod.deb
-    - sudo add-apt-repository universe
-    - sudo apt-get update
-    - sudo apt-get install apt-transport-https
-    - sudo apt-get update
-    - sudo apt-get install dotnet-sdk-3.1
-    - dotnet clean -v m --nologo
-    - dotnet build --nologo
-    - dotnet test --nologo
+    after_success:
     - sudo chmod +x ./CompileTest.sh
     - sudo ./CompileTest.sh
 
