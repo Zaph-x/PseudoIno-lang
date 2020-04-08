@@ -1,10 +1,6 @@
 language: csharp
 mono: none
 dotnet: 3.1
-os: 
-- windows
-- linux
-- osx
 git:
   quiet: true
 
@@ -12,24 +8,26 @@ global:
 - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 - DOTNET_CLI_TELEMETRY_OPTOUT=1
 
-matrix:
+jobs:
   include:
-    if: os = windows
-      install:
-      - choco install dotnetcore-sdk
-      - dotnet restore
+  - os: windows
+    install:
+    - choco install dotnetcore-sdk
     script:
-    - dotnet restore
-    - dotnet clean -v m
-    - dotnet build
-    - dotnet test
-    if: os = windows
-      script:
-      - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
-      - powershell ./CompileTest.ps1
-    if: os = linux
+    - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+    - powershell ./CompileTest.ps1
+  - os: linux
+    addons:
+      apt:
+        packages:
+        - coreutils
+    script:
     - sudo chmod +x ./CompileTest.sh
     - sudo ./CompileTest.sh
-    if: os = osx
-    - sudo chmod +x ./CompileTest.sh
-    - sudo ./CompileTest.sh
+
+install:
+- dotnet restore
+script:
+- dotnet clean -v m
+- dotnet build
+- dotnet test
