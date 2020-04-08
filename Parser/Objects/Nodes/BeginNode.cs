@@ -13,5 +13,10 @@ namespace Parser.Objects.Nodes
         {
             visitor.Visit(this);
         }
+
+        public void AddChild(AstNode node)
+        {
+            Children.Add(node);
+        }
     }
 }
