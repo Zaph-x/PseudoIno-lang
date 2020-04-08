@@ -33,19 +33,3 @@ matrix:
     if: os = osx
     - sudo chmod +x ./CompileTest.sh
     - sudo ./CompileTest.sh
-  # - os: linux
-  #   language: csharp
-  #   dotnet: 3.1
-  #   mono: none
-  #   addons:
-  #     apt:
-  #       packages:
-  #       - coreutils
-  #   install:
-  #   - dotnet restore
-  #   script:
-  #   - dotnet clean -v m --nologo
-  #   - dotnet build --nologo
-  #   - dotnet test --nologo
-  #   - sudo chmod +x ./CompileTest.sh
-  #   - sudo ./CompileTest.sh
