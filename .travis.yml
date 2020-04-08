@@ -29,10 +29,10 @@ jobs:
         - coreutils
     install:
     - dotnet build --nologo
-    - stage: "Clean"
-    script:  dotnet clean -v m --nologo
-    - stage: "Build"
-    - stage: "Test" 
-    script: dotnet test --nologo
-    script: sudo chmod +x ./CompileTest.sh
-    script: sudo ./CompileTest.sh
+    stage: "Clean"
+    - script:  dotnet clean -v m --nologo
+    stage: "Build"
+    stage: "Test" 
+    - script: dotnet test --nologo
+    - script: sudo chmod +x ./CompileTest.sh
+    - script: sudo ./CompileTest.sh
