@@ -1,5 +1,6 @@
 language: csharp
 mono: none
+dotnet: 3.1
 os: 
 - windows
 - linux
@@ -13,16 +14,25 @@ global:
 
 matrix:
   include:
-    language: csharp
-    install:
-    - choco install dotnetcore-sdk
-    - dotnet restore
+    if: os = windows
+      install:
+      - choco install dotnetcore-sdk
+      - dotnet restore
     script:
+    - dotnet restore
     - dotnet clean -v m
     - dotnet build
     - dotnet test
-    - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
-    - powershell ./CompileTest.ps1
+    if: os = windows
+      script:
+      - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+      - powershell ./CompileTest.ps1
+    if: os = linux
+    - sudo chmod +x ./CompileTest.sh
+    - sudo ./CompileTest.sh
+    if: os = osx
+    - sudo chmod +x ./CompileTest.sh
+    - sudo ./CompileTest.sh
   # - os: linux
   #   language: csharp
   #   dotnet: 3.1
