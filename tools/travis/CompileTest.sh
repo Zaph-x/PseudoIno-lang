@@ -2,8 +2,8 @@
 
 passCount=$(ls -1q ./premade-programs/pass | wc -l)
 failCount=$(ls -1q ./premade-programs/fail | wc -l)
-exePath="./Core/bin/Debug/netcoreapp3.1/"
-pathBack="../../../.."
+exePath="$TRAVIS_BUILD_DIR"/Core/bin/Debug/netcoreapp3.1/
+pathBack="$TRAVIS_BUILD_DIR"
 
 function ExpectError() {
     if [ $1 -eq 0 ]
@@ -17,7 +17,7 @@ function ExpectNoError() {
     exitcode=$1
     if [ $1 -ne 0 ]
     then
-        tput setaf 1;echo "[file: $2.pi ($exitcode)] Compiler dit not compile when it should. Exiting."
+        tput setaf 1;echo "[file: $2.pi ($exitcode)] Compiler did not compile when it should. Exiting."
         exit -1
     elif [ $1 -ge 124 ]; then
         tput setaf 1;echo "Compiler exited with code $exitcode... (http://www.gnu.org/software/coreutils/manual/html_node/timeout-invocation.html)"

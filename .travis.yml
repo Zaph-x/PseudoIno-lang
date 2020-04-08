@@ -3,27 +3,39 @@ mono: none
 git:
   quiet: true
 
-script:
-  - dotnet restore
-  - dotnet clean -v m
-  - dotnet build
-  - dotnet test
+script: >
+  echo "OS is $TRAVIS_OS_NAME"
+  if [ "$OS" = "linux" ]
+  then
+    bash "$TRAVIS_BUILD_DIR"/tools/travis/build-linux.sh
+  elif [ "$OS" = "windows" ]
+  then
+    bash "$TRAVIS_BUILD_DIR"/tools/travis/build-windows.sh
+    bash "$TRAVIS_BUILD_DIR"/tools/travis/test-windows.sh
+  fi
 
-matrix:
-  include:
-  - name: "Windows build"
-    os: windows
-    before_install:
-    - choco install dotnetcore-sdk
-    after_success:
-    - powershell.exe -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
-    - powershell.exe ./CompileTest.ps1
-  - name: "Linux build"
-    os: linux
-    dotnet: 3.1
-    after_success:
-    - sudo chmod +x ./CompileTest.sh
-    - sudo ./CompileTest.sh
+# matrix:
+#   include:
+#   - name: "Windows build"
+#     os: windows
+#     before_install:
+#     - choco install dotnetcore-sdk
+#     after_success:
+#     - powershell.exe -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+#     - powershell.exe ./CompileTest.ps1
+#   - name: "Linux build"
+#     os: linux
+#     dotnet: 3.1
+#     after_success:
+#     - sudo chmod +x ./CompileTest.sh
+#     - sudo ./CompileTest.sh
+
+
+# script:
+#   - dotnet restore
+#   - dotnet clean -v m
+#   - dotnet build
+#   - dotnet test
 
 # jobs:
 #   include:
