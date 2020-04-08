@@ -3,11 +3,11 @@ using Lexer.Objects;
 
 namespace Parser.Objects.Nodes
 {
-    public class EndNode : AstNode
+    public class LoopFnNode : FuncNode
     {
-        public EndNode()
+        public LoopFnNode()
         {
-            this.Type = TokenType.END;
+            this.Type = TokenType.LOOP_FN;
         }
 
         public override void Accept(Visitor visitor) {
