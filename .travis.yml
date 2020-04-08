@@ -1,6 +1,5 @@
 language: csharp
 mono: none
-dotnet: 3.1
 git:
   quiet: true
 
@@ -21,6 +20,7 @@ matrix:
     - powershell.exe ./CompileTest.ps1
   - name: "Linux build"
     os: linux
+    dotnet: 3.1
     after_success:
     - sudo chmod +x ./CompileTest.sh
     - sudo ./CompileTest.sh
