@@ -2,17 +2,18 @@ using Parser.Objects;
 using NUnit.Framework;
 using System;
 using Lexer.Objects;
+using Parser.Objects.Nodes;
 
 namespace Parser.Tests
 {
     public class AstNodeTest
     {
-        // [Test]
-        // public void Test_AddChild_ChildIsNull()
-        // {
-        //     AstNode node = new AstNode(new ParseToken(TokenType.BEGIN,"",3,2), "", 3,2);
-        //     Assert.Throws<NullReferenceException>(() => node.AddChild(null), "The method accepts a null child.");
-        // }
+        [Test]
+        public void Test_AddChild_ChildIsNull()
+        {
+            BeginNode node = new BeginNode();
+            Assert.Throws<NullReferenceException>(() => node.AddChild(null), "The method accepts a null child.");
+        }
 
         // [Test]
         // public void Test_AddChild_ChildIsNotNull()
