@@ -8,6 +8,10 @@ matrix:
     - os: linux
       name: Linux
       dotnet: 3.1
+      addons:
+        apt:
+          packages:
+          - coreutils
     - os: windows
       name: Windows
 
