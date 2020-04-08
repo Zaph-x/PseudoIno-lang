@@ -10,7 +10,7 @@ global:
 jobs:
   include:
   - stage: Windows
-    os: windows
+  - os: windows
     language: csharp
     install:
     - choco install dotnetcore-sdk
@@ -21,8 +21,7 @@ jobs:
     - dotnet test
     - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
     - powershell ./CompileTest.ps1
-  - stage: Linux
-    os: linux
+  - os: linux
     language: csharp
     dotnet: 3.1
     mono: none
