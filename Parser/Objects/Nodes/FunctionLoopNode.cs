@@ -4,15 +4,15 @@ using Lexer.Objects;
 
 namespace Parser.Objects.Nodes
 {
-    public class ProgramNode : AstNode
+    public class FunctionLoopNode : FuncNode
     {
         public List<StatementNode> Statements = new List<StatementNode>();
-        public List<FunctionDefinitonNode> FunctionDefinitons = new List<FunctionDefinitonNode>();
-        public FunctionLoopNode LoopFunction;
-        public ProgramNode()
+
+        public FunctionLoopNode()
         {
-            this.Type = TokenType.PROG;
+            this.Type = TokenType.LOOP_FN;
         }
+
 
         public override void Accept(Visitor visitor) {
             visitor.Visit(this);

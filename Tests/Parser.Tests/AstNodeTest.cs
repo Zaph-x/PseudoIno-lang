@@ -15,6 +15,17 @@ namespace Parser.Tests
             Assert.Throws<NullReferenceException>(() => node.AddChild(null), "The method accepts a null child.");
         }
 
+        [Test]
+        public void Test_Visitor_ProgramNodeIsVisted()
+        {
+            ProgramNode prog = new ProgramNode();
+            FunctionLoopNode loop = new FunctionLoopNode();
+            prog.LoopFunction = loop;
+            PrettyPrinter printer = new PrettyPrinter();
+
+            printer.Visit(prog);
+        }
+
         // [Test]
         // public void Test_AddChild_ChildIsNotNull()
         // {
