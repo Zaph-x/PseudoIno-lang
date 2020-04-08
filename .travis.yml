@@ -6,8 +6,10 @@ git:
 matrix:
   include:
     - os: linux
+      name: Linux
       dotnet: 3.1
     - os: windows
+      name: Windows
 
 script: 
 - echo "OS is $TRAVIS_OS_NAME";
