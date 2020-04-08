@@ -1,4 +1,6 @@
-language: shell
+
+language: csharp
+mono: none
 git:
   quiet: true
 
@@ -8,8 +10,8 @@ matrix:
     os: windows
     install:
     - choco install dotnetcore-sdk
-    - dotnet restore
     script:
+    - dotnet restore
     - dotnet clean -v m
     - dotnet build
     - dotnet test
