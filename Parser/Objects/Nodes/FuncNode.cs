@@ -3,15 +3,13 @@ using Lexer.Objects;
 
 namespace Parser.Objects.Nodes
 {
-    public class FuncNode : StatementNode
+    public abstract class FuncNode : AstNode
     {
         public FuncNode()
         {
             this.Type = TokenType.FUNC;
         }
 
-        public override void Accept(Visitor visitor) {
-            visitor.Visit(this);
-        }
+        public abstract override void Accept(Visitor visitor);
     }
 }

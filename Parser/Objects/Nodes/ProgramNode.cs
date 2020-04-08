@@ -6,7 +6,7 @@ namespace Parser.Objects.Nodes
 {
     public class ProgramNode : AstNode
     {
-        public List
+        public List<StatementNode> Statements = new List<StatementNode>();
         public ProgramNode()
         {
             this.Type = TokenType.PROG;
