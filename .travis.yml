@@ -13,6 +13,7 @@ jobs:
     language: csharp
     install:
     - choco install dotnetcore-sdk
+    - dotnet restore
     script:
     - dotnet clean -v m
     - dotnet build
@@ -28,11 +29,10 @@ jobs:
         packages:
         - coreutils
     install:
+    - dotnet restore
+    script:
+    - dotnet clean -v m --nologo
     - dotnet build --nologo
-    stage: "Clean"
-    - script:  dotnet clean -v m --nologo
-    stage: "Build"
-    stage: "Test" 
-    - script: dotnet test --nologo
-    - script: sudo chmod +x ./CompileTest.sh
-    - script: sudo ./CompileTest.sh
+    - dotnet test --nologo
+    - sudo chmod +x ./CompileTest.sh
+    - sudo ./CompileTest.sh
