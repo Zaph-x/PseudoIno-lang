@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29806.167
+# Visual Studio 15
+VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexer", "Lexer\Lexer.csproj", "{280ED88F-0AFB-4570-B470-67AC6FE606B9}"
 EndProject
@@ -14,6 +14,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Tests", "Tests\Core.Tests\Core.Tests.csproj", "{07DA891A-DD8F-4E72-A073-A09EFDA46C5C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parser", "Parser\Parser.csproj", "{1F73A1DD-E306-4C76-A4E8-1BA034FFE582}"
+
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parser.Test", "Tests\Parser.Test\Parser.Test.csproj", "{113630AA-2E4C-41BF-9EF0-D8C4480BD127}"
 EndProject
@@ -131,6 +132,9 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{88EF7BDF-5ED5-44B4-8EBD-B1A789990F9A} = {79D14601-8E24-426D-9311-6E39935AA789}
 		{07DA891A-DD8F-4E72-A073-A09EFDA46C5C} = {79D14601-8E24-426D-9311-6E39935AA789}
@@ -139,5 +143,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D15B779E-7F96-4D27-A178-CF574E7B2E4A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9BA9C374-4C12-4785-95C1-BCD5113ADBF2}
 	EndGlobalSection
 EndGlobal
