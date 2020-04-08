@@ -197,12 +197,33 @@ namespace Lexer.Objects
         /// Hour token type
         /// </summary>
         TIME_HR,
+        /// <summary>
+        /// With token, terminal
+        /// </summary>
         WITH,
+        /// <summary>
+        /// Equals token, terminal
+        /// </summary>
         EQUALS,
+        /// <summary>
+        /// Do token, terminal
+        /// </summary>
         DO,
+        /// <summary>
+        /// In token, terminal
+        /// </summary>
         IN,
+        /// <summary>
+        /// Numeric token, terminal
+        /// </summary>
         NUMERIC,
+        /// <summary>
+        /// Newline token, terminal
+        /// </summary>
         NEWLINE,
+        /// <summary>
+        /// End of file token, terminal
+        /// </summary>
         EOF,
         
         //Parser
