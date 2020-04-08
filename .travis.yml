@@ -9,7 +9,6 @@ global:
 
 jobs:
   include:
-  - stage: Windows
   - os: windows
     language: csharp
     install:
