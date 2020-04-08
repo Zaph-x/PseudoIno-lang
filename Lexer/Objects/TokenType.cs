@@ -177,7 +177,6 @@ namespace Lexer.Objects
         /// Value token type
         /// </summary>
         VAL,
-        
         /// <summary>
         /// Wait token type
         /// </summary>

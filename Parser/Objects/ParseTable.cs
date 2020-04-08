@@ -67,6 +67,7 @@ namespace Parser.Objects
             this[TokenType.ASSIGNMENT, TokenType.VAL].Add(TokenType.EXPR);
             
             this[TokenType.EXPR, TokenType.LINEBREAK].Clear();
+
             this[TokenType.EXPR, TokenType.LINEBREAK].Add(TokenType.LINEBREAK);*/
             // Above is old code that works
             //PROG
@@ -384,7 +385,6 @@ namespace Parser.Objects
             //ARG
             this[TokenType.ARG,TokenType.BOOL].Clear();
             this[TokenType.ARG,TokenType.BOOL].Add(TokenType.TYPE);
-            
         }
     }
 }
