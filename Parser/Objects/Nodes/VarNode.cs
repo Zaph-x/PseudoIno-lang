@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class VarNode : AstNode
     {
-        public VarNode()
+        public VarNode(int line, int offset) : base(TokenType.VAR, line, offset)
         {
-            Type = TokenType.VAR;
         }
         public override void Accept(Visitor visitor)
         {

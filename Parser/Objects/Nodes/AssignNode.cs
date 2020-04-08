@@ -2,11 +2,10 @@ using System;
 using Lexer.Objects;
 namespace Parser.Objects.Nodes
 {
-    public class AssugnNode : AstNode
+    public class AssignNode : AstNode
     {
-        public AssugnNode()
+        public AssignNode(int line, int offset) : base(TokenType.ASSIGN, line, offset)
         {
-            this.Type = TokenType.ASSIGN;
         }
 
         public override void Accept(Visitor visitor)

@@ -5,9 +5,8 @@ namespace Parser.Objects.Nodes
 {
     public class EndNode : AstNode
     {
-        public EndNode()
+        public EndNode(int line, int offset) : base (TokenType.END, line, offset)
         {
-            this.Type = TokenType.END;
         }
 
         public override void Accept(Visitor visitor) {

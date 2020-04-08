@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class WithNode : AstNode
     {
-        public WithNode()
+        public WithNode(int line, int offset) : base(TokenType.WITH, line, offset)
         {
-            Type = TokenType.WITH;
         }
         public override void Accept(Visitor visitor)
         {

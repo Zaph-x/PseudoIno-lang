@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class TimeHourNode : AstNode
     {
-        public TimeHourNode()
+        public TimeHourNode(int line, int offset) : base(TokenType.TIME_HR, line, offset)
         {
-            Type = TokenType.TIME_HR;
         }
         public override void Accept(Visitor visitor)
         {

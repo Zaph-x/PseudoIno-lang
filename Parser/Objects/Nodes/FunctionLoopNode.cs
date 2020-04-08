@@ -8,9 +8,8 @@ namespace Parser.Objects.Nodes
     {
         public List<StatementNode> Statements = new List<StatementNode>();
 
-        public FunctionLoopNode()
+        public FunctionLoopNode(int line, int offset) : base(TokenType.LOOP_FN, line, offset)
         {
-            this.Type = TokenType.LOOP_FN;
         }
 
 

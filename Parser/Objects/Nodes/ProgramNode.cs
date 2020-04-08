@@ -9,9 +9,8 @@ namespace Parser.Objects.Nodes
         public List<StatementNode> Statements = new List<StatementNode>();
         public List<FunctionDefinitonNode> FunctionDefinitons = new List<FunctionDefinitonNode>();
         public FunctionLoopNode LoopFunction;
-        public ProgramNode()
+        public ProgramNode(int line, int offset) : base(TokenType.PROG, line, offset)
         {
-            this.Type = TokenType.PROG;
         }
 
         public override void Accept(Visitor visitor) {

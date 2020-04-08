@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class NumericNode : AstNode
     {
-        public NumericNode()
+        public NumericNode(int line, int offset) : base(TokenType.NUMERIC, line, offset)
         {
-            Type = TokenType.NUMERIC;
         }
         public override void Accept(Visitor visitor)
         {

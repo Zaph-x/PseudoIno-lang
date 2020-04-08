@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class EqualsNode : AstNode
     {
-        public EqualsNode()
+        public EqualsNode(int line, int offset) : base(TokenType.EQUALS, line, offset)
         {
-            Type = TokenType.EQUALS;
         }
         public override void Accept(Visitor visitor)
         {

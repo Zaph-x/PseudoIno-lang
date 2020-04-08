@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class RightParenthesisNode : AstNode
     {
-        public RightParenthesisNode()
+        public RightParenthesisNode(int line, int offset) : base(TokenType.OP_RPAREN, line, offset)
         {
-            Type = TokenType.OP_RPAREN;
         }
         public override void Accept(Visitor visitor)
         {

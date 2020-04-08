@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class BeginNode : AstNode
     {
-        public BeginNode()
+        public BeginNode(int line, int offset) : base(TokenType.BEGIN, line, offset)
         {
-            this.Type = TokenType.BEGIN;
         }
 
         public override void Accept(Visitor visitor) 

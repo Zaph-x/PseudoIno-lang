@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class NewlineNode : AstNode
     {
-        public NewlineNode()
+        public NewlineNode(int line, int offset) : base(TokenType.NEWLINE, line, offset)
         {
-            Type = TokenType.NEWLINE;
         }
         public override void Accept(Visitor visitor)
         {
