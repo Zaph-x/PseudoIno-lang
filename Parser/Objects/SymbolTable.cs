@@ -29,7 +29,7 @@ namespace Parser.Objects
         public Token RetrieveSymbol(string name)
         {
             if (symbolTable.TryGetValue(name, out TokenType tokenType))
-                return new Token(tokenType,name,1,1);
+                return new ScannerToken(tokenType,name,1,1);
             throw new InvalidSyntaxException($"Symbol {name} was not in symbol table");
         }
     }

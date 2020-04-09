@@ -84,7 +84,7 @@ namespace Lexer
         /// </returns>
         public Token Token(TokenType type, string val)
         {
-            return new Token(type, val, Line, Offset);
+            return new ScannerToken(type, val, Line, Offset);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Lexer
         /// </returns>
         public Token Token(TokenType type)
         {
-            return new Token(type, "", Line, Offset);
+            return new ScannerToken(type, "", Line, Offset);
         }
 
         /// <summary>
@@ -456,8 +456,7 @@ namespace Lexer
         public void GenerateTokens()
         {
             // Ensure we are not dealing with an empty file.
-            Peek();
-            while (!IsEOF(NextChar))
+            while (!IsEOF(Peek()))
             {
                 Pop();
                 if (IsSpace()) { continue; }

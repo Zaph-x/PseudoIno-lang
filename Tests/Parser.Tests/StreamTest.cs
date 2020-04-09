@@ -3,7 +3,7 @@ using Lexer.Objects;
 using NUnit.Framework;
 using Parser.Objects;
 
-namespace Parser.Test
+namespace Parser.Tests
 {
     public class StreamTest
     {
@@ -22,7 +22,6 @@ namespace Parser.Test
 
             TokenStream streamToken = new TokenStream(scannerTokens);
             streamToken.Advance();
-
             Assert.AreEqual(streamToken.Current().Type,TokenType.VAR);
         }
         
@@ -36,7 +35,6 @@ namespace Parser.Test
 
             TokenStream streamToken = new TokenStream(tokens);
             streamToken.Advance();
-
             Assert.AreEqual(streamToken.Peek().Type,TokenType.ASSIGN);
         }
         

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Security;
 using Lexer.Exceptions;
 using Lexer.Objects;
 using Parser.Objects;
@@ -13,127 +15,101 @@ namespace Parser
         /// A stack of tokens to build AstNodes from.
         /// </summary>
         /// <typeparam name="ParseToken"></typeparam>
-        /// <returns>A stack of tokens</returns>
-        public Stack<Token> Stack = new Stack<Token>();
+        /// <returns>A stack of tokens</returns>      
+        public Stack<TokenType> Stack = new Stack<TokenType>();
         /// <summary>
         /// A stream of tokens.
         /// </summary>
         public TokenStream TokenStream;
-        
         private ParseTable _parseTable;
+        //private AstNode _astNode = new AstNode(new ParseToken(TokenType.START,"",0,0),"",0,0 );
         private bool accepted = false;
         private int line = 0;
-        private Token p;
+        private List<TokenType> _p;
 
-        public Parsenizer(List<Token> tokens)
+        public Parsenizer(List<ScannerToken> tokens)
         {
              TokenStream = new TokenStream(tokens);
              _parseTable = new ParseTable();
+             _parseTable.InitTable();
         }
 
-        public Token TopOfStack()        
+        private TokenType TopOfStack()        
         {
-            if (Stack.TryPop(out Token token))
+            if (Stack.TryPeek(out TokenType token))
             {
                 return token;
             }
             throw new InvalidSyntaxException("Expected stack not empty but was empty");
         }
 
-        public void Match(TokenStream tokens,Token token)
+        private void Match(TokenStream tokens,TokenType token)
         {
-            if (TokenStream.Peek() == token)
+            if (TokenStream.Peek().Type == token)
                 TokenStream.Advance();
             else
                 throw new InvalidSyntaxException("Expected token but was not token");
         }
 
-        public void Apply(Token Token)
+        private void Apply(List<TokenType> Tokens)
         {
             Stack.Pop();
-            for (int i = Stack.Count; i > 0; i--)
+            for (int i = Tokens.Count-1; i >= 0; i--)
             {
-                Stack.Push(Token);
+                Stack.Push(Tokens[i]);
             }
         }
 
         public void CreateAndFillAST()
         {
             // Create AST and fill with tokens
-            Stack.Push(new Token(TokenType.BEGIN,"",1,1));
+            Stack.Push(TokenType.EOF);
+            Stack.Push(TokenType.STMNT);
             accepted = false;
             while (!accepted)
             {
-                if (Enum.IsDefined(typeof(Token),TopOfStack()))
+                if (Enum.IsDefined(typeof(TokenType),TopOfStack()) && (int)TopOfStack() <= 50) // less than 50
                 {
                     Match(TokenStream,TopOfStack());
-                    if (TopOfStack() == new Token(TokenType.BEGIN,"",1,1))
+                    if (TopOfStack() == TokenType.EOF)
                     {
                         accepted = true;
-                        Stack.Pop();
                     }
+                    Stack.Pop();
                 }
                 else
                 {
-                    p = _parseTable[TopOfStack(),TokenStream.Peek()];
-                    if (p == new Token(TokenType.BEGIN,"",1,1))
+                    _p = _parseTable[TopOfStack(),TokenStream.Peek().Type];
+                    if (_p.Count == 0)
                     {
-                        new InvalidSyntaxException("ParseTable encountered error state");
+                        Stack.Pop();
+                        return;
                     }
-                    else
+                    if (_p.First() == TokenType.ERROR)
                     {
-                        Apply(p);
+                        throw new InvalidSyntaxException( $"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
                     }
+                    Apply(_p);
+                    InsertInAST(_p);
                 }
             }
         }
 
-        public bool IsTokenType(Token token)
+        public void InsertInAST(List<TokenType> list)
         {
-            switch (token.Type)
+            foreach (var tokenType in list)
             {
-                case TokenType.IF:
-                case TokenType.END:
-                case TokenType.FOR:
-                case TokenType.VAL:
-                case TokenType.VAR:
-                case TokenType.APIN:
-                case TokenType.BOOL:
-                case TokenType.CALL:
-                case TokenType.DPIN:
-                case TokenType.ELSE:
-                case TokenType.FUNC:
-                case TokenType.OP_OR:
-                case TokenType.WAIT:
-                case TokenType.ERROR:
-                case TokenType.OP_AND:
-                case TokenType.OP_NOT:
-                case TokenType.RANGE:
-                case TokenType.WHILE:
-                case TokenType.ASSIGN:
-                case TokenType.LOOP_FN:
-                case TokenType.OP_LESS:
-                case TokenType.OP_PLUS:
-                case TokenType.STRING:
-                case TokenType.COMMENT:
-                case TokenType.OP_EQUAL:
-                case TokenType.OP_MINUS:
-                case TokenType.OP_TIMES:
-                case TokenType.OP_DIVIDE:
-                case TokenType.OP_LPAREN:
-                case TokenType.OP_MODULO:
-                case TokenType.OP_RPAREN:
-                case TokenType.ARRAYLEFT:
-                case TokenType.MULT_COMNT:
-                case TokenType.OP_GREATER:
-                case TokenType.ARRAYINDEX:
-                case TokenType.ARRAYRIGHT:
-                case TokenType.NUMERIC_INT:
-                case TokenType.NUMERIC_FLOAT:
-                case TokenType.OP_QUESTIONMARK:
-                    return true;
-                default:
-                    return false;
+                switch (tokenType)
+                {
+                    case TokenType.STMNT:
+                        //_astNode.AddChild(new AstNode(new ParseToken(tokenType,"",0,0),"",0,0 ));
+                        break;
+                    case TokenType.VAR:
+                        //_astNode.AddChild();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 

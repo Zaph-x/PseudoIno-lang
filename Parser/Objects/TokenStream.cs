@@ -11,20 +11,24 @@ namespace Parser.Objects
         /// <summary>
         /// The current index in the stream
         /// </summary>
-        /// <value>0 by default</value>
+        /// <value>0 by default</value>  
         private int Index { get; set; }
         /// <summary>
         /// The list of tokens to parse
-        /// </summary>
-        private List<Token> Tokens;
-        
+        /// </summary>  
+        private List<ScannerToken> Tokens;
         /// <summary>
         /// The constructor of the TokenStream. This takes a list of tokens as parameter and uses it as the stream.
         /// </summary>
         /// <param name="tokens">A list of tokens provided by the scanner</param>
-        public TokenStream(List<Token> tokens)
+        public TokenStream(List<ScannerToken> tokens)
         {
-            Tokens = tokens;
+            Tokens = new List<ScannerToken>();
+            Tokens.Add(new ScannerToken(TokenType.START,"",1,1));
+            foreach (var var in tokens)
+            {
+                Tokens.Add(var);
+            }
         }
 
         /// <summary>

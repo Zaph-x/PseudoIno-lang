@@ -5,10 +5,12 @@ namespace Lexer.Objects
     /// </summary>
     public enum TokenType
     {
-        /* Keywords */
-        /// <summary>
-        /// A token represeting a begin statement
+        /* error token*/
+        ///<summary>
+        /// Error token type
         /// </summary>
+        ERROR = -1,
+        /* Keywords */
         BEGIN,
         ///<summary>
         /// Assignment token type
@@ -112,7 +114,6 @@ namespace Lexer.Objects
         /// Multiline comment token type
         /// </summary>
         MULT_COMNT,
-
         /* TYPES */
         ///<summary>
         /// Numeric integer token type
@@ -134,7 +135,6 @@ namespace Lexer.Objects
         /// Range token type
         /// </summary>
         RANGE,
-
         /* Arithmetic operators */
         ///<summary>
         /// Plus token type
@@ -174,12 +174,6 @@ namespace Lexer.Objects
         /// Value token type
         /// </summary>
         VAL,
-
-        /* error token*/
-        ///<summary>
-        /// Error token type
-        /// </summary>
-        ERROR = -1,
         /// <summary>
         /// Wait token type
         /// </summary>
@@ -200,117 +194,138 @@ namespace Lexer.Objects
         /// Hour token type
         /// </summary>
         TIME_HR,
-        /// <summary>
-        /// Line break token. This is equivalent to \n
-        /// </summary>
-        LINEBREAK,
-
+        WITH,
+        EQUALS,
+        DO,
+        IN,
+        NUMERIC,
+        NEWLINE,
+        EOF,
+        
         //Parser
         /// <summary>
-        /// A token representing the start of a program
+        /// Program token, non terminal
+        /// </summary>
+        PROG,
+        /// <summary>
+        /// Start token, non terminal
         /// </summary>
         START,
         /// <summary>
-        /// A token representing a collection of statments
+        /// Statements token, non terminal
         /// </summary>
         STMNTS,
         /// <summary>
-        /// A token representing a statement
+        /// Statement token, non terminal
         /// </summary>
         STMNT,
         /// <summary>
-        /// A token representing a collection of function statements
-        /// <example>These statements include
-        /// if a equals 4?
-        /// for a in 1..4
-        /// while a equals b?
-        /// </example>
-        /// </summary>
-        FUNC_STMTS,
-        /// <summary>
-        /// A token representing a function statement
-        /// </summary>
-        FUNC_STMT,
-        /// <summary>
-        /// A token representing a collection of assignment tokens
-        /// </summary>
-        ASSIGNMENT,
-
-        /// <summary>
-        /// A token representing an expression
+        /// Expression token, non terminal
         /// </summary>
         EXPR,
         /// <summary>
-        /// A token representing a mathematical expression
+        /// Math expression token, non terminal
         /// </summary>
         MATHEXPR,
         /// <summary>
-        /// A token representing an array initialisation
-        /// </summary>
-        ARRINIT,
-        /// <summary>
-        /// A token representing a mathematical operator
+        /// Math operation token, non terminal
         /// </summary>
         MATH_OP,
         /// <summary>
-        /// A token representing an expression with a boolean value
+        /// Array init token, non terminal
+        /// </summary>
+        ARRINIT,
+        /// <summary>
+        /// Boolean expression token, non terminal
+        /// </summary>
+        BOOLEXPR,
+        /// <summary>
+        /// Boolean operation token, non terminal
         /// </summary>
         BOOL_OP,
         /// <summary>
-        /// A token representing an if if statement
+        /// If statement token, non terminal
         /// </summary>
         IFSTMNT,
         /// <summary>
-        /// A token representing a pin in the program
+        /// Pin token, non terminal
         /// </summary>
         PIN,
         /// <summary>
-        /// A token representing a function call
+        /// Function call token, non terminal
         /// </summary>
-        FUNC_CALL,
+        FUNCCALL,
         /// <summary>
-        /// A token representing an argument list for a function
+        /// Argument list token, non terminal
         /// </summary>
         ARGLIST,
         /// <summary>
-        /// A token representing a function definition
+        /// Function token, non terminal
         /// </summary>
         FUNCTION,
         /// <summary>
-        /// A token representing the optional function arguments
+        /// Function statement token, non terminal
         /// </summary>
-        OPT_ARGS,
+        FUNCSTMNT,
         /// <summary>
-        /// A token representing the list of arguments for a given function
+        /// Function statements token, non terminal
         /// </summary>
-        ARG_LIST,
+        FUNCSTMNTS,
         /// <summary>
-        /// A token representing an argument in the argument list
+        /// Code block token, non terminal
         /// </summary>
-        ARG,
+        CODEBLOCK,
         /// <summary>
-        /// A token representing the end of a function
+        /// End function token, non terminal
         /// </summary>
         ENDFUNC,
         /// <summary>
-        /// A token representing a begin statement
+        /// Begin statement token, non terminal
         /// </summary>
         BEGINSTMNT,
         /// <summary>
-        /// A token representing a while loop
+        /// Loop while token, non terminal
         /// </summary>
         LOOPW,
         /// <summary>
-        /// A token representing a for loop
+        /// Loop for token, non terminal
         /// </summary>
         LOOPF,
         /// <summary>
-        /// A token representing the end of a while loop
+        /// End while token, non terminal
         /// </summary>
         ENDWHILE,
         /// <summary>
-        /// A token representing the end of a for loop
+        /// End for token, non terminal
         /// </summary>
         ENDFOR,
+        /// <summary>
+        /// Or equal token, non terminal
+        /// </summary>
+        OREQUAL,
+        /// <summary>
+        /// Assignment token, non terminal
+        /// </summary>
+        ASSIGNMENT,
+        /// <summary>
+        /// Type token, non terminal
+        /// </summary>
+        TYPE,
+        /// <summary>
+        /// Argument token, non terminal
+        /// </summary>
+        ARG,
+        /// <summary>
+        /// Optional arguments token, non terminal
+        /// </summary>
+        OPTNL_ARGS,
+        /// <summary>
+        /// Beginable token, non terminal
+        /// </summary>
+        BEGINABLE,
+        /// <summary>
+        /// Array token, non terminal
+        /// </summary>
+        ARR
     }
 }
