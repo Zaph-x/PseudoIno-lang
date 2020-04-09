@@ -16,8 +16,8 @@ matrix:
       name: Windows
 
 script: 
-- if [ "$TRAVIS_OS_NAME" = "linux" ]; then bash "$TRAVIS_BUILD_DIR"/tools/travis/build-linux.sh & bash "$TRAVIS_BUILD_DIR"/tools/travis/test-linux.sh; fi
-- if [ "$TRAVIS_OS_NAME" = "windows" ]; then bash choco.exe install dotnetcore-sdk; "$TRAVIS_BUILD_DIR"/tools/travis/build-windows.sh & bash "$TRAVIS_BUILD_DIR"/tools/travis/test-windows.sh; fi
+- if [ "$TRAVIS_OS_NAME" = "linux" ]; then bash "$TRAVIS_BUILD_DIR"/tools/travis/build-linux.sh; bash "$TRAVIS_BUILD_DIR"/tools/travis/test-linux.sh; fi
+- if [ "$TRAVIS_OS_NAME" = "windows" ]; then bash "$TRAVIS_BUILD_DIR"/tools/travis/build-windows.sh; bash "$TRAVIS_BUILD_DIR"/tools/travis/test-windows.sh; fi
 
 # matrix:
 #   include:
