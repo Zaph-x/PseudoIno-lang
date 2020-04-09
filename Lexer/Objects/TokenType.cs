@@ -12,6 +12,9 @@ namespace Lexer.Objects
         ERROR = -1,
         /* Keywords */
         
+        /// <summary>
+        /// Begin token, terminal
+        /// </summary>
         BEGIN,
         ///<summary>
         /// Assignment token type

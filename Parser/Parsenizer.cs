@@ -16,7 +16,6 @@ namespace Parser
         private ParseTable _parseTable;
         //private AstNode _astNode = new AstNode(new ParseToken(TokenType.START,"",0,0),"",0,0 );
         private bool accepted = false;
-        private int line = 0;
         private List<TokenType> _p;
 
         public Parsenizer(List<ScannerToken> tokens)

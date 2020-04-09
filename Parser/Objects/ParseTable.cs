@@ -10,8 +10,6 @@ namespace Parser.Objects
     {
         private List<TokenType>[,] dict = new List<TokenType>[100,100];
 
-        private int xt = 0;
-
         public List<TokenType> this[TokenType key1, TokenType key2]
         {
             get
