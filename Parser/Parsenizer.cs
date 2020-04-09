@@ -12,12 +12,11 @@ namespace Parser
     public class Parsenizer
     {
         // public AST Ast = new AST();
-        public Stack<TokenType> Stack = new Stack<TokenType>();
-        public TokenStream TokenStream;
+        private Stack<TokenType> Stack = new Stack<TokenType>();
+        private TokenStream TokenStream;
         private ParseTable _parseTable;
         public ProgramNode Program { get; internal set; } = new ProgramNode(0, 0);
-        private bool accepted = false;
-        private int line = 0;
+        private bool _accepted;
         private List<TokenType> _p;
 
         public Parsenizer(List<ScannerToken> tokens)
@@ -36,7 +35,7 @@ namespace Parser
             throw new InvalidSyntaxException("Expected stack not empty but was empty");
         }
 
-        private void Match(TokenStream tokens, TokenType token)
+        private void Match(TokenType token)
         {
             if (TokenStream.Peek().Type == token)
                 TokenStream.Advance();
@@ -44,29 +43,29 @@ namespace Parser
                 throw new InvalidSyntaxException("Expected token but was not token");
         }
 
-        private void Apply(List<TokenType> Tokens)
+        private void Apply(List<TokenType> tokens)
         {
             Stack.Pop();
-            for (int i = Tokens.Count - 1; i >= 0; i--)
+            for (int i = tokens.Count - 1; i >= 0; i--)
             {
-                Stack.Push(Tokens[i]);
+                Stack.Push(tokens[i]);
             }
         }
 
-        public void CreateAndFillAST()
+        public void CreateAndFillAst()
         {
             // Create AST and fill with tokens
             Stack.Push(TokenType.EOF);
             Stack.Push(TokenType.STMNT);
-            accepted = false;
-            while (!accepted)
+            _accepted = false;
+            while (!_accepted)
             {
                 if (Enum.IsDefined(typeof(TokenType), TopOfStack()) && (int)TopOfStack() <= 50) // less than 50
                 {
-                    Match(TokenStream, TopOfStack());
+                    Match(TopOfStack());
                     if (TopOfStack() == TokenType.EOF)
                     {
-                        accepted = true;
+                        _accepted = true;
                     }
                     Stack.Pop();
                 }
@@ -88,7 +87,7 @@ namespace Parser
             }
         }
 
-        public void InsertInAST(List<TokenType> list)
+        private void InsertInAST(List<TokenType> list)
         {
             foreach (var tokenType in list)
             {
@@ -110,7 +109,7 @@ namespace Parser
             }
         }
 
-        public void TypeCheckAST()
+        public void TypeCheckAst()
         {
             // Do type checking
         }
