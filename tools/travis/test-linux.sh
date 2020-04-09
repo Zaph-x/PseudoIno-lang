@@ -2,8 +2,7 @@
 
 set -e
 
-echo "Running CI build for Windows"
+echo "Running Compiler Test for Linux"
 (
-    dotnet test
     bash "$TRAVIS_BUILD_DIR"/tools/travis/CompileTest.sh
 )
