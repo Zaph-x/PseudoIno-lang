@@ -11,15 +11,15 @@ namespace Parser.Tests
         [Test]
         public void Test_AddChild_ChildIsNull()
         {
-            BeginNode node = new BeginNode();
+            BeginNode node = new BeginNode(1,1);
             //Assert.Throws<NullReferenceException>(() => node.AddChild(null), "The method accepts a null child.");
         }
 
         [Test]
         public void Test_Visitor_ProgramNodeIsVisted()
         {
-            ProgramNode prog = new ProgramNode();
-            FunctionLoopNode loop = new FunctionLoopNode();
+            ProgramNode prog = new ProgramNode(1,1);
+            FunctionLoopNode loop = new FunctionLoopNode(1,1);
             prog.LoopFunction = loop;
             PrettyPrinter printer = new PrettyPrinter();
 

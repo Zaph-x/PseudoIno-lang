@@ -18,6 +18,11 @@ namespace Parser.Objects
             }
         }
 
+        internal void Visit(AssignmentNode assignmentNode)
+        {
+            throw new NotImplementedException();
+        }
+
         internal void Visit(FunctionDefinitonNode functionDefinitonNode)
         {
             throw new NotImplementedException();
@@ -108,7 +113,7 @@ namespace Parser.Objects
             throw new NotImplementedException();
         }
 
-        public void Visit(AssugnNode assugnNode)
+        public void Visit(AssignNode assugnNode)
         {
             throw new NotImplementedException();
         }
