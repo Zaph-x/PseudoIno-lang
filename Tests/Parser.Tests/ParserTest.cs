@@ -22,7 +22,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -40,7 +40,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -58,7 +58,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -79,7 +79,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -103,7 +103,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -127,7 +127,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -142,7 +142,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -160,7 +160,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -178,7 +178,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -196,7 +196,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -212,7 +212,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -242,7 +242,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -262,7 +262,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
@@ -285,7 +285,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF,"",1,7));
             
             Parsenizer parsenizer = new Parsenizer(list);
-            parsenizer.CreateAndFillAST();
+            parsenizer.CreateAndFillAst();
             
             Assert.Pass();
         }
