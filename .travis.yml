@@ -14,9 +14,10 @@ matrix:
           - coreutils
     - os: windows
       name: Windows
-
-script:
+install:
 - if [ "$TRAVIS_OS_NAME" = "windows" ]; then choco install dotnetcore-sdk; fi
+script:
+- set -e
 - dotnet restore
 - dotnet test
 - if [ "$TRAVIS_OS_NAME" = "linux" ]; then bash "$TRAVIS_BUILD_DIR"/tools/travis/test-linux.sh; fi
