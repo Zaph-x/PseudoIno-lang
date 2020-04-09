@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class DoNode : AstNode
     {
-        public DoNode()
+        public DoNode(int line, int offset) : base(TokenType.DO, line, offset)
         {
-            Type = TokenType.DO;
         }
         public override void Accept(Visitor visitor)
         {

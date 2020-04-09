@@ -17,6 +17,12 @@ namespace Parser.Objects
         long Line { get; set; }
         private int Offset { get; set; }
 
+        public AstNode(TokenType type, int line, int offset) {
+            this.Type = type;
+            this.Line = line;
+            this.Offset = offset;
+        }
+
         public override string ToString() => $"line={Line}; offset={Offset}";
 
         public abstract void Accept(Visitor visitor);

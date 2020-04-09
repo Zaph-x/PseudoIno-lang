@@ -1,3 +1,4 @@
+using System;
 namespace Lexer.Objects
 {
     /// <summary>
@@ -354,5 +355,43 @@ namespace Lexer.Objects
         /// Array token, non terminal
         /// </summary>
         ARR
+    }
+
+    /// <summary>
+    /// A class with static classes to operate on token types.
+    /// </summary>
+    public class TokenTypeExpressions
+    {
+        /// <summary>
+        /// This function will determine if a given token is a non-terminal
+        /// </summary>
+        /// <param name="type">The token to check</param>
+        /// <returns>True if the token is a non-terminal. Else false.</returns>
+        public static bool IsNonTerminal(TokenType type)
+        {
+            return type == TokenType.PROG 
+            || type == TokenType.TYPE 
+            || type == TokenType.STMNTS 
+            || type == TokenType.STMNT 
+            || type == TokenType.FUNCSTMNTS 
+            || type == TokenType.FUNCSTMNT 
+            || type == TokenType.ASSIGNMENT 
+            || type == TokenType.EXPR 
+            || type == TokenType.MATH_OP 
+            || type == TokenType.BOOL_OP 
+            || type == TokenType.OREQUAL 
+            || type == TokenType.VAL 
+            || type == TokenType.ARR 
+            || type == TokenType.PIN 
+            || type == TokenType.IFSTMNT 
+            || type == TokenType.FUNC 
+            || type == TokenType.BEGINSTMNT 
+            || type == TokenType.BEGINABLE 
+            || type == TokenType.LOOPW 
+            || type == TokenType.LOOPF 
+            || type == TokenType.OPTNL_ARGS 
+            || type == TokenType.ARGLIST 
+            || type == TokenType.ARG;
+        }
     }
 }

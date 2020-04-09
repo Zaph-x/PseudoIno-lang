@@ -5,6 +5,7 @@ using System.Net.Security;
 using Lexer.Exceptions;
 using Lexer.Objects;
 using Parser.Objects;
+using Parser.Objects.Nodes;
 
 namespace Parser
 {
@@ -14,18 +15,18 @@ namespace Parser
         private Stack<TokenType> Stack = new Stack<TokenType>();
         private TokenStream TokenStream;
         private ParseTable _parseTable;
-        //private AstNode _astNode = new AstNode(new ParseToken(TokenType.START,"",0,0),"",0,0 );
+        public ProgramNode Program { get; internal set; } = new ProgramNode(0, 0);
         private bool _accepted;
         private List<TokenType> _p;
 
         public Parsenizer(List<ScannerToken> tokens)
         {
-             TokenStream = new TokenStream(tokens);
-             _parseTable = new ParseTable();
-             _parseTable.InitTable();
+            TokenStream = new TokenStream(tokens);
+            _parseTable = new ParseTable();
+            _parseTable.InitTable();
         }
 
-        private TokenType TopOfStack()        
+        private TokenType TopOfStack()
         {
             if (Stack.TryPeek(out TokenType token))
             {
@@ -59,7 +60,7 @@ namespace Parser
             _accepted = false;
             while (!_accepted)
             {
-                if (Enum.IsDefined(typeof(TokenType),TopOfStack()) && (int)TopOfStack() <= 50) // less than 50
+                if (Enum.IsDefined(typeof(TokenType), TopOfStack()) && (int)TopOfStack() <= 50) // less than 50
                 {
                     Match(TopOfStack());
                     if (TopOfStack() == TokenType.EOF)
@@ -70,7 +71,7 @@ namespace Parser
                 }
                 else
                 {
-                    _p = _parseTable[TopOfStack(),TokenStream.Peek().Type];
+                    _p = _parseTable[TopOfStack(), TokenStream.Peek().Type];
                     if (_p.Count == 0)
                     {
                         Stack.Pop();
@@ -78,7 +79,7 @@ namespace Parser
                     }
                     if (_p.First() == TokenType.ERROR)
                     {
-                        throw new InvalidSyntaxException( $"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
+                        throw new InvalidSyntaxException($"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
                     }
                     Apply(_p);
                     InsertInAST(_p);
@@ -92,10 +93,14 @@ namespace Parser
             {
                 switch (tokenType)
                 {
+                    case TokenType.ASSIGNMENT:
+                        Program.Statements.Add(new AssignmentNode(1, 1));
+                        break;
                     case TokenType.STMNT:
                         //_astNode.AddChild(new AstNode(new ParseToken(tokenType,"",0,0),"",0,0 ));
                         break;
                     case TokenType.VAR:
+
                         //_astNode.AddChild();
                         break;
                     default:

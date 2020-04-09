@@ -4,12 +4,12 @@ namespace Parser.Objects.Nodes
 {
     public class CallNode : AstNode
     {
-        public CallNode()
+        public CallNode(int line, int offset) : base(TokenType.CALL, line, offset)
         {
-            this.Type = TokenType.CALL;
         }
 
-        public override void Accept(Visitor visitor) {
+        public override void Accept(Visitor visitor)
+        {
             visitor.Visit(this);
         }
     }

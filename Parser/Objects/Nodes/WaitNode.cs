@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class WaitNode : AstNode
     {
-        public WaitNode()
+        public WaitNode(int line, int offset) : base(TokenType.WAIT, line, offset)
         {
-            Type = TokenType.WAIT;
         }
         public override void Accept(Visitor visitor)
         {

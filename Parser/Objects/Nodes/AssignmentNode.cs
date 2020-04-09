@@ -3,9 +3,9 @@ using Lexer.Objects;
 
 namespace Parser.Objects.Nodes
 {
-    public class EndNode : AstNode
+    public class AssignmentNode : StatementNode
     {
-        public EndNode(int line, int offset) : base (TokenType.END, line, offset)
+        public AssignmentNode(int line, int offset) : base(TokenType.ASSIGNMENT, line, offset)
         {
         }
 

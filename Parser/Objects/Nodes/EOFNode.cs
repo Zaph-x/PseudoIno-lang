@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class EOFNode : AstNode
     {
-        public EOFNode()
+        public EOFNode(int line, int offset) : base(TokenType.EOF, line, offset)
         {
-            Type = TokenType.EOF;
         }
         public override void Accept(Visitor visitor)
         {

@@ -4,9 +4,8 @@ namespace Parser.Objects.Nodes
 {
     public class InNode : AstNode
     {
-        public InNode()
+        public InNode(int line, int offset) : base(TokenType.IN, line, offset)
         {
-            Type = TokenType.IN;
         }
         public override void Accept(Visitor visitor)
         {
