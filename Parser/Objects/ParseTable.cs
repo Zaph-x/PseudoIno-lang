@@ -72,7 +72,7 @@ namespace Parser.Objects
             this[STMNT, BEGIN] = new ParseAction(BEGINSTMNT);
 
             this[ASSIGNMENT, VAL] = new ParseAction(VAL, EXPR);
-            this[ASSIGNMENT, ARRAYLEFT] = new ParseAction(ARRAYLEFT, ARRAYINDEX, ARRAYRIGHT, ARR);
+            this[ASSIGNMENT, ARRAYLEFT] = new ParseAction(ARRAYLEFT, NUMERIC, ARRAYRIGHT, ARR);
 
             this[EXPR, MATH_OP] = new ParseAction(MATH_OP, VAL, EXPR);
             this[EXPR, BOOL_OP] = new ParseAction(BOOL_OP, VAL, EXPR);
@@ -98,7 +98,7 @@ namespace Parser.Objects
             this[VAL, STRING] = new ParseAction(STRING);
             this[VAL, PIN] = new ParseAction(PIN);
 
-            this[ARR, ARRAYLEFT] = new ParseAction(ARRAYLEFT, ARRAYINDEX, ARRAYRIGHT, ARR);
+            this[ARR, ARRAYLEFT] = new ParseAction(ARRAYLEFT, NUMERIC, ARRAYRIGHT, ARR);
             this[ARR, EPSILON] = new ParseAction();
 
             this[PIN, DPIN] = new ParseAction(DPIN);
