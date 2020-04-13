@@ -107,6 +107,11 @@ namespace Parser.Objects
         {
             throw new NotImplementedException();
         }
+        
+        public void Visit(EpsilonNode epsilonNode)
+        {
+            throw new NotImplementedException();
+        }
 
         public void Visit(DoNode doNode)
         {

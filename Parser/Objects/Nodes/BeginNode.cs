@@ -15,6 +15,10 @@ namespace Parser.Objects.Nodes
 
         public void AddChild(AstNode node)
         {
+            if (node == null)
+            {
+                throw new NullReferenceException();
+            }
             Children.Add(node);
         }
     }

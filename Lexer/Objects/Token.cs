@@ -32,6 +32,10 @@ namespace Lexer.Objects
         /// <returns>A string representation of the token</returns>
         public override string ToString() => $"({Line}:{Offset}) {Type} => {Value}";
 
+        /// <summary>
+        /// Overrides the GetHashCode method and returns the value of the enum
+        /// </summary>
+        /// <returns>int with value of enum</returns>
         public override int GetHashCode()
         {
             return Type.GetHashCode();

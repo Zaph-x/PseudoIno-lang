@@ -10,8 +10,6 @@ namespace Parser.Objects
     {
         private List<TokenType>[,] dict = new List<TokenType>[100,100];
 
-        private int xt = 0;
-
         public List<TokenType> this[TokenType key1, TokenType key2]
         {
             get
@@ -67,6 +65,7 @@ namespace Parser.Objects
             this[TokenType.ASSIGNMENT, TokenType.VAL].Add(TokenType.EXPR);
             
             this[TokenType.EXPR, TokenType.LINEBREAK].Clear();
+
             this[TokenType.EXPR, TokenType.LINEBREAK].Add(TokenType.LINEBREAK);*/
             // Above is old code that works
             //PROG
@@ -384,7 +383,6 @@ namespace Parser.Objects
             //ARG
             this[TokenType.ARG,TokenType.BOOL].Clear();
             this[TokenType.ARG,TokenType.BOOL].Add(TokenType.TYPE);
-            
         }
     }
 }

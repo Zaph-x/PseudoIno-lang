@@ -1,5 +1,8 @@
 namespace Lexer.Objects
 {
+    /// <summary>
+    /// Scanner token class. Inherits from Token class
+    /// </summary>
     public class ScannerToken : Token
     {
         /// <summary>
