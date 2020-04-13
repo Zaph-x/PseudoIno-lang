@@ -13,7 +13,7 @@ namespace Parser
     public class Parsenizer
     {
         // public AST Ast = new AST();
-        private Stack<TokenType> Stack = new Stack<TokenType>();
+        private Stack<ScannerToken> Stack = new Stack<ScannerToken>();
         private TokenStream TokenStream;
         private ParseTable _parseTable;
         public ProgramNode Program { get; internal set; } = new ProgramNode(0, 0);
@@ -28,9 +28,9 @@ namespace Parser
             _parseTable.InitTable();
         }
 
-        private TokenType TopOfStack()
+        private ScannerToken TopOfStack()
         {
-            if (Stack.TryPeek(out TokenType token))
+            if (Stack.TryPeek(out ScannerToken token))
             {
                 return token;
             }
@@ -46,7 +46,7 @@ namespace Parser
                 new InvalidTokenException("Expected token but was not token");
         }
 
-        private void Apply(List<TokenType> tokens)
+        private void Apply(List<ScannerToken> tokens)
         {
             Stack.Pop();
             for (int i = tokens.Count - 1; i >= 0; i--)
@@ -58,15 +58,15 @@ namespace Parser
         public void CreateAndFillAst()
         {
             // Create AST and fill with tokens
-            Stack.Push(TokenType.EOF);
-            Stack.Push(TokenType.STMNT);
+            Stack.Push(TokenStream.EOF);
+            Stack.Push(TokenStream.PROG);
             _accepted = false;
             while (!_accepted)
             {
-                if (Enum.IsDefined(typeof(TokenType), TopOfStack()) && (int)TopOfStack() <= 50) // less than 50
+                if (Enum.IsDefined(typeof(TokenType), TopOfStack()) && (int)TopOfStack().Type <= 50) // less than 50
                 {
-                    Match(TopOfStack());
-                    if (TopOfStack() == TokenType.EOF)
+                    Match(TopOfStack().Type);
+                    if (TopOfStack().Type == TokenType.EOF)
                     {
                         _accepted = true;
                     }
@@ -75,7 +75,7 @@ namespace Parser
                 }
                 else
                 {
-                    _p = _parseTable[TopOfStack(), TokenStream.Peek().Type];
+                    _p = _parseTable[TopOfStack(), TokenStream.Peek()].Product;
                     if (_p.Count == 0)
                     {
                         InsertEpsilon();
@@ -86,7 +86,7 @@ namespace Parser
                     {
                         new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
                     }
-                    Apply(_p);
+                    Apply(_p.Select(token => token.Type));
                     InsertInAST(_p);
                 }
             }
@@ -109,7 +109,7 @@ namespace Parser
         private void InsertInAST(List<TokenType> list)
         {
             _current = _current.Parent;
-            _current = _current.Children.Find(x => x.Type == TopOfStack());
+            _current = _current.Children.Find(x => x.Type == TopOfStack().Type);
 
             foreach (var tokenType in list)
             {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Lexer.Objects;
 
 namespace Parser.Objects
@@ -28,6 +29,8 @@ namespace Parser.Objects
             Index += 1;
         }
 
+        public ScannerToken EOF => Tokens.First(token => token.Type == TokenType.EOF);
+        public ScannerToken PROG => Tokens[0];
         public ScannerToken Current()
         {
             return Tokens[Index];

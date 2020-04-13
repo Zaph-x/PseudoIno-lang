@@ -11,7 +11,7 @@ namespace Lexer.Objects
         /// </summary>
         ERROR = -1,
         /* Keywords */
-        
+
         /// <summary>
         /// Begin token, terminal
         /// </summary>
@@ -92,6 +92,10 @@ namespace Lexer.Objects
         /// </summary>
         OP_NOT,
         ///<summary>
+        /// Bool or equal token type
+        /// </summary>
+        OP_OREQUAL,
+        ///<summary>
         /// Bool questionmark than token type
         /// </summary>
         OP_QUESTIONMARK,
@@ -118,7 +122,7 @@ namespace Lexer.Objects
         /// Multiline comment token type
         /// </summary>
         MULT_COMNT,
-        
+
         /* TYPES */
         ///<summary>
         /// Numeric integer token type
@@ -140,7 +144,7 @@ namespace Lexer.Objects
         /// Range token type
         /// </summary>
         RANGE,
-        
+
         /* Arithmetic operators */
         ///<summary>
         /// Plus token type
@@ -228,7 +232,7 @@ namespace Lexer.Objects
         /// End of file token, terminal
         /// </summary>
         EOF,
-        
+
         //Parser
         /// <summary>
         /// Program token, non terminal
@@ -274,6 +278,14 @@ namespace Lexer.Objects
         /// If statement token, non terminal
         /// </summary>
         IFSTMNT,
+        /// <summary>
+        /// ELSE statement token, non terminal
+        /// </summary>
+        ELSESTMNT,
+        /// <summary>
+        /// Else If statement token, non terminal
+        /// </summary>
+        ELSEIFSTMNT,
         /// <summary>
         /// Pin token, non terminal
         /// </summary>
@@ -355,9 +367,25 @@ namespace Lexer.Objects
         /// </summary>
         CALLPARAMS,
         /// <summary>
+        /// Wait statement, non terminal
+        /// </summary> 
+        WAITSTMNT,
+        /// <summary>
         /// Epsilon transition, non terminal
         /// </summary>
-        EPSILON
+        EPSILON,
+        /// <summary>
+        /// Range operator, terminal
+        /// </summary>
+        OP_RANGE,
+        /// <summary>
+        /// Time modeifer, non terminal
+        /// </summary>
+        TIME_MOD,
+        /// <summary>
+        /// Comman seperator, terminal
+        /// </summary>
+        SEPARATOR
     }
 
     /// <summary>
@@ -372,30 +400,32 @@ namespace Lexer.Objects
         /// <returns>True if the token is a non-terminal. Else false.</returns>
         public static bool IsNonTerminal(TokenType type)
         {
-            return type == TokenType.PROG 
-            || type == TokenType.TYPE 
-            || type == TokenType.STMNTS 
-            || type == TokenType.STMNT 
-            || type == TokenType.ASSIGNMENT 
-            || type == TokenType.EXPR 
-            || type == TokenType.MATH_OP 
-            || type == TokenType.BOOL_OP 
-            || type == TokenType.VAL 
-            || type == TokenType.ARR 
-            || type == TokenType.PIN 
-            || type == TokenType.IF 
-            || type == TokenType.ELSE 
+            return type == TokenType.PROG
+            || type == TokenType.TYPE
+            || type == TokenType.STMNTS
+            || type == TokenType.STMNT
+            || type == TokenType.ASSIGNMENT
+            || type == TokenType.EXPR
+            || type == TokenType.MATH_OP
+            || type == TokenType.BOOL_OP
+            || type == TokenType.OP_OREQUAL
+            || type == TokenType.VAL
+            || type == TokenType.ARR
+            || type == TokenType.PIN
+            || type == TokenType.IF
+            || type == TokenType.ELSE
             || type == TokenType.FUNCCALL
             || type == TokenType.FUNCDECL
-            || type == TokenType.BEGINSTMNT 
-            || type == TokenType.BEGINABLE 
-            || type == TokenType.LOOPW 
-            || type == TokenType.LOOPF 
-            || type == TokenType.OPTNL_ARGS 
-            || type == TokenType.ARGLIST 
+            || type == TokenType.BEGINSTMNT
+            || type == TokenType.BEGINABLE
+            || type == TokenType.LOOPW
+            || type == TokenType.LOOPF
+            || type == TokenType.OPTNL_ARGS
+            || type == TokenType.ARGLIST
             || type == TokenType.ARG
             || type == TokenType.RANGE
-            || type == TokenType.WAIT
+            || type == TokenType.TIME_MOD
+            || type == TokenType.WAITSTMNT
             || type == TokenType.CALLPARAM
             || type == TokenType.CALLPARAMS;
         }
