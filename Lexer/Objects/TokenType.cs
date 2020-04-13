@@ -354,7 +354,8 @@ namespace Lexer.Objects
         /// <summary>
         /// Array token, non terminal
         /// </summary>
-        ARR
+        ARR,
+        EPSILON
     }
 
     /// <summary>

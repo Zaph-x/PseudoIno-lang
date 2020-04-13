@@ -16,11 +16,14 @@ namespace Parser.Objects
         // TODO Pass these from the scanner Token
         long Line { get; set; }
         private int Offset { get; set; }
+        
+        public bool Visited { get; set; }
 
         public AstNode(TokenType type, int line, int offset) {
             this.Type = type;
             this.Line = line;
             this.Offset = offset;
+            this.Visited = false;
         }
 
         public override string ToString() => $"line={Line}; offset={Offset}";
