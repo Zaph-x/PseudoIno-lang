@@ -118,7 +118,7 @@ namespace Parser.Objects
             throw new NotImplementedException();
         }
 
-        public void Visit(AssignNode assugnNode)
+        public void Visit(DoNode doNode)
         {
             throw new NotImplementedException();
         }
