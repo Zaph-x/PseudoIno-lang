@@ -1,4 +1,3 @@
-using System;
 namespace Lexer.Objects
 {
     /// <summary>
@@ -12,7 +11,7 @@ namespace Lexer.Objects
         /// </summary>
         ERROR = -1,
         /* Keywords */
-        
+
         /// <summary>
         /// Begin token, terminal
         /// </summary>
@@ -93,6 +92,10 @@ namespace Lexer.Objects
         /// </summary>
         OP_NOT,
         ///<summary>
+        /// Bool or equal token type
+        /// </summary>
+        OP_OREQUAL,
+        ///<summary>
         /// Bool questionmark than token type
         /// </summary>
         OP_QUESTIONMARK,
@@ -119,7 +122,7 @@ namespace Lexer.Objects
         /// Multiline comment token type
         /// </summary>
         MULT_COMNT,
-        
+
         /* TYPES */
         ///<summary>
         /// Numeric integer token type
@@ -141,7 +144,7 @@ namespace Lexer.Objects
         /// Range token type
         /// </summary>
         RANGE,
-        
+
         /* Arithmetic operators */
         ///<summary>
         /// Plus token type
@@ -229,7 +232,7 @@ namespace Lexer.Objects
         /// End of file token, terminal
         /// </summary>
         EOF,
-        
+
         //Parser
         /// <summary>
         /// Program token, non terminal
@@ -276,6 +279,14 @@ namespace Lexer.Objects
         /// </summary>
         IFSTMNT,
         /// <summary>
+        /// ELSE statement token, non terminal
+        /// </summary>
+        ELSESTMNT,
+        /// <summary>
+        /// Else If statement token, non terminal
+        /// </summary>
+        ELSEIFSTMNT,
+        /// <summary>
         /// Pin token, non terminal
         /// </summary>
         PIN,
@@ -284,6 +295,10 @@ namespace Lexer.Objects
         /// </summary>
         FUNCCALL,
         /// <summary>
+        /// Function declaration token, non terminal
+        /// </summary>
+        FUNCDECL,
+        /// <summary>
         /// Argument list token, non terminal
         /// </summary>
         ARGLIST,
@@ -291,14 +306,6 @@ namespace Lexer.Objects
         /// Function token, non terminal
         /// </summary>
         FUNCTION,
-        /// <summary>
-        /// Function statement token, non terminal
-        /// </summary>
-        FUNCSTMNT,
-        /// <summary>
-        /// Function statements token, non terminal
-        /// </summary>
-        FUNCSTMNTS,
         /// <summary>
         /// Code block token, non terminal
         /// </summary>
@@ -328,10 +335,6 @@ namespace Lexer.Objects
         /// </summary>
         ENDFOR,
         /// <summary>
-        /// Or equal token, non terminal
-        /// </summary>
-        OREQUAL,
-        /// <summary>
         /// Assignment token, non terminal
         /// </summary>
         ASSIGNMENT,
@@ -355,7 +358,34 @@ namespace Lexer.Objects
         /// Array token, non terminal
         /// </summary>
         ARR,
-        EPSILON
+        /// <summary>
+        /// First paramter in function call, non terminal
+        /// </summary>
+        CALLPARAM,
+        /// <summary>
+        /// Additional parameters in function call, non terminal
+        /// </summary>
+        CALLPARAMS,
+        /// <summary>
+        /// Wait statement, non terminal
+        /// </summary> 
+        WAITSTMNT,
+        /// <summary>
+        /// Epsilon transition, non terminal
+        /// </summary>
+        EPSILON,
+        /// <summary>
+        /// Range operator, terminal
+        /// </summary>
+        OP_RANGE,
+        /// <summary>
+        /// Time modeifer, non terminal
+        /// </summary>
+        TIME_MOD,
+        /// <summary>
+        /// Comman seperator, terminal
+        /// </summary>
+        SEPARATOR
     }
 
     /// <summary>
@@ -370,29 +400,34 @@ namespace Lexer.Objects
         /// <returns>True if the token is a non-terminal. Else false.</returns>
         public static bool IsNonTerminal(TokenType type)
         {
-            return type == TokenType.PROG 
-            || type == TokenType.TYPE 
-            || type == TokenType.STMNTS 
-            || type == TokenType.STMNT 
-            || type == TokenType.FUNCSTMNTS 
-            || type == TokenType.FUNCSTMNT 
-            || type == TokenType.ASSIGNMENT 
-            || type == TokenType.EXPR 
-            || type == TokenType.MATH_OP 
-            || type == TokenType.BOOL_OP 
-            || type == TokenType.OREQUAL 
-            || type == TokenType.VAL 
-            || type == TokenType.ARR 
-            || type == TokenType.PIN 
-            || type == TokenType.IFSTMNT 
-            || type == TokenType.FUNC 
-            || type == TokenType.BEGINSTMNT 
-            || type == TokenType.BEGINABLE 
-            || type == TokenType.LOOPW 
-            || type == TokenType.LOOPF 
-            || type == TokenType.OPTNL_ARGS 
-            || type == TokenType.ARGLIST 
-            || type == TokenType.ARG;
+            return type == TokenType.PROG
+            || type == TokenType.TYPE
+            || type == TokenType.STMNTS
+            || type == TokenType.STMNT
+            || type == TokenType.ASSIGNMENT
+            || type == TokenType.EXPR
+            || type == TokenType.MATH_OP
+            || type == TokenType.BOOL_OP
+            || type == TokenType.OP_OREQUAL
+            || type == TokenType.VAL
+            || type == TokenType.ARR
+            || type == TokenType.PIN
+            || type == TokenType.IF
+            || type == TokenType.ELSE
+            || type == TokenType.FUNCCALL
+            || type == TokenType.FUNCDECL
+            || type == TokenType.BEGINSTMNT
+            || type == TokenType.BEGINABLE
+            || type == TokenType.LOOPW
+            || type == TokenType.LOOPF
+            || type == TokenType.OPTNL_ARGS
+            || type == TokenType.ARGLIST
+            || type == TokenType.ARG
+            || type == TokenType.RANGE
+            || type == TokenType.TIME_MOD
+            || type == TokenType.WAITSTMNT
+            || type == TokenType.CALLPARAM
+            || type == TokenType.CALLPARAMS;
         }
 
         /// <summary>

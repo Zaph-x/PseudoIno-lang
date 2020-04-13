@@ -456,6 +456,7 @@ namespace Lexer
         public void GenerateTokens()
         {
             // Ensure we are not dealing with an empty file.
+            Tokens.Add(new ScannerToken(TokenType.PROG, "", 0, 0));
             while (!IsEOF(Peek()))
             {
                 Pop();

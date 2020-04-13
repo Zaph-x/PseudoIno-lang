@@ -13,8 +13,6 @@ namespace Core
     {
         public static int Main(string[] args)
         {
-            
-            new Exception("Test exception");
             Stopwatch timer = new Stopwatch();
             timer.Start();
             CommandLineOptions options = ParseOptions(args);

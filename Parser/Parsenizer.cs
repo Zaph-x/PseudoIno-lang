@@ -13,7 +13,7 @@ namespace Parser
     public class Parsenizer
     {
         // public AST Ast = new AST();
-        private Stack<TokenType> Stack = new Stack<TokenType>();
+        private Stack<ScannerToken> Stack = new Stack<ScannerToken>();
         private TokenStream TokenStream;
         private ParseTable _parseTable;
         public ProgramNode Program { get; internal set; } = new ProgramNode(0, 0);
@@ -28,13 +28,14 @@ namespace Parser
             _parseTable.InitTable();
         }
 
-        private TokenType TopOfStack()
+        private ScannerToken TopOfStack()
         {
-            if (Stack.TryPeek(out TokenType token))
+            if (Stack.TryPeek(out ScannerToken token))
             {
                 return token;
             }
-            throw new InvalidSyntaxException("Expected stack not empty but was empty");
+            // FIXME Skal ikke smide en exception da dette dræber compileren
+            throw new InvalidTokenException("Expected stack not empty but was empty");
         }
 
         private void Match(TokenType token)
@@ -42,10 +43,10 @@ namespace Parser
             if (TokenStream.Peek().Type == token)
                 TokenStream.Advance();
             else
-                throw new InvalidSyntaxException("Expected token but was not token");
+                new InvalidTokenException("Expected token but was not token");
         }
 
-        private void Apply(List<TokenType> tokens)
+        private void Apply(List<ScannerToken> tokens)
         {
             Stack.Pop();
             for (int i = tokens.Count - 1; i >= 0; i--)
@@ -57,15 +58,15 @@ namespace Parser
         public void CreateAndFillAst()
         {
             // Create AST and fill with tokens
-            Stack.Push(TokenType.EOF);
-            Stack.Push(TokenType.STMNT);
+            Stack.Push(TokenStream.EOF);
+            Stack.Push(TokenStream.PROG);
             _accepted = false;
             while (!_accepted)
             {
-                if (Enum.IsDefined(typeof(TokenType), TopOfStack()) && (int)TopOfStack() <= 50) // less than 50
+                if (Enum.IsDefined(typeof(TokenType), TopOfStack()) && (int)TopOfStack().Type <= 50) // less than 50
                 {
-                    Match(TopOfStack());
-                    if (TopOfStack() == TokenType.EOF)
+                    Match(TopOfStack().Type);
+                    if (TopOfStack().Type == TokenType.EOF)
                     {
                         _accepted = true;
                     }
@@ -74,7 +75,7 @@ namespace Parser
                 }
                 else
                 {
-                    _p = _parseTable[TopOfStack(), TokenStream.Peek().Type];
+                    _p = _parseTable[TopOfStack(), TokenStream.Peek()].Product;
                     if (_p.Count == 0)
                     {
                         //InsertEpsilon();
@@ -83,7 +84,7 @@ namespace Parser
                     }
                     if (_p.First() == TokenType.ERROR)
                     {
-                        throw new InvalidSyntaxException($"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
+                        new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
                     }
                     Apply(_p);
                     //InsertInAST(_p);
@@ -93,12 +94,12 @@ namespace Parser
 
         private void InsertTerminal()
         {
-            _current.Children.Add(GenerateNodeFromTokenType(TokenStream.Peek().Type));
+            _current.Children.Add(GenerateNodeFromTokenType(TokenStream.Peek()));
             _current = _current.Parent;
         }
         private void InsertEpsilon()
         {
-            _current.Children.Add(new EpsilonNode(0,0));
+            _current.Children.Add(new EpsilonNode(0, 0));
             _current = _current.Parent;
         }
 
@@ -108,8 +109,8 @@ namespace Parser
         private void InsertInAST(List<TokenType> list)
         {
             _current = _current.Parent;
-            _current = _current.Children.Find(x => x.Type == TopOfStack());
-            
+            _current = _current.Children.Find(x => x.Type == TopOfStack().Type);
+
             foreach (var tokenType in list)
             {
                 switch (tokenType)
@@ -129,17 +130,17 @@ namespace Parser
                 }
             }
         }
-//TODO: make switch case
-        private AstNode GenerateNodeFromTokenType(TokenType tokenType)
+        //TODO: make switch case
+        private AstNode GenerateNodeFromTokenType(ScannerToken token)
         {
-            switch (tokenType)
+            switch (token.Type)
             {
                 case TokenType.VAL:
-                    return new ValNode(0,0);
+                    return new ValNode(token.Line, token.Offset);
                 case TokenType.VAR:
-                    return new VarNode(0,0);
+                    return new VarNode(token.Line, token.Offset);
                 default:
-                    throw new Exception();
+                    throw new InvalidTokenException("Invalid Token value in token ");
             }
         }
 

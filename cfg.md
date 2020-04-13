@@ -14,6 +14,7 @@ Stmts -> Stmt Stmts
 Stmt -> ID 'is' Assignment
 | IfStmnt
 | FuncCall
+| WaitStmnt
 | BeginStmt .
 
 Assignment -> Val Expr
@@ -32,8 +33,11 @@ Math_Op -> '+'
 Bool_Op -> 'equals'
 | 'and'
 | 'or'
-| 'greater' 'or' 'equal' 
-| 'less' 'or' 'equal' .
+| 'greater' OrEqual  
+| 'less' OrEqual .
+
+OrEqual -> 'or' 'equal'
+| .
 
 Val -> ID
 | Numeric
@@ -48,13 +52,13 @@ Pin -> 'dpin'
 
 IfStmnt -> 'if' Val Expr 'do' Stmts ElseStmnt 'end' 'if' .
 
-ElseStmnt -> 'else' ElseStmnt Stmnts
-|  .
-
-ElseIfStmnt -> 'if' Val Expr 'do'
+ElseStmnt -> 'else' ElseIfStmnt Stmnts
 | .
 
-FuncCall -> 'call' ID .
+ElseIfStmnt -> 'if' Val Expr 'do' ElseStmnt
+| .
+
+FuncCall -> 'call' ID CallParam .
 
 FuncDecl -> 'func' ID Optnl_Args  Stmts 'end' ID .
 
@@ -76,6 +80,13 @@ ArgList -> Arg ArgList
 Range -> Numeric '**' Numeric .
 
 Arg -> Type ID .
+
+WaitStmnt -> 'wait' Numeric TimeOperator .
+
+TimeOperator -> 'h'
+| 'm'
+| 's'
+|'ms' .
 
 CallParam -> 'with' '(' ID CallParams ')' .
 CallParams -> ',' ID CallParams
