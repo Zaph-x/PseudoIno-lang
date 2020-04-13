@@ -7,8 +7,7 @@ namespace Parser.Objects.Nodes
         AstNode LeftHand { get; set; }
         AstNode RightHand { get; set; }
         public AssignNode(int line, int offset) : base(TokenType.ASSIGN, line, offset)
-        {
-        }
+        { }
 
         public override void Accept(Visitor visitor)
         {

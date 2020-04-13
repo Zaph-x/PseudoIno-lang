@@ -3,7 +3,7 @@ using Lexer.Objects;
 
 namespace Parser.Objects.Nodes
 {
-    public class AssignmentNode : StatementNode
+    public class AssignmentNode : AstNode
     {
         public AssignmentNode(int line, int offset) : base(TokenType.ASSIGNMENT, line, offset)
         {
