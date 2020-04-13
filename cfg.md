@@ -1,75 +1,83 @@
+```
 Prog -> Stmts .
 
-Type -> string
-| numeric
-| bool
-| array
-| Pin.
+Type -> 'string'
+| 'numeric'
+| 'bool'
+| 'array'
+| Pin .
 
 Stmts -> Stmt Stmts
+| FuncDecl Stmnts
 | .
 
-FuncStmts -> FuncStmt FuncStmts
-| .
-
-Stmt -> id assign Assignment
+Stmt -> ID 'is' Assignment
 | IfStmnt
-| FuncCall .
-
-FuncStmt -> id assign Val Expr
-| IfStmnt 
+| FuncCall
 | BeginStmt .
 
 Assignment -> Val Expr
-| [numeric] Arr .
+| '[' Numeric ']' Arr .
 
 Expr -> Math_Op Val Expr
 | Bool_Op Val Expr
 | .
 
-Math_Op -> +
-| -
-| *
-| /
-| % .
+Math_Op -> '+'
+| '-'
+| '*'
+| '/'
+| '%' .
 
-Bool_Op -> equals
-| and
-| or
-| Greater OrEqual 
-| Less OrEqual .
+Bool_Op -> 'equals'
+| 'and'
+| 'or'
+| 'greater' 'or' 'equal' 
+| 'less' 'or' 'equal' .
 
-OrEqual -> Or Equal
-| .
-
-Val -> id
-| numeric
-| string
+Val -> ID
+| Numeric
+| String
 | Pin .
 
-Arr -> [numeric] Arr
+Arr -> '[' Numeric ']' Arr
 | .
 
-Pin -> dpin
-| apin .
+Pin -> 'dpin'
+| 'apin' .
 
-IfStmnt -> if Val Bool_Op Val Epxr FuncStmts end if.
+IfStmnt -> 'if' Val Expr 'do' Stmts ElseStmnt 'end' 'if' .
 
-FuncCall -> func id Optnl_Args  FuncStmts end id.
+ElseStmnt -> 'else' ElseStmnt Stmnts
+|  .
 
-BeginStmt -> begin Beginable.
+ElseIfStmnt -> 'if' Val Expr 'do'
+| .
+
+FuncCall -> 'call' ID .
+
+FuncDecl -> 'func' ID Optnl_Args  Stmts 'end' ID .
+
+BeginStmt -> 'begin' Beginable .
 
 Beginable -> LoopW
-| LoopF.
+| LoopF .
 
-LoopW -> while Val BoolExpr do FuncStmts end while .
+LoopW -> 'while' Val Expr 'do' Stmts 'end' 'while' .
 
-LoopF -> For id In Range do FuncStmts end for.
+LoopF -> 'for' ID 'in' Range 'do' Stmts 'end' 'for' .
 
-Optnl_Args -> with Arg ArgList
+Optnl_Args -> 'with' Arg ArgList
 | .
 
 ArgList -> Arg ArgList 
 | .
 
-Arg -> Type id.
+Range -> Numeric '**' Numeric .
+
+Arg -> Type ID .
+
+CallParam -> 'with' '(' ID CallParams ')' .
+CallParams -> ',' ID CallParams
+| .
+```

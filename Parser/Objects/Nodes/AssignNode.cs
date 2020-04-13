@@ -2,8 +2,10 @@ using System;
 using Lexer.Objects;
 namespace Parser.Objects.Nodes
 {
-    public class AssignNode : AstNode
+    public class AssignNode : StatementNode
     {
+        AstNode LeftHand { get; set; }
+        AstNode RightHand { get; set; }
         public AssignNode(int line, int offset) : base(TokenType.ASSIGN, line, offset)
         {
         }
