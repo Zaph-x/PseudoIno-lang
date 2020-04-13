@@ -52,7 +52,7 @@ namespace Lexer
         /// A bool value to check if the tokenizer found any illegal syntax
         /// </summary>
         /// <value>False, unless a syntax error has been found</value>
-        public static bool HasError {get; set;}
+        public static bool HasError { get; set; }
 
         /// <summary>
         /// The stream that the scanner is reading from
@@ -468,9 +468,8 @@ namespace Lexer
                 else if (CurrentChar == '#' && Peek() == '<') { ScanMultiLineComment(); }
                 else if ("+-*/%()".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
-
             }
-
+            Tokens.Add(new ScannerToken(TokenType.EOF, "", this.Line, this.Offset + 1));
         }
     }
 }

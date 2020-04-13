@@ -394,5 +394,12 @@ namespace Lexer.Objects
             || type == TokenType.ARGLIST 
             || type == TokenType.ARG;
         }
+
+        /// <summary>
+        /// This function will determine if a given token is terminal
+        /// </summary>
+        /// <param name="type">The token to test</param>
+        /// <returns>True if the token is a terminal. Else false.</returns>
+        public static bool IsTerminal(TokenType type) => !IsNonTerminal(type);
     }
 }
