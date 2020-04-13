@@ -18,7 +18,7 @@ namespace Parser.Objects
             }
         }
 
-        public Token Peek()
+        public ScannerToken Peek()
         {
             return Tokens[Index + 1];
         }
@@ -28,7 +28,7 @@ namespace Parser.Objects
             Index += 1;
         }
 
-        public Token Current()
+        public ScannerToken Current()
         {
             return Tokens[Index];
         }
