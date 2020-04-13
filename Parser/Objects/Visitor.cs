@@ -118,6 +118,11 @@ namespace Parser.Objects
             throw new NotImplementedException();
         }
 
+        public void Visit(DoNode doNode)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Visit(ProgramNode programNode)
         {
             if (programNode.FunctionDefinitons.Any()) {
