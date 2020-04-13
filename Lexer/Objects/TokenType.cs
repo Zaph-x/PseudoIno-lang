@@ -1,4 +1,3 @@
-using System;
 namespace Lexer.Objects
 {
     /// <summary>
@@ -284,6 +283,10 @@ namespace Lexer.Objects
         /// </summary>
         FUNCCALL,
         /// <summary>
+        /// Function declaration token, non terminal
+        /// </summary>
+        FUNCDECL,
+        /// <summary>
         /// Argument list token, non terminal
         /// </summary>
         ARGLIST,
@@ -291,14 +294,6 @@ namespace Lexer.Objects
         /// Function token, non terminal
         /// </summary>
         FUNCTION,
-        /// <summary>
-        /// Function statement token, non terminal
-        /// </summary>
-        FUNCSTMNT,
-        /// <summary>
-        /// Function statements token, non terminal
-        /// </summary>
-        FUNCSTMNTS,
         /// <summary>
         /// Code block token, non terminal
         /// </summary>
@@ -328,10 +323,6 @@ namespace Lexer.Objects
         /// </summary>
         ENDFOR,
         /// <summary>
-        /// Or equal token, non terminal
-        /// </summary>
-        OREQUAL,
-        /// <summary>
         /// Assignment token, non terminal
         /// </summary>
         ASSIGNMENT,
@@ -355,6 +346,17 @@ namespace Lexer.Objects
         /// Array token, non terminal
         /// </summary>
         ARR,
+        /// <summary>
+        /// First paramter in function call, non terminal
+        /// </summary>
+        CALLPARAM,
+        /// <summary>
+        /// Additional parameters in function call, non terminal
+        /// </summary>
+        CALLPARAMS,
+        /// <summary>
+        /// Epsilon transition, non terminal
+        /// </summary>
         EPSILON
     }
 
@@ -374,25 +376,28 @@ namespace Lexer.Objects
             || type == TokenType.TYPE 
             || type == TokenType.STMNTS 
             || type == TokenType.STMNT 
-            || type == TokenType.FUNCSTMNTS 
-            || type == TokenType.FUNCSTMNT 
             || type == TokenType.ASSIGNMENT 
             || type == TokenType.EXPR 
             || type == TokenType.MATH_OP 
             || type == TokenType.BOOL_OP 
-            || type == TokenType.OREQUAL 
             || type == TokenType.VAL 
             || type == TokenType.ARR 
             || type == TokenType.PIN 
-            || type == TokenType.IFSTMNT 
-            || type == TokenType.FUNC 
+            || type == TokenType.IF 
+            || type == TokenType.ELSE 
+            || type == TokenType.FUNCCALL
+            || type == TokenType.FUNCDECL
             || type == TokenType.BEGINSTMNT 
             || type == TokenType.BEGINABLE 
             || type == TokenType.LOOPW 
             || type == TokenType.LOOPF 
             || type == TokenType.OPTNL_ARGS 
             || type == TokenType.ARGLIST 
-            || type == TokenType.ARG;
+            || type == TokenType.ARG
+            || type == TokenType.RANGE
+            || type == TokenType.WAIT
+            || type == TokenType.CALLPARAM
+            || type == TokenType.CALLPARAMS;
         }
 
         /// <summary>

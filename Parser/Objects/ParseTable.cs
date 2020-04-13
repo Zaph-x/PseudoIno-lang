@@ -123,17 +123,17 @@ namespace Parser.Objects
             this[TokenType.FUNCSTMNTS,TokenType.FUNCSTMNT].Add(TokenType.FUNCSTMNTS);
             this[TokenType.FUNCSTMNTS,TokenType.FUNCSTMNT].Add(TokenType.NEWLINE);*/
             //FUNCSTMNT - done
-            this[TokenType.FUNCSTMNT,TokenType.VAR].Clear();
-            this[TokenType.FUNCSTMNT,TokenType.VAR].Add(TokenType.VAR);
-            this[TokenType.FUNCSTMNT,TokenType.VAR].Add(TokenType.ASSIGN);
-            this[TokenType.FUNCSTMNT,TokenType.VAR].Add(TokenType.VAL);
-            this[TokenType.FUNCSTMNT,TokenType.VAR].Add(TokenType.EXPR);
-            //FUNCSTMNT - done
-            this[TokenType.FUNCSTMNT,TokenType.IF].Clear();
-            this[TokenType.FUNCSTMNT,TokenType.IF].Add(TokenType.IFSTMNT);
-            //FUNCSTMNT - done
-            this[TokenType.FUNCSTMNT,TokenType.BEGIN].Clear();
-            this[TokenType.FUNCSTMNT,TokenType.BEGIN].Add(TokenType.BEGINSTMNT);
+            // this[TokenType.FUNCSTMNT,TokenType.VAR].Clear();
+            // this[TokenType.FUNCSTMNT,TokenType.VAR].Add(TokenType.VAR);
+            // this[TokenType.FUNCSTMNT,TokenType.VAR].Add(TokenType.ASSIGN);
+            // this[TokenType.FUNCSTMNT,TokenType.VAR].Add(TokenType.VAL);
+            // this[TokenType.FUNCSTMNT,TokenType.VAR].Add(TokenType.EXPR);
+            // //FUNCSTMNT - done
+            // this[TokenType.FUNCSTMNT,TokenType.IF].Clear();
+            // this[TokenType.FUNCSTMNT,TokenType.IF].Add(TokenType.IFSTMNT);
+            // //FUNCSTMNT - done
+            // this[TokenType.FUNCSTMNT,TokenType.BEGIN].Clear();
+            // this[TokenType.FUNCSTMNT,TokenType.BEGIN].Add(TokenType.BEGINSTMNT);
 
             //Please find a new home for this NEWLINE
             /*this[TokenType.NEWLINE,TokenType.NEWLINE].Clear();
@@ -231,18 +231,11 @@ namespace Parser.Objects
             //BOOL_OP - done
             this[TokenType.BOOL_OP,TokenType.OP_LESS].Clear();
             this[TokenType.BOOL_OP,TokenType.OP_LESS].Add(TokenType.OP_LESS);
-            this[TokenType.BOOL_OP,TokenType.OP_LESS].Add(TokenType.OREQUAL);
             
             //OREQUAL - done
             //this[TokenType.OREQUAL,TokenType.VAL].Clear();
             //this[TokenType.OREQUAL,TokenType.VAL].Add(TokenType.VAL);
             //OREQUAL - done
-            this[TokenType.OREQUAL,TokenType.OP_OR].Clear();
-            this[TokenType.OREQUAL,TokenType.OP_OR].Add(TokenType.OP_OR);
-            this[TokenType.OREQUAL,TokenType.OP_OR].Add(TokenType.EQUALS);
-            //OREQUAL - done
-            this[TokenType.OREQUAL,TokenType.NEWLINE].Clear();
-            this[TokenType.OREQUAL,TokenType.NEWLINE].Add(TokenType.NEWLINE);
             
             //VAL - done
             this[TokenType.VAL,TokenType.VAR].Clear();
@@ -287,7 +280,6 @@ namespace Parser.Objects
             this[TokenType.IFSTMNT,TokenType.IF].Add(TokenType.BOOL_OP);
             this[TokenType.IFSTMNT,TokenType.IF].Add(TokenType.VAL);
             this[TokenType.IFSTMNT,TokenType.IF].Add(TokenType.EXPR);
-            this[TokenType.IFSTMNT,TokenType.IF].Add(TokenType.FUNCSTMNTS);
             this[TokenType.IFSTMNT,TokenType.IF].Add(TokenType.END);
             this[TokenType.IFSTMNT,TokenType.IF].Add(TokenType.IF);
 
@@ -296,7 +288,6 @@ namespace Parser.Objects
             this[TokenType.FUNCCALL,TokenType.FUNC].Add(TokenType.FUNC);
             this[TokenType.FUNCCALL,TokenType.FUNC].Add(TokenType.VAR);
             this[TokenType.FUNCCALL,TokenType.FUNC].Add(TokenType.OPTNL_ARGS);
-            this[TokenType.FUNCCALL,TokenType.FUNC].Add(TokenType.FUNCSTMNTS);
             this[TokenType.FUNCCALL,TokenType.FUNC].Add(TokenType.END);
             this[TokenType.FUNCCALL,TokenType.FUNC].Add(TokenType.VAR);
 
@@ -311,7 +302,6 @@ namespace Parser.Objects
             this[TokenType.BEGINABLE,TokenType.WHILE].Add(TokenType.VAL);
             this[TokenType.BEGINABLE,TokenType.WHILE].Add(TokenType.EXPR);
             this[TokenType.BEGINABLE,TokenType.WHILE].Add(TokenType.DO);
-            this[TokenType.BEGINABLE,TokenType.WHILE].Add(TokenType.FUNCSTMNT);
             this[TokenType.BEGINABLE,TokenType.WHILE].Add(TokenType.END);
             this[TokenType.BEGINABLE,TokenType.WHILE].Add(TokenType.FOR);
             //BEGINABLE - done
@@ -321,7 +311,6 @@ namespace Parser.Objects
             this[TokenType.BEGINABLE,TokenType.FOR].Add(TokenType.IN);
             this[TokenType.BEGINABLE,TokenType.FOR].Add(TokenType.RANGE);
             this[TokenType.BEGINABLE,TokenType.FOR].Add(TokenType.DO);
-            this[TokenType.BEGINABLE,TokenType.FOR].Add(TokenType.FUNCSTMNT);
             this[TokenType.BEGINABLE,TokenType.FOR].Add(TokenType.END);
             this[TokenType.BEGINABLE,TokenType.FOR].Add(TokenType.FOR);
             
@@ -331,7 +320,6 @@ namespace Parser.Objects
             this[TokenType.LOOPW,TokenType.WHILE].Add(TokenType.VAL);
             this[TokenType.LOOPW,TokenType.WHILE].Add(TokenType.EXPR);
             this[TokenType.LOOPW,TokenType.WHILE].Add(TokenType.DO);
-            this[TokenType.LOOPW,TokenType.WHILE].Add(TokenType.FUNCSTMNTS);
             this[TokenType.LOOPW,TokenType.WHILE].Add(TokenType.END);
             this[TokenType.LOOPW,TokenType.WHILE].Add(TokenType.WHILE);
 
@@ -342,7 +330,6 @@ namespace Parser.Objects
             this[TokenType.LOOPF,TokenType.FOR].Add(TokenType.IN);
             this[TokenType.LOOPF,TokenType.FOR].Add(TokenType.RANGE);
             this[TokenType.LOOPF,TokenType.FOR].Add(TokenType.DO);
-            this[TokenType.LOOPF,TokenType.FOR].Add(TokenType.FUNCSTMNTS);
             this[TokenType.LOOPF,TokenType.FOR].Add(TokenType.END);
             this[TokenType.LOOPF,TokenType.FOR].Add(TokenType.FOR);
 

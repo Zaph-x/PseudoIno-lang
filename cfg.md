@@ -14,6 +14,7 @@ Stmts -> Stmt Stmts
 Stmt -> ID 'is' Assignment
 | IfStmnt
 | FuncCall
+| WaitStmnt
 | BeginStmt .
 
 Assignment -> Val Expr
@@ -76,6 +77,13 @@ ArgList -> Arg ArgList
 Range -> Numeric '**' Numeric .
 
 Arg -> Type ID .
+
+WaitStmnt -> 'wait' Numeric TimeOperator .
+
+TimeOperator -> 'h'
+| 'm'
+| 's'
+|'ms' .
 
 CallParam -> 'with' '(' ID CallParams ')' .
 CallParams -> ',' ID CallParams
