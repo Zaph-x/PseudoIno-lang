@@ -72,10 +72,10 @@ namespace Lexer.Tests
 
         #endregion
 
-        [TestCase(dummy_1, 32)]
-        [TestCase(dummy_2, 3)]
-        [TestCase(dummy_3, 0)]
-        [TestCase(dummy_4, 38)]
+        [TestCase(dummy_1, 33)]
+        [TestCase(dummy_2, 4)]
+        [TestCase(dummy_3, 1)]
+        [TestCase(dummy_4, 39)]
         public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens(string content, int expectedAmountOfTokens)
         {
 
@@ -192,7 +192,7 @@ namespace Lexer.Tests
             tokenizer.GenerateTokens();
 
 
-            Assert.AreEqual(5, tokenizer.Tokens.Count, $"The tokenizer found the wrong amount of tokens.");
+            Assert.AreEqual(6, tokenizer.Tokens.Count, $"The tokenizer found the wrong amount of tokens.");
         }
 
         [Test]
