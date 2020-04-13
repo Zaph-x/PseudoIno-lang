@@ -69,7 +69,7 @@ namespace Parser
                     {
                         _accepted = true;
                     }
-                    InsertTerminal();
+                    //InsertTerminal();
                     Stack.Pop();
                 }
                 else
@@ -77,7 +77,7 @@ namespace Parser
                     _p = _parseTable[TopOfStack(), TokenStream.Peek().Type];
                     if (_p.Count == 0)
                     {
-                        InsertEpsilon();
+                        //InsertEpsilon();
                         Stack.Pop();
                         return;
                     }
@@ -86,7 +86,7 @@ namespace Parser
                         throw new InvalidSyntaxException($"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
                     }
                     Apply(_p);
-                    InsertInAST(_p);
+                    //InsertInAST(_p);
                 }
             }
         }
