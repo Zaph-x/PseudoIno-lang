@@ -5,6 +5,7 @@ using System.Reflection;
 using Lexer;
 using Core.Objects;
 using Core.Exceptions;
+using Lexer.Exceptions;
 
 namespace Core
 {
@@ -12,6 +13,8 @@ namespace Core
     {
         public static int Main(string[] args)
         {
+            
+            new Exception("Test exception");
             Stopwatch timer = new Stopwatch();
             timer.Start();
             CommandLineOptions options = ParseOptions(args);
@@ -40,12 +43,14 @@ namespace Core
                 Tokenizer tokenizer = new Tokenizer(reader);
                 verbosePrinter.Info("Generating tokens...");
                 tokenizer.GenerateTokens();
-                if (Tokenizer.HasError) {
+                if (Tokenizer.HasError)
+                {
                     verbosePrinter.Error("Encountered syntax errors. Stopping.");
                     return 5;
                 }
                 verbosePrinter.Info($" Generated {tokenizer.Tokens.Count} tokens.");
-                if (options.Verbose) {
+                if (options.Verbose)
+                {
                     foreach (var token in tokenizer.Tokens)
                     {
                         verbosePrinter.Info(token);
@@ -96,10 +101,13 @@ namespace Core
                         break;
                     case "-l":
                     case "--logfile":
-                        if (args.Length - 1 <= i +1) {
+                        if (args.Length - 1 <= i + 1)
+                        {
                             ++i;
                             options.LogFile = args[i];
-                        } else {
+                        }
+                        else
+                        {
                             Console.Error.WriteLineAsync($"Error: Log file not provided");
                         }
                         break;
