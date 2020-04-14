@@ -15,7 +15,7 @@ namespace Parser
         // public AST Ast = new AST();
         private Stack<ScannerToken> Stack = new Stack<ScannerToken>();
         private TokenStream TokenStream;
-        private ParseTable _parseTable;
+        public ParseTable ParseTable {get;private set;}
         public ProgramNode Program { get; internal set; } = new ProgramNode(0, 0);
         private bool _accepted;
         private List<TokenType> _p;
@@ -24,8 +24,8 @@ namespace Parser
         public Parsenizer(List<ScannerToken> tokens)
         {
             TokenStream = new TokenStream(tokens);
-            _parseTable = new ParseTable();
-            _parseTable.InitTable();
+            ParseTable = new ParseTable();
+            ParseTable.InitTable();
         }
 
         private ScannerToken TopOfStack()
@@ -75,7 +75,7 @@ namespace Parser
                 }
                 else
                 {
-                    _p = _parseTable[TopOfStack(), TokenStream.Peek()].Product;
+                    _p = ParseTable[TopOfStack(), TokenStream.Peek()].Product;
                     if (_p.Count == 0)
                     {
                         //InsertEpsilon();

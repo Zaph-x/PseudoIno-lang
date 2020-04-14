@@ -7,22 +7,17 @@ namespace Parser.Objects
 {
     public class ParseTable
     {
-        private ScannerToken Current { get; set; }
-        private ScannerToken Next { get; set; }
         public Dictionary<TokenType, Dictionary<TokenType, ParseAction>> Table { get; private set; }
 
         public ParseAction this[ScannerToken key1, ScannerToken key2]
         {
-            get
-            {
-                Current = key1;
-                Next = key2;
-                return Table[key1.Type][key2.Type];
-            }
+            get => Table[key1.Type][key2.Type];
+            set => Table[key1.Type][key2.Type] = value;
         }
 
         public ParseAction this[TokenType key1, TokenType key2]
         {
+            get => Table[key1][key2];
             set => Table[key1][key2] = value;
         }
 
