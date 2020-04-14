@@ -40,6 +40,18 @@ namespace Lexer.Tests
             a is a + 1
         end if";
 
+        private const string dummy_5 = @"func foo
+            x is bar
+            y is baz
+        end foo
+        
+        a is 4
+        b is ""human""
+        c is ""dog""
+        if b equals c?
+            a is a + 1
+        end if";
+
         #endregion
 
         #region Dummy reject strings
@@ -72,10 +84,11 @@ namespace Lexer.Tests
 
         #endregion
 
-        [TestCase(dummy_1, 32)]
-        [TestCase(dummy_2, 3)]
-        [TestCase(dummy_3, 0)]
-        [TestCase(dummy_4, 38)]
+        [TestCase(dummy_1, 34)]
+        [TestCase(dummy_2, 5)]
+        [TestCase(dummy_3, 2)]
+        [TestCase(dummy_4, 40)]
+        [TestCase(dummy_5, 24)]
         public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens(string content, int expectedAmountOfTokens)
         {
 
@@ -83,7 +96,7 @@ namespace Lexer.Tests
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
-
+            
             Assert.AreEqual(expectedAmountOfTokens, tokenizer.Tokens.Count, "Tokenizer did not generate the correct amount of tokens.");
         }
 
@@ -143,7 +156,7 @@ namespace Lexer.Tests
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
 
-            Assert.AreEqual(TokenType.COMMENT, tokenizer.Tokens[0].Type, "The tokenizer did not recognise the comment as a comment");
+            Assert.AreEqual(TokenType.COMMENT, tokenizer.Tokens.First.Value.Type, "The tokenizer did not recognise the comment as a comment");
         }
 
 
@@ -168,7 +181,7 @@ namespace Lexer.Tests
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
 
-            Assert.AreEqual(TokenType.MULT_COMNT, tokenizer.Tokens[0].Type, "The tokenizer did not recognise the comment as a comment");
+            Assert.AreEqual(TokenType.MULT_COMNT, tokenizer.Tokens.First.Value.Type, "The tokenizer did not recognise the comment as a comment");
         }
 
         [Test]
