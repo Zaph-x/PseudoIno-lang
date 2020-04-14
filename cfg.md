@@ -74,8 +74,8 @@ LoopF -> 'for' ID 'in' Range 'do' Stmts 'end' 'for' .
 Optnl_Args -> 'with' Arg ArgList
 | .
 
-ArgList -> Arg ArgList 
-| .
+ArgList -> ',' Arg ArgList 
+|.
 
 Range -> Numeric '**' Numeric .
 
