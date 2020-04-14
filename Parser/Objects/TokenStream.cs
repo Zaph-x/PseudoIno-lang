@@ -15,7 +15,7 @@ namespace Parser.Objects
             Tokens.Add(new ScannerToken(TokenType.START,"",1,1));
             foreach (var var in tokens)
             {
-                Tokens.Add(var);
+                Tokens.Add(var as ScannerToken);
             }
         }
 
@@ -29,11 +29,11 @@ namespace Parser.Objects
             Index += 1;
         }
 
-        public ScannerToken EOF => Tokens.First(token => token.Type == TokenType.EOF);
-        public ScannerToken PROG => Tokens[0];
+        public ScannerToken EOF => Tokens.First(token => token.Type == TokenType.EOF) as ScannerToken;
+        public ScannerToken PROG => Tokens[0] as ScannerToken;
         public ScannerToken Current()
         {
-            return Tokens[Index];
+            return Tokens[Index] as ScannerToken;
         }
     }
 }
