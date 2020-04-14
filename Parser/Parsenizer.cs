@@ -15,11 +15,12 @@ namespace Parser
         // public AST Ast = new AST();
         private Stack<ScannerToken> Stack = new Stack<ScannerToken>();
         private TokenStream TokenStream;
-        public ParseTable ParseTable {get;private set;}
+        public ParseTable ParseTable { get; private set; }
         public ProgramNode Program { get; internal set; } = new ProgramNode(0, 0);
         private bool _accepted;
         private List<TokenType> _p;
         private AstNode _current;
+        public static bool HasError { get; set; } = false;
 
         public Parsenizer(List<ScannerToken> tokens)
         {
@@ -43,7 +44,10 @@ namespace Parser
             if (TokenStream.Peek().Type == token)
                 TokenStream.Advance();
             else
+            {
+                HasError = true;
                 new InvalidTokenException("Expected token but was not token");
+            }
         }
 
         private void Apply(List<ScannerToken> tokens)
@@ -84,10 +88,11 @@ namespace Parser
                     }
                     if (_p.First() == TokenType.ERROR)
                     {
-                        new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
+                        HasError = true;
+                        new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack().Type} TS: {TokenStream.Peek().Type}");
                     }
-                    // Apply(_p);
-                    //InsertInAST(_p);
+                    Apply(_p.Select());
+                    InsertInAST(_p);
                 }
             }
         }
@@ -140,7 +145,9 @@ namespace Parser
                 case TokenType.VAR:
                     return new VarNode(token.Line, token.Offset);
                 default:
-                    throw new InvalidTokenException("Invalid Token value in token ");
+                    HasError = true;
+                    new InvalidTokenException("Invalid token type value in token ");
+                    return null;
             }
         }
 
