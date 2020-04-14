@@ -16,7 +16,7 @@ namespace Lexer
         /// <summary>
         /// The list of tokens generated when the source language is being scanned
         /// </summary>
-        public LinkedList<Token> Tokens = new LinkedList<Token>();
+        public LinkedList<ScannerToken> Tokens = new LinkedList<ScannerToken>();
 
         /// <summary>
         /// Initialisation of the recogniser
@@ -82,7 +82,7 @@ namespace Lexer
         /// <returns>
         /// A token from the value.
         /// </returns>
-        public Token Token(TokenType type, string val)
+        public ScannerToken Token(TokenType type, string val)
         {
             return new ScannerToken(type, val, Line, Offset);
         }
@@ -95,7 +95,7 @@ namespace Lexer
         /// <returns>
         /// A token without a value.
         /// </returns>
-        public Token Token(TokenType type)
+        public ScannerToken Token(TokenType type)
         {
             return new ScannerToken(type, "", Line, Offset);
         }
@@ -276,7 +276,7 @@ namespace Lexer
             {
                 new InvalidSyntaxException($"Invalid range symbol. Range symbol must be '..' but was '{subString}'. Error at line {Line}:{Offset}.");
             }
-            Tokens.AddLast(Token(TokenType.RANGE));
+            Tokens.AddLast(Token(TokenType.OP_RANGE));
         }
 
         /// <summary>
@@ -383,23 +383,9 @@ namespace Lexer
                 }
                 else
                 {
-                    if (TokenTypeExpressions.HasEpsilonTransition(Tokens.Last))
-                    {
-                        if (!TokenTypeExpressions.EpsilonCounterparts(Tokens.Last).Contains(tokenType) && tokenType != TokenType.ASSIGN)
-                        {
-                            Tokens.AddLast(Token(TokenType.EPSILON));
-                        }
-                    }
                     Tokens.AddLast(Token(tokenType));
                 }
                 return;
-            }
-            if (TokenTypeExpressions.HasEpsilonTransition(Tokens.Last))
-            {
-                if (!TokenTypeExpressions.EpsilonCounterparts(Tokens.Last).Contains(tokenType))
-                {
-                    Tokens.AddLast(Token(TokenType.EPSILON));
-                }
             }
             Tokens.AddLast(Token(TokenType.VAR, subString));
             subString = "";
@@ -466,6 +452,9 @@ namespace Lexer
                 case ',':
                     Tokens.AddLast(Token(TokenType.SEPARATOR));
                     break;
+                case '\n':
+                    Tokens.AddLast(Token(TokenType.NEWLINE));
+                    break;
                 default:
                     new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
                     return;
@@ -489,7 +478,7 @@ namespace Lexer
                 else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanWord(); }
                 else if (CurrentChar == '#' && Peek() != '<') { ScanComment(); }
                 else if (CurrentChar == '#' && Peek() == '<') { ScanMultiLineComment(); }
-                else if ("+-*/%(),".Contains(CurrentChar)) { ScanOperators(); }
+                else if ("+-*/%(),\n".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
             }
             Tokens.AddLast(new ScannerToken(TokenType.EOF, "", this.Line, this.Offset + 1));
