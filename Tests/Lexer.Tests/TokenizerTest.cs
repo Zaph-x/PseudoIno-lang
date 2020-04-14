@@ -84,7 +84,7 @@ namespace Lexer.Tests
 
         #endregion
 
-        [TestCase(dummy_1, 34)]
+        [TestCase(dummy_1, 43)]
         [TestCase(dummy_2, 5)]
         [TestCase(dummy_3, 2)]
         [TestCase(dummy_4, 40)]

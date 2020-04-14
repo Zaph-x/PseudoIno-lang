@@ -452,9 +452,6 @@ namespace Lexer
                 case ',':
                     Tokens.AddLast(Token(TokenType.SEPARATOR));
                     break;
-                case '\n':
-                    Tokens.AddLast(Token(TokenType.NEWLINE));
-                    break;
                 default:
                     new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
                     return;
@@ -478,7 +475,7 @@ namespace Lexer
                 else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanWord(); }
                 else if (CurrentChar == '#' && Peek() != '<') { ScanComment(); }
                 else if (CurrentChar == '#' && Peek() == '<') { ScanMultiLineComment(); }
-                else if ("+-*/%(),\n".Contains(CurrentChar)) { ScanOperators(); }
+                else if ("+-*/%(),".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
             }
             Tokens.AddLast(new ScannerToken(TokenType.EOF, "", this.Line, this.Offset + 1));
