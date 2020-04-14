@@ -1,3 +1,8 @@
+using System.Linq;
+using System;
+using System.Collections.Generic;
+using static Lexer.Objects.TokenType;
+
 namespace Lexer.Objects
 {
     /// <summary>
@@ -65,7 +70,6 @@ namespace Lexer.Objects
         /// Else statement token type
         /// </summary>
         ELSE,
-        //TODO Add LEQ and GRQ
         // bool operators
         ///<summary>
         /// Bool greater than operator token type
@@ -400,34 +404,50 @@ namespace Lexer.Objects
         /// <returns>True if the token is a non-terminal. Else false.</returns>
         public static bool IsNonTerminal(TokenType type)
         {
-            return type == TokenType.PROG
-            || type == TokenType.TYPE
-            || type == TokenType.STMNTS
-            || type == TokenType.STMNT
-            || type == TokenType.ASSIGNMENT
-            || type == TokenType.EXPR
-            || type == TokenType.MATH_OP
-            || type == TokenType.BOOL_OP
-            || type == TokenType.OP_OREQUAL
-            || type == TokenType.VAL
-            || type == TokenType.ARR
-            || type == TokenType.PIN
-            || type == TokenType.IF
-            || type == TokenType.ELSE
-            || type == TokenType.FUNCCALL
-            || type == TokenType.FUNCDECL
-            || type == TokenType.BEGINSTMNT
-            || type == TokenType.BEGINABLE
-            || type == TokenType.LOOPW
-            || type == TokenType.LOOPF
-            || type == TokenType.OPTNL_ARGS
-            || type == TokenType.ARGLIST
-            || type == TokenType.ARG
-            || type == TokenType.RANGE
-            || type == TokenType.TIME_MOD
-            || type == TokenType.WAITSTMNT
-            || type == TokenType.CALLPARAM
-            || type == TokenType.CALLPARAMS;
+            return type == PROG
+            || type == TYPE
+            || type == STMNTS
+            || type == STMNT
+            || type == ASSIGNMENT
+            || type == EXPR
+            || type == MATH_OP
+            || type == BOOL_OP
+            || type == OP_OREQUAL
+            || type == VAL
+            || type == ARR
+            || type == PIN
+            || type == IF
+            || type == ELSE
+            || type == FUNCCALL
+            || type == FUNCDECL
+            || type == BEGINSTMNT
+            || type == BEGINABLE
+            || type == LOOPW
+            || type == LOOPF
+            || type == OPTNL_ARGS
+            || type == ARGLIST
+            || type == ARG
+            || type == RANGE
+            || type == TIME_MOD
+            || type == WAITSTMNT
+            || type == CALLPARAM
+            || type == CALLPARAMS;
+        }
+
+        /// <summary>
+        /// Determines whether a token is an operator
+        /// </summary>
+        /// <param name="type">The token to test</param>
+        /// <returns>True if a token is an operator. Else false</returns>
+        public static bool IsOperator(TokenType type)
+        {
+            return type == OP_TIMES || type == OP_DIVIDE
+            || type == OP_PLUS || type == OP_MINUS
+            || type == OP_AND || type == OP_OR
+            || type == OP_EQUAL || type == OP_NOT
+            || type == OP_GREATER || type == OP_LESS
+            || type == OP_MODULO || type == OP_RPAREN
+            || type == OP_RPAREN;
         }
 
         /// <summary>
@@ -436,5 +456,50 @@ namespace Lexer.Objects
         /// <param name="type">The token to test</param>
         /// <returns>True if the token is a terminal. Else false.</returns>
         public static bool IsTerminal(TokenType type) => !IsNonTerminal(type);
+
+        public static bool HasEpsilonTransition(LinkedListNode<Token> token)
+        {
+            return CheckSet(token, FUNC, VAR)
+            || CheckSet(token, SEPARATOR, VAR) || CheckSet(token, TYPE, VAR)
+            || CheckSet(token, OP_PLUS, VAL) || CheckSet(token, OP_PLUS, VAR)
+            || token.Value.Type == NUMERIC && !IsOperator(token.Previous.Value.Type)
+            || token.Value.Type == VAR && !IsOperator(token.Previous.Value.Type)
+            || token.Value.Type == OP_RPAREN && !IsOperator(token.Previous.Value.Type);
+        }
+
+        public static List<TokenType> EpsilonCounterparts(LinkedListNode<Token> token)
+        {
+            List<TokenType> returnList = new List<TokenType>();
+            if (CheckSet(token, FUNC, VAR))
+            {
+                returnList.Add(WITH);
+            }
+            else if (CheckSet(token, END, VAR)) {
+                returnList.Add(CALL);
+                returnList.Add(VAR);
+                returnList.Add(BEGIN);
+                returnList.Add(IF);
+                returnList.Add(FUNC);
+            }
+            else if (CheckSet(token, SEPARATOR, VAR) || CheckSet(token, TYPE, VAR))
+            {
+                returnList.Add(SEPARATOR);
+                returnList.Add(OP_RPAREN);
+            }
+            else if (token.Value.Type == NUMERIC && !IsOperator(token.Previous.Value.Type)
+            || token.Value.Type == VAR && !IsOperator(token.Previous.Value.Type)
+            || token.Value.Type == OP_RPAREN && !IsOperator(token.Previous.Value.Type))
+            {
+                returnList.AddRange(Enum.GetValues(typeof(TokenType)).Cast<TokenType>().Where(IsOperator));
+            }
+
+            return returnList;
+        }
+
+        private static bool CheckSet(LinkedListNode<Token> token, TokenType typePrevious, TokenType typeCurrent)
+        {
+            return token.Previous?.Value.Type == typePrevious && token.Value.Type == typeCurrent;
+        }
+
     }
 }
