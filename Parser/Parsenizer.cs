@@ -91,7 +91,7 @@ namespace Parser
                         HasError = true;
                         new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack().Type} TS: {TokenStream.Peek().Type}");
                     }
-                    Apply(_p.Select());
+                    // Apply(_p);
                     InsertInAST(_p);
                 }
             }
