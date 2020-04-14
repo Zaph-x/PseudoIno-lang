@@ -63,7 +63,7 @@ namespace Parser
             _accepted = false;
             while (!_accepted)
             {
-                if (Enum.IsDefined(typeof(TokenType), TopOfStack()) && (int)TopOfStack().Type <= 50) // less than 50
+                if (Enum.IsDefined(typeof(TokenType), TopOfStack().Type) && (int)TopOfStack().Type <= 50) // less than 50
                 {
                     Match(TopOfStack().Type);
                     if (TopOfStack().Type == TokenType.EOF)

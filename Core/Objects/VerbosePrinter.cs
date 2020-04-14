@@ -15,15 +15,18 @@ namespace Core.Objects
             {
                 System.Console.WriteLine("Verbosity enabled.");
             }
-            if (File.Exists(Options.LogFile))
+            if (Options.LogFile != null)
             {
-                File.WriteAllText(Options.LogFile, "");
-            }
-            else
-            {
-                using (var stream = File.Create(Options.LogFile))
-                { }
-                File.AppendAllText(Options.LogFile, "");
+                if (File.Exists(Options.LogFile))
+                {
+                    File.WriteAllText(Options.LogFile, "");
+                }
+                else
+                {
+                    using (var stream = File.Create(Options.LogFile))
+                    { }
+                    File.AppendAllText(Options.LogFile, "");
+                }
             }
         }
 
@@ -56,7 +59,7 @@ namespace Core.Objects
             }
             Log(obj);
         }
-        
+
         public void InfoInline(object obj)
         {
             if (Options.Verbose)

@@ -84,11 +84,11 @@ namespace Lexer.Tests
 
         #endregion
 
-        [TestCase(dummy_1, 43)]
+        [TestCase(dummy_1, 36)]
         [TestCase(dummy_2, 5)]
         [TestCase(dummy_3, 2)]
-        [TestCase(dummy_4, 40)]
-        [TestCase(dummy_5, 24)]
+        [TestCase(dummy_4, 41)]
+        [TestCase(dummy_5, 33)]
         public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens(string content, int expectedAmountOfTokens)
         {
 
@@ -119,8 +119,9 @@ namespace Lexer.Tests
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
             Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
 
-            Assert.IsEmpty(tokenizer.Tokens, "TokenList was not empty");
+            Assert.AreEqual(2, tokenizer.Tokens.Count, "TokenList had the wrong amount of tokens");
         }
 
         [Test]
@@ -132,7 +133,7 @@ namespace Lexer.Tests
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
 
-            Assert.IsNotEmpty(tokenizer.Tokens, "TokenList was empty. Should contain elements");
+            Assert.AreEqual(5, tokenizer.Tokens.Count, "TokenList generated the wrong amound of tokens. Should contain elements more than just PROG and EOF");
         }
 
         [Test]
@@ -144,7 +145,7 @@ namespace Lexer.Tests
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
 
-            Assert.IsNotEmpty(tokenizer.Tokens, "The tokenizer did not recognise a comment");
+            Assert.AreEqual(3,tokenizer.Tokens.Count, "The tokenizer did not recognise a comment");
         }
 
         [Test]
@@ -156,7 +157,7 @@ namespace Lexer.Tests
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
 
-            Assert.AreEqual(TokenType.COMMENT, tokenizer.Tokens.First.Value.Type, "The tokenizer did not recognise the comment as a comment");
+            Assert.AreEqual(TokenType.COMMENT, tokenizer.Tokens.First.Next.Value.Type, "The tokenizer did not recognise the comment as a comment");
         }
 
 
@@ -169,7 +170,7 @@ namespace Lexer.Tests
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
 
-            Assert.IsNotEmpty(tokenizer.Tokens, "The tokenizer did not recognise a comment");
+            Assert.AreEqual(3, tokenizer.Tokens.Count, "The tokenizer did not recognise a comment");
 
         }
         [Test]
@@ -181,7 +182,7 @@ namespace Lexer.Tests
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
 
-            Assert.AreEqual(TokenType.MULT_COMNT, tokenizer.Tokens.First.Value.Type, "The tokenizer did not recognise the comment as a comment");
+            Assert.AreEqual(TokenType.MULT_COMNT, tokenizer.Tokens.First.Next.Value.Type, "The tokenizer did not recognise the comment as a comment");
         }
 
         [Test]
@@ -205,7 +206,7 @@ namespace Lexer.Tests
             tokenizer.GenerateTokens();
 
 
-            Assert.AreEqual(6, tokenizer.Tokens.Count, $"The tokenizer found the wrong amount of tokens.");
+            Assert.AreEqual(7, tokenizer.Tokens.Count, $"The tokenizer found the wrong amount of tokens.");
         }
 
         [Test]
