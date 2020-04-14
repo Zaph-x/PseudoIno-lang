@@ -16,7 +16,7 @@ namespace Lexer
         /// <summary>
         /// The list of tokens generated when the source language is being scanned
         /// </summary>
-        public List<Token> Tokens = new List<Token>();
+        public LinkedList<Token> Tokens = new LinkedList<Token>();
 
         /// <summary>
         /// Initialisation of the recogniser
@@ -254,10 +254,8 @@ namespace Lexer
                 {
                     subString += "0";
                 }
-                Tokens.Add(Token(TokenType.NUMERIC_FLOAT, subString));
-                return;
             }
-            Tokens.Add(Token(TokenType.NUMERIC_INT, subString));
+            Tokens.AddLast(Token(TokenType.NUMERIC, subString));
         }
 
         /// <summary>
@@ -278,7 +276,7 @@ namespace Lexer
             {
                 new InvalidSyntaxException($"Invalid range symbol. Range symbol must be '..' but was '{subString}'. Error at line {Line}:{Offset}.");
             }
-            Tokens.Add(Token(TokenType.RANGE));
+            Tokens.AddLast(Token(TokenType.RANGE));
         }
 
         /// <summary>
@@ -310,7 +308,7 @@ namespace Lexer
             {
                 new InvalidSyntaxException($"Strings must be closed. Error at line {Line}:{Offset}.");
             }
-            Tokens.Add(Token(TokenType.STRING, subString));
+            Tokens.AddLast(Token(TokenType.STRING, subString));
         }
 
         /// <summary>
@@ -325,7 +323,7 @@ namespace Lexer
                 Pop();
                 subString += CurrentChar;
             }
-            Tokens.Add(Token(TokenType.COMMENT, subString));
+            Tokens.AddLast(Token(TokenType.COMMENT, subString));
         }
 
         /// <summary>
@@ -352,7 +350,7 @@ namespace Lexer
             {
                 new InvalidSyntaxException($"Multiline comments must be closed before reaching end of file. Error at line {Line}:{Offset}.");
             }
-            Tokens.Add(Token(TokenType.MULT_COMNT, subString));
+            Tokens.AddLast(Token(TokenType.MULT_COMNT, subString));
         }
 
         /// <summary>
@@ -373,16 +371,37 @@ namespace Lexer
         private void ScanWord()
         {
             string subString = CurrentChar.ToString();
-            while (recogniser.IsAcceptedCharacter(Peek()))
+            while (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))
             {
                 subString += Pop();
             }
             if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
             {
-                Tokens.Add(Token(tokenType));
+                if (tokenType == TokenType.TYPE)
+                {
+                    Tokens.AddLast(Token(tokenType, subString));
+                }
+                else
+                {
+                    if (TokenTypeExpressions.HasEpsilonTransition(Tokens.Last))
+                    {
+                        if (!TokenTypeExpressions.EpsilonCounterparts(Tokens.Last).Contains(tokenType) && tokenType != TokenType.ASSIGN)
+                        {
+                            Tokens.AddLast(Token(TokenType.EPSILON));
+                        }
+                    }
+                    Tokens.AddLast(Token(tokenType));
+                }
                 return;
             }
-            Tokens.Add(Token(TokenType.VAR, subString));
+            if (TokenTypeExpressions.HasEpsilonTransition(Tokens.Last))
+            {
+                if (!TokenTypeExpressions.EpsilonCounterparts(Tokens.Last).Contains(tokenType))
+                {
+                    Tokens.AddLast(Token(TokenType.EPSILON));
+                }
+            }
+            Tokens.AddLast(Token(TokenType.VAR, subString));
             subString = "";
             if (Peek() == '\n')
             {
@@ -391,22 +410,22 @@ namespace Lexer
             if (Peek() == '@')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.ARRAYINDEX));
+                Tokens.AddLast(Token(TokenType.ARRAYINDEX));
             }
             else if (Peek() == '?')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.OP_QUESTIONMARK));
+                Tokens.AddLast(Token(TokenType.OP_QUESTIONMARK));
             }
             else if (Peek() == '[')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.ARRAYLEFT));
+                Tokens.AddLast(Token(TokenType.ARRAYLEFT));
             }
             else if (Peek() == ']')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.ARRAYRIGHT));
+                Tokens.AddLast(Token(TokenType.ARRAYRIGHT));
             }
         }
 
@@ -424,25 +443,28 @@ namespace Lexer
             switch (CurrentChar)
             {
                 case '+':
-                    Tokens.Add(Token(TokenType.OP_PLUS));
+                    Tokens.AddLast(Token(TokenType.OP_PLUS));
                     break;
                 case '-':
-                    Tokens.Add(Token(TokenType.OP_MINUS));
+                    Tokens.AddLast(Token(TokenType.OP_MINUS));
                     break;
                 case '*':
-                    Tokens.Add(Token(TokenType.OP_TIMES));
+                    Tokens.AddLast(Token(TokenType.OP_TIMES));
                     break;
                 case '/':
-                    Tokens.Add(Token(TokenType.OP_DIVIDE));
+                    Tokens.AddLast(Token(TokenType.OP_DIVIDE));
                     break;
                 case '%':
-                    Tokens.Add(Token(TokenType.OP_MODULO));
+                    Tokens.AddLast(Token(TokenType.OP_MODULO));
                     break;
                 case '(':
-                    Tokens.Add(Token(TokenType.OP_LPAREN));
+                    Tokens.AddLast(Token(TokenType.OP_LPAREN));
                     break;
                 case ')':
-                    Tokens.Add(Token(TokenType.OP_RPAREN));
+                    Tokens.AddLast(Token(TokenType.OP_RPAREN));
+                    break;
+                case ',':
+                    Tokens.AddLast(Token(TokenType.SEPARATOR));
                     break;
                 default:
                     new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
@@ -456,7 +478,7 @@ namespace Lexer
         public void GenerateTokens()
         {
             // Ensure we are not dealing with an empty file.
-            Tokens.Add(new ScannerToken(TokenType.PROG, "", 0, 0));
+            Tokens.AddFirst(new ScannerToken(TokenType.PROG, "", 0, 0));
             while (!IsEOF(Peek()))
             {
                 Pop();
@@ -467,10 +489,10 @@ namespace Lexer
                 else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanWord(); }
                 else if (CurrentChar == '#' && Peek() != '<') { ScanComment(); }
                 else if (CurrentChar == '#' && Peek() == '<') { ScanMultiLineComment(); }
-                else if ("+-*/%()".Contains(CurrentChar)) { ScanOperators(); }
+                else if ("+-*/%(),".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
             }
-            Tokens.Add(new ScannerToken(TokenType.EOF, "", this.Line, this.Offset + 1));
+            Tokens.AddLast(new ScannerToken(TokenType.EOF, "", this.Line, this.Offset + 1));
         }
     }
 }
