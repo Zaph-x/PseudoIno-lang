@@ -205,7 +205,7 @@ namespace Lexer.Tests
             tokenizer.GenerateTokens();
 
 
-            Assert.AreEqual(5, tokenizer.Tokens.Count, $"The tokenizer found the wrong amount of tokens.");
+            Assert.AreEqual(6, tokenizer.Tokens.Count, $"The tokenizer found the wrong amount of tokens.");
         }
 
         [Test]
