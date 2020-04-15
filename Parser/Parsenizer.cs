@@ -45,7 +45,6 @@ namespace Parser
                 TokenStream.Advance();
             else
             {
-                HasError = true;
                 new InvalidTokenException("Expected token but was not token");
             }
         }
@@ -88,7 +87,6 @@ namespace Parser
                     }
                     if (_p.First() == TokenType.ERROR)
                     {
-                        HasError = true;
                         new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack().Type} TS: {TokenStream.Peek().Type}");
                     }
                     // Apply(_p);
@@ -145,7 +143,6 @@ namespace Parser
                 case TokenType.VAR:
                     return new VarNode(token.Line, token.Offset);
                 default:
-                    HasError = true;
                     new InvalidTokenException("Invalid token type value in token ");
                     return null;
             }
