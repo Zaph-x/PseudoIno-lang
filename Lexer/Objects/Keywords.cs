@@ -13,6 +13,7 @@ namespace Lexer.Objects
         /// <returns>A token type</returns>
         public static Dictionary<string,TokenType> Keys = new Dictionary<string,TokenType>()
         {
+            {"begin", TokenType.BEGIN},
             {"is",TokenType.ASSIGN},
             {"end", TokenType.END},
             {"func", TokenType.FUNC},

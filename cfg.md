@@ -41,6 +41,7 @@ OrEqual -> 'or' 'equal'
 
 Val -> ID
 | Numeric
+| '-' Numeric
 | String
 | Pin .
 

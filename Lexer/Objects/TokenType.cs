@@ -415,8 +415,9 @@ namespace Lexer.Objects
             || type == VAL
             || type == ARR
             || type == PIN
-            || type == IF
-            || type == ELSE
+            || type == IFSTMNT
+            || type == ELSESTMNT
+            || type == ELSEIFSTMNT
             || type == FUNCCALL
             || type == FUNCDECL
             || type == BEGINSTMNT

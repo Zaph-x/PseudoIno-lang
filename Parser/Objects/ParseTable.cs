@@ -74,6 +74,7 @@ namespace Parser.Objects
 
             this[ASSIGNMENT, VAR] = new ParseAction(VAR, EXPR);
             this[ASSIGNMENT, NUMERIC] = new ParseAction(NUMERIC, EXPR);
+            this[ASSIGNMENT, OP_MINUS] = new ParseAction(OP_MINUS, NUMERIC, EXPR);
             this[ASSIGNMENT, STRING] = new ParseAction(STRING, EXPR);
             this[ASSIGNMENT, BOOL] = new ParseAction(BOOL, EXPR);
             this[ASSIGNMENT, DPIN] = new ParseAction(DPIN, EXPR);
@@ -112,6 +113,7 @@ namespace Parser.Objects
 
             this[VAL, VAR] = new ParseAction(VAR);
             this[VAL, NUMERIC] = new ParseAction(NUMERIC);
+            this[VAL, OP_MINUS] = new ParseAction(OP_MINUS, NUMERIC);
             this[VAL, STRING] = new ParseAction(STRING);
             this[VAL, BOOL] = new ParseAction(BOOL);
             this[VAL, DPIN] = new ParseAction(DPIN);
