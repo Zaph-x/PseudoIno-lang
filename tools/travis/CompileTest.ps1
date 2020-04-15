@@ -1,7 +1,7 @@
 $countPass = (Get-ChildItem -File -Path ".\premade-programs\pass\" | Measure-Object).Count
 $countFail = (Get-ChildItem -File -Path ".\premade-programs\fail\" | Measure-Object).Count
-$exePath = "..\Core\bin\Debug\netcoreapp3.1\"
-$pathBack = "../../../.."
+$exePath = "$TRAVIS_BUILD_DIR\Core\bin\Debug\netcoreapp3.1\"
+$pathBack = "$TRAVIS_BUILD_DIR"
 function ExpectError() {
     param(
         $exitcode,
