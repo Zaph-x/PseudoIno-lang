@@ -4,6 +4,7 @@ namespace Parser.Objects.Nodes
 {
     public class NumericNode : AstNode
     {
+        public int Value { get; set; }
         public NumericNode(int line, int offset) : base(TokenType.NUMERIC, line, offset)
         {
         }
