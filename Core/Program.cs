@@ -59,7 +59,7 @@ namespace Core
                 }
                 verbosePrinter.Info("Generating parse table");
                 Parsenizer parsenizer = new Parsenizer(tokenizer.Tokens.ToList());
-                parsenizer.CreateAndFillAst();
+                parsenizer.Parse();
             }
 
             timer.Stop();
