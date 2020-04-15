@@ -23,6 +23,11 @@ namespace Parser.Objects
         {
             return Tokens[Index + 1];
         }
+        
+        public ScannerToken Peek(int lookAhead)
+        {
+            return Tokens[Index + lookAhead];
+        }
 
         public void Advance()
         {

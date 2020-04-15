@@ -22,7 +22,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF, "", 1, 7));
 
             Parsenizer parsenizer = new Parsenizer(list);
-            
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace Parser.Tests
           
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -165,7 +165,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -184,7 +184,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -203,7 +203,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -222,7 +222,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -239,7 +239,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -270,7 +270,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -291,7 +291,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
 
         [Test]
@@ -315,7 +315,7 @@ namespace Parser.Tests
 
             parsenizer.CreateAndFillAst();
             
-            Assert.Pass();
+            Assert.False(Parsenizer.HasError);
         }
     }
 }

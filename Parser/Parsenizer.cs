@@ -49,12 +49,25 @@ namespace Parser
             }
         }
 
-        private void Apply(List<ScannerToken> tokens)
+        private void Apply(List<TokenType> tokens)
         {
             Stack.Pop();
-            for (int i = tokens.Count - 1; i >= 0; i--)
+            List<ScannerToken> scannerTokens = new List<ScannerToken>();
+            foreach (var list in tokens)
             {
-                Stack.Push(tokens[i]);
+                if (TokenTypeExpressions.IsTerminal(list))
+                {
+                    int i = 1;
+                    while (list != TokenStream.Peek(i).Type)
+                    {
+                        i += 1;
+                    }
+                    scannerTokens.Add(new ScannerToken(TokenStream.Peek(i).Type,TokenStream.Peek(i).Value,TokenStream.Peek(i).Line,TokenStream.Peek(i).Offset));
+                }
+            }
+            for (int i = scannerTokens.Count - 1; i >= 0; i--)
+            {
+                Stack.Push(scannerTokens[i]);
             }
         }
 
@@ -89,7 +102,7 @@ namespace Parser
                     {
                         new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack().Type} TS: {TokenStream.Peek().Type}");
                     }
-                    // Apply(_p);
+                    Apply(_p);
                     InsertInAST(_p);
                 }
             }
