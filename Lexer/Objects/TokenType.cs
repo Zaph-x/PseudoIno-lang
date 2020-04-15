@@ -236,7 +236,6 @@ namespace Lexer.Objects
         /// End of file token, terminal
         /// </summary>
         EOF,
-
         //Parser
         /// <summary>
         /// Program token, non terminal
@@ -456,50 +455,5 @@ namespace Lexer.Objects
         /// <param name="type">The token to test</param>
         /// <returns>True if the token is a terminal. Else false.</returns>
         public static bool IsTerminal(TokenType type) => !IsNonTerminal(type);
-
-        public static bool HasEpsilonTransition(LinkedListNode<Token> token)
-        {
-            return CheckSet(token, FUNC, VAR)
-            || CheckSet(token, SEPARATOR, VAR) || CheckSet(token, TYPE, VAR)
-            || CheckSet(token, OP_PLUS, VAL) || CheckSet(token, OP_PLUS, VAR)
-            || token.Value.Type == NUMERIC && !IsOperator(token.Previous.Value.Type)
-            || token.Value.Type == VAR && !IsOperator(token.Previous.Value.Type)
-            || token.Value.Type == OP_RPAREN && !IsOperator(token.Previous.Value.Type);
-        }
-
-        public static List<TokenType> EpsilonCounterparts(LinkedListNode<Token> token)
-        {
-            List<TokenType> returnList = new List<TokenType>();
-            if (CheckSet(token, FUNC, VAR))
-            {
-                returnList.Add(WITH);
-            }
-            else if (CheckSet(token, END, VAR)) {
-                returnList.Add(CALL);
-                returnList.Add(VAR);
-                returnList.Add(BEGIN);
-                returnList.Add(IF);
-                returnList.Add(FUNC);
-            }
-            else if (CheckSet(token, SEPARATOR, VAR) || CheckSet(token, TYPE, VAR))
-            {
-                returnList.Add(SEPARATOR);
-                returnList.Add(OP_RPAREN);
-            }
-            else if (token.Value.Type == NUMERIC && !IsOperator(token.Previous.Value.Type)
-            || token.Value.Type == VAR && !IsOperator(token.Previous.Value.Type)
-            || token.Value.Type == OP_RPAREN && !IsOperator(token.Previous.Value.Type))
-            {
-                returnList.AddRange(Enum.GetValues(typeof(TokenType)).Cast<TokenType>().Where(IsOperator));
-            }
-
-            return returnList;
-        }
-
-        private static bool CheckSet(LinkedListNode<Token> token, TokenType typePrevious, TokenType typeCurrent)
-        {
-            return token.Previous?.Value.Type == typePrevious && token.Value.Type == typeCurrent;
-        }
-
     }
 }

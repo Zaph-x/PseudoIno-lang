@@ -1,11 +1,14 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System;
 using System.Reflection;
+using System.Linq;
 using Lexer;
 using Core.Objects;
 using Core.Exceptions;
 using Lexer.Exceptions;
+using Parser;
 
 namespace Core
 {
@@ -54,6 +57,9 @@ namespace Core
                         verbosePrinter.Info(token);
                     }
                 }
+                verbosePrinter.Info("Generating parse table");
+                Parsenizer parsenizer = new Parsenizer(tokenizer.Tokens.ToList());
+                
             }
 
             timer.Stop();
