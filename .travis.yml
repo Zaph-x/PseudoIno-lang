@@ -3,7 +3,7 @@ mono: none
 git:
   quiet: true
 
-install:
+before_install:
 - set -e
 
 matrix:
