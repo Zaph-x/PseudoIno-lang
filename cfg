@@ -1,4 +1,3 @@
-```
 Prog -> Stmts .
 
 Type -> 'string'
@@ -92,4 +91,3 @@ TimeOperator -> 'h'
 CallParam -> 'with' '(' ID CallParams ')' .
 CallParams -> ',' ID CallParams
 | .
-```
