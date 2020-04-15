@@ -37,9 +37,9 @@ namespace Core
                 }
                 catch (EncodingNotSupportedException e)
                 {
-                    Console.Error.WriteLine(e.Message);
                     verbosePrinter.Error("File not encoded correctly.");
-                    return 20;
+                     Console.Error.WriteLine(e.Message);
+                   return 20;
                 }
                 Tokenizer tokenizer = new Tokenizer(reader);
                 verbosePrinter.Info("Generating tokens...");
@@ -59,7 +59,7 @@ namespace Core
                 }
                 verbosePrinter.Info("Generating parse table");
                 Parsenizer parsenizer = new Parsenizer(tokenizer.Tokens.ToList());
-                
+                parsenizer.CreateAndFillAst();
             }
 
             timer.Stop();

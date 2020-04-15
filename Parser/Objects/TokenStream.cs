@@ -8,11 +8,12 @@ namespace Parser.Objects
     {
         private int Index { get; set; }
         private List<ScannerToken> Tokens;
+
+        public int Length {get => Tokens.Count;}
         
         public TokenStream(List<ScannerToken> tokens)
         {
             Tokens = new List<ScannerToken>();
-            Tokens.Add(new ScannerToken(TokenType.START,"",1,1));
             foreach (var var in tokens)
             {
                 Tokens.Add(var as ScannerToken);

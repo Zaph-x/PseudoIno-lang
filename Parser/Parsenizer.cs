@@ -45,25 +45,26 @@ namespace Parser
                 TokenStream.Advance();
             else
             {
-                new InvalidTokenException("Expected token but was not token");
+                new InvalidTokenException($"Expected {TokenStream.Peek().Type} but was {token}");
             }
         }
 
-        private void Apply(List<TokenType> tokens)
+        private void Apply(List<TokenType> tokens, out List<ScannerToken> scannerTokens)
         {
             Stack.Pop();
-            List<ScannerToken> scannerTokens = new List<ScannerToken>();
-            foreach (var list in tokens)
+            scannerTokens = new List<ScannerToken>();
+            foreach (var token in tokens)
             {
-                if (TokenTypeExpressions.IsTerminal(list))
+                if (TokenTypeExpressions.IsTerminal(token))
                 {
                     int i = 1;
-                    while (list != TokenStream.Peek(i).Type)
+                    while (token != TokenStream.Peek(i).Type)
                     {
                         i += 1;
                     }
-                    scannerTokens.Add(new ScannerToken(TokenStream.Peek(i).Type,TokenStream.Peek(i).Value,TokenStream.Peek(i).Line,TokenStream.Peek(i).Offset));
+                    scannerTokens.Add(new ScannerToken(TokenStream.Peek(i).Type, TokenStream.Peek(i).Value, TokenStream.Peek(i).Line, TokenStream.Peek(i).Offset));
                 }
+                else scannerTokens.Add(new ScannerToken(token, "", 0, 0));
             }
             for (int i = scannerTokens.Count - 1; i >= 0; i--)
             {
@@ -79,7 +80,8 @@ namespace Parser
             _accepted = false;
             while (!_accepted)
             {
-                if (Enum.IsDefined(typeof(TokenType), TopOfStack().Type) && TokenTypeExpressions.IsNonTerminal(TopOfStack().Type)) // less than 50
+                System.Console.WriteLine($"TS: {TokenStream.Current()} TSPeek: {TokenStream.Peek()} TOS: {TopOfStack()}");
+                if (Enum.IsDefined(typeof(TokenType), TopOfStack().Type) && TokenTypeExpressions.IsTerminal(TopOfStack().Type)) // less than 50
                 {
                     Match(TopOfStack().Type);
                     if (TopOfStack().Type == TokenType.EOF)
@@ -96,14 +98,15 @@ namespace Parser
                     {
                         //InsertEpsilon();
                         Stack.Pop();
-                        return;
+                        continue;
                     }
                     if (_p.First() == TokenType.ERROR)
                     {
                         new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack().Type} TS: {TokenStream.Peek().Type}");
                     }
-                    Apply(_p);
-                    InsertInAST(_p);
+                    List<ScannerToken> scannerTokens;
+                    Apply(_p, out scannerTokens);
+                    InsertInAST(scannerTokens);
                 }
             }
         }
@@ -122,17 +125,17 @@ namespace Parser
         /*private void Insert(List<TokenType> list)
         {
         }*/
-        private void InsertInAST(List<TokenType> list)
+        private void InsertInAST(List<ScannerToken> list)
         {
-            _current = _current.Parent;
+            _current = _current?.Parent ?? Program;
             _current = _current.Children.Find(x => x.Type == TopOfStack().Type);
 
-            foreach (var tokenType in list)
+            foreach (var token in list)
             {
-                switch (tokenType)
+                switch (token.Type)
                 {
                     case TokenType.ASSIGNMENT:
-                        Program.Statements.Add(new AssignmentNode(1, 1));
+                        Program.Statements.Add(new AssignmentNode(token.Line, token.Offset));
                         break;
                     case TokenType.STMNT:
                         //_astNode.AddChild(new AstNode(new ParseToken(tokenType,"",0,0),"",0,0 ));
