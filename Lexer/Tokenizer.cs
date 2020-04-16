@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -375,9 +376,17 @@ namespace Lexer
             {
                 subString += Pop();
             }
+            if (Regex.Match(subString.ToLower(), "(a|d)pin\\d+").Success)
+            {
+                if (subString.StartsWith("a"))
+                    Tokens.AddLast(Token(TokenType.APIN, "A" + subString.Substring(4)));
+                else
+                    Tokens.AddLast(Token(TokenType.DPIN, subString.Substring(4)));
+                return;
+            }
             if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
             {
-                if (tokenType == TokenType.TYPE)
+                if (tokenType == TokenType.TYPE || tokenType == TokenType.BOOL)
                 {
                     Tokens.AddLast(Token(tokenType, subString));
                 }
