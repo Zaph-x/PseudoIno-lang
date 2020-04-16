@@ -86,12 +86,14 @@ namespace Parser.Objects
             this[ASSIGNMENT, BOOL] = new ParseAction(BOOL, EXPR);
             this[ASSIGNMENT, DPIN] = new ParseAction(DPIN, EXPR);
             this[ASSIGNMENT, APIN] = new ParseAction(APIN, EXPR);
+            this[ASSIGNMENT, OP_LPAREN] = new ParseAction(OP_LPAREN, ASSIGNMENT);
 
             this[EXPR, OP_PLUS] = new ParseAction(OP_PLUS, VAL, EXPR);
             this[EXPR, OP_MINUS] = new ParseAction(OP_MINUS, VAL, EXPR);
             this[EXPR, OP_TIMES] = new ParseAction(OP_TIMES, VAL, EXPR);
             this[EXPR, OP_DIVIDE] = new ParseAction(OP_DIVIDE, VAL, EXPR);
             this[EXPR, OP_MODULO] = new ParseAction(OP_MODULO, VAL, EXPR);
+            this[EXPR, OP_RPAREN] = new ParseAction(OP_RPAREN, EXPR);
 
             this[EXPR, OP_AND] = new ParseAction(OP_AND, VAL, EXPR);
             this[EXPR, OP_OR] = new ParseAction(OP_OR, VAL, EXPR);

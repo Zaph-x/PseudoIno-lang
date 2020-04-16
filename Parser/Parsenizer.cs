@@ -110,6 +110,12 @@ namespace Parser
                 }
             }
         }
+
+        private void ParseNode()
+        {
+            throw new NotImplementedException();
+        }
+
         // public void Parse()
         // {
         //     // Create AST and fill with tokens
