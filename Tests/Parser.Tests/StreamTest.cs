@@ -16,6 +16,7 @@ namespace Parser.Tests
         public void Test_Stream_Current_type()
         {
             List<ScannerToken> scannerTokens = new List<ScannerToken>();
+            scannerTokens.Add(new ScannerToken(TokenType.PROG,"",1,1));
             scannerTokens.Add(new ScannerToken(TokenType.VAR,"a",1,1));
             scannerTokens.Add(new ScannerToken(TokenType.ASSIGN,1,2));
             scannerTokens.Add(new ScannerToken(TokenType.NUMERIC_INT,"5",1,2));
@@ -29,6 +30,7 @@ namespace Parser.Tests
         public void Test_Stream_Peek_type()
         {
             List<ScannerToken> tokens = new List<ScannerToken>();
+            tokens.Add(new ScannerToken(TokenType.PROG,"",1,1));
             tokens.Add(new ScannerToken(TokenType.VAR,"a",1,1));
             tokens.Add(new ScannerToken(TokenType.ASSIGN,1,2));
             tokens.Add(new ScannerToken(TokenType.NUMERIC_INT,"5",1,2));
@@ -42,6 +44,7 @@ namespace Parser.Tests
         public void Test_Stream_Advance_type()
         {
             List<ScannerToken> tokens = new List<ScannerToken>();
+            tokens.Add(new ScannerToken(TokenType.PROG,"",1,1));
             tokens.Add(new ScannerToken(TokenType.VAR,"a",1,1));
             tokens.Add(new ScannerToken(TokenType.ASSIGN,1,2));
             tokens.Add(new ScannerToken(TokenType.NUMERIC_INT,"5",1,2));
