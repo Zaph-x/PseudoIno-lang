@@ -50,6 +50,8 @@ namespace Parser.Objects
             this[PROG, FUNC] = new ParseAction(STMNTS);
             this[PROG, BEGIN] = new ParseAction(STMNTS);
             this[PROG, WAIT] = new ParseAction(STMNTS);
+            this[PROG, APIN] = new ParseAction(STMNTS);
+            this[PROG, DPIN] = new ParseAction(STMNTS);
             this[PROG, EOF] = new ParseAction(EOF);
 
             this[TYPE, STRING] = new ParseAction(STRING);
@@ -64,6 +66,8 @@ namespace Parser.Objects
             this[STMNTS, FUNC] = new ParseAction(FUNCDECL);
             this[STMNTS, BEGIN] = new ParseAction(STMNT);
             this[STMNTS, WAIT] = new ParseAction(STMNT);
+            this[STMNTS, APIN] = new ParseAction(STMNT);
+            this[STMNTS, DPIN] = new ParseAction(STMNT);
             this[STMNTS, ELSE] = new ParseAction();
 
             this[STMNT, IF] = new ParseAction(IFSTMNT);
@@ -71,6 +75,8 @@ namespace Parser.Objects
             this[STMNT, BEGIN] = new ParseAction(BEGINSTMNT);
             this[STMNT, WAIT] = new ParseAction(WAITSTMNT);
             this[STMNT, VAR] = new ParseAction(VAR, ASSIGN, ASSIGNMENT);
+            this[STMNT, APIN] = new ParseAction(APIN, ASSIGN, ASSIGNMENT);
+            this[STMNT, DPIN] = new ParseAction(DPIN, ASSIGN, ASSIGNMENT);
             this[STMNT, END] = new ParseAction();
 
             this[ASSIGNMENT, VAR] = new ParseAction(VAR, EXPR);

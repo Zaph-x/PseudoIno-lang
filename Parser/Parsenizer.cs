@@ -71,12 +71,14 @@ namespace Parser
                 Stack.Push(scannerTokens[i]);
             }
         }
-        public void Parse()
+        public void Parse(out string verbosity)
         {
+            verbosity = "";
             Stack.Push(TokenStream.PROG);
 
             while (Stack.Any())
             {
+                verbosity += $"TS: {TokenStream.Current()} TSPeek: {TokenStream.Peek()} TOS: {TopOfStack()}\n";
                 if (TokenTypeExpressions.IsTerminal(TopOfStack().Type))
                 {
                     if (TopOfStack().Type == TokenType.EOF)
