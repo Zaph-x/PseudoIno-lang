@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Parser.Objects
 {
@@ -13,19 +15,18 @@ namespace Parser.Objects
             string line;  
               
             // Read the file and display it line by line.  
-            System.IO.StreamReader file =
-                new System.IO.StreamReader(@"cfg.md");  
+            StreamReader file = new StreamReader(@"cfg");  
             while((line = file.ReadLine()) != null)  
             {  
                 LineScanner(line);
-                System.Console.WriteLine(line);  
+                Console.WriteLine(line);  
                 counter++;  
             }  
               
             file.Close();  
-            System.Console.WriteLine("There were {0} lines.", counter);  
+            Console.WriteLine("There were {0} lines.", counter);  
             // Suspend the screen.  
-            System.Console.ReadLine();  
+            Console.ReadLine();  
         }
 
         public void LineScanner(string line)
