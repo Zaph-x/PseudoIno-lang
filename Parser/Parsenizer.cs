@@ -73,12 +73,12 @@ namespace Parser
         }
         public void Parse(out string verbosity)
         {
-            verbosity = "";
+            verbosity = "\n";
             Stack.Push(TokenStream.PROG);
 
             while (Stack.Any())
             {
-                verbosity += $"TS: {TokenStream.Current()} TSPeek: {TokenStream.Peek()} TOS: {TopOfStack()}\n";
+                verbosity += $"TS: {TokenStream.Current().ToString().PadRight(25)} TSPeek: {TokenStream.Peek().ToString().PadRight(25)} TOS: {TopOfStack().ToString().PadRight(25)}\n";
                 if (TokenTypeExpressions.IsTerminal(TopOfStack().Type))
                 {
                     if (TopOfStack().Type == TokenType.EOF)
