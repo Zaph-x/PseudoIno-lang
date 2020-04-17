@@ -15,6 +15,7 @@ namespace Parser
     {
         // public AST Ast = new AST();
         private Stack<ScannerToken> Stack = new Stack<ScannerToken>();
+        private List<List<ScannerToken>> _listOfStacks = new List<List<ScannerToken>>();
         private TokenStream TokenStream;
         public ParseTable ParseTable { get; private set; }
         public ProgramNode Program { get; internal set; } = new ProgramNode(0, 0);
@@ -79,6 +80,7 @@ namespace Parser
             while (Stack.Any())
             {
                 verbosity += $"TS: {TokenStream.Current()} TSPeek: {TokenStream.Peek()} TOS: {TopOfStack()}\n";
+                CopyStackToList();
                 if (TokenTypeExpressions.IsTerminal(TopOfStack().Type))
                 {
                     if (TopOfStack().Type == TokenType.EOF)
@@ -109,6 +111,16 @@ namespace Parser
                     }
                 }
             }
+        }
+
+        private void CopyStackToList()
+        {
+            List<ScannerToken> list = new List<ScannerToken>();
+            foreach (var token in Stack)
+            {
+                list.Add(token);
+            }
+            _listOfStacks.Add(list);
         }
 
         private void ParseNode()
