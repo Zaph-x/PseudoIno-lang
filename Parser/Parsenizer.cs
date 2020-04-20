@@ -15,6 +15,7 @@ namespace Parser
     {
         // public AST Ast = new AST();
         private Stack<ScannerToken> Stack = new Stack<ScannerToken>();
+        private List<List<ScannerToken>> _listOfStacks = new List<List<ScannerToken>>();
         private TokenStream TokenStream;
         public ParseTable ParseTable { get; private set; }
         public ProgramNode Program { get; internal set; } = new ProgramNode(0, 0);
@@ -25,7 +26,7 @@ namespace Parser
 
         public Parsenizer(List<ScannerToken> tokens)
         {
-            TokenStream = new TokenStream(tokens.Where(tok => tok.Type != TokenType.COMMENT && tok.Type != TokenType.MULT_COMNT));
+            TokenStream = new TokenStream(tokens);
             ParseTable = new ParseTable();
             ParseTable.InitTable();
         }
@@ -46,7 +47,7 @@ namespace Parser
                 TokenStream.Advance();
             else
             {
-                new InvalidTokenException($"Expected  {token} but was {TokenStream.Peek().Type} at {TokenStream.Peek().Line}:{TokenStream.Peek().Offset}");
+                new InvalidTokenException($"Expected  {token} but was {TokenStream.Peek().Type}");
             }
         }
 
@@ -73,12 +74,13 @@ namespace Parser
         }
         public void Parse(out string verbosity)
         {
-            verbosity = "\n";
+            verbosity = "";
             Stack.Push(TokenStream.PROG);
 
             while (Stack.Any())
             {
-                verbosity += $"TS: {TokenStream.Current().ToString().PadRight(25)} TSPeek: {TokenStream.Peek().ToString().PadRight(25)} TOS: {TopOfStack().ToString().PadRight(25)}\n";
+                verbosity += $"TS: {TokenStream.Current()} TSPeek: {TokenStream.Peek()} TOS: {TopOfStack()}\n";
+                CopyStackToList();
                 if (TokenTypeExpressions.IsTerminal(TopOfStack().Type))
                 {
                     if (TopOfStack().Type == TokenType.EOF)
@@ -109,6 +111,21 @@ namespace Parser
                     }
                 }
             }
+            AST ast = new AST(_listOfStacks);
+            ast.FindStatements();
+            ast.MakeStatements();
+            ast.TrimStatements();
+            int i = 0;
+        }
+
+        private void CopyStackToList()
+        {
+            List<ScannerToken> list = new List<ScannerToken>();
+            foreach (var token in Stack)
+            {
+                list.Add(token);
+            }
+            _listOfStacks.Add(list);
         }
 
         private void ParseNode()
