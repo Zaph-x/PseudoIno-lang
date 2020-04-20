@@ -25,7 +25,7 @@ namespace Parser
 
         public Parsenizer(List<ScannerToken> tokens)
         {
-            TokenStream = new TokenStream(tokens);
+            TokenStream = new TokenStream(tokens.Where(tok => tok.Type != TokenType.COMMENT && tok.Type != TokenType.MULT_COMNT));
             ParseTable = new ParseTable();
             ParseTable.InitTable();
         }
@@ -46,7 +46,7 @@ namespace Parser
                 TokenStream.Advance();
             else
             {
-                new InvalidTokenException($"Expected  {token} but was {TokenStream.Peek().Type}");
+                new InvalidTokenException($"Expected  {token} but was {TokenStream.Peek().Type} at {TokenStream.Peek().Line}:{TokenStream.Peek().Offset}");
             }
         }
 

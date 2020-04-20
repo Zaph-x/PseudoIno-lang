@@ -188,7 +188,7 @@ namespace Parser.Objects
             this[TIME_MOD, TIME_SEC] = new ParseAction(TIME_SEC);
             this[TIME_MOD, TIME_MS] = new ParseAction(TIME_MS);
 
-            this[CALLPARAMS, WITH] = new ParseAction(WITH, OP_LPAREN, VAL, CALLPARAM, OP_RPAREN);
+            this[CALLPARAMS, WITH] = new ParseAction(WITH, VAL, CALLPARAM);
             this[CALLPARAM, SEPARATOR] = new ParseAction(SEPARATOR, VAL);
             this[CALLPARAM, OP_RPAREN] = new ParseAction();
         }
