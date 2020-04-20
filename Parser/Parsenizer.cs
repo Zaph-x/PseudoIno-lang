@@ -111,6 +111,11 @@ namespace Parser
                     }
                 }
             }
+            AST ast = new AST(_listOfStacks);
+            ast.FindStatements();
+            ast.MakeStatements();
+            ast.TrimStatements();
+            int i = 0;
         }
 
         private void CopyStackToList()
