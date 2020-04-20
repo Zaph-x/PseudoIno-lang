@@ -21,11 +21,16 @@ namespace Core.Objects
         /// If this is set to true, the compiler will print additional information
         /// </summary>
         /// <value>False</value>
-        public bool Verbose {get;set;}
+        public bool Verbose { get; set; }
         /// <summary>
         /// A file to write tokens and other log things to.
         /// </summary>
         /// <value>null</value>
-        public string LogFile {get;set;}
+        public string LogFile { get; set; }
+        /// <summary>
+        /// A boolean value to specify if the compiler should generate a boilerplate file for the PseudoIno language
+        /// </summary>
+        /// <value>false</value>
+        public bool Boilerpate { get; set; }
     }
 }

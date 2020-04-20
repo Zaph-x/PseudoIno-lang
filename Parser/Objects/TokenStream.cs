@@ -11,7 +11,7 @@ namespace Parser.Objects
 
         public int Length {get => Tokens.Count;}
         
-        public TokenStream(List<ScannerToken> tokens)
+        public TokenStream(IEnumerable<ScannerToken> tokens)
         {
             Tokens = new List<ScannerToken>();
             foreach (var var in tokens)
