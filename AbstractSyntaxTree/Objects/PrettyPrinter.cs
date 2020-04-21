@@ -1,5 +1,5 @@
 using System;
-using Parser.Objects.Nodes;
+using AbstractSyntaxTree.Objects.Nodes;
 
 namespace AbstractSyntaxTree.Objects
 {
