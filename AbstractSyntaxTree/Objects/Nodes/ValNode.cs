@@ -4,7 +4,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public abstract class ValNode : AstNode
     {
-        //public TokenType Type { get; set; }
         public ValNode(TokenType type, int line, int offset) : base(type, line, offset)
         {
         }
