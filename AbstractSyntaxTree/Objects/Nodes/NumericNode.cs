@@ -2,13 +2,24 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public abstract class NumericNode : ValNode
+    public class NumericNode : ValNode
     {
         //public int Value { get; set; }
-        public NumericNode(int line, int offset) : base(TokenType.NUMERIC, line, offset)
+        public float FValue {get;set;}
+        public int IValue {get;set;}
+        public NumericNode(string value ,int line, int offset) : base(TokenType.NUMERIC, line, offset)
         {
+            float _f;
+            int _i;
+            float.TryParse(value, out _f);
+            int.TryParse(value, out _i);
+
+            FValue = _f;
+            IValue = _i;
         }
 
-        public abstract override void Accept(Visitor visitor);
+        public override void Accept(Visitor visitor) {
+            visitor.Visit(this);
+        }
     }
 }

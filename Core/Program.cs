@@ -78,7 +78,7 @@ namespace Core
                 List<ScannerToken> tokens = tokenizer.Tokens.ToList();
                 Parsenizer parsenizer = new Parsenizer(tokens);
                 string debugMessage;
-                List<Token> tokenList = parsenizer.Parse(out debugMessage);
+                List<ScannerToken> tokenList = parsenizer.Parse(out debugMessage);
                 verbosePrinter.Info(debugMessage);
                 if (Parsenizer.HasError) {
                     return 4;

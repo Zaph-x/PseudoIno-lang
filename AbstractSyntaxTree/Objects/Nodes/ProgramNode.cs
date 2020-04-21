@@ -6,7 +6,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class ProgramNode : AstNode, IScope
     {
-        public List<StatementNode> Statements {get;set;}
+        public List<StatementNode> Statements { get; set; }
         public List<FunctionDefinitonNode> FunctionDefinitons = new List<FunctionDefinitonNode>();
         public FunctionLoopNode LoopFunction;
         public ProgramNode(int line, int offset) : base(TokenType.PROG, line, offset)
@@ -14,7 +14,8 @@ namespace AbstractSyntaxTree.Objects.Nodes
             this.Statements = new List<StatementNode>();
         }
 
-        public override void Accept(Visitor visitor) {
+        public override void Accept(Visitor visitor)
+        {
             visitor.Visit(this);
         }
     }
