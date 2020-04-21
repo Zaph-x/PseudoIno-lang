@@ -12,6 +12,11 @@ namespace AbstractSyntaxTree.Objects
             throw new NotImplementedException();
         }
 
+        internal void Visit(TimeNode timeNode)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Visit(FunctionLoopNode loopFnNode)
         {
             if (loopFnNode.Statements.Any()) {
@@ -21,7 +26,10 @@ namespace AbstractSyntaxTree.Objects
 
         internal void Visit(AssignmentNode assignmentNode)
         {
-            throw new NotImplementedException();
+            assignmentNode.LeftHand.Accept(this);
+            assignmentNode.RightHand.Accept(this);
+            if (assignmentNode.ExpressionHand != null)
+                assignmentNode.ExpressionHand.Accept(this);
         }
 
         internal void Visit(FunctionDefinitonNode functionDefinitonNode)
@@ -46,7 +54,6 @@ namespace AbstractSyntaxTree.Objects
 
         public void Visit(VarNode varNode)
         {
-            throw new NotImplementedException();
         }
 
         public void Visit(ValNode valNode)
