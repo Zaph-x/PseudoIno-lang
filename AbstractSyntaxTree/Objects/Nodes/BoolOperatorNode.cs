@@ -1,10 +1,13 @@
+using Lexer.Objects;
+
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class BoolOperatorNode : OperatorNode
+    public abstract class BoolOperatorNode : OperatorNode
     {
-        public BoolOperatorNode()
+        public BoolOperatorNode(TokenType type, int line, int offset) : base(type, line, offset)
         {
-            
         }
+
+        public abstract override void Accept(Visitor visitor);
     }
 }

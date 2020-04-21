@@ -2,7 +2,7 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class VarNode : AstNode
+    public class VarNode : ValNode
     {
         string Id {get;set;}
         public VarNode(string id, int line, int offset) : base(TokenType.VAR, line, offset)
