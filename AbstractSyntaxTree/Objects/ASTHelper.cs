@@ -75,8 +75,7 @@ namespace AbstractSyntaxTree.Objects
 
         private StatementNode ParseIf(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
-            IfStatementNode ifStatementNode =
-                new IfStatementNode(token.Value.Line, token.Value.Offset);
+            IfStatementNode ifStatementNode = new IfStatementNode(token.Value.Line, token.Value.Offset);
             ifStatementNode.Val = ParseValNode(token.Next,currentScope);
             ifStatementNode.Expression = ParseExpression(token.Next,currentScope);
             return ifStatementNode;
