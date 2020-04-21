@@ -11,7 +11,6 @@ namespace Lexer.Objects
         /// </summary>
         ERROR = -1,
         /* Keywords */
-        
         BEGIN,
         ///<summary>
         /// Assignment token type
@@ -115,7 +114,6 @@ namespace Lexer.Objects
         /// Multiline comment token type
         /// </summary>
         MULT_COMNT,
-        
         /* TYPES */
         ///<summary>
         /// Numeric integer token type
@@ -137,7 +135,6 @@ namespace Lexer.Objects
         /// Range token type
         /// </summary>
         RANGE,
-        
         /* Arithmetic operators */
         ///<summary>
         /// Plus token type

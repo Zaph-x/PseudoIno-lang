@@ -6,6 +6,12 @@ namespace Parser.Objects
 {
     public class SymbolTable
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="string"></typeparam>
+        /// <typeparam name="TokenType"></typeparam>
+        /// <returns></returns>
         private Dictionary<string,TokenType> symbolTable = new Dictionary<string, TokenType>();
         
         // Not used yet but have to at some point
