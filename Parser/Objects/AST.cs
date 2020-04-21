@@ -86,8 +86,16 @@ namespace Parser.Objects
                 else if (statement.Current().Type == TokenType.FUNC)
                 {
                     ParseFunctionDeclaration(statement);
+                } else if (IsType(statement, TokenType.CALL))
+                {
+
                 }
             }
+        }
+
+        private bool IsType(TokenStream statement, TokenType expectedType) 
+        {
+            return statement.Current().Type == expectedType;
         }
 
         public void ParseIfStatement(TokenStream tokens)
