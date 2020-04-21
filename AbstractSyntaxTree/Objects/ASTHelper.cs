@@ -37,7 +37,7 @@ namespace AbstractSyntaxTree.Objects
             return Root;
         }
 
-        public void ParseNext(LinkedListNode<ScannerToken> token, IScope currentScope, IScope previousScope)
+        public void ParseNext(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
             if (token == null) return;
             if (token.Next?.Value?.Type == TokenType.ASSIGN)
@@ -71,14 +71,62 @@ namespace AbstractSyntaxTree.Objects
                 currentScope.Statements.Add(ParseCall(token, currentScope));
             }
             token = token.Next;
-            ParseNext(token, currentScope, previousScope);
+            ParseNext(token, currentScope);
+        }
+        
+        public StatementNode ParseNext(LinkedListNode<ScannerToken> token, IScope currentScope, IScope previousScope)
+        {
+            if (token.Next?.Value.Type == TokenType.ASSIGN)
+            {
+                currentScope.Statements.Add(ParseAssignment(token, currentScope));
+                token = token.Next;
+                ParseNext(token, currentScope, previousScope);
+            }
+            else if (token.Value.Type == TokenType.IF)
+            {
+                currentScope.Statements.Add(ParseIf(token, currentScope));
+                token = token.Next;
+                ParseNext(token, currentScope, previousScope);
+            }
+            else if (token.Value.Type == TokenType.FUNC)
+            {
+                if (!currentScope.GetType().Equals(typeof(ProgramNode)))
+                {
+                    new UnexpectedSequenceException("Functions can not be defined inside of functions.");
+                    return null;
+                }
+                // We know we are in the global scope because of the above check
+                ((ProgramNode)currentScope).FunctionDefinitons.Add(ParseFunciondefinitionNode(token));
+            }
+            else if (token.Value.Type == TokenType.WAIT)
+            {
+                currentScope.Statements.Add(ParseWait(token, currentScope));
+                token = token.Next;
+                ParseNext(token, currentScope, previousScope);
+            }
+            else if (token.Value.Type == TokenType.BEGIN)
+            {
+                currentScope.Statements.Add(ParseBegin(token, currentScope));
+                token = token.Next;
+                ParseNext(token, currentScope, previousScope);
+            }
+            else if (token.Value.Type == TokenType.CALL)
+            {
+                currentScope.Statements.Add(ParseCall(token, currentScope));
+                token = token.Next;
+                ParseNext(token, currentScope, previousScope);
+            }
+            return null;
         }
 
         private StatementNode ParseIf(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
-            IfStatementNode ifStatementNode = new IfStatementNode(token.Value.Line, token.Value.Offset);
+            IfStatementNode ifStatementNode =
+                new IfStatementNode(token.Value.Line, token.Value.Offset);
             ifStatementNode.Val = ParseValNode(token.Next);
             ifStatementNode.Expression = ParseExpression(token.Next);
+            //Parse Statements
+            ParseNext(token, ifStatementNode, currentScope);
             return ifStatementNode;
         }
 
@@ -96,9 +144,26 @@ namespace AbstractSyntaxTree.Objects
 
         private StatementNode ParseCall(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
-            throw new NotImplementedException();
+            CallNode callNode = new CallNode(token.Value.Line,token.Value.Offset);
+            callNode.VarNode = new VarNode(token.Next.Value.Value,token.Next.Value.Line,token.Next.Value.Offset);
+            callNode.RightHand = ParseCallParameters(token.Next.Next,currentScope);
+            return callNode;
         }
 
+        public CallParametersNode ParseCallParameters(LinkedListNode<ScannerToken> token, IScope currentScope)
+        {
+            CallParametersNode callParametersNode = new CallParametersNode(token.Value.Line,token.Value.Offset);
+            callParametersNode.ValNode = ParseValNode(token, currentScope);
+            if (token.Next.Value.Type == TokenType.VAR ||
+                token.Next.Value.Type == TokenType.NUMERIC || 
+                token.Next.Value.Type == TokenType.STRING || 
+                token.Next.Value.Type == TokenType.PIN)
+            {
+                callParametersNode.RightHand = ParseCallParameters(token.Next, currentScope);
+            }
+            
+            return null;
+        }
         public FunctionDefinitonNode ParseFunciondefinitionNode(LinkedListNode<ScannerToken> token)
         {
             FunctionDefinitonNode funcDef = new FunctionDefinitonNode(token.Next.Value.Value, token.Value.Line, token.Value.Offset);
@@ -129,6 +194,10 @@ namespace AbstractSyntaxTree.Objects
                     return new NumericNode(token.Value.Value, token.Value.Line, token.Value.Offset);
                 case TokenType.STRING:
                     return new StringNode(token.Value.Value, token.Value.Line, token.Value.Offset);
+                case TokenType.DPIN:
+                    return new DPinNode(token.Value.Value, token.Value.Line, token.Value.Offset);
+                case TokenType.APIN:
+                    return new DPinNode(token.Value.Value, token.Value.Line, token.Value.Offset);
             }
             return null;
         }
