@@ -139,9 +139,25 @@ namespace AbstractSyntaxTree.Objects
 
         private StatementNode ParseBegin(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
-            throw new NotImplementedException();
+            BeginNode beginNode = new BeginNode(token.Value.Line,token.Value.Offset);
+            switch (token.Next.Value.Type)
+            {
+                case TokenType.WHILE:
+                    beginNode.LoopNode = new WhileNode(token.Next.Value.Line,token.Next.Value.Offset);
+                    ParseLoop();
+                    break;
+                case TokenType.FOR:
+                    beginNode.LoopNode = new ForNode(token.Next.Value.Line,token.Next.Value.Offset);
+                    break;
+            }
+             
+            return beginNode;
         }
 
+        public void ParseLoop()
+        {
+            
+        }
         private StatementNode ParseCall(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
             CallNode callNode = new CallNode(token.Value.Line,token.Value.Offset);
