@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
@@ -5,8 +6,10 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public class IfStatementNode : StatementNode
     {
         //private node condition { get; set; }
-        private AstNode Statement { get; set; }
-        public IfStatementNode(TokenType type, int line, int offset) : base(type, line, offset)
+        public ValNode Val { get; set; }
+        public ExpressionNode Expression { get; set; }
+        public StatementNode Statements { get; set; }
+        public IfStatementNode(int line, int offset) : base(TokenType.IFSTMNT, line, offset)
         {
         }
 

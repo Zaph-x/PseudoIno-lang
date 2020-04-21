@@ -5,7 +5,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class ExpressionNode : AstNode
     {
-        public Type type { get; set; }
+        //public TypeNode type { get; set; }
         public OperatorNode LeftHandSide { get; set; }
         public ValNode Middel { get; set; }
         public ExpressionNode RightHandSide { get; set; }

@@ -75,7 +75,11 @@ namespace AbstractSyntaxTree.Objects
 
         private StatementNode ParseIf(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
-            throw new NotImplementedException();
+            IfStatementNode ifStatementNode =
+                new IfStatementNode(token.Value.Line, token.Value.Offset);
+            ifStatementNode.Val = ParseValNode(token.Next,currentScope);
+            ifStatementNode.Expression = ParseExpression(token.Next,currentScope);
+            return ifStatementNode;
         }
 
         private StatementNode ParseWait(LinkedListNode<ScannerToken> token, IScope currentScope)
@@ -120,6 +124,78 @@ namespace AbstractSyntaxTree.Objects
                     return new NumericNode(token.Value.Value, token.Value.Line, token.Value.Offset);
                 case TokenType.STRING:
                     return new StringNode(token.Value.Value, token.Value.Line, token.Value.Offset);
+            }
+            return null;
+        }
+
+        public ExpressionNode ParseExpression(LinkedListNode<ScannerToken> token, IScope currentScope)
+        {
+            switch (token.Value.Type)
+            {
+                case TokenType.OP_PLUS:
+                    ExpressionNode plusExpressionNode =
+                        new ExpressionNode(TokenType.EXPR, token.Value.Line, token.Value.Offset);
+                    plusExpressionNode.Type = TokenType.MATHEXPR;
+                    plusExpressionNode.LeftHandSide = new PlusNode(token.Value.Line,token.Value.Offset);
+                    plusExpressionNode.Middel = ParseValNode(token.Next, currentScope);
+                    plusExpressionNode.RightHandSide = ParseExpression(token.Next, currentScope);
+                    return plusExpressionNode;
+                case TokenType.OP_MINUS:
+                    ExpressionNode minusExpressionNode =
+                        new ExpressionNode(TokenType.EXPR, token.Value.Line, token.Value.Offset);
+                    minusExpressionNode.Type = TokenType.MATHEXPR;
+                    minusExpressionNode.LeftHandSide = new MinusNode(token.Value.Line,token.Value.Offset);
+                    minusExpressionNode.Middel = ParseValNode(token.Next, currentScope);
+                    minusExpressionNode.RightHandSide = ParseExpression(token.Next, currentScope);
+                    return minusExpressionNode;
+                case TokenType.OP_TIMES:
+                    ExpressionNode timesExpressionNode =
+                        new ExpressionNode(TokenType.EXPR, token.Value.Line, token.Value.Offset);
+                    timesExpressionNode.Type = TokenType.MATHEXPR;
+                    timesExpressionNode.LeftHandSide = new TimesNode(token.Value.Line,token.Value.Offset);
+                    timesExpressionNode.Middel = ParseValNode(token.Next, currentScope);
+                    timesExpressionNode.RightHandSide = ParseExpression(token.Next, currentScope);
+                    return timesExpressionNode;
+                case TokenType.OP_DIVIDE:
+                    ExpressionNode divideExpressionNode =
+                        new ExpressionNode(TokenType.EXPR, token.Value.Line, token.Value.Offset);
+                    divideExpressionNode.Type = TokenType.MATHEXPR;
+                    divideExpressionNode.LeftHandSide = new DivideNode(token.Value.Line,token.Value.Offset);
+                    divideExpressionNode.Middel = ParseValNode(token.Next, currentScope);
+                    divideExpressionNode.RightHandSide = ParseExpression(token.Next, currentScope);
+                    return divideExpressionNode;
+                case TokenType.OP_AND:
+                    ExpressionNode andExpressionNode =
+                        new ExpressionNode(TokenType.EXPR, token.Value.Line, token.Value.Offset);
+                    andExpressionNode.Type = TokenType.BOOLEXPR;
+                    andExpressionNode.LeftHandSide = new AndNode(token.Value.Line,token.Value.Offset);
+                    andExpressionNode.Middel = ParseValNode(token.Next, currentScope);
+                    andExpressionNode.RightHandSide = ParseExpression(token.Next, currentScope);
+                    return andExpressionNode;
+                case TokenType.OP_OR:
+                    ExpressionNode orExpressionNode =
+                        new ExpressionNode(TokenType.EXPR, token.Value.Line, token.Value.Offset);
+                    orExpressionNode.Type = TokenType.BOOLEXPR;
+                    orExpressionNode.LeftHandSide = new OrNode(token.Value.Line,token.Value.Offset);
+                    orExpressionNode.Middel = ParseValNode(token.Next, currentScope);
+                    orExpressionNode.RightHandSide = ParseExpression(token.Next, currentScope);
+                    return orExpressionNode;
+                case TokenType.OP_LESS:
+                    ExpressionNode lessExpressionNode =
+                        new ExpressionNode(TokenType.EXPR, token.Value.Line, token.Value.Offset);
+                    lessExpressionNode.Type = TokenType.BOOLEXPR;
+                    lessExpressionNode.LeftHandSide = new LessNode(token.Value.Line,token.Value.Offset);
+                    lessExpressionNode.Middel = ParseValNode(token.Next, currentScope);
+                    lessExpressionNode.RightHandSide = ParseExpression(token.Next, currentScope);
+                    return lessExpressionNode;
+                case TokenType.OP_GREATER:
+                    ExpressionNode greaterExpressionNode =
+                        new ExpressionNode(TokenType.EXPR, token.Value.Line, token.Value.Offset);
+                    greaterExpressionNode.Type = TokenType.BOOLEXPR;
+                    greaterExpressionNode.LeftHandSide = new GreaterNode(token.Value.Line,token.Value.Offset);
+                    greaterExpressionNode.Middel = ParseValNode(token.Next, currentScope);
+                    greaterExpressionNode.RightHandSide = ParseExpression(token.Next, currentScope);
+                    return greaterExpressionNode;
             }
             return null;
         }
