@@ -5,9 +5,10 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class StringNode : ValNode
     {
-        public StringNode(int line, int offset) : base(TokenType.STRING, line, offset)
+        string Value {get;set;}
+        public StringNode(string value, int line, int offset) : base(TokenType.STRING, line, offset)
         {
-            
+            Value = value;
         }
 
         public override void Accept(Visitor visitor)

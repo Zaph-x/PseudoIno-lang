@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Lexer.Objects;
 using AbstractSyntaxTree.Objects.Nodes;
 using AbstractSyntaxTree.Exceptions;
+using System;
 
 namespace AbstractSyntaxTree.Objects
 {
@@ -14,9 +15,14 @@ namespace AbstractSyntaxTree.Objects
         private List<ScannerToken> tokenBuffer = new List<ScannerToken>();
         public ProgramNode Root { get; private set; }
 
-        public ASTHelper(List<Token> tokens)
+        public ASTHelper(List<ScannerToken> tokens)
         {
-            RawTokens = new LinkedList<ScannerToken>(tokens.Cast<ScannerToken>());
+            RawTokens = new LinkedList<ScannerToken>(tokens);
+            Parse(RawTokens.First, Root);
+        }
+        public ASTHelper(LinkedList<ScannerToken> tokens)
+        {
+            RawTokens = tokens;
             Parse(RawTokens.First, Root);
         }
 
@@ -24,15 +30,16 @@ namespace AbstractSyntaxTree.Objects
         {
             if (token.Value.Type == TokenType.PROG)
             {
-                currentScope = new ProgramNode(token.Value.Line, token.Value.Offset);
+                currentScope = Root = new ProgramNode(token.Value.Line, token.Value.Offset);
             }
 
-            return ParseNext(token.Next, Root);
+            ParseNext(token.Next, Root, null);
+            return Root;
         }
 
-        public AstNode ParseNext(LinkedListNode<ScannerToken> token, IScope currentScope)
+        public void ParseNext(LinkedListNode<ScannerToken> token, IScope currentScope, IScope previousScope)
         {
-            if (token.Next.Value.Type == TokenType.ASSIGN)
+            if (token.Next?.Value.Type == TokenType.ASSIGN)
             {
                 currentScope.Statements.Add(ParseAssignment(token, currentScope));
             }
@@ -45,8 +52,10 @@ namespace AbstractSyntaxTree.Objects
                 if (!currentScope.GetType().Equals(typeof(ProgramNode)))
                 {
                     new UnexpectedSequenceException("Functions can not be defined inside of functions.");
-                    return null;
+                    return;
                 }
+                // We know we are in the global scope because of the above check
+                ((ProgramNode)currentScope).FunctionDefinitons.Add(ParseFunciondefinitionNode(token));
             }
             else if (token.Value.Type == TokenType.WAIT)
             {
@@ -60,6 +69,37 @@ namespace AbstractSyntaxTree.Objects
             {
                 currentScope.Statements.Add(ParseCall(token, currentScope));
             }
+            token = token.Next;
+            ParseNext(token, currentScope, previousScope);
+        }
+
+        private StatementNode ParseIf(LinkedListNode<ScannerToken> token, IScope currentScope)
+        {
+            throw new NotImplementedException();
+        }
+
+        private StatementNode ParseWait(LinkedListNode<ScannerToken> token, IScope currentScope)
+        {
+            throw new NotImplementedException();
+        }
+
+        private StatementNode ParseBegin(LinkedListNode<ScannerToken> token, IScope currentScope)
+        {
+            throw new NotImplementedException();
+        }
+
+        private StatementNode ParseCall(LinkedListNode<ScannerToken> token, IScope currentScope)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FunctionDefinitonNode ParseFunciondefinitionNode(LinkedListNode<ScannerToken> token)
+        {
+            FunctionDefinitonNode funcDef = new FunctionDefinitonNode(token.Next.Value.Value, token.Value.Line, token.Value.Offset);
+            while (token.Value.Type != TokenType.END && token.Next.Value.Value != funcDef.Value) {
+                // Parse all statements
+            }
+            return funcDef;
         }
 
         public AssignmentNode ParseAssignment(LinkedListNode<ScannerToken> token, IScope currentScope)
@@ -68,13 +108,20 @@ namespace AbstractSyntaxTree.Objects
             AssignmentNode node = new AssignmentNode(token.Value.Line, token.Value.Offset);
             node.LeftHand = new VarNode(token.Value.Value, token.Value.Line, token.Value.Offset);
             token = token.Next.Next;
-            node.RightHand = ;
+            node.RightHand = ParseValNode(token, currentScope);
             return node;
         }
 
         public ValNode ParseValNode(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
-            return new ValNode(token.Value, token.Value.Line, token.Value.Offset);
+            switch (token.Value.Type)
+            {
+                case TokenType.NUMERIC:
+                    return new NumericNode(token.Value.Value, token.Value.Line, token.Value.Offset);
+                case TokenType.STRING:
+                    return new StringNode(token.Value.Value, token.Value.Line, token.Value.Offset);
+            }
+            return null;
         }
     }
 }

@@ -66,9 +66,9 @@ namespace Parser
                 Stack.Push(scannerTokens[i]);
             }
         }
-        public List<Token> Parse(out string verbosity)
+        public List<ScannerToken> Parse(out string verbosity)
         {
-            List<Token> tokenList = new List<Token>();
+            List<ScannerToken> tokenList = new List<ScannerToken>();
             verbosity = "";
             Stack.Push(TokenStream.PROG);
             while (Stack.Any())
