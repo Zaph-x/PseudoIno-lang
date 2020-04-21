@@ -4,6 +4,7 @@ using System.Linq;
 using Lexer.Objects;
 using Parser.Objects.Nodes;
 
+
 namespace Parser.Objects
 {
     public class AST
@@ -22,13 +23,13 @@ namespace Parser.Objects
             int i = 0;
             foreach (var stack in _listOfStacks)
             {
-                if (stack.First().Type == TokenType.STMNT) //if (stack.First().Type == TokenType.STMNT || stack.First().Type == TokenType.IFSTMNT)
+                switch (stack.First().Type)
                 {
-                    PlaceOfStatements.Add(i);
-                }
-                else if (stack.First().Type == TokenType.FUNC)
-                {
-                    PlaceOfStatements.Add(i);
+                    case TokenType.STMNT:
+                    case TokenType.FUNC:
+                    case TokenType.END:
+                        PlaceOfStatements.Add(i);
+                        break;
                 }
 
                 i += 1;
@@ -44,7 +45,7 @@ namespace Parser.Objects
                 {
                     break;
                 }
-                for (int j = PlaceOfStatements[i]; j < PlaceOfStatements[i+1]; j++)
+                for (int j = PlaceOfStatements[i]; j < PlaceOfStatements[i + 1]; j++)
                 {
                     list.Add(_listOfStacks[j].First());
                 }
@@ -69,7 +70,7 @@ namespace Parser.Objects
 
         public void LogicMainMethod()
         {
-            
+
             foreach (var statement in _listOfStatements.Select(list => new TokenStream(list)))
             {
                 if (statement.Current().Type == TokenType.STMNT)
@@ -86,14 +87,15 @@ namespace Parser.Objects
                 else if (statement.Current().Type == TokenType.FUNC)
                 {
                     ParseFunctionDeclaration(statement);
-                } else if (IsType(statement, TokenType.CALL))
+                }
+                else if (IsType(statement, TokenType.CALL))
                 {
 
                 }
             }
         }
 
-        private bool IsType(TokenStream statement, TokenType expectedType) 
+        private bool IsType(TokenStream statement, TokenType expectedType)
         {
             return statement.Current().Type == expectedType;
         }
@@ -108,8 +110,8 @@ namespace Parser.Objects
 
         public void ParseAssign(TokenStream tokens)
         {
-            AssignmentNode assignmentNode = new AssignmentNode(tokens.Current().Line,tokens.Current().Offset);
-            assignmentNode.LeftHand = new VarNode(tokens.Current().Line,tokens.Current().Offset);
+            AssignmentNode assignmentNode = new AssignmentNode(tokens.Current().Line, tokens.Current().Offset);
+            assignmentNode.LeftHand = new VarNode(tokens.Current().Line, tokens.Current().Offset);
             assignmentNode.LeftHand.Value = tokens.Current().Value;
             tokens.Advance();
             assignmentNode.RightHand = ReturnExpressionNode(tokens.Current().Type, tokens.Current().Line, tokens.Current().Offset);

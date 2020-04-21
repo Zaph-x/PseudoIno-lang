@@ -23,12 +23,10 @@ namespace Parser
         private List<TokenType> _p;
         private AstNode _current;
         public static bool HasError { get; set; } = false;
-
         public Parsenizer(List<ScannerToken> tokens)
         {
             TokenStream = new TokenStream(tokens.Where(tok => tok.Type != TokenType.COMMENT && tok.Type != TokenType.MULT_COMNT));
             ParseTable = new ParseTable();
-            ParseTable.InitTable();
         }
 
         private ScannerToken TopOfStack()
@@ -76,7 +74,6 @@ namespace Parser
         {
             verbosity = "";
             Stack.Push(TokenStream.PROG);
-
             while (Stack.Any())
             {
                 verbosity += $"TS: {TokenStream.Current()} TSPeek: {TokenStream.Peek()} TOS: {TopOfStack()}\n";
@@ -111,12 +108,11 @@ namespace Parser
                     }
                 }
             }
-            AST ast = new AST(_listOfStacks);
-            ast.FindStatements();
-            ast.MakeStatements();
-            ast.TrimStatements();
-           // ast.LogicMainMethod();
-            int i = 0;
+            // AST ast = new AST(_listOfStacks);
+            // ast.FindStatements();
+            // ast.MakeStatements();
+            // ast.TrimStatements();
+            // ast.LogicMainMethod();
         }
 
         private void CopyStackToList()

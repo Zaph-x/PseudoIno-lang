@@ -77,7 +77,12 @@ namespace Parser.Objects
             this[STMNT, VAR] = new ParseAction(VAR, ASSIGN, ASSIGNMENT);
             this[STMNT, APIN] = new ParseAction(APIN, ASSIGN, ASSIGNMENT);
             this[STMNT, DPIN] = new ParseAction(DPIN, ASSIGN, ASSIGNMENT);
-            this[STMNT, END] = new ParseAction();
+            // this[STMNT, END] = new ParseAction(END, ENDABLE);
+
+            // this[ENDABLE, VAR] = new ParseAction(VAR);
+            // this[ENDABLE, FOR] = new ParseAction(FOR);
+            // this[ENDABLE, WHILE] = new ParseAction(WHILE);
+
 
             this[ASSIGNMENT, VAR] = new ParseAction(VAR, EXPR);
             this[ASSIGNMENT, NUMERIC] = new ParseAction(NUMERIC, EXPR);
