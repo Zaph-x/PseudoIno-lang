@@ -11,6 +11,7 @@ namespace Parser.Objects
         private List<List<ScannerToken>> _listOfStacks;
         private List<int> PlaceOfStatements = new List<int>();
         private List<List<ScannerToken>> _listOfStatements = new List<List<ScannerToken>>();
+        private TokenStream _tokenStream;
         public AST(List<List<ScannerToken>> listOfStacks)
         {
             _listOfStacks = listOfStacks;
@@ -68,27 +69,28 @@ namespace Parser.Objects
 
         public void LogicMainMethod()
         {
-            foreach (var statement in _listOfStatements)
+            
+            foreach (var statement in _listOfStatements.Select(list => new TokenStream(list)))
             {
-                if (statement.First().Type == TokenType.STMNT)
+                if (statement.Current().Type == TokenType.STMNT)
                 {
-                    if (statement[1].Type == TokenType.VAR)
+                    if (statement.Peek().Type == TokenType.VAR)
                     {
                         ParseAssign(statement);
                     }
                 }
-                else if (statement.First().Type == TokenType.IFSTMNT)
+                else if (statement.Current().Type == TokenType.IFSTMNT)
                 {
                     ParseIfStatement(statement);
                 }
-                else if (statement.First().Type == TokenType.FUNC)
+                else if (statement.Current().Type == TokenType.FUNC)
                 {
-                    ParseFunctionDeclaration();
+                    ParseFunctionDeclaration(statement);
                 }
             }
         }
 
-        public void ParseIfStatement(List<ScannerToken> tokens)
+        public void ParseIfStatement(TokenStream tokens)
         {
             if (true)
             {
@@ -96,13 +98,13 @@ namespace Parser.Objects
             }
         }
 
-        public void ParseAssign(List<ScannerToken> tokens)
+        public void ParseAssign(TokenStream tokens)
         {
-            AssignmentNode assignmentNode = new AssignmentNode(tokens[1].Line,tokens[1].Offset);
-            assignmentNode.LeftHand = new VarNode(tokens[1].Line,tokens[1].Offset);
-            assignmentNode.LeftHand.Value = tokens[1].Value;
-
-            assignmentNode.RightHand = ReturnExpressionNode(tokens[2].Type, tokens[2].Line, tokens[2].Offset);
+            AssignmentNode assignmentNode = new AssignmentNode(tokens.Current().Line,tokens.Current().Offset);
+            assignmentNode.LeftHand = new VarNode(tokens.Current().Line,tokens.Current().Offset);
+            assignmentNode.LeftHand.Value = tokens.Current().Value;
+            tokens.Advance();
+            assignmentNode.RightHand = ReturnExpressionNode(tokens.Current().Type, tokens.Current().Line, tokens.Current().Offset);
         }
 
         public ExpressionNode ReturnExpressionNode(TokenType tokenType, int line, int offset)
@@ -118,7 +120,7 @@ namespace Parser.Objects
             throw new Exception();
         }
 
-        public void ParseFunctionDeclaration()
+        public void ParseFunctionDeclaration(TokenStream tokens)
         {
             //Make func subtree
         }
