@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Lexer\Lexer.csproj" />
     <ProjectReference Include="..\..\AbstractSyntaxTree\AbstractSyntaxTree.csproj" />
+    <ProjectReference Include="..\..\Parser\Parser.csproj" />
   </ItemGroup>
 
 </Project>

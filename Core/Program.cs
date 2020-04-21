@@ -9,6 +9,8 @@ using Core.Objects;
 using Core.Exceptions;
 using Lexer.Exceptions;
 using Parser;
+using AbstractSyntaxTree.Objects;
+using Lexer.Objects;
 
 namespace Core
 {
@@ -73,10 +75,15 @@ namespace Core
                     }
                 }
                 verbosePrinter.Info("Generating parse table");
-                Parsenizer parsenizer = new Parsenizer(tokenizer.Tokens.ToList());
+                List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+                Parsenizer parsenizer = new Parsenizer(tokens);
                 string debugMessage;
-                parsenizer.Parse(out debugMessage);
+                List<Token> tokenList = parsenizer.Parse(out debugMessage);
                 verbosePrinter.Info(debugMessage);
+                if (Parsenizer.HasError) {
+                    return 4;
+                }
+                ASTHelper _ASTHelper = new ASTHelper(tokenList);
             }
 
             timer.Stop();
