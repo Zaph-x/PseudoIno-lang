@@ -7,21 +7,17 @@ using System.Net.Security;
 using Lexer.Exceptions;
 using Lexer.Objects;
 using Parser.Objects;
-using Parser.Objects.Nodes;
 
 namespace Parser
 {
     public class Parsenizer
     {
-        // public AST Ast = new AST();
         private Stack<ScannerToken> Stack = new Stack<ScannerToken>();
         private List<List<ScannerToken>> _listOfStacks = new List<List<ScannerToken>>();
         private TokenStream TokenStream;
         public ParseTable ParseTable { get; private set; }
-        public ProgramNode Program { get; internal set; } = new ProgramNode(0, 0);
         private bool _accepted;
         private List<TokenType> _p;
-        private AstNode _current;
         public static bool HasError { get; set; } = false;
         public Parsenizer(List<ScannerToken> tokens)
         {
@@ -166,58 +162,58 @@ namespace Parser
         //     }
         // }
 
-        private void InsertTerminal()
-        {
-            _current.Children.Add(GenerateNodeFromTokenType(TokenStream.Peek()));
-            _current = _current.Parent;
-        }
-        private void InsertEpsilon()
-        {
-            _current.Children.Add(new EpsilonNode(0, 0));
-            _current = _current.Parent;
-        }
+        // private void InsertTerminal()
+        // {
+        //     _current.Children.Add(GenerateNodeFromTokenType(TokenStream.Peek()));
+        //     _current = _current.Parent;
+        // }
+        // private void InsertEpsilon()
+        // {
+        //     _current.Children.Add(new EpsilonNode(0, 0));
+        //     _current = _current.Parent;
+        // }
 
         /*private void Insert(List<TokenType> list)
         {
-        }*/
-        private void InsertInAST(List<ScannerToken> list)
-        {
-            _current = _current?.Parent ?? Program;
-            _current = _current.Children.Find(x => x.Type == TopOfStack().Type);
+        // }*/
+        // private void InsertInAST(List<ScannerToken> list)
+        // {
+        //     _current = _current?.Parent ?? Program;
+        //     _current = _current.Children.Find(x => x.Type == TopOfStack().Type);
 
-            foreach (var token in list)
-            {
-                switch (token.Type)
-                {
-                    case TokenType.ASSIGNMENT:
-                        Program.Statements.Add(new AssignmentNode(token.Line, token.Offset));
-                        break;
-                    case TokenType.STMNT:
-                        //_astNode.AddChild(new AstNode(new ParseToken(tokenType,"",0,0),"",0,0 ));
-                        break;
-                    case TokenType.VAR:
+        //     foreach (var token in list)
+        //     {
+        //         switch (token.Type)
+        //         {
+        //             case TokenType.ASSIGNMENT:
+        //                 Program.Statements.Add(new AssignmentNode(token.Line, token.Offset));
+        //                 break;
+        //             case TokenType.STMNT:
+        //                 //_astNode.AddChild(new AstNode(new ParseToken(tokenType,"",0,0),"",0,0 ));
+        //                 break;
+        //             case TokenType.VAR:
 
-                        //_astNode.AddChild();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        //TODO: make switch case
-        private AstNode GenerateNodeFromTokenType(ScannerToken token)
-        {
-            switch (token.Type)
-            {
-                case TokenType.VAL:
-                    return new ValNode(token.Line, token.Offset);
-                case TokenType.VAR:
-                    return new VarNode(token.Line, token.Offset);
-                default:
-                    new InvalidTokenException("Invalid token type value in token ");
-                    return null;
-            }
-        }
+        //                 //_astNode.AddChild();
+        //                 break;
+        //             default:
+        //                 break;
+        //         }
+        //     }
+        // }
+        // //TODO: make switch case
+        // private AstNode GenerateNodeFromTokenType(ScannerToken token)
+        // {
+        //     switch (token.Type)
+        //     {
+        //         case TokenType.VAL:
+        //             return new ValNode(token.Line, token.Offset);
+        //         case TokenType.VAR:
+        //             return new VarNode(token.Line, token.Offset);
+        //         default:
+        //             new InvalidTokenException("Invalid token type value in token ");
+        //             return null;
+        //     }
+        // }
 
         public void TypeCheckAst()
         {

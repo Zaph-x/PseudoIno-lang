@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Lexer.Objects;
-using Parser.Objects.Nodes;
+// using Parser.Objects.Nodes;
 
 
 namespace Parser.Objects
@@ -77,7 +77,7 @@ namespace Parser.Objects
                 {
                     if (statement.Peek().Type == TokenType.VAR)
                     {
-                        ParseAssign(statement);
+                        // ParseAssign(statement);
                     }
                 }
                 else if (statement.Current().Type == TokenType.IFSTMNT)
@@ -108,27 +108,27 @@ namespace Parser.Objects
             }
         }
 
-        public void ParseAssign(TokenStream tokens)
-        {
-            AssignmentNode assignmentNode = new AssignmentNode(tokens.Current().Line, tokens.Current().Offset);
-            assignmentNode.LeftHand = new VarNode(tokens.Current().Line, tokens.Current().Offset);
-            assignmentNode.LeftHand.Value = tokens.Current().Value;
-            tokens.Advance();
-            assignmentNode.RightHand = ReturnExpressionNode(tokens.Current().Type, tokens.Current().Line, tokens.Current().Offset);
-        }
+        // public void ParseAssign(TokenStream tokens)
+        // {
+        //     AssignmentNode assignmentNode = new AssignmentNode(tokens.Current().Line, tokens.Current().Offset);
+        //     assignmentNode.LeftHand = new VarNode(tokens.Current().Line, tokens.Current().Offset);
+        //     assignmentNode.LeftHand.Value = tokens.Current().Value;
+        //     tokens.Advance();
+        //     assignmentNode.RightHand = ReturnExpressionNode(tokens.Current().Type, tokens.Current().Line, tokens.Current().Offset);
+        // }
 
-        public ExpressionNode ReturnExpressionNode(TokenType tokenType, int line, int offset)
-        {
-            if (tokenType == TokenType.MATH_OP)
-            {
-                return new ExpressionNode(TokenType.MATH_OP, line, offset);
-            }
-            else if (tokenType == TokenType.BOOL_OP)
-            {
-                return new ExpressionNode(TokenType.BOOL_OP, line, offset);
-            }
-            throw new Exception();
-        }
+        // public ExpressionNode ReturnExpressionNode(TokenType tokenType, int line, int offset)
+        // {
+        //     if (tokenType == TokenType.MATH_OP)
+        //     {
+        //         return new ExpressionNode(TokenType.MATH_OP, line, offset);
+        //     }
+        //     else if (tokenType == TokenType.BOOL_OP)
+        //     {
+        //         return new ExpressionNode(TokenType.BOOL_OP, line, offset);
+        //     }
+        //     throw new Exception();
+        // }
 
         public void ParseFunctionDeclaration(TokenStream tokens)
         {
