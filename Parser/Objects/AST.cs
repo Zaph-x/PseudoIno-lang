@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Lexer.Objects;
+using Parser.Objects.Nodes;
 
 namespace Parser.Objects
 {
@@ -23,7 +25,7 @@ namespace Parser.Objects
                 {
                     PlaceOfStatements.Add(i);
                 }
-                else if (stack.First().Type == TokenType.FUNCDECL)
+                else if (stack.First().Type == TokenType.FUNC)
                 {
                     PlaceOfStatements.Add(i);
                 }
@@ -62,6 +64,63 @@ namespace Parser.Objects
                     statement.RemoveAt(i);
                 }
             }
+        }
+
+        public void LogicMainMethod()
+        {
+            foreach (var statement in _listOfStatements)
+            {
+                if (statement.First().Type == TokenType.STMNT)
+                {
+                    if (statement[1].Type == TokenType.VAR)
+                    {
+                        ParseAssign(statement);
+                    }
+                }
+                else if (statement.First().Type == TokenType.IFSTMNT)
+                {
+                    ParseIfStatement(statement);
+                }
+                else if (statement.First().Type == TokenType.FUNC)
+                {
+                    ParseFunctionDeclaration();
+                }
+            }
+        }
+
+        public void ParseIfStatement(List<ScannerToken> tokens)
+        {
+            if (true)
+            {
+                //IfStmnt -> 'if' Val Expr 'do' Stmts ElseStmnt 'end' 'if' .
+            }
+        }
+
+        public void ParseAssign(List<ScannerToken> tokens)
+        {
+            AssignmentNode assignmentNode = new AssignmentNode(tokens[1].Line,tokens[1].Offset);
+            assignmentNode.LeftHand = new VarNode(tokens[1].Line,tokens[1].Offset);
+            assignmentNode.LeftHand.Value = tokens[1].Value;
+
+            assignmentNode.RightHand = ReturnExpressionNode(tokens[2].Type, tokens[2].Line, tokens[2].Offset);
+        }
+
+        public ExpressionNode ReturnExpressionNode(TokenType tokenType, int line, int offset)
+        {
+            if (tokenType == TokenType.MATH_OP)
+            {
+                return new ExpressionNode(TokenType.MATH_OP, line, offset);
+            }
+            else if (tokenType == TokenType.BOOL_OP)
+            {
+                return new ExpressionNode(TokenType.BOOL_OP, line, offset);
+            }
+            throw new Exception();
+        }
+
+        public void ParseFunctionDeclaration()
+        {
+            //Make func subtree
         }
     }
 }

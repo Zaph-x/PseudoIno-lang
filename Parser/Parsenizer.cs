@@ -115,6 +115,7 @@ namespace Parser
             ast.FindStatements();
             ast.MakeStatements();
             ast.TrimStatements();
+            ast.LogicMainMethod();
             int i = 0;
         }
 

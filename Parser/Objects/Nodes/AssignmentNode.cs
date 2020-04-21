@@ -5,8 +5,9 @@ namespace Parser.Objects.Nodes
 {
     public class AssignmentNode : StatementNode
     {
-        AstNode LeftHand { get; set; }
-        AstNode RightHand { get; set; }
+        public AstNode LeftHand { get; set; }
+        public AstNode RightHand { get; set; }
+        public AstNode ExpressionHand { get; set; }
         public AssignmentNode(int line, int offset) : base(TokenType.ASSIGNMENT, line, offset)
         {
         }

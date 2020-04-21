@@ -3,14 +3,20 @@ using Lexer.Objects;
 
 namespace Parser.Objects.Nodes
 {
-    public abstract class ExpressionNode : AstNode
+    public class ExpressionNode : AstNode
     {
         public Type type { get; set; }
+        public OperatorNode LeftHandSide { get; set; }
+        public ValNode Middel { get; set; }
+        public ExpressionNode RightHandSide { get; set; }
 
         public ExpressionNode(TokenType type, int line, int offset) : base(type, line, offset)
         {
         }
 
-        public override abstract void Accept(Visitor visitor);
+        public override void Accept(Visitor visitor)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
