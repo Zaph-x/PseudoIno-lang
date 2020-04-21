@@ -6,9 +6,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public class ExpressionNode : AstNode
     {
         //public TypeNode type { get; set; }
-        public OperatorNode LeftHandSide { get; set; }
-        public ValNode Middel { get; set; }
-        public ExpressionNode RightHandSide { get; set; }
+        public OperatorNode Operator { get; set; }
+        public ValNode Value { get; set; }
+        public ExpressionNode Expression { get; set; }
 
         public ExpressionNode(TokenType type, int line, int offset) : base(type, line, offset)
         {

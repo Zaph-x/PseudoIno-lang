@@ -2,8 +2,9 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class WaitNode : AstNode
+    public class WaitNode : StatementNode
     {
+        public TimeNode TimeModifier {get;set;}
         public WaitNode(int line, int offset) : base(TokenType.WAIT, line, offset)
         {
         }
