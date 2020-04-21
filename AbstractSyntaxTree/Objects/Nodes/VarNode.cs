@@ -4,8 +4,10 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class VarNode : AstNode
     {
-        public VarNode(int line, int offset) : base(TokenType.VAR, line, offset)
+        string Id {get;set;}
+        public VarNode(string id, int line, int offset) : base(TokenType.VAR, line, offset)
         {
+            this.Id = id;
         }
         public override void Accept(Visitor visitor)
         {

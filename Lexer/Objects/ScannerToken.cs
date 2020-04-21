@@ -32,5 +32,10 @@ namespace Lexer.Objects
             this.Line = line;
             this.Offset = offset;
         }
+
+        public ScannerToken Copy()
+        {
+            return new ScannerToken(this.Type, this.Value, this.Line, this.Offset);
+        }
     }
 }

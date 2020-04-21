@@ -66,13 +66,15 @@ namespace Parser
                 Stack.Push(scannerTokens[i]);
             }
         }
-        public void Parse(out string verbosity)
+        public List<Token> Parse(out string verbosity)
         {
+            List<Token> tokenList = new List<Token>();
             verbosity = "";
             Stack.Push(TokenStream.PROG);
             while (Stack.Any())
             {
                 verbosity += $"TS: {TokenStream.Current()} TSPeek: {TokenStream.Peek()} TOS: {TopOfStack()}\n";
+                tokenList.Add(TopOfStack().Copy());
                 CopyStackToList();
                 if (TokenTypeExpressions.IsTerminal(TopOfStack().Type))
                 {
@@ -104,11 +106,7 @@ namespace Parser
                     }
                 }
             }
-            // AST ast = new AST(_listOfStacks);
-            // ast.FindStatements();
-            // ast.MakeStatements();
-            // ast.TrimStatements();
-            // ast.LogicMainMethod();
+            return tokenList;
         }
 
         private void CopyStackToList()
@@ -125,95 +123,6 @@ namespace Parser
         {
             throw new NotImplementedException();
         }
-
-        // public void Parse()
-        // {
-        //     // Create AST and fill with tokens
-        //     Stack.Push(TokenStream.EOF);
-        //     Stack.Push(TokenStream.PROG);
-        //     while (Stack.Any())
-        //     {
-        //         if (TokenTypeExpressions.IsTerminal(TopOfStack().Type)) // less than 50
-        //         {
-        //             System.Console.WriteLine($"TS: {TokenStream.Current()} TSPeek: {TokenStream.Peek()} TOS: {TopOfStack()}");
-        //             if (TopOfStack().Type == TokenType.EOF) break;
-        //             Match(TopOfStack().Type);
-        //             //InsertTerminal();
-        //             Stack.Pop();
-        //         }
-        //         else
-        //         {
-        //             ScannerToken top = TopOfStack();
-        //             ScannerToken next = TokenStream.Peek();
-        //             _p = ParseTable[top, next].Product;
-        //             if (_p.Count == 0)
-        //             {
-        //                 //InsertEpsilon();
-        //                 Stack.Pop();
-        //                 continue;
-        //             }
-        //             if (_p.First() == TokenType.ERROR)
-        //             {
-        //                 new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack().Type} TS: {TokenStream.Peek().Type}");
-        //             }
-        //             List<ScannerToken> scannerTokens;
-        //             Apply(_p, out scannerTokens);
-        //         }
-        //     }
-        // }
-
-        // private void InsertTerminal()
-        // {
-        //     _current.Children.Add(GenerateNodeFromTokenType(TokenStream.Peek()));
-        //     _current = _current.Parent;
-        // }
-        // private void InsertEpsilon()
-        // {
-        //     _current.Children.Add(new EpsilonNode(0, 0));
-        //     _current = _current.Parent;
-        // }
-
-        /*private void Insert(List<TokenType> list)
-        {
-        // }*/
-        // private void InsertInAST(List<ScannerToken> list)
-        // {
-        //     _current = _current?.Parent ?? Program;
-        //     _current = _current.Children.Find(x => x.Type == TopOfStack().Type);
-
-        //     foreach (var token in list)
-        //     {
-        //         switch (token.Type)
-        //         {
-        //             case TokenType.ASSIGNMENT:
-        //                 Program.Statements.Add(new AssignmentNode(token.Line, token.Offset));
-        //                 break;
-        //             case TokenType.STMNT:
-        //                 //_astNode.AddChild(new AstNode(new ParseToken(tokenType,"",0,0),"",0,0 ));
-        //                 break;
-        //             case TokenType.VAR:
-
-        //                 //_astNode.AddChild();
-        //                 break;
-        //             default:
-        //                 break;
-        //         }
-        //     }
-        // }
-        // //TODO: make switch case
-        // private AstNode GenerateNodeFromTokenType(ScannerToken token)
-        // {
-        //     switch (token.Type)
-        //     {
-        //         case TokenType.VAL:
-        //             return new ValNode(token.Line, token.Offset);
-        //         case TokenType.VAR:
-        //             return new VarNode(token.Line, token.Offset);
-        //         default:
-        //             new InvalidTokenException("Invalid token type value in token ");
-        //             return null;
-        //     }
-        // }
 
         public void TypeCheckAst()
         {
