@@ -40,9 +40,10 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF, "", 1, 7));
 
             Parsenizer parsenizer = new Parsenizer(list);
-          
-            parsenizer.Parse(out nowhere);
-            
+
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -61,8 +62,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -80,9 +82,10 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.EOF, "", 1, 7));
 
             Parsenizer parsenizer = new Parsenizer(list);
-          
-            parsenizer.Parse(out nowhere);
-            
+
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -104,8 +107,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -130,8 +134,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -158,8 +163,8 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -175,8 +180,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -196,8 +202,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -217,8 +224,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -238,8 +246,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -255,8 +264,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -288,8 +298,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -311,8 +322,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
 
@@ -337,8 +349,9 @@ namespace Parser.Tests
 
             Parsenizer parsenizer = new Parsenizer(list);
 
-            parsenizer.Parse(out nowhere);
-            
+            parsenizer.Parse(list, out nowhere);
+
+
             Assert.False(Parsenizer.HasError);
         }
     }

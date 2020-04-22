@@ -34,7 +34,7 @@ namespace AbstractSyntaxTree.Tests
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
+            parser.Parse(tokens,out nowhere);
             ASTHelper helper = new ASTHelper(tokenizer.Tokens);
         }
 
