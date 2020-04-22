@@ -78,7 +78,7 @@ namespace AbstractSyntaxTree.Objects
         {
             if (token.Next?.Value.Type == TokenType.ASSIGN)
             {
-                currentScope.Statements.Add(ParseAssignment(token, currentScope));
+                currentScope.Statements.Add(ParseAssignment(token));
                 token = token.Next;
                 ParseNext(token, currentScope, previousScope);
             }
@@ -153,7 +153,7 @@ namespace AbstractSyntaxTree.Objects
         public CallParametersNode ParseCallParameters(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
             CallParametersNode callParametersNode = new CallParametersNode(token.Value.Line,token.Value.Offset);
-            callParametersNode.ValNode = ParseValNode(token, currentScope);
+            callParametersNode.ValNode = ParseValNode(token);
             if (token.Next.Value.Type == TokenType.VAR ||
                 token.Next.Value.Type == TokenType.NUMERIC || 
                 token.Next.Value.Type == TokenType.STRING || 
