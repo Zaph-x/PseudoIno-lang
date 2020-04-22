@@ -339,6 +339,7 @@ namespace Lexer.Objects
         /// End for token, non terminal
         /// </summary>
         ENDFOR,
+        ENDVAR,
         /// <summary>
         /// Assignment token, non terminal
         /// </summary>
@@ -348,13 +349,13 @@ namespace Lexer.Objects
         /// </summary>
         TYPE,
         /// <summary>
-        /// Argument token, non terminal
+        /// Declaration parameter token, terminal
         /// </summary>
-        ARG,
+        DECLPARAM,
         /// <summary>
-        /// Optional arguments token, non terminal
+        /// Optional arguments token, terminal
         /// </summary>
-        OPTNL_ARGS,
+        DECLPARAMS,
         /// <summary>
         /// Beginable token, non terminal
         /// </summary>
@@ -392,7 +393,9 @@ namespace Lexer.Objects
         /// </summary>
         SEPARATOR,
         RETURN,
-        RETSTMNT
+        RETSTMNT,
+        ENDIF,
+        NT_COMMENT
     }
 
     /// <summary>
@@ -408,6 +411,7 @@ namespace Lexer.Objects
         public static bool IsNonTerminal(TokenType type)
         {
             return type == PROG
+            || type == COMMENT
             || type == TYPE
             || type == STMNTS
             || type == STMNT
@@ -424,18 +428,24 @@ namespace Lexer.Objects
             || type == IFSTMNT
             || type == ELSESTMNT
             || type == ELSEIFSTMNT
+            || type == ENDIF
             || type == FUNCCALL
             || type == FUNCDECL
+            || type == ENDFUNC
+            || type == DECLPARAMS
+            || type == DECLPARAM
             || type == RETSTMNT
             || type == BEGINSTMNT
             || type == BEGINABLE
             || type == LOOPW
+            || type == ENDWHILE
             || type == LOOPF
+            || type == ENDFOR
             || type == RANGE
             || type == WAITSTMNT
             || type == TIME_MOD
-            || type == CALLPARAM
-            || type == CALLPARAMS;
+            || type == CALLPARAMS
+            || type == CALLPARAM;
         }
 
         /// <summary>

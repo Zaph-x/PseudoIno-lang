@@ -70,7 +70,7 @@ namespace Parser
 
             // verbosity += $"TS: {Tokens[Index]} TSPeek: {Tokens[Index+1]} TOS: {TopOfStack()}\n";
             // System.Console.WriteLine($"TS: {Tokens[Index]} TSPeek: {Tokens[Index + 1]} TOS: {TopOfStack()}");
-            while (Stack.Any() && Index < Tokens.Count)
+            while (Stack.Any())
             {
                 TokenType top = Stack.Pop();
                 TokenType token = Tokens[Index].Type;
@@ -85,7 +85,7 @@ namespace Parser
                     }
                     else
                     {
-                        // System.Console.WriteLine("Bad input {0}", token);
+                        System.Console.WriteLine("\nBad input {0} top {1}", token, top);
                         break;
                     }
                 }
@@ -99,7 +99,7 @@ namespace Parser
                         HasError = true;
                         break;
                     }
-                    for (int i = rule.Count -1; i >= 0; i--)
+                    for (int i = rule.Count - 1; i >= 0; i--)
                         Stack.Push(rule[i]);
                 }
                 foreach (var val in Stack)

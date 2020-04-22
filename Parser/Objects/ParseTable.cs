@@ -51,6 +51,11 @@ namespace Parser.Objects
             this[PROG, FUNC] = new ParseAction(STMNTS);
             this[PROG, CALL] = new ParseAction(STMNTS);
             this[PROG, IF] = new ParseAction(STMNTS);
+            this[PROG, COMMENT] = new ParseAction(NT_COMMENT);
+            this[PROG, MULT_COMNT] = new ParseAction(NT_COMMENT);
+
+            this[NT_COMMENT, COMMENT] = new ParseAction(COMMENT);
+            this[NT_COMMENT, MULT_COMNT] = new ParseAction(MULT_COMNT);
 
             this[TYPE, NUMERIC] = new ParseAction(NUMERIC);
             this[TYPE, APIN] = new ParseAction(APIN);
@@ -60,26 +65,36 @@ namespace Parser.Objects
             this[TYPE, STRING] = new ParseAction(STRING);
 
             this[STMNTS, EOF] = new ParseAction();
+            this[STMNTS, SEPARATOR] = new ParseAction();
             this[STMNTS, VAR] = new ParseAction(STMNT, STMNTS);
+            this[STMNTS, APIN] = new ParseAction(STMNT, STMNTS);
+            this[STMNTS, DPIN] = new ParseAction(STMNT, STMNTS);
             this[STMNTS, WAIT] = new ParseAction(STMNT, STMNTS);
             this[STMNTS, EOF] = new ParseAction();
             this[STMNTS, BEGIN] = new ParseAction(STMNT, STMNTS);
             this[STMNTS, FUNC] = new ParseAction(FUNCDECL, STMNTS);
             this[STMNTS, CALL] = new ParseAction(STMNT, STMNTS);
             this[STMNTS, IF] = new ParseAction(STMNT, STMNTS);
+            this[STMNTS, END] = new ParseAction();
+            this[STMNTS, RETURN] = new ParseAction();
             this[STMNTS, ELSE] = new ParseAction();
+            this[STMNTS, COMMENT] = new ParseAction(NT_COMMENT, STMNTS);
+            this[STMNTS, MULT_COMNT] = new ParseAction(NT_COMMENT, STMNTS);
 
             this[STMNT, VAR] = new ParseAction(VAR, ARRAYACCESSING, ASSIGN, ASSIGNMENT);
+            this[STMNT, APIN] = new ParseAction(APIN, ASSIGN, ASSIGNMENT);
+            this[STMNT, DPIN] = new ParseAction(DPIN, ASSIGN, ASSIGNMENT);
             this[STMNT, WAIT] = new ParseAction(WAITSTMNT);
             this[STMNT, BEGIN] = new ParseAction(BEGINSTMNT);
-            this[STMNT, FUNC] = new ParseAction(FUNCCALL);
-            this[STMNT, IF] = new ParseAction(IFSTMNT);
+            this[STMNT, CALL] = new ParseAction(FUNCCALL);
             this[STMNT, IF] = new ParseAction(IFSTMNT);
 
             this[ARRAYACCESSING, EOF] = new ParseAction();
-            this[ARRAYACCESSING, VAR] = new ParseAction();
+            this[ARRAYACCESSING, SEPARATOR] = new ParseAction();
             this[ARRAYACCESSING, WAIT] = new ParseAction();
+            this[ARRAYACCESSING, VAR] = new ParseAction();
             this[ARRAYACCESSING, END] = new ParseAction();
+            this[ARRAYACCESSING, RETURN] = new ParseAction();
             this[ARRAYACCESSING, DO] = new ParseAction();
             this[ARRAYACCESSING, BEGIN] = new ParseAction();
             this[ARRAYACCESSING, FUNC] = new ParseAction();
@@ -98,6 +113,8 @@ namespace Parser.Objects
             this[ARRAYACCESSING, OP_PLUS] = new ParseAction();
             this[ARRAYACCESSING, ARRAYINDEX] = new ParseAction(ARRAYINDEX, INDEXER, ARRAYACCESSING);
             this[ARRAYACCESSING, ASSIGN] = new ParseAction();
+            this[ARRAYACCESSING, COMMENT] = new ParseAction();
+            this[ARRAYACCESSING, MULT_COMNT] = new ParseAction();
 
             this[INDEXER, VAR] = new ParseAction(VAR);
             this[INDEXER, NUMERIC] = new ParseAction(NUMERIC);
@@ -132,6 +149,8 @@ namespace Parser.Objects
             this[EXPR, OP_OR] = new ParseAction(BOOL_OP, VAL, EXPR);
             this[EXPR, OP_LESS] = new ParseAction(BOOL_OP, VAL, EXPR);
             this[EXPR, OP_GREATER] = new ParseAction(BOOL_OP, VAL, EXPR);
+            this[EXPR, COMMENT] = new ParseAction();
+            this[EXPR, MULT_COMNT] = new ParseAction();
 
             this[MATH_OP, OP_MINUS] = new ParseAction(OP_MINUS);
             this[MATH_OP, OP_PLUS] = new ParseAction(OP_PLUS);
@@ -170,11 +189,15 @@ namespace Parser.Objects
             this[ARR, IF] = new ParseAction();
             this[ARR, ELSE] = new ParseAction();
             this[ARR, ARRAYLEFT] = new ParseAction(ARRAYLEFT, NUMERIC, ARRAYRIGHT, ARR);
+            this[ARR, COMMENT] = new ParseAction();
+            this[ARR, MULT_COMNT] = new ParseAction();
 
             this[PIN, APIN] = new ParseAction(APIN);
             this[PIN, DPIN] = new ParseAction(DPIN);
 
-            this[IFSTMNT, IF] = new ParseAction(IF, VAL, EXPR, DO, STMNTS, ELSESTMNT, END, IF);
+            this[IFSTMNT, IF] = new ParseAction(IF, VAL, EXPR, DO, STMNTS, ELSESTMNT, ENDIF);
+
+            this[ENDIF, END] = new ParseAction(END, IF);
 
             this[ELSESTMNT, END] = new ParseAction();
             this[ELSESTMNT, ELSE] = new ParseAction(ELSE, ELSEIFSTMNT, STMNTS);
@@ -183,7 +206,37 @@ namespace Parser.Objects
 
             this[FUNCCALL, CALL] = new ParseAction(CALL, VAR, CALLPARAMS);
 
-            this[FUNCDECL, FUNC] = new ParseAction(FUNC, VAR, CALLPARAMS, STMNTS, RETSTMNT, END, VAR);
+            this[FUNCDECL, FUNC] = new ParseAction(FUNC, VAR, DECLPARAMS, STMNTS, RETSTMNT, END, VAR);
+
+            this[DECLPARAMS, WITH] = new ParseAction(WITH, VAR, DECLPARAM);
+            this[DECLPARAMS, EOF] = new ParseAction();
+            this[DECLPARAMS, VAR] = new ParseAction();
+            this[DECLPARAMS, WAIT] = new ParseAction();
+            this[DECLPARAMS, END] = new ParseAction();
+            this[DECLPARAMS, BEGIN] = new ParseAction();
+            this[DECLPARAMS, RETURN] = new ParseAction();
+            this[DECLPARAMS, FUNC] = new ParseAction();
+            this[DECLPARAMS, CALL] = new ParseAction();
+            this[DECLPARAMS, IF] = new ParseAction();
+            this[DECLPARAMS, ELSE] = new ParseAction();
+            this[DECLPARAMS, COMMENT] = new ParseAction();
+            this[DECLPARAMS, MULT_COMNT] = new ParseAction();
+
+            this[DECLPARAM, EOF] = new ParseAction();
+            this[DECLPARAM, VAR] = new ParseAction();
+            this[DECLPARAM, SEPARATOR] = new ParseAction(SEPARATOR, VAR, DECLPARAM);
+            this[DECLPARAM, WAIT] = new ParseAction();
+            this[DECLPARAM, END] = new ParseAction();
+            this[DECLPARAM, BEGIN] = new ParseAction();
+            this[DECLPARAM, RETURN] = new ParseAction();
+            this[DECLPARAM, FUNC] = new ParseAction();
+            this[DECLPARAM, CALL] = new ParseAction();
+            this[DECLPARAM, IF] = new ParseAction();
+            this[DECLPARAM, ELSE] = new ParseAction();
+            this[DECLPARAM, COMMENT] = new ParseAction();
+            this[DECLPARAM, MULT_COMNT] = new ParseAction();
+
+            this[ENDFUNC, END] = new ParseAction(END, VAR);
 
             this[RETSTMNT, RETURN] = new ParseAction(RETURN, VAL);
             this[RETSTMNT, END] = new ParseAction();
@@ -192,6 +245,9 @@ namespace Parser.Objects
             
             this[BEGINABLE, FOR] = new ParseAction(FOR, VAR, IN, RANGE, DO, STMNTS, END, FOR);
             this[BEGINABLE, WHILE] = new ParseAction(WHILE, VAL, EXPR, DO, STMNTS, END, WHILE);
+
+            this[ENDFOR, END] = new ParseAction(END, FOR);
+            this[ENDWHILE, END] = new ParseAction(END, WHILE);
 
             this[RANGE, NUMERIC] = new ParseAction(NUMERIC, OP_RANGE, NUMERIC);
 
@@ -202,11 +258,22 @@ namespace Parser.Objects
             this[TIME_MOD, TIME_SEC] = new ParseAction(TIME_SEC);
             this[TIME_MOD, TIME_MS] = new ParseAction(TIME_MS);
 
-            this[CALLPARAMS, WITH] = new ParseAction(WITH, VAR, CALLPARAM);
+            this[CALLPARAMS, WITH] = new ParseAction(WITH, VAL, CALLPARAM);
+            this[CALLPARAMS, EOF] = new ParseAction();
+            this[CALLPARAMS, VAR] = new ParseAction();
+            this[CALLPARAMS, WAIT] = new ParseAction();
+            this[CALLPARAMS, END] = new ParseAction();
+            this[CALLPARAMS, BEGIN] = new ParseAction();
+            this[CALLPARAMS, RETURN] = new ParseAction();
+            this[CALLPARAMS, FUNC] = new ParseAction();
+            this[CALLPARAMS, CALL] = new ParseAction();
+            this[CALLPARAMS, IF] = new ParseAction();
+            this[CALLPARAMS, ELSE] = new ParseAction();
+            this[CALLPARAMS, COMMENT] = new ParseAction();
+            this[CALLPARAMS, MULT_COMNT] = new ParseAction();
 
             this[CALLPARAM, EOF] = new ParseAction();
             this[CALLPARAM, VAR] = new ParseAction();
-            this[CALLPARAM, SEPARATOR] = new ParseAction(SEPARATOR, VAR, CALLPARAM);
             this[CALLPARAM, WAIT] = new ParseAction();
             this[CALLPARAM, END] = new ParseAction();
             this[CALLPARAM, BEGIN] = new ParseAction();
@@ -215,6 +282,9 @@ namespace Parser.Objects
             this[CALLPARAM, CALL] = new ParseAction();
             this[CALLPARAM, IF] = new ParseAction();
             this[CALLPARAM, ELSE] = new ParseAction();
+            this[CALLPARAM, COMMENT] = new ParseAction();
+            this[CALLPARAM, MULT_COMNT] = new ParseAction();
+            this[CALLPARAM, SEPARATOR] = new ParseAction(SEPARATOR, VAL, CALLPARAM);
 
 
             // this[PROG, VAR] = new ParseAction(STMNTS);

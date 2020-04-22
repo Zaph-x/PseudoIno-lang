@@ -1,5 +1,8 @@
 Prog -> Stmts .
 
+Comment -> commnent 
+| mcomment .
+
 Type -> string
 | numeric
 | bool
@@ -7,6 +10,7 @@ Type -> string
 | Pin .
 
 Stmts -> Stmt Stmts
+| Comment Stmts
 | FuncDecl Stmnts
 | .
 Stmt -> id ArrAccess is Assignment
@@ -18,15 +22,18 @@ Stmt -> id ArrAccess is Assignment
 ArrAccess -> arrayindex Indexer ArrAccess
 | .
 
+Rp -> rp | .
+Lp -> lp Lp| .
+
 Indexer -> id
 | numeric . 
 
-Assignment -> Val Expr
+Assignment -> Lp Val Expr
 | FuncCall
 | larr numeric rarr Arr .
 
-Expr -> Math_Op Val Expr
-| Bool_Op Val Expr
+Expr -> Math_Op Lp Val Expr Rp
+| Bool_Op Lp Val Expr Rp
 | .
 
 Math_Op -> plus
@@ -56,8 +63,8 @@ Arr -> larr numeric rarr Arr
 Pin -> dpin
 | apin .
 
-IfStmnt -> if Val Expr do Stmts ElseStmnt end if .
-
+IfStmnt -> if Val Expr do Stmts ElseStmnt EndIf .
+EndIf -> end if .
 ElseStmnt -> else ElseIfStmnt Stmnts
 | .
 
@@ -66,7 +73,12 @@ ElseIfStmnt -> if Val Expr do Stmnts ElseStmnt
 
 FuncCall -> call id CallParams .
 
-FuncDecl -> func id CallParams Stmts Return end id .
+FuncDecl -> func id DeclParams Stmts Return EndFunc .
+EndFunc -> end id .
+
+DeclParams -> with Val DeclParam .
+DeclParam -> separator Val DeclParam
+| .
 
 Return -> return Val | .
 
@@ -75,9 +87,11 @@ BeginStmt -> begin Beginable .
 Beginable -> LoopW
 | LoopF .
 
-LoopW -> while Val Expr do Stmts end while .
+LoopW -> while Val Expr do Stmts EndWhile .
+EndWhile -> end while .
 
-LoopF -> for id in Range do Stmts end for .
+LoopF -> for id in Range do Stmts EndFor .
+EndFor -> end for .
 
 Range -> numeric rangeOp numeric .
 
@@ -88,6 +102,6 @@ TimeOperator -> h
 | s
 | ms .
 
-CallParams -> with id CallParam .
-CallParam -> separator id CallParam
+CallParams -> with Val CallParam .
+CallParam -> separator Val CallParam
 | .
