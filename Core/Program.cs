@@ -78,9 +78,15 @@ namespace Core
                 List<ScannerToken> tokens = tokenizer.Tokens.ToList();
                 Parsenizer parsenizer = new Parsenizer(tokens);
                 string debugMessage;
-                parsenizer.Parse(out debugMessage);
-                verbosePrinter.Info(debugMessage);
-                if (Parsenizer.HasError) {
+                tokens.RemoveAll(tok => tok.Type == TokenType.COMMENT || tok.Type == TokenType.MULT_COMNT);
+                int lines = tokens.Select(tok => tok.Line).Distinct().Count();
+                for (int i = 0; i <= lines; i++)
+                {
+                    parsenizer.Parse(tokens.Where(tok => tok.Line == i).ToList(), out debugMessage);
+                    verbosePrinter.Info(debugMessage);
+                }
+                if (Parsenizer.HasError)
+                {
                     return 4;
                 }
                 ASTHelper ast = new ASTHelper(tokens);
