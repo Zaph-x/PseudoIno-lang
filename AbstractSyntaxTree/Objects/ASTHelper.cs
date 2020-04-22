@@ -33,7 +33,7 @@ namespace AbstractSyntaxTree.Objects
                 currentScope = Root = new ProgramNode(token.Value.Line, token.Value.Offset);
             }
 
-            ParseNext(token.Next, Root, null);
+            ParseNext(token.Next, Root);
             return Root;
         }
 
@@ -56,7 +56,7 @@ namespace AbstractSyntaxTree.Objects
                     return;
                 }
                 // We know we are in the global scope because of the above check
-                ((ProgramNode)currentScope).FunctionDefinitons.Add(ParseFunciondefinitionNode(token));
+                ((ProgramNode)currentScope).FunctionDefinitons.Add(ParseFunciondefinitionNode(token,currentScope));
             }
             else if (token.Value.Type == TokenType.WAIT)
             {
@@ -96,7 +96,7 @@ namespace AbstractSyntaxTree.Objects
                     return null;
                 }
                 // We know we are in the global scope because of the above check
-                ((ProgramNode)currentScope).FunctionDefinitons.Add(ParseFunciondefinitionNode(token));
+                ((ProgramNode)currentScope).FunctionDefinitons.Add(ParseFunciondefinitionNode(token,currentScope));
             }
             else if (token.Value.Type == TokenType.WAIT)
             {
@@ -140,23 +140,30 @@ namespace AbstractSyntaxTree.Objects
         private StatementNode ParseBegin(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
             BeginNode beginNode = new BeginNode(token.Value.Line,token.Value.Offset);
-            switch (token.Next.Value.Type)
-            {
-                case TokenType.WHILE:
-                    beginNode.LoopNode = new WhileNode(token.Next.Value.Line,token.Next.Value.Offset);
-                    ParseLoop();
-                    break;
-                case TokenType.FOR:
-                    beginNode.LoopNode = new ForNode(token.Next.Value.Line,token.Next.Value.Offset);
-                    break;
-            }
-             
+            beginNode.LoopNode = ParseLoop(token.Next, currentScope);
             return beginNode;
         }
 
-        public void ParseLoop()
+        public LoopNode ParseLoop(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
-            
+            switch (token.Value.Type)
+            {
+                case TokenType.WHILE:
+                    WhileNode whileNode = new WhileNode(token.Value.Line,token.Value.Offset);
+                    whileNode.ValNode = ParseValNode(token.Next);
+                    whileNode.ExpressionNode = ParseExpression(token.Next.Next);
+                    ParseNext(token.Next.Next.Next, whileNode, currentScope);
+                    break;
+                case TokenType.FOR:
+                    ForNode forNode = new ForNode(token.Value.Line,token.Value.Offset);
+                    forNode.ValNode = ParseValNode(token.Next);
+                    forNode.ExpressionNode = ParseExpression(token.Next.Next);
+                    ParseNext(token.Next.Next.Next, forNode, currentScope);
+                    break;
+                
+            }
+
+            return null;
         }
         private StatementNode ParseCall(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
@@ -180,13 +187,14 @@ namespace AbstractSyntaxTree.Objects
             
             return null;
         }
-        public FunctionDefinitonNode ParseFunciondefinitionNode(LinkedListNode<ScannerToken> token)
+        public FunctionDefinitonNode ParseFunciondefinitionNode(LinkedListNode<ScannerToken> token, IScope currentScope)
         {
             FunctionDefinitonNode funcDef = new FunctionDefinitonNode(token.Next.Value.Value, token.Value.Line, token.Value.Offset);
-            while (token.Value.Type != TokenType.END && token.Next.Value.Value != funcDef.Value)
+            ParseNext(token.Next, funcDef);
+            /*while (token.Value.Type != TokenType.END && token.Next.Value.Value != funcDef.Value)
             {
                 // Parse all statements
-            }
+            }*/
             return funcDef;
         }
 
@@ -206,6 +214,8 @@ namespace AbstractSyntaxTree.Objects
         {
             switch (token.Value.Type)
             {
+                case TokenType.VAR:
+                    return new VarNode(token.Value.Value, token.Value.Line, token.Value.Offset);
                 case TokenType.NUMERIC:
                     return new NumericNode(token.Value.Value, token.Value.Line, token.Value.Offset);
                 case TokenType.STRING:
