@@ -395,7 +395,9 @@ namespace Lexer.Objects
         RETURN,
         RETSTMNT,
         ENDIF,
-        NT_COMMENT
+        NT_COMMENT,
+        ASSIGNSTMNT,
+        TERM, FOLLOWTERM, FACTOR, FOLLOWFACTOR, TERMOP, FACTOROP
     }
 
     /// <summary>
@@ -412,23 +414,28 @@ namespace Lexer.Objects
         {
             return type == PROG
             || type == COMMENT
-            || type == TYPE
             || type == STMNTS
             || type == STMNT
-            || type == ARRAYACCESSING
-            || type == ARRAYINDEX
+            || type == ASSIGNSTMNT
             || type == ASSIGNMENT
             || type == EXPR
-            || type == MATH_OP
+            || type == FOLLOWTERM
+            || type == TERM
+            || type == FOLLOWFACTOR
+            || type == FACTOR
+            || type == ARRAYACCESSING
+            || type == ARRAYINDEX
+            || type == TERMOP
+            || type == FACTOROP
             || type == BOOL_OP
             || type == OP_OREQUAL
             || type == VAL
             || type == ARR
             || type == PIN
             || type == IFSTMNT
+            || type == ENDIF
             || type == ELSESTMNT
             || type == ELSEIFSTMNT
-            || type == ENDIF
             || type == FUNCCALL
             || type == FUNCDECL
             || type == ENDFUNC
