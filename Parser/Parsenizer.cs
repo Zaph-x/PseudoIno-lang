@@ -70,7 +70,7 @@ namespace Parser
 
             // verbosity += $"TS: {Tokens[Index]} TSPeek: {Tokens[Index+1]} TOS: {TopOfStack()}\n";
             // System.Console.WriteLine($"TS: {Tokens[Index]} TSPeek: {Tokens[Index + 1]} TOS: {TopOfStack()}");
-            while (Stack.Any())
+            while (Stack.Any() && Index < Tokens.Count)
             {
                 TokenType top = Stack.Pop();
                 TokenType token = Tokens[Index].Type;

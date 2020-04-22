@@ -166,7 +166,7 @@ namespace Parser.Objects
             this[BOOL_OP, OP_NOT] = new ParseAction(OP_NOT, OP_EQUAL);
 
             this[OP_OREQUAL, VAR] = new ParseAction();
-            this[OP_OREQUAL, VAL] = new ParseAction();
+            this[OP_OREQUAL, NUMERIC] = new ParseAction();
             this[OP_OREQUAL, APIN] = new ParseAction();
             this[OP_OREQUAL, DPIN] = new ParseAction();
             this[OP_OREQUAL, OP_MINUS] = new ParseAction();
@@ -203,6 +203,16 @@ namespace Parser.Objects
             this[ELSESTMNT, ELSE] = new ParseAction(ELSE, ELSEIFSTMNT, STMNTS);
 
             this[ELSEIFSTMNT, IF] = new ParseAction(IF, VAL, EXPR, DO, STMNTS, ELSESTMNT);
+            this[ELSEIFSTMNT, VAR] = new ParseAction();
+            this[ELSEIFSTMNT, NUMERIC] = new ParseAction();
+            this[ELSEIFSTMNT, APIN] = new ParseAction();
+            this[ELSEIFSTMNT, DPIN] = new ParseAction();
+            this[ELSEIFSTMNT, OP_MINUS] = new ParseAction();
+            this[ELSEIFSTMNT, BEGIN] = new ParseAction();
+            this[ELSEIFSTMNT, RETURN] = new ParseAction();
+            this[ELSEIFSTMNT, CALL] = new ParseAction();
+            this[ELSEIFSTMNT, WAIT] = new ParseAction();
+            
 
             this[FUNCCALL, CALL] = new ParseAction(CALL, VAR, CALLPARAMS);
 
@@ -242,7 +252,7 @@ namespace Parser.Objects
             this[RETSTMNT, END] = new ParseAction();
 
             this[BEGINSTMNT, BEGIN] = new ParseAction(BEGIN, BEGINABLE);
-            
+
             this[BEGINABLE, FOR] = new ParseAction(FOR, VAR, IN, RANGE, DO, STMNTS, END, FOR);
             this[BEGINABLE, WHILE] = new ParseAction(WHILE, VAL, EXPR, DO, STMNTS, END, WHILE);
 
