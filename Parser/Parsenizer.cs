@@ -64,28 +64,25 @@ namespace Parser
             Stack.Push(TokenType.EOF);
             Stack.Push(TokenType.PROG);
             Index = 0;
-            foreach (var tok in Tokens)
-            { System.Console.Write(" {0} ->", tok.Type); }
             System.Console.WriteLine();
 
             // verbosity += $"TS: {Tokens[Index]} TSPeek: {Tokens[Index+1]} TOS: {TopOfStack()}\n";
-            // System.Console.WriteLine($"TS: {Tokens[Index]} TSPeek: {Tokens[Index + 1]} TOS: {TopOfStack()}");
             while (Stack.Any() && Index < Tokens.Count)
             {
                 TokenType top = Stack.Pop();
                 TokenType token = Tokens[Index].Type;
+                verbosity += $"Token: {token} Top: {TopOfStack()}".PadRight(35, ' ');
                 if (TokenTypeExpressions.IsTerminal(top))
                 {
                     if (top == token)
                     {
                         Index++;
                         // System.Console.WriteLine("POP {0}", top);
-                        if (token == TokenType.EOF)
-                        { System.Console.WriteLine("\nInput accepted"); }
+
                     }
                     else
                     {
-                        System.Console.WriteLine("\nBad input {0} top {1}", token, top);
+                        new InvalidTokenException($"Bad input {token} top {top}");
                         break;
                     }
                 }
@@ -95,18 +92,19 @@ namespace Parser
                     var rule = ParseTable[top, token].Product;
                     if (rule.Count > 0 && rule.First() == TokenType.ERROR)
                     {
-                        { System.Console.WriteLine("\nBad input {0} top {1}", token, top); }
-                        HasError = true;
+                        new InvalidTokenException($"Bad input {token} top {top}");
                         break;
                     }
                     for (int i = rule.Count - 1; i >= 0; i--)
                         Stack.Push(rule[i]);
                 }
                 foreach (var val in Stack)
-                    System.Console.Write("    {0}", val);
-                System.Console.WriteLine();
-
+                    verbosity += $"{val}".PadRight(13, ' ');
+                verbosity += $"\n";
+                if (token == TokenType.EOF || Index == Tokens.Count)
+                { verbosity += "Input Accepted."; }
             }
+
 
             // CopyStackToList();
             // if (TokenTypeExpressions.IsTerminal(TopOfStack()))
