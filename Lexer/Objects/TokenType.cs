@@ -52,6 +52,8 @@ namespace Lexer.Objects
         /// Array index accessor token type
         /// </summary>
         ARRAYINDEX,
+        ARRAYACCESSING,
+        INDEXER,
         // loops
         ///<summary>
         /// For loop token type
@@ -388,7 +390,9 @@ namespace Lexer.Objects
         /// <summary>
         /// Comman seperator, terminal
         /// </summary>
-        SEPARATOR
+        SEPARATOR,
+        RETURN,
+        RETSTMNT
     }
 
     /// <summary>
@@ -407,6 +411,8 @@ namespace Lexer.Objects
             || type == TYPE
             || type == STMNTS
             || type == STMNT
+            || type == ARRAYACCESSING
+            || type == ARRAYINDEX
             || type == ASSIGNMENT
             || type == EXPR
             || type == MATH_OP
@@ -420,16 +426,14 @@ namespace Lexer.Objects
             || type == ELSEIFSTMNT
             || type == FUNCCALL
             || type == FUNCDECL
+            || type == RETSTMNT
             || type == BEGINSTMNT
             || type == BEGINABLE
             || type == LOOPW
             || type == LOOPF
-            || type == OPTNL_ARGS
-            || type == ARGLIST
-            || type == ARG
             || type == RANGE
-            || type == TIME_MOD
             || type == WAITSTMNT
+            || type == TIME_MOD
             || type == CALLPARAM
             || type == CALLPARAMS;
         }

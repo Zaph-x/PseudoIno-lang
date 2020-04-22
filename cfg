@@ -1,93 +1,93 @@
 Prog -> Stmts .
 
-Type -> 'string'
-| 'numeric'
-| 'bool'
-| 'array'
+Type -> string
+| numeric
+| bool
+| array
 | Pin .
 
 Stmts -> Stmt Stmts
 | FuncDecl Stmnts
 | .
-
-Stmt -> ID 'is' Assignment
+Stmt -> id ArrAccess is Assignment
 | IfStmnt
 | FuncCall
 | WaitStmnt
 | BeginStmt .
 
+ArrAccess -> arrayindex Indexer ArrAccess
+| .
+
+Indexer -> id
+| numeric . 
+
 Assignment -> Val Expr
-| '[' Numeric ']' Arr .
+| FuncCall
+| larr numeric rarr Arr .
 
 Expr -> Math_Op Val Expr
 | Bool_Op Val Expr
 | .
 
-Math_Op -> '+'
-| '-'
-| '*'
-| '/'
-| '%' .
+Math_Op -> plus
+| minus
+| mult
+| div
+| mod .
 
-Bool_Op -> 'equals'
-| 'and'
-| 'or'
-| 'greater' OrEqual  
-| 'less' OrEqual .
+Bool_Op -> equals
+| and
+| or
+| greater OrEqual  
+| less OrEqual .
 
-OrEqual -> 'or' 'equal'
+OrEqual -> or equals
 | .
 
-Val -> ID
-| Numeric
-| '-' Numeric
+Val -> id ArrAccess
+| numeric
+| minus numeric
 | String
 | Pin .
 
-Arr -> '[' Numeric ']' Arr
+Arr -> larr numeric rarr Arr
 | .
 
-Pin -> 'dpin'
-| 'apin' .
+Pin -> dpin
+| apin .
 
-IfStmnt -> 'if' Val Expr 'do' Stmts ElseStmnt 'end' 'if' .
+IfStmnt -> if Val Expr do Stmts ElseStmnt end if .
 
-ElseStmnt -> 'else' ElseIfStmnt Stmnts
+ElseStmnt -> else ElseIfStmnt Stmnts
 | .
 
-ElseIfStmnt -> 'if' Val Expr 'do' ElseStmnt
+ElseIfStmnt -> if Val Expr do Stmnts ElseStmnt
 | .
 
-FuncCall -> 'call' ID CallParam .
+FuncCall -> call id CallParams .
 
-FuncDecl -> 'func' ID Optnl_Args  Stmts 'end' ID .
+FuncDecl -> func id CallParams Stmts Return end id .
 
-BeginStmt -> 'begin' Beginable .
+Return -> return Val | .
+
+BeginStmt -> begin Beginable .
 
 Beginable -> LoopW
 | LoopF .
 
-LoopW -> 'while' Val Expr 'do' Stmts 'end' 'while' .
+LoopW -> while Val Expr do Stmts end while .
 
-LoopF -> 'for' ID 'in' Range 'do' Stmts 'end' 'for' .
+LoopF -> for id in Range do Stmts end for .
 
-Optnl_Args -> 'with' Arg ArgList
-| .
+Range -> numeric rangeOp numeric .
 
-ArgList -> ',' Arg ArgList 
-|.
+WaitStmnt -> wait numeric TimeOperator .
 
-Range -> Numeric '**' Numeric .
+TimeOperator -> h
+| m
+| s
+| ms .
 
-Arg -> Type ID .
-
-WaitStmnt -> 'wait' Numeric TimeOperator .
-
-TimeOperator -> 'h'
-| 'm'
-| 's'
-|'ms' .
-
-CallParam -> 'with' '(' ID CallParams ')' .
-CallParams -> ',' ID CallParams
+CallParams -> with id CallParam .
+CallParam -> separator id CallParam
 | .

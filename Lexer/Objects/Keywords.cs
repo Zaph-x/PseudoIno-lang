@@ -40,6 +40,7 @@ namespace Lexer.Objects
             {"false", TokenType.BOOL},
             {"while", TokenType.WHILE},
             {"for", TokenType.FOR},
+            {"return", TokenType.RETURN},
             {"wait", TokenType.WAIT},
             {"ms", TokenType.TIME_MS},
             {"s", TokenType.TIME_SEC},

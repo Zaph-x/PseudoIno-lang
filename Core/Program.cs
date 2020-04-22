@@ -78,12 +78,14 @@ namespace Core
                 List<ScannerToken> tokens = tokenizer.Tokens.ToList();
                 Parsenizer parsenizer = new Parsenizer(tokens);
                 string debugMessage;
-                List<ScannerToken> tokenList = parsenizer.Parse(out debugMessage);
+                parsenizer.Parse(out debugMessage);
                 verbosePrinter.Info(debugMessage);
                 if (Parsenizer.HasError) {
                     return 4;
                 }
-                ASTHelper _ASTHelper = new ASTHelper(tokenList);
+                ASTHelper ast = new ASTHelper(tokens);
+                PrettyPrinter pprint = new PrettyPrinter();
+                pprint.Visit(ast.Root);
             }
 
             timer.Stop();

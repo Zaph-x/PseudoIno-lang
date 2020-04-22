@@ -14,7 +14,7 @@ namespace Parser.Objects
             Type = 0;
         }
 
-        public static ParseAction Error() => new ParseAction() { Type = -1 };
+        public static ParseAction Error() => new ParseAction() { Type = -1, Product = new List<TokenType>() { TokenType.ERROR } };
 
         public override string ToString()
         {
