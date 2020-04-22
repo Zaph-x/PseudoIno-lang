@@ -57,83 +57,88 @@ namespace Parser
         //         Stack.Push(token);
         //     }
         // }
-        public void Parse(out string verbosity)
+        public void Parse(List<ScannerToken> Tokens, out string verbosity)
         {
+            Stack = new Stack<TokenType>();
             verbosity = "";
             Stack.Push(TokenType.EOF);
             Stack.Push(TokenType.PROG);
+            Index = 0;
+            foreach (var tok in Tokens)
+            { System.Console.Write(" {0} ->", tok.Type); }
+            System.Console.WriteLine();
 
-            while (Stack.Any())
+            // verbosity += $"TS: {Tokens[Index]} TSPeek: {Tokens[Index+1]} TOS: {TopOfStack()}\n";
+            // System.Console.WriteLine($"TS: {Tokens[Index]} TSPeek: {Tokens[Index + 1]} TOS: {TopOfStack()}");
+            while (Stack.Any() && Index < Tokens.Count)
             {
-                // verbosity += $"TS: {Tokens[Index]} TSPeek: {Tokens[Index+1]} TOS: {TopOfStack()}\n";
-                System.Console.WriteLine($"TS: {Tokens[Index]} TSPeek: {Tokens[Index + 1]} TOS: {TopOfStack()}");
-                while (Stack.Any())
+                TokenType top = Stack.Pop();
+                TokenType token = Tokens[Index].Type;
+                if (TokenTypeExpressions.IsTerminal(top))
                 {
-                    TokenType top = Stack.Pop();
-                    TokenType token = Tokens[Index].Type;
-                    if (TokenTypeExpressions.IsTerminal(top))
+                    if (top == token)
                     {
-                        if (top == token)
-                        {
-                            Index++;
-                            System.Console.WriteLine("POP {0}", top);
-                            if (token == TokenType.EOF)
-                                System.Console.WriteLine("Input accepted");
-                        }
-                        else
-                        {
-                            System.Console.WriteLine("Bad input {0}", token);
-                            break;
-                        }
+                        Index++;
+                        // System.Console.WriteLine("POP {0}", top);
+                        if (token == TokenType.EOF)
+                        { System.Console.WriteLine("\nInput accepted"); }
                     }
                     else
                     {
-                        System.Console.WriteLine("Value {0} token {1}", top, token);
-                        var rule = ParseTable[top, token].Product;
-                        if (rule.Count > 0 && rule.First() == TokenType.ERROR)
-                        {
-                            System.Console.WriteLine("Bad input {0}", token);
-                            break;
-                        }
-                        rule.Reverse();
-                        foreach (var r in rule)
-                            Stack.Push(r);
+                        // System.Console.WriteLine("Bad input {0}", token);
+                        break;
                     }
-                    System.Console.WriteLine(Stack.ToString());
                 }
+                else
+                {
+                    // System.Console.WriteLine("Value {0} token {1}", top, token);
+                    var rule = ParseTable[top, token].Product;
+                    if (rule.Count > 0 && rule.First() == TokenType.ERROR)
+                    {
+                        { System.Console.WriteLine("\nBad input {0} top {1}", token, top); }
+                        HasError = true;
+                        break;
+                    }
+                    for (int i = rule.Count -1; i >= 0; i--)
+                        Stack.Push(rule[i]);
+                }
+                foreach (var val in Stack)
+                    System.Console.Write("    {0}", val);
+                System.Console.WriteLine();
 
-                // CopyStackToList();
-                // if (TokenTypeExpressions.IsTerminal(TopOfStack()))
-                // {
-                //     if (TopOfStack() == TokenType.EOF)
-                //     {
-                //         break;
-                //     }
-                //     Match(TopOfStack());
-                //     Stack.Pop();
-                // }
-                // else
-                // {
-                //     TokenType top = TopOfStack();
-                //     TokenType next = TokenStream.Peek().Type;
-                //     _p = ParseTable[top, next].Product;
-                //     if (_p.Any())
-                //     {
-                //         if (_p.First() == TokenType.ERROR)
-                //         {
-                //             new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
-                //             break;
-                //         }
-                //         List<ScannerToken> scannerTokens;
-                //         Apply(_p);
-                //     }
-                //     else
-                //     {
-                //         Stack.Pop();
-                //     }
-                // }
-                if (HasError) return;
             }
+
+            // CopyStackToList();
+            // if (TokenTypeExpressions.IsTerminal(TopOfStack()))
+            // {
+            //     if (TopOfStack() == TokenType.EOF)
+            //     {
+            //         break;
+            //     }
+            //     Match(TopOfStack());
+            //     Stack.Pop();
+            // }
+            // else
+            // {
+            //     TokenType top = TopOfStack();
+            //     TokenType next = TokenStream.Peek().Type;
+            //     _p = ParseTable[top, next].Product;
+            //     if (_p.Any())
+            //     {
+            //         if (_p.First() == TokenType.ERROR)
+            //         {
+            //             new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
+            //             break;
+            //         }
+            //         List<ScannerToken> scannerTokens;
+            //         Apply(_p);
+            //     }
+            //     else
+            //     {
+            //         Stack.Pop();
+            //     }
+            // }
+            if (HasError) return;
         }
     }
 }
