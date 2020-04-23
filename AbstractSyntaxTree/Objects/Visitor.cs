@@ -49,6 +49,7 @@ namespace AbstractSyntaxTree.Objects
 
         public void Visit(WaitNode waitNode)
         {
+            //test
             waitNode.TimeAmount.Accept(this);
             waitNode.TimeModifier.Accept(this); 
         }
