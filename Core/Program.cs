@@ -77,13 +77,16 @@ namespace Core
                 verbosePrinter.Info("Generating parse table");
                 List<ScannerToken> tokens = tokenizer.Tokens.ToList();
                 Parsenizer parsenizer = new Parsenizer(tokens);
-                string debugMessage;
-                List<ScannerToken> tokenList = parsenizer.Parse(out debugMessage);
+                string debugMessage = "";
+                parsenizer.Parse(tokens, out debugMessage);
                 verbosePrinter.Info(debugMessage);
-                if (Parsenizer.HasError) {
+                if (Parsenizer.HasError)
+                {
                     return 4;
                 }
-                ASTHelper _ASTHelper = new ASTHelper(tokenList);
+                ASTHelper ast = new ASTHelper(tokens);
+                PrettyPrinter pprint = new PrettyPrinter();
+                pprint.Visit(ast.Root);
             }
 
             timer.Stop();
@@ -136,7 +139,7 @@ namespace Core
                         break;
                     case "-l":
                     case "--logfile":
-                        if (args.Length - 1 <= i + 1 && !args[i].StartsWith('-'))
+                        if (args.Length >= i + 1 && !args[i+1].StartsWith('-'))
                         {
                             ++i;
                             options.LogFile = args[i];

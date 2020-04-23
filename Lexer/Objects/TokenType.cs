@@ -52,6 +52,8 @@ namespace Lexer.Objects
         /// Array index accessor token type
         /// </summary>
         ARRAYINDEX,
+        ARRAYACCESSING,
+        INDEXER,
         // loops
         ///<summary>
         /// For loop token type
@@ -337,6 +339,7 @@ namespace Lexer.Objects
         /// End for token, non terminal
         /// </summary>
         ENDFOR,
+        ENDVAR,
         /// <summary>
         /// Assignment token, non terminal
         /// </summary>
@@ -346,13 +349,13 @@ namespace Lexer.Objects
         /// </summary>
         TYPE,
         /// <summary>
-        /// Argument token, non terminal
+        /// Declaration parameter token, terminal
         /// </summary>
-        ARG,
+        DECLPARAM,
         /// <summary>
-        /// Optional arguments token, non terminal
+        /// Optional arguments token, terminal
         /// </summary>
-        OPTNL_ARGS,
+        DECLPARAMS,
         /// <summary>
         /// Beginable token, non terminal
         /// </summary>
@@ -388,7 +391,13 @@ namespace Lexer.Objects
         /// <summary>
         /// Comman seperator, terminal
         /// </summary>
-        SEPARATOR
+        SEPARATOR,
+        RETURN,
+        RETSTMNT,
+        ENDIF,
+        NT_COMMENT,
+        ASSIGNSTMNT,
+        TERM, FOLLOWTERM, FACTOR, FOLLOWFACTOR, TERMOP, FACTOROP
     }
 
     /// <summary>
@@ -404,34 +413,46 @@ namespace Lexer.Objects
         public static bool IsNonTerminal(TokenType type)
         {
             return type == PROG
-            || type == TYPE
+            || type == COMMENT
             || type == STMNTS
             || type == STMNT
+            || type == ASSIGNSTMNT
             || type == ASSIGNMENT
             || type == EXPR
-            || type == MATH_OP
+            || type == FOLLOWTERM
+            || type == TERM
+            || type == FOLLOWFACTOR
+            || type == FACTOR
+            || type == ARRAYACCESSING
+            || type == ARRAYINDEX
+            || type == TERMOP
+            || type == FACTOROP
             || type == BOOL_OP
             || type == OP_OREQUAL
             || type == VAL
             || type == ARR
             || type == PIN
             || type == IFSTMNT
+            || type == ENDIF
             || type == ELSESTMNT
             || type == ELSEIFSTMNT
             || type == FUNCCALL
             || type == FUNCDECL
+            || type == ENDFUNC
+            || type == DECLPARAMS
+            || type == DECLPARAM
+            || type == RETSTMNT
             || type == BEGINSTMNT
             || type == BEGINABLE
             || type == LOOPW
+            || type == ENDWHILE
             || type == LOOPF
-            || type == OPTNL_ARGS
-            || type == ARGLIST
-            || type == ARG
+            || type == ENDFOR
             || type == RANGE
-            || type == TIME_MOD
             || type == WAITSTMNT
-            || type == CALLPARAM
-            || type == CALLPARAMS;
+            || type == TIME_MOD
+            || type == CALLPARAMS
+            || type == CALLPARAM;
         }
 
         /// <summary>
