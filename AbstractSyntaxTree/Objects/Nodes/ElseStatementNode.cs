@@ -3,13 +3,11 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class ForNode : LoopNode,IScope
+    public class ElseStatementNode : StatementNode, IScope
     {
-        public ValNode ValNode { get; set; }
-        public RangeNode RangeNode { get; set; } 
         public List<StatementNode> Statements { get; set; }
         
-        public ForNode(int line, int offset) : base(TokenType.FOR, line, offset)
+        public ElseStatementNode(int line, int offset) : base(TokenType.ELSE, line, offset)
         {
             Statements = new List<StatementNode>();
         }

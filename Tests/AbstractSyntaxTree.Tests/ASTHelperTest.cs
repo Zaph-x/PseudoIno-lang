@@ -25,7 +25,7 @@ namespace AbstractSyntaxTree.Tests
             if b > a
                 
             end if
-            func test with (numeric x, numeric y, numeric z)
+            func test with x, y, z
                 d is 10
             end test";
 

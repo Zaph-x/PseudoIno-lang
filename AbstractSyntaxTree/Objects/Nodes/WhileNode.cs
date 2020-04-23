@@ -11,6 +11,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 
         public WhileNode(int line, int offset) : base(TokenType.WHILE, line, offset)
         {
+            Statements = new List<StatementNode>();
         }
 
         public override void Accept(Visitor visitor)
