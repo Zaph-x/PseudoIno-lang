@@ -1,10 +1,5 @@
-using System.Runtime.Intrinsics.X86;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Net.Security;
-using Lexer.Exceptions;
 using Lexer.Objects;
 using Parser.Objects;
 
@@ -12,22 +7,28 @@ namespace Parser
 {
     public class Parsenizer
     {
-        private Stack<ScannerToken> Stack = new Stack<ScannerToken>();
-        private List<List<ScannerToken>> _listOfStacks = new List<List<ScannerToken>>();
-        private TokenStream TokenStream;
+        // public AST Ast = new AST();
+        int Index = 1;
+        private Stack<TokenType> Stack = new Stack<TokenType>();
+        // private TokenStream TokenStream;
+        List<ScannerToken> Tokens = new List<ScannerToken>();
         public ParseTable ParseTable { get; private set; }
         private bool _accepted;
+        private int CurrentLine;
+        private int CurrentOffset;
         private List<TokenType> _p;
         public static bool HasError { get; set; } = false;
+
         public Parsenizer(List<ScannerToken> tokens)
         {
-            TokenStream = new TokenStream(tokens.Where(tok => tok.Type != TokenType.COMMENT && tok.Type != TokenType.MULT_COMNT));
+            Tokens = tokens.Where(tok => tok.Type != TokenType.COMMENT && tok.Type != TokenType.MULT_COMNT).ToList();
             ParseTable = new ParseTable();
+            ParseTable.InitTable();
         }
 
-        private ScannerToken TopOfStack()
+        private TokenType TopOfStack()
         {
-            if (Stack.TryPeek(out ScannerToken token))
+            if (Stack.TryPeek(out TokenType token))
             {
                 return token;
             }
@@ -35,103 +36,113 @@ namespace Parser
             throw new InvalidTokenException("Expected stack not empty but was empty");
         }
 
-        private void Match(TokenType token)
-        {
-            if (TokenStream.Peek().Type == token)
-                TokenStream.Advance();
-            else
-            {
-                new InvalidTokenException($"Expected  {token} but was {TokenStream.Peek().Type}");
-            }
-        }
+        // private void Match(TokenType token)
+        // {
+        //     if (Tokens[Index].Type == token)
+        //     {
+        //         System.Console.WriteLine("Advancing");
+        //         Index++;
+        //         Stack.Pop();
+        //     }
+        //     else
+        //     {
+        //         new InvalidTokenException($"Expected  {token} but was {Tokens[Index + 1].Type}");
+        //     }
+        // }
 
-        private void Apply(List<TokenType> tokens, out List<ScannerToken> scannerTokens)
+        // private void Apply(List<TokenType> tokens)
+        // {
+        //     Stack.Pop();
+        //     tokens.Reverse();
+        //     foreach (var token in tokens)
+        //     {
+        //         Stack.Push(token);
+        //     }
+        // }
+        public void Parse(List<ScannerToken> Tokens, out string verbosity)
         {
-            scannerTokens = new List<ScannerToken>();
-            foreach (var token in tokens)
-            {
-                if (TokenTypeExpressions.IsTerminal(token))
-                {
-                    int i = 1;
-                    while (token != TokenStream.Peek(i).Type)
-                    {
-                        i += 1;
-                    }
-                    scannerTokens.Add(new ScannerToken(TokenStream.Peek(i).Type, TokenStream.Peek(i).Value, TokenStream.Peek(i).Line, TokenStream.Peek(i).Offset));
-                }
-                else scannerTokens.Add(new ScannerToken(token, "", 0, 0));
-            }
-            for (int i = scannerTokens.Count - 1; i >= 0; i--)
-            {
-                Stack.Push(scannerTokens[i]);
-            }
-        }
-        public List<ScannerToken> Parse(out string verbosity)
-        {
-            List<ScannerToken> tokenList = new List<ScannerToken>();
+            Stack = new Stack<TokenType>();
             verbosity = "";
-            Stack.Push(TokenStream.PROG);
-            while (Stack.Any())
+            Stack.Push(TokenType.EOF);
+            Stack.Push(TokenType.PROG);
+            Index = 0;
+            System.Console.WriteLine();
+
+            // verbosity += $"TS: {Tokens[Index]} TSPeek: {Tokens[Index+1]} TOS: {TopOfStack()}\n";
+            while (Stack.Any() && Index < Tokens.Count)
             {
-                verbosity += $"TS: {TokenStream.Current()} TSPeek: {TokenStream.Peek()} TOS: {TopOfStack()}\n";
-                tokenList.Add(TopOfStack().Copy());
-                CopyStackToList();
-                if (TokenTypeExpressions.IsTerminal(TopOfStack().Type))
+                TokenType top = Stack.Pop();
+                TokenType token = Tokens[Index].Type;
+                CurrentLine = Tokens[Index].Line;
+                CurrentOffset = Tokens[Index].Offset;
+                verbosity += $"Token: {token} Top: {TopOfStack()}".PadRight(35, ' ');
+                if (TokenTypeExpressions.IsTerminal(top))
                 {
-                    if (TopOfStack().Type == TokenType.EOF)
+                    if (top == token)
                     {
-                        break;
-                    }
-                    Match(TopOfStack().Type);
-                    Stack.Pop();
-                }
-                else
-                {
-                    ScannerToken top = TopOfStack();
-                    ScannerToken next = TokenStream.Peek();
-                    _p = ParseTable[top, next].Product;
-                    if (_p.Any())
-                    {
-                        if (_p.First() == TokenType.ERROR)
-                        {
-                            new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack().Type} TS: {TokenStream.Peek().Type}");
-                            continue;
-                        }
-                        List<ScannerToken> scannerTokens;
-                        Apply(_p, out scannerTokens);
+                        Index++;
+                        // System.Console.WriteLine("POP {0}", top);
+
                     }
                     else
                     {
-                        Stack.Pop();
+                        new InvalidTokenException($"Bad input {token} top {top} ({CurrentLine}:{CurrentOffset})");
+                        verbosity += $"Bad input {token} top {top} ({CurrentLine}:{CurrentOffset})";
+                        break;
                     }
                 }
+                else
+                {
+                    // System.Console.WriteLine("Value {0} token {1}", top, token);
+                    var rule = ParseTable[top, token].Product;
+                    if (rule.Count > 0 && rule.First() == TokenType.ERROR)
+                    {
+                        new InvalidTokenException($"Bad input {token} top {top} ({CurrentLine}:{CurrentOffset})");
+                        verbosity += $"Bad input {token} top {top} ({CurrentLine}:{CurrentOffset})";
+                        break;
+                    }
+                    for (int i = rule.Count - 1; i >= 0; i--)
+                        Stack.Push(rule[i]);
+                }
+                // foreach (var val in Stack)
+                //     verbosity += $"{val}".PadRight(13, ' ');
+                verbosity += $"\n";
+                if (token == TokenType.EOF || Index == Tokens.Count)
+                { verbosity += "Input Accepted."; }
             }
-            return tokenList;
-        }
 
-        private void CopyStackToList()
-        {
-            List<ScannerToken> list = new List<ScannerToken>();
-            foreach (var token in Stack)
-            {
-                list.Add(token);
-            }
-            _listOfStacks.Add(list);
-        }
 
-        private void ParseNode()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TypeCheckAst()
-        {
-            // Do type checking
-        }
-
-        public void CreateAndFillSymbolTable()
-        {
-            // Create symbol table
+            // CopyStackToList();
+            // if (TokenTypeExpressions.IsTerminal(TopOfStack()))
+            // {
+            //     if (TopOfStack() == TokenType.EOF)
+            //     {
+            //         break;
+            //     }
+            //     Match(TopOfStack());
+            //     Stack.Pop();
+            // }
+            // else
+            // {
+            //     TokenType top = TopOfStack();
+            //     TokenType next = TokenStream.Peek().Type;
+            //     _p = ParseTable[top, next].Product;
+            //     if (_p.Any())
+            //     {
+            //         if (_p.First() == TokenType.ERROR)
+            //         {
+            //             new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
+            //             break;
+            //         }
+            //         List<ScannerToken> scannerTokens;
+            //         Apply(_p);
+            //     }
+            //     else
+            //     {
+            //         Stack.Pop();
+            //     }
+            // }
+            if (HasError) return;
         }
     }
 }

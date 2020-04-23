@@ -473,7 +473,7 @@ namespace Lexer
         public void GenerateTokens()
         {
             // Ensure we are not dealing with an empty file.
-            Tokens.AddFirst(new ScannerToken(TokenType.PROG, "", 0, 0));
+            // Tokens.AddFirst(new ScannerToken(TokenType.PROG, "", 0, 0));
             while (!IsEOF(Peek()))
             {
                 Pop();
@@ -487,7 +487,7 @@ namespace Lexer
                 else if ("+-*/%(),".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
             }
-            Tokens.AddLast(new ScannerToken(TokenType.EOF, "", this.Line, this.Offset + 1));
+            // Tokens.AddLast(new ScannerToken(TokenType.EOF, "", this.Line, this.Offset + 1));
         }
     }
 }

@@ -1,93 +1,107 @@
 Prog -> Stmts .
 
-Type -> 'string'
-| 'numeric'
-| 'bool'
-| 'array'
+Comment -> commnent 
+| mcomment .
+
+Type -> string
+| numeric
+| bool
+| array
 | Pin .
 
 Stmts -> Stmt Stmts
+| Comment Stmts
 | FuncDecl Stmnts
 | .
-
-Stmt -> ID 'is' Assignment
+Stmt -> id ArrAccess is Assignment
 | IfStmnt
 | FuncCall
 | WaitStmnt
 | BeginStmt .
 
-Assignment -> Val Expr
-| '[' Numeric ']' Arr .
-
-Expr -> Math_Op Val Expr
-| Bool_Op Val Expr
+ArrAccess -> arrayindex Indexer ArrAccess
 | .
 
-Math_Op -> '+'
-| '-'
-| '*'
-| '/'
-| '%' .
+Rp -> rp | .
+Lp -> lp Lp| .
 
-Bool_Op -> 'equals'
-| 'and'
-| 'or'
-| 'greater' OrEqual  
-| 'less' OrEqual .
+Indexer -> id
+| numeric . 
 
-OrEqual -> 'or' 'equal'
+Assignment -> Lp Val Expr
+| FuncCall
+| larr numeric rarr Arr .
+
+Expr -> Math_Op Lp Val Expr Rp
+| Bool_Op Lp Val Expr Rp
 | .
 
-Val -> ID
-| Numeric
-| '-' Numeric
+Math_Op -> plus
+| minus
+| mult
+| div
+| mod .
+
+Bool_Op -> equals
+| and
+| or
+| greater OrEqual  
+| less OrEqual .
+
+OrEqual -> or equals
+| .
+
+Val -> id ArrAccess
+| numeric
+| minus numeric
 | String
 | Pin .
 
-Arr -> '[' Numeric ']' Arr
+Arr -> larr numeric rarr Arr
 | .
 
-Pin -> 'dpin'
-| 'apin' .
+Pin -> dpin
+| apin .
 
-IfStmnt -> 'if' Val Expr 'do' Stmts ElseStmnt 'end' 'if' .
-
-ElseStmnt -> 'else' ElseIfStmnt Stmnts
+IfStmnt -> if Val Expr do Stmts ElseStmnt EndIf .
+EndIf -> end if .
+ElseStmnt -> else ElseIfStmnt Stmnts
 | .
 
-ElseIfStmnt -> 'if' Val Expr 'do' ElseStmnt
+ElseIfStmnt -> if Val Expr do Stmnts ElseStmnt
 | .
 
-FuncCall -> 'call' ID CallParam .
+FuncCall -> call id CallParams .
 
-FuncDecl -> 'func' ID Optnl_Args  Stmts 'end' ID .
+FuncDecl -> func id DeclParams Stmts Return EndFunc .
+EndFunc -> end id .
 
-BeginStmt -> 'begin' Beginable .
+DeclParams -> with Val DeclParam .
+DeclParam -> separator Val DeclParam
+| .
+
+Return -> return Val | .
+
+BeginStmt -> begin Beginable .
 
 Beginable -> LoopW
 | LoopF .
 
-LoopW -> 'while' Val Expr 'do' Stmts 'end' 'while' .
+LoopW -> while Val Expr do Stmts EndWhile .
+EndWhile -> end while .
 
-LoopF -> 'for' ID 'in' Range 'do' Stmts 'end' 'for' .
+LoopF -> for id in Range do Stmts EndFor .
+EndFor -> end for .
 
-Optnl_Args -> 'with' Arg ArgList
-| .
+Range -> numeric rangeOp numeric .
 
-ArgList -> ',' Arg ArgList 
-|.
+WaitStmnt -> wait numeric TimeOperator .
 
-Range -> Numeric '**' Numeric .
+TimeOperator -> h
+| m
+| s
+| ms .
 
-Arg -> Type ID .
-
-WaitStmnt -> 'wait' Numeric TimeOperator .
-
-TimeOperator -> 'h'
-| 'm'
-| 's'
-|'ms' .
-
-CallParam -> 'with' '(' ID CallParams ')' .
-CallParams -> ',' ID CallParams
+CallParams -> with Val CallParam .
+CallParam -> separator Val CallParam
 | .
