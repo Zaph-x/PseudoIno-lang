@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Lexer.Objects;
 using static Lexer.Objects.TokenType;
