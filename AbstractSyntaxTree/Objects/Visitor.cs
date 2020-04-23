@@ -49,7 +49,8 @@ namespace AbstractSyntaxTree.Objects
 
         public void Visit(WaitNode waitNode)
         {
-            throw new NotImplementedException();
+            waitNode.TimeAmount.Accept(this);
+            waitNode.TimeModifier.Accept(this); 
         }
 
         public void Visit(VarNode varNode)
