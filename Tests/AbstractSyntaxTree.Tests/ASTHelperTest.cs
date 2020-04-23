@@ -23,7 +23,7 @@ namespace AbstractSyntaxTree.Tests
             b is 6
             c is a + b
             func test with (numeric x, numeric y, numeric z)
-                x + y equals z?
+                d is 10
             end test";
 
         [Test]
@@ -35,13 +35,25 @@ namespace AbstractSyntaxTree.Tests
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);
             parser.Parse(tokens,out nowhere);
-            ASTHelper helper = new ASTHelper(tokenizer.Tokens);
+            ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
         }
 
         public StreamReader CreateFakeReader(string content, Encoding enc)
         {
             byte[] fakeBytes = enc.GetBytes(content);
             return new StreamReader(new MemoryStream(fakeBytes), enc, false);
+        }
+
+        [Test]
+        public void Test_ASTHelper_Assign()
+        {
+            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
         }
     }
 }

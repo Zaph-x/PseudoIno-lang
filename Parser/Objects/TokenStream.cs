@@ -24,7 +24,20 @@ namespace Parser.Objects
         {
             return Tokens[Index + 1];
         }
-        
+
+        public bool AtEnd()
+        {
+            if (Index + 1 > Length - 1)
+            {
+                return true;
+            }
+            return false;
+            }
+
+        public void Prev()
+        {
+            Index--;
+        }
         public ScannerToken Peek(int lookAhead)
         {
             return Tokens[Index + lookAhead];
