@@ -40,7 +40,15 @@ namespace AbstractSyntaxTree.Objects
 
         internal void Visit(FunctionDefinitonNode functionDefinitonNode)
         {
-            functionDefinitonNode.Accept(this);
+            functionDefinitonNode.LeftHand.Accept(this);
+            functionDefinitonNode.RightHand.Accept(this);
+            if (functionDefinitonNode.Statements.Any())
+            {
+                functionDefinitonNode.Statements.ForEach(node => node.Accept(this));
+            }
+            
+           
+            //functionDefinitonNode.Accept(this);
         }
 
         public void Visit(StatementNode statementNode)
@@ -219,7 +227,7 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(FuncNode funcNode)
         {
-            funcNode.Accept(this);
+            //funcNode.Accept(this);
             if (funcNode.Statements.Any())
             {
                 funcNode.Statements.ForEach(node => node.Accept(this));
