@@ -17,6 +17,10 @@ namespace AbstractSyntaxTree.Objects
         {
             timeNode.Accept(this);
         }
+        public void Visit(TimesNode timesNode)
+        {
+
+        }
 
         public void Visit(FunctionLoopNode loopFnNode)
         {
@@ -112,6 +116,10 @@ namespace AbstractSyntaxTree.Objects
         {
             inNode.Accept(this);
         }
+        public void Visit(EqualNode equalNode)
+        {
+            equalNode.Accept(this);
+        }
 
         public void Visit(EqualsNode equalsNode)
         {
@@ -184,6 +192,94 @@ namespace AbstractSyntaxTree.Objects
             callParametersNode.ValNode.Accept(this);
             callParametersNode.RightHand.Accept(this);
             callParametersNode.Accept(this);
+        }
+        public void Visit(DivideNode divideNode)
+        {
+            
+        }
+        public void Visit(ExpressionNode expressionNode)
+        {
+            expressionNode.Operator.Accept(this);
+            expressionNode.Value.Accept(this);
+            expressionNode.Expression.Accept(this);
+            expressionNode.Accept(this);
+        }
+        //TODO change expressionnode to rangenode
+        public void Visit(ForNode forNode)
+        {
+            forNode.ValNode.Accept(this);
+            forNode.ExpressionNode.Accept(this);
+            if (forNode.Statements.Any())
+            {
+                forNode.Statements.ForEach(node => node.Accept(this));
+            }
+            forNode.Accept(this);
+        }
+        public void Visit(FuncNode funcNode)
+        {
+            if (funcNode.Statements.Any())
+            {
+                funcNode.Statements.ForEach(node => node.Accept(this));
+            }
+            funcNode.Accept(this);
+        }
+        public void Visit(GreaterNode greaterNode)
+        {
+            greaterNode.OrEqualNode.Accept(this);
+            greaterNode.Accept(this);
+        }
+        public void Visit(IfStatementNode ifStatementNode)
+        {
+            ifStatementNode.Val.Accept(this);
+            ifStatementNode.Expression.Accept(this);
+            if (ifStatementNode.Statements.Any())
+            {
+                ifStatementNode.Statements.ForEach(node => node.Accept(this));
+            }
+            ifStatementNode.Accept(this);
+        }
+        public void Visit(LessNode lessNode)
+        {
+            lessNode.OrEqualNode.Accept(this);
+            lessNode.Accept(this);
+        }
+        public void Visit(LoopNode loopNode)
+        {
+            loopNode.Accept(this);
+        }
+        public void Visit(MathOperatorNode mathOperatorNode)
+        {
+            mathOperatorNode.Accept(this);
+        }
+        public void Visit(PlusNode plusNode)
+        {
+
+        }
+        public void Visit(MinusNode minusNode)
+        {
+            
+        }
+        public void Visit(ModuloNode moduloNode)
+        {
+
+        }
+        public void Visit(OrNode orNode)
+        {
+            orNode.Accept(this);
+        }
+        public void Visit(StringNode stringNode)
+        {
+            stringNode.Accept(this);
+        }
+        public void Visit(WhileNode whileNode)
+        {
+            whileNode.ValNode.Accept(this);
+            whileNode.ExpressionNode.Accept(this);
+            if (whileNode.Statements.Any())
+            {
+                whileNode.Statements.ForEach(node => node.Accept(this));
+            }
+            whileNode.Accept(this);
         }
     }
 }
