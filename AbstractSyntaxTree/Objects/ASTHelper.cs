@@ -209,7 +209,7 @@ namespace AbstractSyntaxTree.Objects
                     WhileNode whileNode = new WhileNode(token.Current().Line,token.Current().Offset);
                     token.Advance();
                     whileNode.ValNode = ParseValNode(token);
-                    token.Advance();
+                    //token.Advance();
                     whileNode.ExpressionNode = ParseExpression(token);
                     token.Advance();
                     ParseNext(token, whileNode);

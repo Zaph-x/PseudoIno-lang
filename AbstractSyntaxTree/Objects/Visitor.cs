@@ -40,8 +40,8 @@ namespace AbstractSyntaxTree.Objects
 
         internal void Visit(FunctionDefinitonNode functionDefinitonNode)
         {
-            functionDefinitonNode.LeftHand.Accept(this);
-            functionDefinitonNode.RightHand.Accept(this);
+            functionDefinitonNode.LeftHand?.Accept(this);
+            functionDefinitonNode.RightHand?.Accept(this);
             if (functionDefinitonNode.Statements.Any())
             {
                 functionDefinitonNode.Statements.ForEach(node => node.Accept(this));
@@ -213,7 +213,7 @@ namespace AbstractSyntaxTree.Objects
             expressionNode.Operator.Accept(this);
             expressionNode.Value.Accept(this);
             expressionNode.Expression.Accept(this);
-            expressionNode.Accept(this);
+            
         }
         public void Visit(ForNode forNode)
         {
@@ -258,8 +258,8 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(LessNode lessNode)
         {
-            lessNode.OrEqualNode.Accept(this);
-            lessNode.Accept(this);
+            lessNode.OrEqualNode?.Accept(this);
+            
         }
         public void Visit(LoopNode loopNode)
         {
@@ -297,7 +297,7 @@ namespace AbstractSyntaxTree.Objects
             {
                 whileNode.Statements.ForEach(node => node.Accept(this));
             }
-            whileNode.Accept(this);
+            
         }
         public void Visit(ElseStatementNode elseStatement)
         {

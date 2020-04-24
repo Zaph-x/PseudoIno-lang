@@ -16,7 +16,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 
         public override void Accept(Visitor visitor)
         {
-            throw new NotImplementedException();
+            visitor.Visit(this);
         }
     }
 }
