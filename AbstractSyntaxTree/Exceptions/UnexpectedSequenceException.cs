@@ -7,7 +7,7 @@ namespace AbstractSyntaxTree.Exceptions
         public UnexpectedSequenceException(string message)
         {
             Console.Error.WriteLine(message);
-            ASTHelper.HasError = true;
+            // ASTHelper.HasError = true;
         }
     }
 }

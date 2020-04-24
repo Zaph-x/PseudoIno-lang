@@ -32,10 +32,6 @@ namespace AbstractSyntaxTree.Objects
                 assignmentNode.ExpressionHand.Accept(this);
         }
 
-        internal void Visit(FunctionDefinitonNode functionDefinitonNode)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Visit(StatementNode statementNode)
         {

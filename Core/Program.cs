@@ -84,9 +84,9 @@ namespace Core
                 {
                     return 4;
                 }
-                ASTHelper ast = new ASTHelper(tokens);
-                PrettyPrinter pprint = new PrettyPrinter();
-                pprint.Visit(ast.Root);
+                // ASTHelper ast = new ASTHelper(tokens);
+                // PrettyPrinter pprint = new PrettyPrinter();
+                // pprint.Visit(ast.Root);
             }
 
             timer.Stop();

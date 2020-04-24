@@ -1,7 +1,11 @@
+using System.Security;
 using System.Collections.Generic;
 using System.Linq;
 using Lexer.Objects;
 using Parser.Objects;
+using AbstractSyntaxTree.Objects.Nodes;
+using AbstractSyntaxTree.Objects;
+using static Lexer.Objects.TokenType;
 
 namespace Parser
 {
@@ -18,7 +22,8 @@ namespace Parser
         private int CurrentOffset;
         private List<TokenType> _p;
         public static bool HasError { get; set; } = false;
-
+        public static Stack<AstNode> Scopes = new Stack<AstNode>();
+        public AstNode Current;
         public Parsenizer(List<ScannerToken> tokens)
         {
             Tokens = tokens.Where(tok => tok.Type != TokenType.COMMENT && tok.Type != TokenType.MULT_COMNT).ToList();
@@ -36,29 +41,6 @@ namespace Parser
             throw new InvalidTokenException("Expected stack not empty but was empty");
         }
 
-        // private void Match(TokenType token)
-        // {
-        //     if (Tokens[Index].Type == token)
-        //     {
-        //         System.Console.WriteLine("Advancing");
-        //         Index++;
-        //         Stack.Pop();
-        //     }
-        //     else
-        //     {
-        //         new InvalidTokenException($"Expected  {token} but was {Tokens[Index + 1].Type}");
-        //     }
-        // }
-
-        // private void Apply(List<TokenType> tokens)
-        // {
-        //     Stack.Pop();
-        //     tokens.Reverse();
-        //     foreach (var token in tokens)
-        //     {
-        //         Stack.Push(token);
-        //     }
-        // }
         public void Parse(List<ScannerToken> Tokens, out string verbosity)
         {
             Stack = new Stack<TokenType>();
@@ -66,7 +48,7 @@ namespace Parser
             Stack.Push(TokenType.EOF);
             Stack.Push(TokenType.PROG);
             Index = 0;
-            System.Console.WriteLine();
+            Scopes.Push(new ProgramNode(0, 0));
 
             // verbosity += $"TS: {Tokens[Index]} TSPeek: {Tokens[Index+1]} TOS: {TopOfStack()}\n";
             while (Stack.Any() && Index < Tokens.Count)
@@ -81,7 +63,6 @@ namespace Parser
                     if (top == token)
                     {
                         Index++;
-                        // System.Console.WriteLine("POP {0}", top);
 
                     }
                     else
@@ -93,7 +74,7 @@ namespace Parser
                 }
                 else
                 {
-                    // System.Console.WriteLine("Value {0} token {1}", top, token);
+
                     var rule = ParseTable[top, token].Product;
                     if (rule.Count > 0 && rule.First() == TokenType.ERROR)
                     {
@@ -104,45 +85,60 @@ namespace Parser
                     for (int i = rule.Count - 1; i >= 0; i--)
                         Stack.Push(rule[i]);
                 }
-                // foreach (var val in Stack)
-                //     verbosity += $"{val}".PadRight(13, ' ');
                 verbosity += $"\n";
                 if (token == TokenType.EOF || Index == Tokens.Count)
                 { verbosity += "Input Accepted."; }
             }
-
-
-            // CopyStackToList();
-            // if (TokenTypeExpressions.IsTerminal(TopOfStack()))
-            // {
-            //     if (TopOfStack() == TokenType.EOF)
-            //     {
-            //         break;
-            //     }
-            //     Match(TopOfStack());
-            //     Stack.Pop();
-            // }
-            // else
-            // {
-            //     TokenType top = TopOfStack();
-            //     TokenType next = TokenStream.Peek().Type;
-            //     _p = ParseTable[top, next].Product;
-            //     if (_p.Any())
-            //     {
-            //         if (_p.First() == TokenType.ERROR)
-            //         {
-            //             new InvalidTokenException($"ParseTable encountered error state. TOS: {TopOfStack()} TS: {TokenStream.Peek().Type}");
-            //             break;
-            //         }
-            //         List<ScannerToken> scannerTokens;
-            //         Apply(_p);
-            //     }
-            //     else
-            //     {
-            //         Stack.Pop();
-            //     }
-            // }
             if (HasError) return;
+        }
+
+        private AstNode TopScope()
+        {
+            if (Scopes.TryPeek(out AstNode node))
+            {
+                return node;
+            }
+            // FIXME Skal ikke smide en exception da dette dræber compileren
+            throw new InvalidTokenException("Expected stack not empty but was empty");
+        }
+
+
+        public void AddToAstNode(TokenType token)
+        {
+            switch (token)
+            {
+                case WAITSTMNT:
+                    Current = new WaitNode(CurrentLine, CurrentOffset);
+                    ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                    break;
+                case ASSIGNSTMNT:
+                    Current = new AssignmentNode(CurrentLine, CurrentOffset);
+                    ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                    break;
+                case LOOPW:
+                    Current = new WhileNode(CurrentLine, CurrentOffset);
+                    ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                    Scopes.Push(Current);
+                    break;
+                case LOOPF:
+                    Current = new ForNode(CurrentLine, CurrentOffset);
+                    ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                    Scopes.Push(Current);
+                    break;
+                case FUNCCALL:
+                    Current = new FuncNode(CurrentLine, CurrentOffset);
+                    ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                    break;
+                case IFSTMNT:
+                    Current = new IfStatementNode(CurrentLine, CurrentOffset);
+                    ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                    Scopes.Push(Current);
+                    break;
+
+
+                default:
+                    return;
+            }
         }
     }
 }

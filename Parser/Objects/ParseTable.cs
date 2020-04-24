@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Lexer.Objects;
 using static Lexer.Objects.TokenType;
@@ -128,7 +129,7 @@ namespace Parser.Objects
             this[FOLLOWTERM, OP_RPAREN] = new ParseAction();
             this[FOLLOWTERM, MULT_COMNT] = new ParseAction();
             this[FOLLOWTERM, COMMENT] = new ParseAction();
-           
+
             this[TERM, NUMERIC] = new ParseAction(FACTOR, FOLLOWFACTOR);
             this[TERM, VAR] = new ParseAction(FACTOR, FOLLOWFACTOR);
             this[TERM, APIN] = new ParseAction(FACTOR, FOLLOWFACTOR);
@@ -287,7 +288,7 @@ namespace Parser.Objects
             this[FUNCCALL, CALL] = new ParseAction(CALL, VAR, CALLPARAMS);
 
             this[FUNCDECL, FUNC] = new ParseAction(FUNC, VAR, DECLPARAMS, STMNTS, RETSTMNT, END, VAR);
-            
+
             this[ENDFUNC, END] = new ParseAction(END, VAR);
 
             this[DECLPARAMS, WITH] = new ParseAction(WITH, VAR, DECLPARAM);
@@ -325,12 +326,12 @@ namespace Parser.Objects
 
             this[BEGINSTMNT, BEGIN] = new ParseAction(BEGIN, BEGINABLE);
 
-            this[BEGINABLE, FOR] = new ParseAction(FOR, VAR, IN, RANGE, DO, STMNTS, END, FOR);
-            
+            this[BEGINABLE, FOR] = new ParseAction(LOOPF);
+            this[LOOPF, FOR] = new ParseAction(FOR, VAR, IN, RANGE, DO, STMNTS, END, FOR);
             this[ENDFOR, END] = new ParseAction(END, FOR);
-            
-            this[BEGINABLE, WHILE] = new ParseAction(WHILE, EXPR, DO, STMNTS, END, WHILE);
 
+            this[BEGINABLE, WHILE] = new ParseAction(LOOPW);
+            this[LOOPW, WHILE] = new ParseAction(WHILE, EXPR, DO, STMNTS, END, WHILE);
             this[ENDWHILE, END] = new ParseAction(END, WHILE);
 
             this[RANGE, NUMERIC] = new ParseAction(NUMERIC, OP_RANGE, NUMERIC);

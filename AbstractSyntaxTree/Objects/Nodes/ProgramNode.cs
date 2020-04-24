@@ -7,7 +7,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public class ProgramNode : AstNode, IScope
     {
         public List<StatementNode> Statements { get; set; }
-        public List<FunctionDefinitonNode> FunctionDefinitons = new List<FunctionDefinitonNode>();
+        public List<FuncNode> FunctionDefinitons = new List<FuncNode>();
         public FunctionLoopNode LoopFunction;
         public ProgramNode(int line, int offset) : base(TokenType.PROG, line, offset)
         {
