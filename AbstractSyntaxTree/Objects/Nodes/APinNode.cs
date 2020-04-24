@@ -6,7 +6,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     {
         public APinNode(string pinNum, int line, int offset) : base(TokenType.APIN, line, offset)
         {
-            this.PinNumber = pinNum;
+            this.Id = pinNum;
         }
 
         public override void Accept(Visitor visitor)

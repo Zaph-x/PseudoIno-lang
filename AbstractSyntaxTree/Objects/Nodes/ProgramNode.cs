@@ -8,7 +8,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     {
         public List<StatementNode> Statements { get; set; }
         public List<FuncNode> FunctionDefinitons = new List<FuncNode>();
-        public FunctionLoopNode LoopFunction;
+        public FuncNode LoopFunction;
         public ProgramNode(int line, int offset) : base(TokenType.PROG, line, offset)
         {
             this.Statements = new List<StatementNode>();

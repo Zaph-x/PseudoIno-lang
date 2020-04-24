@@ -2,7 +2,7 @@ using System;
 using Lexer.Objects;
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class CallNode : StatementNode
+    public class CallNode : StatementNode, IAssginment
     {
         public VarNode VarNode { get; set; }
         public CallParametersNode RightHand { get; set; }
