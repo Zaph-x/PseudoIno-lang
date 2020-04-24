@@ -32,10 +32,10 @@ namespace AbstractSyntaxTree.Objects
 
         internal void Visit(AssignmentNode assignmentNode)
         {
-            assignmentNode.LeftHand.Accept(this);
-            assignmentNode.RightHand.Accept(this);
-            if (assignmentNode.ExpressionHand != null)
-                assignmentNode.ExpressionHand.Accept(this);
+            // assignmentNode.LeftHand.Accept(this);
+            // assignmentNode.RightHand.Accept(this);
+            // if (assignmentNode.ExpressionHand != null)
+            //     assignmentNode.ExpressionHand.Accept(this);
         }
 
         public void Visit(StatementNode statementNode)
@@ -197,14 +197,12 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(ExpressionNode expressionNode)
         {
+            expressionNode.Term.Accept(this);
             expressionNode.Operator.Accept(this);
-            expressionNode.Value.Accept(this);
             expressionNode.Expression.Accept(this);
-            expressionNode.Accept(this);
         }
         public void Visit(ForNode forNode)
         {
-            forNode.ValNode.Accept(this);
             forNode.RangeNode.Accept(this);
             if (forNode.Statements.Any())
             {
@@ -230,18 +228,12 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(IfStatementNode ifStatementNode)
         {
-            ifStatementNode.Val.Accept(this);
             ifStatementNode.Expression.Accept(this);
             if (ifStatementNode.Statements.Any())
             {
                 ifStatementNode.Statements.ForEach(node => node.Accept(this));
             }
-            if (ifStatementNode.ElseifStatementNode.Any())
-            {
-                ifStatementNode.ElseifStatementNode.ForEach(node => node.Accept(this));
-            }
-            ifStatementNode.ElseStatementNode.Accept(this);
-            ifStatementNode.Accept(this);
+    
         }
         public void Visit(LessNode lessNode)
         {
@@ -278,13 +270,11 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(WhileNode whileNode)
         {
-            whileNode.ValNode.Accept(this);
-            whileNode.ExpressionNode.Accept(this);
+            whileNode.Expression.Accept(this);
             if (whileNode.Statements.Any())
             {
                 whileNode.Statements.ForEach(node => node.Accept(this));
             }
-            whileNode.Accept(this);
         }
         public void Visit(ElseStatementNode elseStatement)
         {
