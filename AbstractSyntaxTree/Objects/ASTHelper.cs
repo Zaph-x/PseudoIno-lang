@@ -30,10 +30,7 @@ namespace AbstractSyntaxTree.Objects
 
         public AstNode Parse(TokenStream token, IScope currentScope)
         {
-            if (token.Current().Type == TokenType.PROG)
-            {
-                currentScope = Root = new ProgramNode(token.Current().Line, token.Current().Offset);
-            }
+            currentScope = Root = new ProgramNode(token.PROG.Line, token.PROG.Offset);
             token.Advance();
             ParseNext(token, Root);
             return Root;
@@ -71,6 +68,14 @@ namespace AbstractSyntaxTree.Objects
             else if (token.Current().Type == TokenType.CALL)
             {
                 currentScope.Statements.Add(ParseCall(token, currentScope));
+            }
+            else if (token.Current().Type == TokenType.END)
+            {
+                return;
+            }
+            else if (token.Current().Type == TokenType.ELSE)
+            {
+                return;
             }
             token.Advance();
             ParseNext(token, currentScope);
@@ -127,16 +132,62 @@ namespace AbstractSyntaxTree.Objects
                 new IfStatementNode(token.Current().Line, token.Current().Offset);
             token.Advance();
             ifStatementNode.Val = ParseValNode(token);
-            token.Advance();
+            //token.Advance();
             ifStatementNode.Expression = ParseExpression(token);
             //Parse Statements
-            ParseNext(token, ifStatementNode, currentScope);
+            token.Advance();
+            token.Advance();
+            ParseNext(token, ifStatementNode);
+            if (token.Current().Type == TokenType.ELSE)
+            {
+                if (token.Peek().Type == TokenType.IF)
+                {
+                    ElseifStatementNode elseifStatementNode = new ElseifStatementNode(token.Current().Line,token.Current().Offset);
+                    token.Advance();
+                    token.Advance();
+                    ParseElseIf(token, elseifStatementNode);
+                    ifStatementNode.ElseifStatementNode.Add(elseifStatementNode);
+                    if (token.Current().Type == TokenType.ELSE)
+                    {
+                        ElseStatementNode elseStatementNode = new ElseStatementNode(token.Current().Line, token.Current().Offset);
+                        token.Advance();
+                        ParseNext(token, elseStatementNode);
+                        ifStatementNode.ElseStatementNode = elseStatementNode;
+                    }
+                }
+                else
+                {
+                    ElseStatementNode elseStatementNode = new ElseStatementNode(token.Current().Line, token.Current().Offset);
+                    token.Advance();
+                    ParseNext(token, elseStatementNode);
+                    ifStatementNode.ElseStatementNode = elseStatementNode;
+                }
+            }
+            token.Advance();
             return ifStatementNode;
+        }
+        
+        public StatementNode ParseElseIf(TokenStream token, IScope currentScope)
+        {
+            ElseifStatementNode elseifStatementNode =
+                new ElseifStatementNode(token.Current().Line, token.Current().Offset);
+            elseifStatementNode.Val = ParseValNode(token);
+            //token.Advance();
+            elseifStatementNode.Expression = ParseExpression(token);
+            //Parse Statements
+            token.Advance();
+            token.Advance();
+            //Parse Statements
+            ParseNext(token, elseifStatementNode);
+            return elseifStatementNode;
         }
 
         private StatementNode ParseWait(TokenStream token, IScope currentScope)
         {
             WaitNode node = new WaitNode(token.Current().Line, token.Current().Offset);
+            token.Advance();
+            node.TimeAmount = new NumericNode(token.Current().Value,token.Current().Line,token.Current().Offset);
+            token.Advance();
             node.TimeModifier = ParseTimeNode(token);
             return node;
         }
@@ -146,6 +197,7 @@ namespace AbstractSyntaxTree.Objects
             BeginNode beginNode = new BeginNode(token.Current().Line,token.Current().Offset);
             token.Advance();
             beginNode.LoopNode = ParseLoop(token, currentScope);
+            token.Prev();
             return beginNode;
         }
 
@@ -160,21 +212,32 @@ namespace AbstractSyntaxTree.Objects
                     token.Advance();
                     whileNode.ExpressionNode = ParseExpression(token);
                     token.Advance();
-                    ParseNext(token, whileNode, currentScope);
-                    break;
+                    ParseNext(token, whileNode);
+                    return whileNode;
                 case TokenType.FOR:
                     ForNode forNode = new ForNode(token.Current().Line,token.Current().Offset);
                     token.Advance();
                     forNode.ValNode = ParseValNode(token);
                     token.Advance();
-                    forNode.ExpressionNode = ParseExpression(token);
                     token.Advance();
-                    ParseNext(token, forNode, currentScope);
-                    break;
+                    forNode.RangeNode = ParseRange(token,currentScope);
+                    token.Advance();
+                    ParseNext(token, forNode);
+                    return forNode;
                 
             }
 
             return null;
+        }
+
+        private RangeNode ParseRange(TokenStream token, IScope currentScope)
+        {
+            RangeNode rangeNode = new RangeNode(token.Current().Line,token.Current().Offset);
+            rangeNode.LeftHand = ParseValNode(token);
+            token.Advance();
+            token.Advance();
+            rangeNode.RightHand = ParseValNode(token);
+            return rangeNode;
         }
         private StatementNode ParseCall(TokenStream token, IScope currentScope)
         {
@@ -182,7 +245,9 @@ namespace AbstractSyntaxTree.Objects
             token.Advance();
             callNode.VarNode = new VarNode(token.Current().Value,token.Current().Line,token.Current().Offset);
             token.Advance();
+            token.Advance();
             callNode.RightHand = ParseCallParameters(token,currentScope);
+            token.Prev();
             return callNode;
         }
 
@@ -191,6 +256,7 @@ namespace AbstractSyntaxTree.Objects
             CallParametersNode callParametersNode = new CallParametersNode(token.Current().Line,token.Current().Offset);
             callParametersNode.ValNode = ParseValNode(token);
             token.Advance();
+            token.Advance();
             if (token.Current().Type == TokenType.VAR ||
                 token.Current().Type == TokenType.NUMERIC || 
                 token.Current().Type == TokenType.STRING || 
@@ -198,7 +264,7 @@ namespace AbstractSyntaxTree.Objects
             {
                 callParametersNode.RightHand = ParseCallParameters(token, currentScope);
             }
-            
+            token.Prev();
             return null;
         }
         public FunctionDefinitonNode ParseFunciondefinitionNode(TokenStream token, IScope currentScope)
@@ -206,6 +272,18 @@ namespace AbstractSyntaxTree.Objects
             token.Advance();
             FunctionDefinitonNode funcDef = new FunctionDefinitonNode(token.Current().Value, token.Current().Line, token.Current().Offset);
             token.Advance();
+            if (token.Current().Type == TokenType.WITH)
+            {
+                token.Advance();
+                funcDef.LeftHand = ParseValNode(token);
+                if (token.Peek().Type == TokenType.SEPARATOR)
+                {
+                    token.Advance();
+                    token.Advance();
+                    funcDef.RightHand = ParseCallParameters(token, currentScope);
+                }
+            }
+            
             ParseNext(token, funcDef);
             /*while (token.Value.Type != TokenType.END && token.Next.Value.Value != funcDef.Value)
             {
@@ -284,7 +362,7 @@ namespace AbstractSyntaxTree.Objects
                     minusExpressionNode.Value = ParseValNode(token);
                     token.Advance();
                     minusExpressionNode.Expression = ParseExpression(token);
-                    //token.Advance();
+                    token.Prev();
                     return minusExpressionNode;
                 case TokenType.OP_TIMES:
                     ExpressionNode timesExpressionNode = new ExpressionNode(TokenType.EXPR, token.Current().Line, token.Current().Offset);
@@ -294,7 +372,7 @@ namespace AbstractSyntaxTree.Objects
                     timesExpressionNode.Value = ParseValNode(token);
                     token.Advance();
                     timesExpressionNode.Expression = ParseExpression(token);
-                    //token.Advance();
+                    token.Prev();
                     return timesExpressionNode;
                 case TokenType.OP_DIVIDE:
                     ExpressionNode divideExpressionNode = new ExpressionNode(TokenType.EXPR, token.Current().Line, token.Current().Offset);
@@ -304,7 +382,7 @@ namespace AbstractSyntaxTree.Objects
                     divideExpressionNode.Value = ParseValNode(token);
                     token.Advance();
                     divideExpressionNode.Expression = ParseExpression(token);
-                    //token.Advance();
+                    token.Prev();
                     return divideExpressionNode;
                 case TokenType.OP_AND:
                     ExpressionNode andExpressionNode = new ExpressionNode(TokenType.EXPR, token.Current().Line, token.Current().Offset);
@@ -314,7 +392,7 @@ namespace AbstractSyntaxTree.Objects
                     andExpressionNode.Value = ParseValNode(token);
                     token.Advance();
                     andExpressionNode.Expression = ParseExpression(token);
-                    //token.Advance();
+                    token.Prev();
                     return andExpressionNode;
                 case TokenType.OP_OR:
                     ExpressionNode orExpressionNode = new ExpressionNode(TokenType.EXPR, token.Current().Line, token.Current().Offset);
@@ -324,7 +402,7 @@ namespace AbstractSyntaxTree.Objects
                     orExpressionNode.Value = ParseValNode(token);
                     token.Advance();
                     orExpressionNode.Expression = ParseExpression(token);
-                    //token.Advance();
+                    token.Prev();
                     return orExpressionNode;
                 case TokenType.OP_LESS:
                     ExpressionNode lessExpressionNode = new ExpressionNode(TokenType.EXPR, token.Current().Line, token.Current().Offset);
@@ -334,7 +412,7 @@ namespace AbstractSyntaxTree.Objects
                     lessExpressionNode.Value = ParseValNode(token);
                     token.Advance();
                     lessExpressionNode.Expression = ParseExpression(token);
-                    //token.Advance();
+                    token.Prev();
                     return lessExpressionNode;
                 case TokenType.OP_GREATER:
                     ExpressionNode greaterExpressionNode = new ExpressionNode(TokenType.EXPR, token.Current().Line, token.Current().Offset);
@@ -344,8 +422,30 @@ namespace AbstractSyntaxTree.Objects
                     greaterExpressionNode.Value = ParseValNode(token);
                     token.Advance();
                     greaterExpressionNode.Expression = ParseExpression(token);
-                    //token.Advance();
+                    token.Prev();
                     return greaterExpressionNode;
+                case TokenType.OP_OREQUAL:
+                    ExpressionNode orEqualExpressionNode = new ExpressionNode(TokenType.EXPR, token.Current().Line, token.Current().Offset);
+                    orEqualExpressionNode.Type = TokenType.BOOLEXPR;
+                    orEqualExpressionNode.Operator = new OrEqualNode(token.Current().Line, token.Current().Offset);
+                    token.Advance();
+                    orEqualExpressionNode.Value = ParseValNode(token);
+                    token.Advance();
+                    orEqualExpressionNode.Expression = ParseExpression(token);
+                    token.Prev();
+                    return orEqualExpressionNode;
+                case TokenType.OP_EQUAL:
+                    ExpressionNode equalExpressionNode = new ExpressionNode(TokenType.EXPR, token.Current().Line, token.Current().Offset);
+                    equalExpressionNode.Type = TokenType.BOOLEXPR;
+                    equalExpressionNode.Operator = new EqualNode(token.Current().Line, token.Current().Offset);
+                    token.Advance();
+                    equalExpressionNode.Value = ParseValNode(token);
+                    token.Advance();
+                    equalExpressionNode.Expression = ParseExpression(token);
+                    token.Prev();
+                    return equalExpressionNode;
+                case TokenType.DO:
+                    return null;
                 default:
                     token.Prev();
                     return null;

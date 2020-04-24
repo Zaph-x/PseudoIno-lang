@@ -13,5 +13,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 
         public abstract override void Accept(Visitor visitor);
         public List<StatementNode> Statements { get; set; }
+        public ValNode LeftHand { get; set; }
+        public CallParametersNode RightHand { get; set; }
     }
 }
