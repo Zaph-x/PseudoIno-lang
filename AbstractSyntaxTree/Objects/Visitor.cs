@@ -208,7 +208,7 @@ namespace AbstractSyntaxTree.Objects
         public void Visit(ForNode forNode)
         {
             forNode.ValNode.Accept(this);
-            forNode.ExpressionNode.Accept(this);
+            forNode.RangeNode.Accept(this);
             if (forNode.Statements.Any())
             {
                 forNode.Statements.ForEach(node => node.Accept(this));
