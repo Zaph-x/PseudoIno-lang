@@ -86,7 +86,7 @@ namespace Core
                 }
                 // ASTHelper ast = new ASTHelper(tokens);
                 // PrettyPrinter pprint = new PrettyPrinter();
-                // pprint.Visit(ast.Root);
+                // pprint.Visit(parsenizer.Root);
             }
 
             timer.Stop();

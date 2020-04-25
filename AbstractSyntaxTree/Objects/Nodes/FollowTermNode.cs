@@ -3,7 +3,7 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class FollowTermNode : AstNode, IAssginment
+    public class FollowTermNode : AstNode, IAssignment
     {
         //public TypeNode type { get; set; }
         public OperatorNode Operator {get;set;}

@@ -8,13 +8,13 @@ namespace Parser.Objects
     {
         public int Type { get; private set; }
         public List<TokenType> Product { get; private set; } = new List<TokenType>();
-        public ParseAction(params TokenType[] types)
+        public ParseAction(int type, params TokenType[] types)
         {
             Product.AddRange(types);
-            Type = 0;
+            Type = type;
         }
 
-        public static ParseAction Error() => new ParseAction() { Type = -1, Product = new List<TokenType>() { TokenType.ERROR } };
+        public static ParseAction Error() => new ParseAction(-1) {Product = new List<TokenType>() { TokenType.ERROR } };
 
         public override string ToString()
         {

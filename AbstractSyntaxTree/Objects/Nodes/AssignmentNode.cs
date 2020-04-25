@@ -7,7 +7,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public class AssignmentNode : StatementNode
     {
         public IAssginable Var { get; set; }
-        public IAssginment Assignment { get; set; }
+        public IAssignment Assignment { get; set; }
         public AssignmentNode(int line, int offset) : base(TokenType.ASSIGNMENT, line, offset)
         {
         }

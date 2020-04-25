@@ -4,8 +4,8 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class RangeNode : MathOperatorNode
     {
-        public ValNode LeftHand { get; set; }
-        public ValNode RightHand { get; set; }
+        public NumericNode From { get; set; }
+        public NumericNode To { get; set; }
         
         public RangeNode(int line, int offset) : base(TokenType.RANGE, line, offset)
         {

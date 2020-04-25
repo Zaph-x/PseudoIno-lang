@@ -38,6 +38,8 @@ namespace Lexer.Objects
             {"apin", TokenType.APIN},
             {"true", TokenType.BOOL},
             {"false", TokenType.BOOL},
+            {"on", TokenType.BOOL},
+            {"off", TokenType.BOOL},
             {"while", TokenType.WHILE},
             {"for", TokenType.FOR},
             {"return", TokenType.RETURN},

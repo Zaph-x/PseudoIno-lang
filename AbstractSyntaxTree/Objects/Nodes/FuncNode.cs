@@ -8,7 +8,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     {
         public List<StatementNode> Statements { get; set; }
         public VarNode Name { get; set; }
-        public CallParametersNode CallParameters { get; set; }
+        public List<VarNode> FunctionParameters {get;set;} = new List<VarNode>();
 
         public FuncNode(int line, int offset) : base(TokenType.FUNC, line, offset)
         {

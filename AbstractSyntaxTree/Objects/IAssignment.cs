@@ -1,6 +1,6 @@
 namespace AbstractSyntaxTree.Objects
 {
-    public interface IAssginment
+    public interface IAssignment
     {
     }
 }

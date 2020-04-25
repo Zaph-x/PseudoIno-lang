@@ -17,6 +17,12 @@ namespace AbstractSyntaxTree.Objects
         {
             timeNode.Accept(this);
         }
+
+        internal void Visit(DeclParametersNode declParametersNode)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Visit(TimesNode timesNode)
         {
 
@@ -152,9 +158,8 @@ namespace AbstractSyntaxTree.Objects
 
         public void Visit(CallNode callNode)
         {
-            callNode.VarNode.Accept(this);
-            callNode.RightHand.Accept(this);
-            callNode.Accept(this);
+            callNode.Id.Accept(this);
+            callNode.Parameters.ForEach(node => node.Accept(this));
         }
 
         public void Visit(EndNode endNode)
@@ -187,9 +192,7 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(CallParametersNode callParametersNode)
         {
-            callParametersNode.ValNode.Accept(this);
-            callParametersNode.RightHand.Accept(this);
-            callParametersNode.Accept(this);
+            callParametersNode.Parameters.ForEach(node => node.Accept(this));
         }
         public void Visit(DivideNode divideNode)
         {
@@ -203,7 +206,8 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(ForNode forNode)
         {
-            forNode.RangeNode.Accept(this);
+            forNode.From.Accept(this);
+            forNode.To.Accept(this);
             if (forNode.Statements.Any())
             {
                 forNode.Statements.ForEach(node => node.Accept(this));
@@ -218,7 +222,7 @@ namespace AbstractSyntaxTree.Objects
                 funcNode.Statements.ForEach(node => node.Accept(this));
             }
             funcNode.Name.Accept(this);
-            funcNode.CallParameters.Accept(this);
+            funcNode.FunctionParameters.ForEach(node => node.Accept(this));
             
         }
         public void Visit(GreaterNode greaterNode)
@@ -296,8 +300,8 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(RangeNode rangeNode)
         {
-            rangeNode.LeftHand.Accept(this);
-            rangeNode.RightHand.Accept(this);
+            rangeNode.From.Accept(this);
+            rangeNode.To.Accept(this);
             rangeNode.Accept(this);
         }
     }

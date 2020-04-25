@@ -3,7 +3,7 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class ExpressionNode : AstNode, IAssginment, ITerm
+    public class ExpressionNode : AstNode, IAssignment, ITerm
     {
         //public TypeNode type { get; set; }
         public ITerm Term { get; set; }
