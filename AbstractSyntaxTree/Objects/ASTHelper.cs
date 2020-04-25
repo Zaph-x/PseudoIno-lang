@@ -55,7 +55,15 @@ namespace AbstractSyntaxTree.Objects
                     return;
                 }
                 // We know we are in the global scope because of the above check
-                ((ProgramNode)currentScope).FunctionDefinitons.Add(ParseFunciondefinitionNode(token,currentScope));
+                FunctionDefinitonNode functionDefinitonNode = ParseFunciondefinitionNode(token, currentScope);
+                if (functionDefinitonNode.Value == "loop")
+                {
+                    ((ProgramNode) currentScope).LoopFunction = functionDefinitonNode;
+                }
+                else
+                {
+                    ((ProgramNode)currentScope).FunctionDefinitons.Add(ParseFunciondefinitionNode(token,currentScope));
+                }
             }
             else if (token.Current().Type == TokenType.WAIT)
             {
