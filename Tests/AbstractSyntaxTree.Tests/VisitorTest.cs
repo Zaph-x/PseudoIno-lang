@@ -30,14 +30,6 @@ namespace AbstractSyntaxTree.Tests
 
         private const string content2 = @"
         a is 0
-        func foo with c
-            begin while c less 6 do
-                c is c + 1
-            end while
-            begin for x in 1..21 do
-                x is 21
-            end for
-        end foo
         func loop
             a is a + 1
             call foo with 3, 3
@@ -51,7 +43,16 @@ namespace AbstractSyntaxTree.Tests
             b is 4
         else
             c is 4
-        end if";
+        end if
+
+        func foo with c
+            begin while c less 6 do
+                c is c + 1
+            end while
+            begin for x in 1..21 do
+                x is 21
+            end for
+        end foo";
 
        
 

@@ -15,7 +15,7 @@ namespace AbstractSyntaxTree.Objects
 
         internal void Visit(TimeNode timeNode)
         {
-            timeNode.Accept(this);
+            //timeNode.Accept(this);
         }
         public void Visit(TimesNode timesNode)
         {
@@ -53,12 +53,12 @@ namespace AbstractSyntaxTree.Objects
 
         public void Visit(StatementNode statementNode)
         {
-            statementNode.Accept(this);
+            //statementNode.Accept(this);
         }
 
         public void Visit(WithNode withNode)
         {
-            withNode.Accept(this);
+            //withNode.Accept(this);
         }
 
         public void Visit(WaitNode waitNode)
@@ -75,7 +75,7 @@ namespace AbstractSyntaxTree.Objects
 
         public void Visit(ValNode valNode)
         {
-            valNode.Accept(this);
+            //valNode.Accept(this);
         }
 
         public void Visit(TimeSecondNode timeSecondNode)
@@ -101,7 +101,7 @@ namespace AbstractSyntaxTree.Objects
 
         public void Visit(RightParenthesisNode rightParenthesisNode)
         {
-            rightParenthesisNode.Accept(this);
+            //rightParenthesisNode.Accept(this);
         }
 
         public void Visit(NumericNode numericNode)
@@ -113,41 +113,41 @@ namespace AbstractSyntaxTree.Objects
 
         public void Visit(NewlineNode newlineNode)
         {
-            newlineNode.Accept(this);
+            //newlineNode.Accept(this);
         }
 
         public void Visit(LeftParenthesisNode leftParenthesisNode)
         {
-            leftParenthesisNode.Accept(this);
+            //leftParenthesisNode.Accept(this);
         }
 
         public void Visit(InNode inNode)
         {
-            inNode.Accept(this);
+            //inNode.Accept(this);
         }
         public void Visit(EqualNode equalNode)
         {
-            equalNode.Accept(this);
+            //equalNode.Accept(this);
         }
 
         public void Visit(EqualsNode equalsNode)
         {
-            equalsNode.Accept(this);
+            //equalsNode.Accept(this);
         }
 
         public void Visit(EOFNode eOFNode)
         {
-            eOFNode.Accept(this);
+            //eOFNode.Accept(this);
         }
 
         public void Visit(EpsilonNode epsilonNode)
         {
-            epsilonNode.Accept(this);
+           // epsilonNode.Accept(this);
         }
 
         public void Visit(DoNode doNode)
         {
-            doNode.Accept(this);
+            //doNode.Accept(this);
         }
 
         public void Visit(ProgramNode programNode)
@@ -168,12 +168,12 @@ namespace AbstractSyntaxTree.Objects
         {
             callNode.VarNode.Accept(this);
             callNode.RightHand.Accept(this);
-            callNode.Accept(this);
+            //callNode.Accept(this);
         }
 
         public void Visit(EndNode endNode)
         {
-            endNode.Accept(this);
+            //endNode.Accept(this);
         }
         public void Visit(AndNode andNode)
         {
@@ -181,7 +181,7 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(PinNode pinNode)
         {
-            pinNode.Accept(this);
+            //pinNode.Accept(this);
         }
         public void Visit(APinNode apinNode)
         {
@@ -193,17 +193,17 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(OperatorNode operatorNode)
         {
-            operatorNode.Accept(this);
+            //operatorNode.Accept(this);
         }
         public void Visit(BoolOperatorNode boolOperatorNode)
         {
-            boolOperatorNode.Accept(this);
+            //boolOperatorNode.Accept(this);
         }
         public void Visit(CallParametersNode callParametersNode)
         {
             callParametersNode.ValNode.Accept(this);
             callParametersNode.RightHand.Accept(this);
-            callParametersNode.Accept(this);
+            //callParametersNode.Accept(this);
         }
         public void Visit(DivideNode divideNode)
         {
@@ -243,7 +243,7 @@ namespace AbstractSyntaxTree.Objects
         public void Visit(GreaterNode greaterNode)
         {
             greaterNode.OrEqualNode.Accept(this);
-            greaterNode.Accept(this);
+            //greaterNode.Accept(this);
         }
         public void Visit(IfStatementNode ifStatementNode)
         {
@@ -258,7 +258,7 @@ namespace AbstractSyntaxTree.Objects
                 ifStatementNode.ElseifStatementNode.ForEach(node => node.Accept(this));
             }
             ifStatementNode.ElseStatementNode.Accept(this);
-            ifStatementNode.Accept(this);
+            //ifStatementNode.Accept(this);
         }
         public void Visit(LessNode lessNode)
         {
@@ -267,11 +267,11 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(LoopNode loopNode)
         {
-            loopNode.Accept(this);
+            //loopNode.Accept(this);
         }
         public void Visit(MathOperatorNode mathOperatorNode)
         {
-            mathOperatorNode.Accept(this);
+            //mathOperatorNode.Accept(this);
         }
         public void Visit(PlusNode plusNode)
         {
@@ -287,11 +287,11 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(OrNode orNode)
         {
-            orNode.Accept(this);
+            //orNode.Accept(this);
         }
         public void Visit(StringNode stringNode)
         {
-            stringNode.Accept(this);
+            //stringNode.Accept(this);
         }
         public void Visit(WhileNode whileNode)
         {
@@ -309,7 +309,7 @@ namespace AbstractSyntaxTree.Objects
             {
                 elseStatement.Statements.ForEach(node => node.Accept(this));
             }
-            elseStatement.Accept(this);
+            //elseStatement.Accept(this);
         }
         public void Visit(ElseifStatementNode elseifStatementNode)
         {
@@ -319,7 +319,7 @@ namespace AbstractSyntaxTree.Objects
             {
                 elseifStatementNode.Statements.ForEach(node => node.Accept(this));
             }
-            elseifStatementNode.Accept(this);
+           // elseifStatementNode.Accept(this);
         }
         public void Visit(RangeNode rangeNode)
         {
