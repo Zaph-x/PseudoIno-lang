@@ -279,7 +279,7 @@ namespace AbstractSyntaxTree.Objects
                 callParametersNode.RightHand = ParseCallParameters(token, currentScope);
             }
             token.Prev();
-            return null;
+            return callParametersNode;
         }
         public FunctionDefinitonNode ParseFunciondefinitionNode(TokenStream token, IScope currentScope)
         {

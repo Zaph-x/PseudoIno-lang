@@ -167,7 +167,10 @@ namespace AbstractSyntaxTree.Objects
         public void Visit(CallNode callNode)
         {
             callNode.VarNode.Accept(this);
-            callNode.RightHand.Accept(this);
+            if (callNode.RightHand != null)
+            {
+                callNode.RightHand.Accept(this);
+            }
             //callNode.Accept(this);
         }
 
@@ -202,7 +205,10 @@ namespace AbstractSyntaxTree.Objects
         public void Visit(CallParametersNode callParametersNode)
         {
             callParametersNode.ValNode.Accept(this);
-            callParametersNode.RightHand.Accept(this);
+            if (callParametersNode.RightHand != null) 
+            {
+                callParametersNode.RightHand.Accept(this);
+            }
             //callParametersNode.Accept(this);
         }
         public void Visit(DivideNode divideNode)
