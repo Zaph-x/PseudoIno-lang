@@ -13,7 +13,7 @@ using AbstractSyntaxTree.Objects.Nodes;
 
 namespace AbstractSyntaxTree.Tests
 {
-    class VisitorTest : Visitor
+    class VisitorTest 
     {
         private const string content = @"# This is a dummy program to test the token generator
             #< This multiline comment
@@ -72,7 +72,10 @@ namespace AbstractSyntaxTree.Tests
             Parsenizer parser = new Parsenizer(tokens);
             parser.Parse(tokens, out nowhere);
             ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
-            base.Visit(helper.Root);
+            //pretty printer
+            helper.Root.Accept(new PrettyPrinterVisitor());
+            
+
         }
         //public new void Visit(ProgramNode node)
         //{
