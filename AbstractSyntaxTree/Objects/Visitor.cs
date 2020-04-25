@@ -107,7 +107,7 @@ namespace AbstractSyntaxTree.Objects
         public void Visit(NumericNode numericNode)
         {
 
-            numericNode.Accept(this);
+            //numericNode.Accept(this);
 
         }
 
@@ -160,7 +160,8 @@ namespace AbstractSyntaxTree.Objects
             {
                 programNode.Statements.ForEach(node => node.Accept(this));
             }
-            programNode.LoopFunction.Accept(this);
+            //TODO loop function i arduino VIGTIGT at få den lavet hvis vi skal have det med
+            //programNode.LoopFunction.Accept(this);
         }
 
         public void Visit(CallNode callNode)
@@ -210,10 +211,13 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(ExpressionNode expressionNode)
         {
-            expressionNode.Operator.Accept(this);
             expressionNode.Value.Accept(this);
-            expressionNode.Expression.Accept(this);
-            
+            expressionNode.Operator.Accept(this);
+            if (expressionNode.Expression != null)
+            {
+                expressionNode.Expression.Accept(this);
+            }
+
         }
         public void Visit(ForNode forNode)
         {
@@ -223,7 +227,7 @@ namespace AbstractSyntaxTree.Objects
             {
                 forNode.Statements.ForEach(node => node.Accept(this));
             }
-            forNode.Accept(this);
+            //forNode.Accept(this);
         }
         public void Visit(FuncNode funcNode)
         {
@@ -321,7 +325,7 @@ namespace AbstractSyntaxTree.Objects
         {
             rangeNode.LeftHand.Accept(this);
             rangeNode.RightHand.Accept(this);
-            rangeNode.Accept(this);
+           // rangeNode.Accept(this);
         }
     }
 }
