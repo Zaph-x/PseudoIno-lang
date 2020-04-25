@@ -160,8 +160,8 @@ namespace AbstractSyntaxTree.Objects
             {
                 programNode.Statements.ForEach(node => node.Accept(this));
             }
-            //TODO loop function i arduino VIGTIGT at få den lavet hvis vi skal have det med
-            //programNode.LoopFunction.Accept(this);
+            
+            programNode.LoopFunction.Accept(this);
         }
 
         public void Visit(CallNode callNode)
