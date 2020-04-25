@@ -158,11 +158,9 @@ namespace AbstractSyntaxTree.Objects
             {
                 if (token.Peek().Type == TokenType.IF)
                 {
-                    ElseifStatementNode elseifStatementNode = new ElseifStatementNode(token.Current().Line,token.Current().Offset);
                     token.Advance();
                     token.Advance();
-                    ParseElseIf(token, elseifStatementNode);
-                    ifStatementNode.ElseifStatementNode.Add(elseifStatementNode);
+                    ifStatementNode.ElseifStatementNode.Add(ParseElseIf(token, currentScope));
                     if (token.Current().Type == TokenType.ELSE)
                     {
                         ElseStatementNode elseStatementNode = new ElseStatementNode(token.Current().Line, token.Current().Offset);
@@ -183,7 +181,7 @@ namespace AbstractSyntaxTree.Objects
             return ifStatementNode;
         }
         
-        public StatementNode ParseElseIf(TokenStream token, IScope currentScope)
+        public ElseifStatementNode ParseElseIf(TokenStream token, IScope currentScope)
         {
             ElseifStatementNode elseifStatementNode =
                 new ElseifStatementNode(token.Current().Line, token.Current().Offset);
