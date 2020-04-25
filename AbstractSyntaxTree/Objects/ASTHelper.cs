@@ -279,7 +279,7 @@ namespace AbstractSyntaxTree.Objects
                 callParametersNode.RightHand = ParseCallParameters(token, currentScope);
             }
             token.Prev();
-            return null;
+            return callParametersNode;
         }
         public FunctionDefinitonNode ParseFunciondefinitionNode(TokenStream token, IScope currentScope)
         {
@@ -343,11 +343,11 @@ namespace AbstractSyntaxTree.Objects
                 case TokenType.TIME_HR:
                     return new TimeHourNode(token.Current().Line, token.Current().Offset);
                 case TokenType.TIME_MIN:
-                    return new TimeHourNode(token.Current().Line, token.Current().Offset);
+                    return new TimeMinuteNode(token.Current().Line, token.Current().Offset);
                 case TokenType.TIME_SEC:
-                    return new TimeHourNode(token.Current().Line, token.Current().Offset);
+                    return new TimeSecondNode(token.Current().Line, token.Current().Offset);
                 case TokenType.TIME_MS:
-                    return new TimeHourNode(token.Current().Line, token.Current().Offset);
+                    return new TimeMillisecondNode(token.Current().Line, token.Current().Offset);
                 default:
                     return null;
             }
