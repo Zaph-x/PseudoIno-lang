@@ -156,12 +156,14 @@ namespace Parser
 
                 // ASSIGNABLES
                 case 48:
+                    var expr48 = new ExpressionNode(CurrentLine, CurrentOffset);
                     if (Current.Type == ASSIGNMENT)
-                        ((AssignmentNode)Current).Assignment = new ExpressionNode(CurrentLine, CurrentOffset);
+                        ((AssignmentNode)Current).Assignment = expr48;
                     else if (Current.Type == EXPR)
-                        ((ExpressionNode)Current).Term = new ExpressionNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)Current).Term = expr48;
                     else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.Term = new ExpressionNode(CurrentLine, CurrentOffset);
+                        ((WhileNode)Current).Expression.Term = expr48;
+                    Current = expr48;
                     break;
                 case 101:
                     if (Current.Type == ASSIGNMENT)
@@ -236,70 +238,150 @@ namespace Parser
 
                 // EXPRESSIONS
                 case 74:
-                    ExpressionNode expr = new ExpressionNode(CurrentLine, CurrentOffset);
+                    ExpressionNode expr74 = new ExpressionNode(CurrentLine, CurrentOffset);
                     if (Current.Type == ASSIGNMENT)
-                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Term = expr;
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Term = expr74;
                     else if (Current.Type == EXPR)
-                        ((ExpressionNode)Current).Term = expr;
+                        ((ExpressionNode)Current).Term = expr74;
+                    else if (Current.Type == RETURN)
+                        ((ExpressionNode)((ReturnNode)Current).ReturnValue).Term = expr74;
                     // else if (Current.Type == WHILE)
+                    Current = expr74;
                     break;
 
                 // OPERATORS
                 case 78:
+                    var expr78 = new ExpressionNode(CurrentLine, CurrentOffset);
                     if (Current.Type == EXPR)
+                    {
                         ((ExpressionNode)Current).Operator = new MinusNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)Current).Expression = expr78;
+                    }
                     else if (Current.Type == ASSIGNMENT)
+                    {
                         ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new MinusNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Expression = expr78;
+                    }
                     else if (Current.Type == WHILE)
+                    {
                         ((WhileNode)Current).Expression.Operator = new MinusNode(CurrentLine, CurrentOffset);
+                        ((WhileNode)Current).Expression.Expression = expr78;
+                    }
+                    Current = expr78;
                     break;
                 case 85:
+                    var expr85 = new ExpressionNode(CurrentLine, CurrentOffset);
                     if (Current.Type == EXPR)
+                    {
                         ((ExpressionNode)Current).Operator = new PlusNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)Current).Expression = expr85;
+                    }
                     else if (Current.Type == ASSIGNMENT)
+                    {
                         ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new PlusNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Expression = expr85;
+                    }
                     else if (Current.Type == WHILE)
+                    {
                         ((WhileNode)Current).Expression.Operator = new PlusNode(CurrentLine, CurrentOffset);
+                        ((WhileNode)Current).Expression.Expression = expr85;
+                    }
+                    Current = expr85;
                     break;
                 case 96:
-                    if (Current.Type == ASSIGNMENT)
-                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new LessNode(CurrentLine, CurrentOffset);
-                    else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.Operator = new LessNode(CurrentLine, CurrentOffset);
-                    else if (Current.Type == EXPR)
+                    var expr96 = new ExpressionNode(CurrentLine, CurrentOffset);
+                    if (Current.Type == EXPR)
+                    {
                         ((ExpressionNode)Current).Operator = new LessNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)Current).Expression = expr96;
+                    }
+                    else if (Current.Type == ASSIGNMENT)
+                    {
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new LessNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Expression = expr96;
+                    }
+                    else if (Current.Type == WHILE)
+                    {
+                        ((WhileNode)Current).Expression.Operator = new LessNode(CurrentLine, CurrentOffset);
+                        ((WhileNode)Current).Expression.Expression = expr96;
+                    }
+                    Current = expr96;
                     break;
                 case 95:
-                    if (Current.Type == ASSIGNMENT)
-                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new OrNode(CurrentLine, CurrentOffset);
-                    else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.Operator = new OrNode(CurrentLine, CurrentOffset);
-                    else if (Current.Type == EXPR)
+                    var expr95 = new ExpressionNode(CurrentLine, CurrentOffset);
+                    if (Current.Type == EXPR)
+                    {
                         ((ExpressionNode)Current).Operator = new OrNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)Current).Expression = expr95;
+                    }
+                    else if (Current.Type == ASSIGNMENT)
+                    {
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new OrNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Expression = expr95;
+                    }
+                    else if (Current.Type == WHILE)
+                    {
+                        ((WhileNode)Current).Expression.Operator = new OrNode(CurrentLine, CurrentOffset);
+                        ((WhileNode)Current).Expression.Expression = expr95;
+                    }
+                    Current = expr95;
                     break;
                 case 94:
-                    if (Current.Type == ASSIGNMENT)
-                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new AndNode(CurrentLine, CurrentOffset);
-                    else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.Operator = new AndNode(CurrentLine, CurrentOffset);
-                    else if (Current.Type == EXPR)
+                    var expr94 = new ExpressionNode(CurrentLine, CurrentOffset);
+                    if (Current.Type == EXPR)
+                    {
                         ((ExpressionNode)Current).Operator = new AndNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)Current).Expression = expr94;
+                    }
+                    else if (Current.Type == ASSIGNMENT)
+                    {
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new AndNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Expression = expr94;
+                    }
+                    else if (Current.Type == WHILE)
+                    {
+                        ((WhileNode)Current).Expression.Operator = new AndNode(CurrentLine, CurrentOffset);
+                        ((WhileNode)Current).Expression.Expression = expr94;
+                    }
+                    Current = expr94;
                     break;
                 case 97:
-                    if (Current.Type == ASSIGNMENT)
-                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new GreaterNode(CurrentLine, CurrentOffset);
-                    else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.Operator = new GreaterNode(CurrentLine, CurrentOffset);
-                    else if (Current.Type == EXPR)
+                    var expr97 = new ExpressionNode(CurrentLine, CurrentOffset);
+                    if (Current.Type == EXPR)
+                    {
                         ((ExpressionNode)Current).Operator = new GreaterNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)Current).Expression = expr97;
+                    }
+                    else if (Current.Type == ASSIGNMENT)
+                    {
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new GreaterNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Expression = expr97;
+                    }
+                    else if (Current.Type == WHILE)
+                    {
+                        ((WhileNode)Current).Expression.Operator = new GreaterNode(CurrentLine, CurrentOffset);
+                        ((WhileNode)Current).Expression.Expression = expr97;
+                    }
+                    Current = expr97;
                     break;
                 case 98:
-                    if (Current.Type == ASSIGNMENT)
-                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new EqualNode(CurrentLine, CurrentOffset);
-                    else if (Current.Type == EXPR)
+                    var expr98 = new ExpressionNode(CurrentLine, CurrentOffset);
+                    if (Current.Type == EXPR)
+                    {
                         ((ExpressionNode)Current).Operator = new EqualNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)Current).Expression = expr98;
+                    }
+                    else if (Current.Type == ASSIGNMENT)
+                    {
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Operator = new EqualNode(CurrentLine, CurrentOffset);
+                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Expression = expr98;
+                    }
                     else if (Current.Type == WHILE)
+                    {
                         ((WhileNode)Current).Expression.Operator = new EqualNode(CurrentLine, CurrentOffset);
+                        ((WhileNode)Current).Expression.Expression = expr98;
+                    }
+                    Current = expr98;
                     break;
 
                 case 115:
@@ -327,23 +409,23 @@ namespace Parser
         {
             switch (CurrentAction.Type)
             {
-                case 49:
-                case 50:
-                case 51:
-                case 52:
-                case 53:
-                case 54:
-                case 55:
-                case 56:
-                    var expr = new ExpressionNode(CurrentLine, CurrentOffset);
-                    if (Current.Type == EXPR)
-                        ((ExpressionNode)Current).Expression = expr;
-                    else if (Current.Type == ASSIGNMENT)
-                        ((ExpressionNode)((AssignmentNode)Current).Assignment).Expression = expr;
-                    else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression = expr;
-                    Current = expr;
-                    break;
+                // case 49:
+                // case 50:
+                // case 51:
+                // case 52:
+                // case 53:
+                // case 54:
+                // case 55:
+                // case 56:
+                //     var expr = new ExpressionNode(CurrentLine, CurrentOffset);
+                //     if (Current.Type == EXPR)
+                //         ((ExpressionNode)Current).Expression = expr;
+                //     else if (Current.Type == ASSIGNMENT)
+                //         ((ExpressionNode)((AssignmentNode)Current).Assignment).Expression = expr;
+                //     else if (Current.Type == WHILE)
+                //         ((WhileNode)Current).Expression = expr;
+                //     Current = expr;
+                //     break;
                 case 115:
                     if (Current.Type == ASSIGNMENT)
                     {
@@ -413,6 +495,15 @@ namespace Parser
                             Root.LoopFunction = (FuncNode)endingNode;
                         }
                     break;
+
+                case 120:
+                    ReturnNode retNode = new ReturnNode(CurrentLine, CurrentOffset);
+                    ExpressionNode expr120 = new ExpressionNode(CurrentLine, CurrentOffset);
+                    retNode.ReturnValue = expr120;
+                    ((IScope)Current).Statements.Add(retNode);
+                    Current = expr120;
+                    break;
+                
                 default:
                     return;
             }

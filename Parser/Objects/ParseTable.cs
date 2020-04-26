@@ -324,7 +324,7 @@ namespace Parser.Objects
             this[DECLPARAM, MULT_COMNT] = new ParseAction(0);
 
 
-            this[RETSTMNT, RETURN] = new ParseAction(120,RETURN, VAL);
+            this[RETSTMNT, RETURN] = new ParseAction(120,RETURN, EXPR);
             this[RETSTMNT, END] = new ParseAction(0);
 
             this[BEGINSTMNT, BEGIN] = new ParseAction(121,BEGIN, BEGINABLE);
