@@ -44,7 +44,7 @@ namespace Parser
             throw new InvalidTokenException("Expected stack not empty but was empty");
         }
 
-        public void Parse(List<ScannerToken> Tokens, out string verbosity)
+        public void Parse(out string verbosity)
         {
             Stack = new Stack<TokenType>();
             verbosity = "";
@@ -97,6 +97,7 @@ namespace Parser
             }
             if (HasError) return;
             Optimize(Root);
+            HasError = false;
         }
 
         private void Optimize(IScope node)
@@ -407,6 +408,7 @@ namespace Parser
 
         public void AddToAstNode(TokenType token)
         {
+            if (CurrentAction == null) return;
             switch (CurrentAction.Type)
             {
                 // case 49:
@@ -427,7 +429,12 @@ namespace Parser
                 //     Current = expr;
                 //     break;
                 case 115:
-                    if (Current.Type == ASSIGNMENT)
+                    if (Current == null)
+                    {
+                        CallNode node = new CallNode(CurrentLine, CurrentOffset);
+                        Root.Statements.Add(node);
+                        Current = node;
+                    } else if (Current.Type == ASSIGNMENT)
                     {
                         CallNode node = new CallNode(CurrentLine, CurrentOffset);
                         ((AssignmentNode)Current).Assignment = node;
@@ -503,7 +510,7 @@ namespace Parser
                     ((IScope)Current).Statements.Add(retNode);
                     Current = expr120;
                     break;
-                
+
                 default:
                     return;
             }
