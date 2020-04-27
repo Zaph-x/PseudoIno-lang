@@ -45,7 +45,7 @@ namespace AbstractSyntaxTreeSyntaxTree.Objects
 
         public override void Visit(BeginNode beginNode)
         {
-            Print("EndNode");
+            Print("BeginNode");
             Indent++;
             Indent--;
             beginNode.LoopNode.Accept(this);
@@ -265,7 +265,7 @@ namespace AbstractSyntaxTreeSyntaxTree.Objects
 
         public override void Visit(CallNode callNode)
         {
-            Print("Call");
+            Print("CallNode");
             Indent++;
             callNode.Id.Accept(this);
             callNode.Parameters.ForEach(node => node.Accept(this));
@@ -304,7 +304,7 @@ namespace AbstractSyntaxTreeSyntaxTree.Objects
         }
         public override void Visit(OperatorNode operatorNode)
         {
-            Print("OperatprNode");
+            Print("OperatorNode");
             Indent++;
             Indent--;
         }
