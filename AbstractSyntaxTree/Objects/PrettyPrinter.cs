@@ -1,9 +1,10 @@
 using System;
+using System.Linq;
 using AbstractSyntaxTree.Objects.Nodes;
 
 namespace AbstractSyntaxTree.Objects
 {
-    public class PrettyPrinter : Visitor
+    public class PrettyPrinter:Visitor
     {
         private int Indent {get;set;} = 0;
         private void Print(string input)  {
@@ -15,7 +16,8 @@ namespace AbstractSyntaxTree.Objects
             Console.WriteLine(line + input);
         }
 
-        public new void Visit(ProgramNode node) {
+        public new void Visit(ProgramNode node)
+        {
             Print("Program");
             Indent++;
             base.Visit(node);
@@ -27,12 +29,17 @@ namespace AbstractSyntaxTree.Objects
             Indent++;
             base.Visit(node);
             Indent--;
-            //ifStatementNode.Expression.Accept(this);
-            //if (ifStatementNode.Statements.Any())
-            //{
-            //    ifStatementNode.Statements.ForEach(node => node.Accept(this));
-            //}
 
         }
+        public new void Visit(FuncNode node)
+        {
+            Print("Funcnode");
+            Indent++;
+            base.Visit(node);
+            Indent--;
+
+
+        }
+
     }
 }

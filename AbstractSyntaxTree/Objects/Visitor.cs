@@ -57,8 +57,8 @@ namespace AbstractSyntaxTree.Objects
         public void Visit(WaitNode waitNode)
         {
 
-            waitNode.TimeAmount.Accept(this);
-            waitNode.TimeModifier.Accept(this);
+            waitNode.TimeAmount?.Accept(this);
+            waitNode.TimeModifier?.Accept(this);
         }
 
         public void Visit(VarNode varNode)
@@ -231,7 +231,7 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(IfStatementNode ifStatementNode)
         {
-            ifStatementNode.Expression.Accept(this);
+            ifStatementNode.Expression?.Accept(this);
             if (ifStatementNode.Statements.Any())
             {
                 ifStatementNode.Statements.ForEach(node => node.Accept(this));
@@ -288,8 +288,8 @@ namespace AbstractSyntaxTree.Objects
         }
         public void Visit(ElseifStatementNode elseifStatementNode)
         {
-            elseifStatementNode.Val.Accept(this);
-            elseifStatementNode.Expression.Accept(this);
+            elseifStatementNode.Val?.Accept(this);
+            elseifStatementNode.Expression?.Accept(this);
             if (elseifStatementNode.Statements.Any())
             {
                 elseifStatementNode.Statements.ForEach(node => node.Accept(this));

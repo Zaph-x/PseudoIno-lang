@@ -82,10 +82,11 @@ end foo";
             parser.Parse(out nowhere);
             if (Parsenizer.HasError)
                 Assert.Fail();
-            //PrettyPrinter printer = new PrettyPrinter();
-            //printer.Visit(parser.Root);
+            PrettyPrinter printer = new PrettyPrinter();
+            printer.Visit(parser.Root);
+            
             // FIXME Denne linje giver Stack Overflow Exception
-             base.Visit(parser.Root);
+            base.Visit(parser.Root);
         }
 
         public StreamReader CreateFakeReader(string content, Encoding enc)

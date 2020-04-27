@@ -24,6 +24,7 @@ namespace AbstractSyntaxTree.Tests
             PrettyPrinter printer = new PrettyPrinter();
 
             printer.Visit(prog);
+
         }
 
         // [Test]
