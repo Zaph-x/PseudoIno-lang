@@ -13,14 +13,5 @@ namespace AbstractSyntaxTree.Objects.Nodes
         {
             visitor.Visit(this);
         }
-
-        public void AddChild(AstNode node)
-        {
-            if (node == null)
-            {
-                throw new NullReferenceException();
-            }
-            Children.Add(node);
-        }
     }
 }

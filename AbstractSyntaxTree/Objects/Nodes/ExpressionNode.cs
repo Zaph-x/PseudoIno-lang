@@ -3,20 +3,30 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class ExpressionNode : AstNode
+    public class ExpressionNode : AstNode, IAssignment, ITerm
     {
         //public TypeNode type { get; set; }
+        public ITerm Term { get; set; }
         public OperatorNode Operator { get; set; }
-        public ValNode Value { get; set; }
         public ExpressionNode Expression { get; set; }
+        public FollowTermNode FTerm
+        {
+            private get => null;
+            set
+            {
+                this.Operator = FTerm.Operator;
+                this.Expression = FTerm.Expression;
+            }
+        }
 
-        public ExpressionNode(TokenType type, int line, int offset) : base(type, line, offset)
+        public ExpressionNode(int line, int offset) : base(TokenType.EXPR, line, offset)
         {
         }
 
         public override void Accept(Visitor visitor)
         {
             visitor.Visit(this);
+
         }
     }
 }

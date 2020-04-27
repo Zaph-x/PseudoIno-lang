@@ -3,10 +3,10 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class CallParametersNode : AstNode
+    public class DeclParametersNode : AstNode
     {
-        public List<ValNode> Parameters { get; set; } = new List<ValNode>();
-        public CallParametersNode(int line, int offset) : base(TokenType.CALLPARAMS, line, offset)
+        public List<VarNode> Parameters { get; set; } = new List<VarNode>();
+        public DeclParametersNode(int line, int offset) : base(TokenType.CALLPARAMS, line, offset)
         {
         }
 

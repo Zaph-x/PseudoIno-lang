@@ -8,7 +8,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     {
         public List<StatementNode> Statements = new List<StatementNode>();
 
-        public FunctionLoopNode(int line, int offset) : base(TokenType.LOOP_FN, line, offset)
+        public FunctionLoopNode(int line, int offset) : base(line, offset)
         {
         }
 

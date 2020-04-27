@@ -386,9 +386,17 @@ namespace Lexer
             }
             if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
             {
-                if (tokenType == TokenType.TYPE || tokenType == TokenType.BOOL)
+                if (tokenType == TokenType.TYPE)
                 {
                     Tokens.AddLast(Token(tokenType, subString));
+                } else if (tokenType == TokenType.BOOL)
+                {
+                    if (subString.ToLower() == "on")
+                        Tokens.AddLast(Token(tokenType, "true"));
+                    else if (subString.ToLower() == "off")
+                        Tokens.AddLast(Token(tokenType, "false"));
+                    else
+                        Tokens.AddLast(Token(tokenType, subString));
                 }
                 else
                 {

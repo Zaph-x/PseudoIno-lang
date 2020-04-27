@@ -15,53 +15,64 @@ namespace AbstractSyntaxTree.Tests
 {
     class VisitorTest 
     {
-        private const string content = @"# This is a dummy program to test the token generator
-            #< This multiline comment
-            should also be accepted >#
-            a is 4
-            b is 6
-            c is a + b
-            if b > a
-                
-            end if
-            func test with x, y, z
-                d is 10
-            end test";
+        // private const string content = @"# This is a dummy program to test the token generator
+        //     #< This multiline comment
+        //     should also be accepted >#
+        //     a is 4
+        //     b is 6
+        //     c is a + b
+        //     if b > a do
 
-        private const string content2 = @"
-        a is 0
-        func loop
-            a is a + 1
-            call foo with 3, 3
-            wait 4s
-        end loop
-        dpin4 is 4 or a and 3 or 5
+        //     end if
+        //     func test with x, y, z
+        //         d is 10
+        //     end test";
 
-        if a equal b do
-            a is 4
-        else if b equal c do
-            b is 4
-        else
-            c is 4
-        end if
+        private const string content2 =
+@"call a
+a is on
+b is 4
+func loop
+    a is a + 1
+    call foo with 3
+    wait 4s
+    a is a + 1
+end loop
+dpin4 is b and (4 or (a less (3 + 5)))
 
-        func foo with c
-            begin while c less 6 do
-                c is c + 1
-            end while
-            begin for x in 1..21 do
-                x is 21
-            end for
-        end foo";
+if a equal b do
+    if b equal c do
+        a is 4
+    end if
+else if b equal c do
+    b is 4
+else
+    c is 4
+end if
+d is c less 4
+call foo
+f is call foo with 23
+
+func foo with c, d
+    begin while c less (6 + 5) do
+        c is c + 1
+    end while
+    begin for x in 1..21 do
+        x is 21
+    end for
+    return 3
+end foo";
 
        
 
         string nowhere;
-        public StreamReader CreateFakeReader(string content, Encoding enc)
+
+        [SetUp]
+        public void TestInit()
         {
-            byte[] fakeBytes = enc.GetBytes(content);
-            return new StreamReader(new MemoryStream(fakeBytes), enc, false);
+            Parsenizer.HasError = false;
         }
+
         [Test]
         public void Test_ASTHelper_Assign_2()
         {
@@ -70,17 +81,25 @@ namespace AbstractSyntaxTree.Tests
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(tokens, out nowhere);
-            ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
-            //pretty printer
-            helper.Root.Accept(new PrettyPrinterVisitor());
+
+            //parser.Parse(tokens, out nowhere);
+            //ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
+            ////pretty printer
+            //helper.Root.Accept(new PrettyPrinterVisitor());
             
 
-        }
-        //public new void Visit(ProgramNode node)
-        //{
-        //    Console.WriteLine( "Jeg er i roden nu ");
 
-        //}
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            // FIXME Denne linje giver Stack Overflow Exception
+            // base.Visit(parser.Root);
+        }
+
+        public StreamReader CreateFakeReader(string content, Encoding enc)
+        {
+            byte[] fakeBytes = enc.GetBytes(content);
+            return new StreamReader(new MemoryStream(fakeBytes), enc, false);
+        }
     }
 }

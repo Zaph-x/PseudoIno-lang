@@ -5,7 +5,7 @@ using AbstractSyntaxTree.Objects.Nodes;
 
 namespace AbstractSyntaxTree.Objects
 {
-    public class DefaultVisitor : Visitor
+    public abstract class Visitor
     {
         public override void Visit(BeginNode beginNode)
         {
@@ -17,7 +17,13 @@ namespace AbstractSyntaxTree.Objects
         {
             //timeNode.Accept(this);
         }
-        public override void Visit(TimesNode timesNode)
+
+        internal void Visit(DeclParametersNode declParametersNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Visit(TimesNode timesNode)
         {
 
         }
@@ -32,24 +38,24 @@ namespace AbstractSyntaxTree.Objects
 
         public override void Visit(AssignmentNode assignmentNode)
         {
-            assignmentNode.LeftHand.Accept(this);
-            assignmentNode.RightHand.Accept(this);
-            if (assignmentNode.ExpressionHand != null)
-                assignmentNode.ExpressionHand.Accept(this);
+
+            //assignmentNode.LeftHand.Accept(this);
+            //assignmentNode.RightHand.Accept(this);
+            //if (assignmentNode.ExpressionHand != null)
+            //    assignmentNode.ExpressionHand.Accept(this);
         }
 
-        public override void Visit(FunctionDefinitonNode functionDefinitonNode)
-        {
-            functionDefinitonNode.LeftHand?.Accept(this);
-            functionDefinitonNode.RightHand?.Accept(this);
-            if (functionDefinitonNode.Statements.Any())
-            {
-                functionDefinitonNode.Statements.ForEach(node => node.Accept(this));
-            }
+        //public override void Visit(FunctionDefinitonNode functionDefinitonNode)
+        //{
+        //    functionDefinitonNode.LeftHand?.Accept(this);
+        //    functionDefinitonNode.RightHand?.Accept(this);
+        //    if (functionDefinitonNode.Statements.Any())
+        //    {
+        //        functionDefinitonNode.Statements.ForEach(node => node.Accept(this));
+        //    }
 
 
-            //functionDefinitonNode.Accept(this);
-        }
+        //}
 
         public override void Visit(StatementNode statementNode)
         {
@@ -166,12 +172,15 @@ namespace AbstractSyntaxTree.Objects
 
         public override void Visit(CallNode callNode)
         {
-            callNode.VarNode.Accept(this);
-            if (callNode.RightHand != null)
-            {
-                callNode.RightHand.Accept(this);
-            }
+            //if (callNode.RightHand != null)
+            //{
+            //    callNode.RightHand.Accept(this);
+            //}
             //callNode.Accept(this);
+
+            callNode.Id.Accept(this);
+            callNode.Parameters.ForEach(node => node.Accept(this));
+
         }
 
         public override void Visit(EndNode endNode)
@@ -204,12 +213,16 @@ namespace AbstractSyntaxTree.Objects
         }
         public override void Visit(CallParametersNode callParametersNode)
         {
-            callParametersNode.ValNode.Accept(this);
-            if (callParametersNode.RightHand != null)
-            {
-                callParametersNode.RightHand.Accept(this);
-            }
+
+            //callParametersNode.ValNode.Accept(this);
+            //if (callParametersNode.RightHand != null)
+            //{
+            //    callParametersNode.RightHand.Accept(this);
+            //}
             //callParametersNode.Accept(this);
+
+            callParametersNode.Parameters.ForEach(node => node.Accept(this));
+
         }
         public override void Visit(DivideNode divideNode)
         {
@@ -217,18 +230,14 @@ namespace AbstractSyntaxTree.Objects
         }
         public override void Visit(ExpressionNode expressionNode)
         {
-            expressionNode.Value.Accept(this);
+            expressionNode.Term.Accept(this);
             expressionNode.Operator.Accept(this);
-            if (expressionNode.Expression != null)
-            {
-                expressionNode.Expression.Accept(this);
-            }
-
+            expressionNode.Expression.Accept(this);
         }
         public override void Visit(ForNode forNode)
         {
-            forNode.ValNode.Accept(this);
-            forNode.RangeNode.Accept(this);
+            forNode.From.Accept(this);
+            forNode.To.Accept(this);
             if (forNode.Statements.Any())
             {
                 forNode.Statements.ForEach(node => node.Accept(this));
@@ -242,9 +251,12 @@ namespace AbstractSyntaxTree.Objects
             {
                 funcNode.Statements.ForEach(node => node.Accept(this));
             }
-            funcNode.LeftHand.Accept(this);
-            funcNode.RightHand.Accept(this);
+            //funcNode.LeftHand.Accept(this);
+            //funcNode.RightHand.Accept(this);
 
+            funcNode.Name.Accept(this);
+            funcNode.FunctionParameters.ForEach(node => node.Accept(this));
+            
         }
         public override void Visit(GreaterNode greaterNode)
         {
@@ -253,17 +265,17 @@ namespace AbstractSyntaxTree.Objects
         }
         public override void Visit(IfStatementNode ifStatementNode)
         {
-            ifStatementNode.Val.Accept(this);
             ifStatementNode.Expression.Accept(this);
             if (ifStatementNode.Statements.Any())
             {
                 ifStatementNode.Statements.ForEach(node => node.Accept(this));
             }
-            if (ifStatementNode.ElseifStatementNode.Any())
-            {
-                ifStatementNode.ElseifStatementNode.ForEach(node => node.Accept(this));
-            }
-            ifStatementNode.ElseStatementNode.Accept(this);
+
+            //if (ifStatementNode.ElseifStatementNode.Any())
+            //{
+            //    ifStatementNode.ElseifStatementNode.ForEach(node => node.Accept(this));
+            //}
+            //ifStatementNode.ElseStatementNode.Accept(this);
             //ifStatementNode.Accept(this);
         }
         public override void Visit(LessNode lessNode)
@@ -301,13 +313,11 @@ namespace AbstractSyntaxTree.Objects
         }
         public override void Visit(WhileNode whileNode)
         {
-            whileNode.ValNode.Accept(this);
-            whileNode.ExpressionNode.Accept(this);
+            whileNode.Expression.Accept(this);
             if (whileNode.Statements.Any())
             {
                 whileNode.Statements.ForEach(node => node.Accept(this));
             }
-
         }
         public override void Visit(ElseStatementNode elseStatement)
         {
@@ -329,9 +339,14 @@ namespace AbstractSyntaxTree.Objects
         }
         public override void Visit(RangeNode rangeNode)
         {
-            rangeNode.LeftHand.Accept(this);
-            rangeNode.RightHand.Accept(this);
+
+            //rangeNode.LeftHand.Accept(this);
+            //rangeNode.RightHand.Accept(this);
             // rangeNode.Accept(this);
+
+            rangeNode.From.Accept(this);
+            rangeNode.To.Accept(this);
+            rangeNode.Accept(this);
         }
     }
 }
