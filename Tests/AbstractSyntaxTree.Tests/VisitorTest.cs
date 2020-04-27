@@ -10,10 +10,11 @@ using System.Linq;
 using AbstractSyntaxTree.Objects;
 using Parser;
 using AbstractSyntaxTree.Objects.Nodes;
+using AbstractSyntaxTreeSyntaxTree.Objects;
 
 namespace AbstractSyntaxTree.Tests
 {
-    class VisitorTest : Visitor
+    class VisitorTest 
     {
         // private const string content = @"# This is a dummy program to test the token generator
         //     #< This multiline comment
@@ -82,11 +83,12 @@ end foo";
             parser.Parse(out nowhere);
             if (Parsenizer.HasError)
                 Assert.Fail();
-            PrettyPrinter printer = new PrettyPrinter();
-            printer.Visit(parser.Root);
-            
+            // PrettyPrinter printer = new PrettyPrinter();
+            //printer.Visit(parser.Root);
+            parser.Root.Accept(new PrettyPrinter());
+
             // FIXME Denne linje giver Stack Overflow Exception
-            base.Visit(parser.Root);
+            //base.Visit(parser.Root);
         }
 
         public StreamReader CreateFakeReader(string content, Encoding enc)

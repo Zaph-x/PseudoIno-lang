@@ -7,300 +7,133 @@ namespace AbstractSyntaxTree.Objects
 {
     public abstract class Visitor
     {
-        public void Visit(BeginNode beginNode)
-        {
-            beginNode.LoopNode.Accept(this);
+        public abstract void Visit(BeginNode beginNode);
 
-        }
 
-        internal void Visit(TimeNode timeNode)
-        {
+        internal abstract void Visit(TimeNode timeNode);
 
-        }
 
-        internal void Visit(DeclParametersNode declParametersNode)
-        {
-            if (declParametersNode.Parameters.Any())
-            {
-                declParametersNode.Parameters.ForEach(stmnt => stmnt.Accept(this));
-            }
+        internal abstract void Visit(DeclParametersNode declParametersNode);
 
-        }
 
-        public void Visit(TimesNode timesNode)
-        {
+        public abstract void Visit(TimesNode timesNode);
 
-        }
 
-        public void Visit(FunctionLoopNode loopFnNode)
-        {
-            if (loopFnNode.Statements.Any())
-            {
-                loopFnNode.Statements.ForEach(stmnt => stmnt.Accept(this));
-            }
-        }
+        public abstract void Visit(FunctionLoopNode loopFnNode);
 
-        internal void Visit(AssignmentNode assignmentNode)
-        {
-            //TODO der er interface med IAssginable Var { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
-        }
 
-        public void Visit(StatementNode statementNode)
-        {
-            
-        }
+        internal abstract void Visit(AssignmentNode assignmentNode);
 
-        public void Visit(WithNode withNode)
-        {
-        }
 
-        public void Visit(WaitNode waitNode)
-        {
+        public abstract void Visit(StatementNode statementNode);
 
-            waitNode.TimeAmount?.Accept(this);
-            waitNode.TimeModifier?.Accept(this);
-        }
 
-        public void Visit(VarNode varNode)
-        {
+        public abstract void Visit(WithNode withNode);
 
-        }
 
-        public void Visit(ValNode valNode)
-        {
-          
-        }
+        public abstract void Visit(WaitNode waitNode);
 
-        public void Visit(TimeSecondNode timeSecondNode)
-        {
+
+        public abstract void Visit(VarNode varNode);
+
+
+        public abstract void Visit(ValNode valNode);
+
+
+        public abstract void Visit(TimeSecondNode timeSecondNode);
+
+
+        public abstract void Visit(TimeMinuteNode timeMinuteNode);
+
+
+        public abstract void Visit(TimeMillisecondNode timeMillisecondNode);
+
+
+        public abstract void Visit(TimeHourNode timeHourNode);
+
+
+        public abstract void Visit(RightParenthesisNode rightParenthesisNode);
+
+
+        public abstract void Visit(NumericNode numericNode);
+
+        public abstract void Visit(NewlineNode newlineNode);
+
+
+        public abstract void Visit(LeftParenthesisNode leftParenthesisNode);
+
+
+        public abstract void Visit(InNode inNode);
+
+        public abstract void Visit(EqualNode equalNode);
+
+
+        public abstract void Visit(EqualsNode equalsNode);
+
+
+        public abstract void Visit(EOFNode eOFNode);
+
+
+        public abstract void Visit(EpsilonNode epsilonNode);
+
+
+        public abstract void Visit(DoNode doNode);
+
+
+        public abstract void Visit(ProgramNode programNode);
+
+
+        public abstract void Visit(CallNode callNode);
+
+
+        public abstract void Visit(EndNode endNode);
+
+        public abstract void Visit(AndNode andNode)
+       ;
+        public abstract void Visit(PinNode pinNode)
+        ;
+        public abstract void Visit(APinNode apinNode)
+        ;
+        public abstract void Visit(DPinNode dpinNode)
+       ;
+        public abstract void Visit(OperatorNode operatorNode)
+        ;
+        public abstract void Visit(BoolOperatorNode boolOperatorNode)
+        ;
+        public abstract void Visit(CallParametersNode callParametersNode)
+       ;
+        public abstract void Visit(DivideNode divideNode)
+        ;
+        public abstract void Visit(ExpressionNode expressionNode)
+       ;
+        public abstract void Visit(ForNode forNode)
+      ;
+        public abstract void Visit(FuncNode funcNode)
+       ;
+        public abstract void Visit(GreaterNode greaterNode)
+       ;
+        public abstract void Visit(IfStatementNode ifStatementNode)
+       ;
+        public abstract void Visit(LessNode lessNode)
+        ;
+        public abstract void Visit(LoopNode loopNode)
+        ;
+        public abstract void Visit(MathOperatorNode mathOperatorNode)
+        ;
+        public abstract void Visit(PlusNode plusNode)
+       ;
+        public abstract void Visit(MinusNode minusNode)
+        ;
+        public abstract void Visit(ModuloNode moduloNode)
+       ;
+        public abstract void Visit(OrNode orNode);
+        public abstract void Visit(StringNode stringNode);
+
+        public abstract void Visit(WhileNode whileNode);
+        public abstract void Visit(ElseStatementNode elseStatement);
+        public abstract void Visit(ElseifStatementNode elseifStatementNode);
+
+        public abstract void Visit(RangeNode rangeNode);
         
-        }
-
-        public void Visit(TimeMinuteNode timeMinuteNode)
-        {
-           
-        }
-
-        public void Visit(TimeMillisecondNode timeMillisecondNode)
-        {
-            
-        }
-
-        public void Visit(TimeHourNode timeHourNode)
-        {
-          
-
-        }
-
-        public void Visit(RightParenthesisNode rightParenthesisNode)
-        {
-            
-        }
-
-        public void Visit(NumericNode numericNode)
-        {
-
-
-        }
-
-        public void Visit(NewlineNode newlineNode)
-        {
-           
-        }
-
-        public void Visit(LeftParenthesisNode leftParenthesisNode)
-        {
-        }
-
-        public void Visit(InNode inNode)
-        {
-        
-        }
-        public void Visit(EqualNode equalNode)
-        {
-        
-        }
-
-        public void Visit(EqualsNode equalsNode)
-        {
-            
-        }
-
-        public void Visit(EOFNode eOFNode)
-        {
-            
-        }
-
-        public void Visit(EpsilonNode epsilonNode)
-        {
-            
-        }
-
-        public void Visit(DoNode doNode)
-        {
-            
-        }
-
-        public void Visit(ProgramNode programNode)
-        {
-            if (programNode.FunctionDefinitons.Any())
-            {
-                programNode.FunctionDefinitons.ForEach(node => node.Accept(this));
-            }
-            if (programNode.Statements.Any())
-            {
-                programNode.Statements.ForEach(node => node.Accept(this));
-            }
-            programNode.LoopFunction.Accept(this);
-        }
-
-        public void Visit(CallNode callNode)
-        {
-            callNode.Id.Accept(this);
-            callNode.Parameters.ForEach(node => node.Accept(this));
-        }
-
-        public void Visit(EndNode endNode)
-        {
-            
-        }
-        public void Visit(AndNode andNode)
-        {
-         
-        }
-        public void Visit(PinNode pinNode)
-        {
-            
-        }
-        public void Visit(APinNode apinNode)
-        {
-
-        }
-        public void Visit(DPinNode dpinNode)
-        {
-
-        }
-        public void Visit(OperatorNode operatorNode)
-        {
-        
-        }
-        public void Visit(BoolOperatorNode boolOperatorNode)
-        {
-            
-        }
-        public void Visit(CallParametersNode callParametersNode)
-        {
-            callParametersNode.Parameters.ForEach(node => node.Accept(this));
-        }
-        public void Visit(DivideNode divideNode)
-        {
-
-        }
-        public void Visit(ExpressionNode expressionNode)
-        {
-            expressionNode.Term.Accept(this);
-            expressionNode.Operator.Accept(this);
-            expressionNode.Expression.Accept(this);
-            
-        }
-        public void Visit(ForNode forNode)
-        {
-            forNode.From.Accept(this);
-            forNode.To.Accept(this);
-            if (forNode.Statements.Any())
-            {
-                forNode.Statements.ForEach(node => node.Accept(this));
-            }
-            //forNode.Accept(this);
-        }
-        public void Visit(FuncNode funcNode)
-        {
-            //funcNode.Accept(this);
-            if (funcNode.Statements.Any())
-            {
-                funcNode.Statements.ForEach(node => node.Accept(this));
-            }
-            funcNode.Name.Accept(this);
-            funcNode.FunctionParameters.ForEach(node => node.Accept(this));
-
-        }
-        public void Visit(GreaterNode greaterNode)
-        {
-            greaterNode.OrEqualNode.Accept(this);
-            //greaterNode.Accept(this);
-        }
-        public void Visit(IfStatementNode ifStatementNode)
-        {
-            ifStatementNode.Expression?.Accept(this);
-            if (ifStatementNode.Statements.Any())
-            {
-                ifStatementNode.Statements.ForEach(node => node.Accept(this));
-            }
-
-        }
-        public void Visit(LessNode lessNode)
-        {
-            lessNode.OrEqualNode.Accept(this);
-            
-        }
-        public void Visit(LoopNode loopNode)
-        {
-            
-        }
-        public void Visit(MathOperatorNode mathOperatorNode)
-        {
-            
-        }
-        public void Visit(PlusNode plusNode)
-        {
-
-        }
-        public void Visit(MinusNode minusNode)
-        {
-
-        }
-        public void Visit(ModuloNode moduloNode)
-        {
-
-        }
-        public void Visit(OrNode orNode)
-        {
-        }
-        public void Visit(StringNode stringNode)
-        {
-            
-        }
-        public void Visit(WhileNode whileNode)
-        {
-            whileNode.Expression.Accept(this);
-            if (whileNode.Statements.Any())
-            {
-                whileNode.Statements.ForEach(node => node.Accept(this));
-            }
-        }
-        public void Visit(ElseStatementNode elseStatement)
-        {
-            if (elseStatement.Statements.Any())
-            {
-                elseStatement.Statements.ForEach(node => node.Accept(this));
-            }
-            //elseStatement.Accept(this);
-        }
-        public void Visit(ElseifStatementNode elseifStatementNode)
-        {
-            elseifStatementNode.Val?.Accept(this);
-            elseifStatementNode.Expression?.Accept(this);
-            if (elseifStatementNode.Statements.Any())
-            {
-                elseifStatementNode.Statements.ForEach(node => node.Accept(this));
-            }
-            //elseifStatementNode.Accept(this);
-        }
-        public void Visit(RangeNode rangeNode)
-        {
-            rangeNode.From.Accept(this);
-            rangeNode.To.Accept(this);
-            //rangeNode.Accept(this);
-        }
     }
 }
