@@ -21,5 +21,18 @@ namespace AbstractSyntaxTree.Objects
             base.Visit(node);
             Indent--;
         }
+        public new void Visit(IfStatementNode node)
+        {
+            Print("If");
+            Indent++;
+            base.Visit(node);
+            Indent--;
+            //ifStatementNode.Expression.Accept(this);
+            //if (ifStatementNode.Statements.Any())
+            //{
+            //    ifStatementNode.Statements.ForEach(node => node.Accept(this));
+            //}
+
+        }
     }
 }
