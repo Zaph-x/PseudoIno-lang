@@ -36,7 +36,7 @@ b is 4
 func loop
     a is a + 1
     call foo with 3
-    wait 4 s
+    wait 4s
     a is a + 1
 end loop
 dpin4 is b and (4 or (a less (3 + 5)))

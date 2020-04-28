@@ -118,8 +118,8 @@ namespace AbstractSyntaxTreeSyntaxTree.Objects
         {
             Print("WaitNode");
             Indent++;
-            waitNode.TimeAmount?.Accept(this);
-            waitNode.TimeModifier?.Accept(this);
+            waitNode.TimeAmount.Accept(this);
+            waitNode.TimeModifier.Accept(this);
             Indent--;
         }
 

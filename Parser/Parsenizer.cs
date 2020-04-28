@@ -401,6 +401,22 @@ namespace Parser
                         else if (((ForNode)Current).To == null)
                             ((ForNode)Current).To = new NumericNode(token.Value, CurrentLine, CurrentOffset);
                     break;
+                case 129:
+                    if (token.Type == NUMERIC)
+                        ((WaitNode)Current).TimeAmount = new NumericNode(token.Value, CurrentLine, CurrentOffset);
+                    break;
+                case 130:
+                    ((WaitNode)Current).TimeModifier = new TimeHourNode(CurrentLine, CurrentOffset);
+                    break;
+                case 131:
+                    ((WaitNode)Current).TimeModifier = new TimeMinuteNode(CurrentLine, CurrentOffset);
+                    break;
+                case 132:
+                    ((WaitNode)Current).TimeModifier = new TimeSecondNode(CurrentLine, CurrentOffset);
+                    break;
+                case 133:
+                    ((WaitNode)Current).TimeModifier = new TimeMillisecondNode(CurrentLine, CurrentOffset);
+                    break;
                 default:
                     break;
             }

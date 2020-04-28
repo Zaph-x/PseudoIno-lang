@@ -39,7 +39,7 @@ namespace SymbolTable
         /// </summary>
         /// <param name="name"></param>
         /// <param name="token"></param>
-        public NodeSymbolTab(string name, ParseToken token)
+        public NodeSymbolTab(string name, ScannerToken token)
         {
             this.Value = token.Value;
             this.Type = token.Type;
@@ -49,12 +49,15 @@ namespace SymbolTable
            
         }
 
+        //list af tokentype ind 
+        //list af scanner token ud
+
         /// <summary>
         /// Add child to Childrenlist. Set parent property of the child node. Input parameters are Name and Type of the node.
         /// </summary>
         /// <param Name="name"></param>
         /// <param Name="Type"></param>
-        public void AddNode(string name,ParseToken token)
+        public void AddNode(string name,ScannerToken token)
         {
             if (ChildrenList.Any(x => x.Name == name) == false)
             {
