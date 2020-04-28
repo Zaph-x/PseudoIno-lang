@@ -52,6 +52,8 @@ namespace AbstractSyntaxTreeSyntaxTree.Objects
 
         }
 
+
+
         internal override void Visit(TimeNode timeNode)
         {
             Print("TimeNode");
@@ -340,6 +342,7 @@ namespace AbstractSyntaxTreeSyntaxTree.Objects
         {
             Print("ForNode");
             Indent++;
+            forNode.CountingVariable.Accept(this);
             forNode.From.Accept(this);
             forNode.To.Accept(this);
             if (forNode.Statements.Any())
@@ -474,6 +477,14 @@ namespace AbstractSyntaxTreeSyntaxTree.Objects
             rangeNode.From.Accept(this);
             rangeNode.To.Accept(this);
             //rangeNode.Accept(this);
+            Indent--;
+        }
+
+        public override void Visit(ReturnNode returnNode)
+        {
+            Print("ReturnNode");
+            Indent++;
+            returnNode.ReturnValue.Accept(this);
             Indent--;
         }
     }

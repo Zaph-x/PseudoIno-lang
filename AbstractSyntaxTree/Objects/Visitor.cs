@@ -134,6 +134,7 @@ namespace AbstractSyntaxTree.Objects
         public abstract void Visit(ElseifStatementNode elseifStatementNode);
 
         public abstract void Visit(RangeNode rangeNode);
-        
+
+        public abstract void Visit(ReturnNode returnNode);
     }
 }
