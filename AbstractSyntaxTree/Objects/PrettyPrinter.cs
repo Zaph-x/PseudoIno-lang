@@ -3,7 +3,7 @@ using System.Linq;
 using AbstractSyntaxTree.Objects.Nodes;
 using AbstractSyntaxTree.Objects;
 
-namespace AbstractSyntaxTreeSyntaxTree.Objects
+namespace AbstractSyntaxTree.Objects
 {
     public class PrettyPrinter : Visitor
     {
@@ -18,30 +18,6 @@ namespace AbstractSyntaxTreeSyntaxTree.Objects
             Console.WriteLine(line + input);
         }
 
-        //public new void Visit(ProgramNode node)
-        //{
-        //    Print("Program");
-        //    Indent++;
-        //    base.Visit(node);
-        //    Indent--;
-        //}
-        //public new void Visit(IfStatementNode node)
-        //{
-        //    Print("If");
-        //    Indent++;
-        //    base.Visit(node);
-        //    Indent--;
-
-        //}
-        //public new void Visit(FuncNode node)
-        //{
-        //    Print("Funcnode");
-        //    Indent++;
-        //    base.Visit(node);
-        //    Indent--;
-
-
-        //}
 
         public override void Visit(BeginNode beginNode)
         {

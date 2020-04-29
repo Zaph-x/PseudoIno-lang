@@ -32,5 +32,9 @@ namespace Core.Objects
         /// </summary>
         /// <value>false</value>
         public bool Boilerpate { get; set; }
+        /// <summary>
+        /// A Boolean value to specify if the compiler should print the AST.
+        /// </summary>
+        public bool PrettyPrinter { get; set; }
     }
 }

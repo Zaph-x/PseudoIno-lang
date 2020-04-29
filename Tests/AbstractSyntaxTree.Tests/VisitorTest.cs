@@ -10,7 +10,7 @@ using System.Linq;
 using AbstractSyntaxTree.Objects;
 using Parser;
 using AbstractSyntaxTree.Objects.Nodes;
-using AbstractSyntaxTreeSyntaxTree.Objects;
+
 
 namespace AbstractSyntaxTree.Tests
 {

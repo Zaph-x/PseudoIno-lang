@@ -12,6 +12,7 @@ using Parser;
 using AbstractSyntaxTree.Objects;
 using Lexer.Objects;
 
+
 namespace Core
 {
     public class Program
@@ -43,6 +44,7 @@ namespace Core
                 verbosePrinter.Info("Done.");
                 return 0;
             }
+            
             verbosePrinter.Info("Initialising file.");
             using (StreamReader reader = new StreamReader(options.InputFile))
             {
@@ -87,6 +89,10 @@ namespace Core
                 // ASTHelper ast = new ASTHelper(tokens);
                 // PrettyPrinter pprint = new PrettyPrinter();
                 // pprint.Visit(parsenizer.Root);
+                if (options.PrettyPrinter)
+                {
+                    parsenizer.Root.Accept(new PrettyPrinter());
+                }
             }
 
             timer.Stop();
@@ -111,6 +117,7 @@ namespace Core
             System.Console.WriteLine("    -v | --Verbose         Prints additional information when compiling.");
             System.Console.WriteLine("    -b | --boilerplate     Generates a boilerplate file for your code.");
             System.Console.WriteLine("    -l | --logfile <path>  Prints additional information when compiling.");
+            System.Console.WriteLine("    -pp| --prettyprinter    Print the abstract syntax tree.");
             System.Console.WriteLine("");
         }
 
@@ -136,6 +143,10 @@ namespace Core
                     case "-b":
                     case "--boilerplate":
                         options.Boilerpate = true;
+                        break;
+                    case "-pp":
+                    case "--prettyprinter":
+                        options.PrettyPrinter = true;
                         break;
                     case "-l":
                     case "--logfile":
