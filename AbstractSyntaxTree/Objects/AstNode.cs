@@ -8,8 +8,6 @@ namespace AbstractSyntaxTree.Objects
 {
     public abstract class AstNode
     {
-        public AstNode Parent { get; set; }
-        public List<AstNode> Children { get; private set; } = new List<AstNode>();
         public TokenType Type { get; set; }
         public string Value { get; set; }
 
@@ -26,7 +24,7 @@ namespace AbstractSyntaxTree.Objects
             this.Visited = false;
         }
 
-        public override string ToString() => $"line={Line}; offset={Offset}";
+        public override string ToString() => $"type={Type}; line={Line}; offset={Offset}";
 
         public abstract void Accept(Visitor visitor);
     }

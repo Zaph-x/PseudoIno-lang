@@ -3,42 +3,48 @@ Prog -> Stmts .
 Comment -> commnent 
 | mcomment .
 
-Type -> string
-| numeric
-| bool
-| array
-| Pin .
-
 Stmts -> Stmt Stmts
 | Comment Stmts
 | FuncDecl Stmnts
 | .
-Stmt -> id ArrAccess is Assignment
+
+Stmt -> AssignStmnt
 | IfStmnt
 | FuncCall
 | WaitStmnt
 | BeginStmt .
 
-ArrAccess -> arrayindex Indexer ArrAccess
+AssignStmnt -> id is Assignment
+| Pin is Assignment .
+
+Assignment -> Expression
+| FuncCall 
+| larr numeric rarr Arr .
+
+Expression -> Term FTerm .
+
+FTerm -> TermOp Expression
 | .
 
-Rp -> rp | .
-Lp -> lp Lp| .
+Term -> Factor FFactor .
+
+FFactor -> FactorOp Term
+| .
+
+Factor -> lp Expression rp
+| Val .
+
+ArrAccess -> arrayindex Indexer ArrAccess
+| .
 
 Indexer -> id
 | numeric . 
 
-Assignment -> Lp Val Expr
-| FuncCall
-| larr numeric rarr Arr .
+TermOp -> plus
+| minus 
+| Bool_Op.
 
-Expr -> Math_Op Lp Val Expr Rp
-| Bool_Op Lp Val Expr Rp
-| .
-
-Math_Op -> plus
-| minus
-| mult
+FactorOp -> mult
 | div
 | mod .
 
@@ -54,7 +60,7 @@ OrEqual -> or equals
 Val -> id ArrAccess
 | numeric
 | minus numeric
-| String
+| string
 | Pin .
 
 Arr -> larr numeric rarr Arr
@@ -63,20 +69,24 @@ Arr -> larr numeric rarr Arr
 Pin -> dpin
 | apin .
 
-IfStmnt -> if Val Expr do Stmts ElseStmnt EndIf .
+IfStmnt -> if Expression do Stmts ElseStmnt EndIf .
 EndIf -> end if .
+
 ElseStmnt -> else ElseIfStmnt Stmnts
 | .
 
-ElseIfStmnt -> if Val Expr do Stmnts ElseStmnt
+ElseIfStmnt -> if Expression do Stmnts ElseStmnt
 | .
 
 FuncCall -> call id CallParams .
 
 FuncDecl -> func id DeclParams Stmts Return EndFunc .
+
 EndFunc -> end id .
 
-DeclParams -> with Val DeclParam .
+DeclParams -> with Val DeclParam 
+| .
+
 DeclParam -> separator Val DeclParam
 | .
 
@@ -87,10 +97,12 @@ BeginStmt -> begin Beginable .
 Beginable -> LoopW
 | LoopF .
 
-LoopW -> while Val Expr do Stmts EndWhile .
+LoopW -> while Expression do Stmts EndWhile .
+
 EndWhile -> end while .
 
 LoopF -> for id in Range do Stmts EndFor .
+
 EndFor -> end for .
 
 Range -> numeric rangeOp numeric .
@@ -102,6 +114,8 @@ TimeOperator -> h
 | s
 | ms .
 
-CallParams -> with Val CallParam .
-CallParam -> separator Val CallParam
+CallParams -> with Val CallParam 
 | .
+
+CallParam -> separator Val CallParam
+| .    

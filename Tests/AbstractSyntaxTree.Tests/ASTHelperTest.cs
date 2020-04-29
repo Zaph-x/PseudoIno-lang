@@ -55,6 +55,11 @@ namespace AbstractSyntaxTree.Tests
             end for
         end foo";
 
+        [SetUp]
+        public void TestInit()
+        {
+            Parsenizer.HasError = false;
+        }
 
         [Test]
         public void Test_ASTHelper_Constructor()
@@ -64,8 +69,8 @@ namespace AbstractSyntaxTree.Tests
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(tokens,out nowhere);
-            ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
+            parser.Parse(out nowhere);
+            // ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
         }
 
         public StreamReader CreateFakeReader(string content, Encoding enc)
@@ -82,8 +87,8 @@ namespace AbstractSyntaxTree.Tests
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(tokens, out nowhere);
-            ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
+            parser.Parse(out nowhere);
+            // ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
         }
         
         [Test]
@@ -94,8 +99,8 @@ namespace AbstractSyntaxTree.Tests
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(tokens, out nowhere);
-            ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
+            parser.Parse(out nowhere);
+            // ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
         }
     }
 }

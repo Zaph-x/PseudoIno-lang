@@ -4,16 +4,20 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public abstract class FuncNode : StatementNode, IScope
+    public class FuncNode : StatementNode, IScope
     {
-        public FuncNode(TokenType type, int line, int offset) : base(type, line, offset)
+        public List<StatementNode> Statements { get; set; }
+        public VarNode Name { get; set; }
+        public List<VarNode> FunctionParameters {get;set;} = new List<VarNode>();
+
+        public FuncNode(int line, int offset) : base(TokenType.FUNC, line, offset)
         {
             this.Statements = new List<StatementNode>();
         }
 
-        public abstract override void Accept(Visitor visitor);
-        public List<StatementNode> Statements { get; set; }
-        public ValNode LeftHand { get; set; }
-        public CallParametersNode RightHand { get; set; }
+        public override void Accept(Visitor visitor)
+        {
+            visitor.Visit(this);
+        }
     }
 }

@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Lexer\Lexer.csproj" />
+      <ProjectReference Include="..\AbstractSyntaxTree\AbstractSyntaxTree.csproj" />
     </ItemGroup>
 
 </Project>

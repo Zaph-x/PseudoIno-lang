@@ -5,8 +5,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class WhileNode : LoopNode, IScope
     {
-        public ValNode ValNode { get; set; }
-        public ExpressionNode ExpressionNode { get; set; }
+        public ExpressionNode Expression { get; set; }
         public List<StatementNode> Statements { get; set; }
 
         public WhileNode(int line, int offset) : base(TokenType.WHILE, line, offset)
@@ -16,7 +15,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 
         public override void Accept(Visitor visitor)
         {
-            throw new System.NotImplementedException();
+            visitor.Visit(this);
         }
     }
 }

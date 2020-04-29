@@ -2,10 +2,11 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class GreaterNode : MathOperatorNode
+    public class ReturnNode : StatementNode
     {
-        public OrEqualNode OrEqualNode { get; set; }
-        public GreaterNode(int line, int offset) : base(TokenType.OP_GREATER, line, offset)
+        public ExpressionNode ReturnValue {get;set;}
+
+        public ReturnNode(int line, int offset) : base(TokenType.RETURN, line, offset)
         {
         }
 

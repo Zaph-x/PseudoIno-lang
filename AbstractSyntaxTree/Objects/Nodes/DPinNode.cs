@@ -6,12 +6,12 @@ namespace AbstractSyntaxTree.Objects.Nodes
     {
         public DPinNode(string pinNum, int line, int offset) : base(TokenType.DPIN, line, offset)
         {
-            this.PinNumber = pinNum;
+            this.Id = pinNum;
         }
 
         public override void Accept(Visitor visitor)
         {
-            throw new System.NotImplementedException();
+            visitor.Visit(this);
         }
     }
 }
