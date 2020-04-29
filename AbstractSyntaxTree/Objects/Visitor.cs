@@ -10,10 +10,10 @@ namespace AbstractSyntaxTree.Objects
         public abstract void Visit(BeginNode beginNode);
 
 
-        internal abstract void Visit(TimeNode timeNode);
+        public abstract void Visit(TimeNode timeNode);
 
 
-        internal abstract void Visit(DeclParametersNode declParametersNode);
+        public abstract void Visit(DeclParametersNode declParametersNode);
 
 
         public abstract void Visit(TimesNode timesNode);
@@ -22,7 +22,7 @@ namespace AbstractSyntaxTree.Objects
         public abstract void Visit(FunctionLoopNode loopFnNode);
 
 
-        internal abstract void Visit(AssignmentNode assignmentNode);
+        public abstract void Visit(AssignmentNode assignmentNode);
 
 
         public abstract void Visit(StatementNode statementNode);

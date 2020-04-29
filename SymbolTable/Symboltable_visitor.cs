@@ -1,11 +1,13 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using AbstractSyntaxTree.Objects.Nodes;
+using System.Text;
 using AbstractSyntaxTree.Objects;
+using AbstractSyntaxTree.Objects.Nodes;
 
-namespace AbstractSyntaxTree.Objects
+namespace SymbolTable
 {
-    public class PrettyPrinter : Visitor
+    class Symboltable_visitor : Visitor
     {
         private int Indent { get; set; } = 0;
         private void Print(string input)
@@ -17,8 +19,6 @@ namespace AbstractSyntaxTree.Objects
             }
             Console.WriteLine(line + input);
         }
-
-
         public override void Visit(BeginNode beginNode)
         {
             Print("BeginNode");
@@ -463,5 +463,6 @@ namespace AbstractSyntaxTree.Objects
             returnNode.ReturnValue.Accept(this);
             Indent--;
         }
+
     }
 }
