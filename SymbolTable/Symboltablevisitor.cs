@@ -7,9 +7,10 @@ using AbstractSyntaxTree.Objects.Nodes;
 
 namespace SymbolTable
 {
-    class Symboltable_visitor : Visitor
+   public class Symboltablevisitor : Visitor
     {
         private int Indent { get; set; } = 0;
+        private NodeSymbolTab _symbolTabelGlobal = new NodeSymbolTab();
         private void Print(string input)
         {
             string line = "";
@@ -227,11 +228,15 @@ namespace SymbolTable
 
         public override void Visit(ProgramNode programNode)
         {
-            Print("Program");
+             NodeSymbolTab symbolTabel = new NodeSymbolTab();
+        Print("Program");
             Indent++;
             if (programNode.FunctionDefinitons.Any())
             {
                 programNode.FunctionDefinitons.ForEach(node => node.Accept(this));
+                programNode.FunctionDefinitons.ForEach(node => symbolTabel.AddNode(node.Name.Id, node));
+                _symbolTabelGlobal.ChildrenList.Add(symbolTabel);
+
             }
             if (programNode.Statements.Any())
             {
@@ -330,17 +335,22 @@ namespace SymbolTable
         }
         public override void Visit(FuncNode funcNode)
         {
-            Print("FuncNode");
+         NodeSymbolTab symbolTabel = new NodeSymbolTab();
+    //symbolTabel.AddNode(funcNode.Name.Id, funcNode);
+    Print("FuncNode");
             Indent++;
 
             //funcNode.Accept(this);
             if (funcNode.Statements.Any())
             {
                 funcNode.Statements.ForEach(node => node.Accept(this));
+                funcNode.Statements.ForEach(node => symbolTabel.AddNode(node.ToString(), node));
+                _symbolTabelGlobal.ChildrenList.Add(symbolTabel);
             }
             funcNode.Name.Accept(this);
             funcNode.FunctionParameters.ForEach(node => node.Accept(this));
             Indent--;
+           
         }
         public override void Visit(GreaterNode greaterNode)
         {
@@ -360,6 +370,7 @@ namespace SymbolTable
                 ifStatementNode.Statements.ForEach(node => node.Accept(this));
             }
             Indent--;
+            //symbolTabel.AddNode(ifStatementNode.ToString(), ifStatementNode);
         }
         public override void Visit(LessNode lessNode)
         {
@@ -412,6 +423,7 @@ namespace SymbolTable
         }
         public override void Visit(WhileNode whileNode)
         {
+            //symbolTabel.AddNode(whileNode.ToString(), whileNode);
             Print("WhileNode");
             Indent++;
 
@@ -421,6 +433,7 @@ namespace SymbolTable
                 whileNode.Statements.ForEach(node => node.Accept(this));
             }
             Indent--;
+           
         }
         public override void Visit(ElseStatementNode elseStatement)
         {
@@ -432,6 +445,7 @@ namespace SymbolTable
             }
             //elseStatement.Accept(this);
             Indent--;
+            //symbolTabel.AddNode(elseStatement.ToString(), elseStatement);
         }
         public override void Visit(ElseifStatementNode elseifStatementNode)
         {
@@ -445,6 +459,7 @@ namespace SymbolTable
             }
             //elseifStatementNode.Accept(this);
             Indent--;
+            //symbolTabel.AddNode(elseifStatementNode.ToString(), elseifStatementNode);
         }
         public override void Visit(RangeNode rangeNode)
         {

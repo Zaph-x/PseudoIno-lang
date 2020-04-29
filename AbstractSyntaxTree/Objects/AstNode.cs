@@ -12,8 +12,8 @@ namespace AbstractSyntaxTree.Objects
         public string Value { get; set; }
 
         // TODO Pass these from the scanner Token
-        long Line { get; set; }
-        private int Offset { get; set; }
+        public long Line { get; set; }
+        public int Offset { get; set; }
         
         public bool Visited { get; set; }
 

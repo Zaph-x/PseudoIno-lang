@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System;
 using Lexer.Objects;
 using AbstractSyntaxTree.Objects.Nodes;
-using AbstractSyntaxTreeSyntaxTree.Objects;
+
 
 namespace AbstractSyntaxTree.Tests
 {

@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Lexer.Objects;
+﻿using AbstractSyntaxTree.Objects;
 using Lexer;
-using static Lexer.Objects.TokenType;
+using Lexer.Objects;
 using NUnit.Framework;
+using Parser;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using AbstractSyntaxTree.Objects;
-using Parser;
-using AbstractSyntaxTree.Objects.Nodes;
+using System.Text;
+using SymbolTable;
 
-
-
-namespace AbstractSyntaxTree.Tests
+namespace SymbolTable.Tests
 {
-    class VisitorTest 
+    class Test_symboltabel_visitor
     {
+
         // private const string content = @"# This is a dummy program to test the token generator
         //     #< This multiline comment
         //     should also be accepted >#
@@ -74,7 +72,7 @@ end foo";
         }
 
         [Test]
-        public void Test_ASTHelper_Assign_2()
+        public void Test_SymboltableVisitor()
         {
             StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
             Tokenizer tokenizer = new Tokenizer(FakeReader);
@@ -86,7 +84,7 @@ end foo";
                 Assert.Fail();
             // PrettyPrinter printer = new PrettyPrinter();
             //printer.Visit(parser.Root);
-            parser.Root.Accept(new PrettyPrinter());
+            parser.Root.Accept(new Symboltablevisitor());
 
             // FIXME Denne linje giver Stack Overflow Exception
             //base.Visit(parser.Root);
@@ -99,3 +97,4 @@ end foo";
         }
     }
 }
+

@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AbstractSyntaxTree\AbstractSyntaxTree.csproj" />
     <ProjectReference Include="..\..\Lexer\Lexer.csproj" />
     <ProjectReference Include="..\..\SymbolTable\SymbolTable.csproj" />
   </ItemGroup>

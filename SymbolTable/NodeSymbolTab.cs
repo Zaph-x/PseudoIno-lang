@@ -4,6 +4,7 @@ using System.Text;
 using Lexer.Objects;
 using Parser.Objects;
 using System.Linq;
+using AbstractSyntaxTree.Objects;
 
 namespace SymbolTable
 {
@@ -28,18 +29,19 @@ namespace SymbolTable
         //Name and Type for the node
         public string Name,Value;
         public TokenType Type;
-        
+
         /// <summary>
         /// Line og offset for every token
         /// </summary>
-        public int Line, Offset;
+        public long Line;
+        public int Offset;
 
         /// <summary>
         /// Constructor to add Name,Type, Line and offset attributes for children.
         /// </summary>
         /// <param name="name"></param>
         /// <param name="token"></param>
-        public NodeSymbolTab(string name, ScannerToken token)
+        public NodeSymbolTab(string name, AstNode token)
         {
             this.Value = token.Value;
             this.Type = token.Type;
@@ -48,7 +50,13 @@ namespace SymbolTable
             this.Offset = token.Offset;
            
         }
-
+        /// <summary>
+        /// constructer overloading for use 
+        /// </summary>
+        public NodeSymbolTab()
+        {
+       
+        }
         //list af tokentype ind 
         //list af scanner token ud
 
@@ -57,7 +65,7 @@ namespace SymbolTable
         /// </summary>
         /// <param Name="name"></param>
         /// <param Name="Type"></param>
-        public void AddNode(string name,ScannerToken token)
+        public void AddNode(string name, AstNode token)
         {
             if (ChildrenList.Any(x => x.Name == name) == false)
             {
