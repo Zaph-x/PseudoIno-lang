@@ -454,7 +454,38 @@ namespace Lexer.Objects
             || type == CALLPARAMS
             || type == CALLPARAM;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsBlock(TokenType type)
+        {
+            return type == PROG
+                   || type == IFSTMNT
+                   || type == ELSE
+                   || type == ELSEIFSTMNT
+                   || type == FUNCDECL
+                   || type == WHILE
+                   || type == FOR;
+        }
 
+        public static bool IsRef(TokenType type)
+        {
+            return type == ASSIGNMENT
+                   || type == APIN
+                   || type == DPIN
+                   || type == VAR
+                   || type == FUNCCALL;
+        }
+
+        public static bool IsDcl(TokenType type)
+        {
+            return type == ASSIGNMENT
+                   || type == FUNC
+                   || type == APIN
+                   || type == DPIN;
+        }
         /// <summary>
         /// Determines whether a token is an operator
         /// </summary>
