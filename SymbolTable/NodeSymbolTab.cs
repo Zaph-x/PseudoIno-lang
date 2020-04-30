@@ -67,11 +67,11 @@ namespace SymbolTable
         /// Add child to Childrenlist. Set parent property of the child node. Input parameters are Name and Type of the node.
         /// </summary>
         /// <param Name="token"></param>
-        public void AddNode(AstNode token)
+        public void AddNode(AstNode token, NodeSymbolTab symbolTable)
         {
             if (TokenTypeExpressions.IsBlock(token.Type))
             {
-               AddBlock(token);
+               AddBlock(token, symbolTable);
             }
             else if (TokenTypeExpressions.IsDcl(token.Type))
             {
@@ -83,14 +83,22 @@ namespace SymbolTable
             }
         }
 
-        public void AddBlock(AstNode node)
+        public void AddBlock(AstNode node, NodeSymbolTab symbolTab)
         {
             if (node.Type == TokenType.FUNC)
             {
                 throw new Exception("No functions in functions please!");
             }
 
-            ChildrenList.Add(new NodeSymbolTab(node) { Parent = this });
+            ChildrenList.Add(new NodeSymbolTab(node) { Parent = symbolTab});
+            //if (this.Parent != null)
+            //{
+            //    if (Parent.ChildrenList.Any(x => x.Id == this.Id && x.ChildrenList.Count == 0))
+            //    {
+            //        Parent.ChildrenList.Add(this);
+            //    }
+            //}
+           
         }
 
         public void AddDcl(AstNode node)

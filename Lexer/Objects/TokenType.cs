@@ -467,7 +467,9 @@ namespace Lexer.Objects
                    || type == ELSEIFSTMNT
                    || type == FUNCDECL
                    || type == WHILE
-                   || type == FOR;
+                   || type == FOR
+                   || type == IF;
+
         }
 
         public static bool IsRef(TokenType type)
