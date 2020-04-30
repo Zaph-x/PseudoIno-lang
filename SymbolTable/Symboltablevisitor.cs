@@ -373,10 +373,10 @@ namespace SymbolTable
         }
         public override void Visit(IfStatementNode ifStatementNode)
         {
-            NodeSymbolTab symbolTab = new NodeSymbolTab();
-            symbolTab.Type = TokenType.IF;
-            symbolTab.Line = ifStatementNode.Line;
-            symbolTab.Offset = ifStatementNode.Offset;
+            NodeSymbolTab symbolTab = new NodeSymbolTab
+            {
+                Type = TokenType.IF, Line = ifStatementNode.Line, Offset = ifStatementNode.Offset
+            };
             Print("IfstatementNode");
             Indent++;
             ifStatementNode.Expression?.Accept(this);
@@ -440,11 +440,11 @@ namespace SymbolTable
         }
         public override void Visit(WhileNode whileNode)
         {
-            NodeSymbolTab symbolTable = new NodeSymbolTab();
-            symbolTable.Type = TokenType.WHILE;
-            symbolTable.Line = whileNode.Line;
-            symbolTable.Offset = whileNode.Offset;
-            
+            NodeSymbolTab symbolTable = new NodeSymbolTab
+            {
+                Type = TokenType.WHILE, Line = whileNode.Line, Offset = whileNode.Offset
+            };
+
             Print("WhileNode");
             Indent++;
 
@@ -461,10 +461,10 @@ namespace SymbolTable
         }
         public override void Visit(ElseStatementNode elseStatement)
         {
-            NodeSymbolTab symbolTab = new NodeSymbolTab();
-            symbolTab.Type = TokenType.ELSE;
-            symbolTab.Line = elseStatement.Line;
-            symbolTab.Offset = elseStatement.Offset;
+            NodeSymbolTab symbolTab = new NodeSymbolTab
+            {
+                Type = TokenType.ELSE, Line = elseStatement.Line, Offset = elseStatement.Offset
+            };
             Print("ElseStatementNode");
             Indent++;
             if (elseStatement.Statements.Any())
