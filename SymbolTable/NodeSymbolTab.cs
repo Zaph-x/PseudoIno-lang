@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Lexer.Objects;
 using Parser.Objects;
 using System.Linq;
 using AbstractSyntaxTree.Objects;
+using AbstractSyntaxTree.Objects.Nodes;
 
 namespace SymbolTable
 {
@@ -17,6 +19,7 @@ namespace SymbolTable
         /// Children list 
         /// </summary>
         public List<NodeSymbolTab> ChildrenList = new List<NodeSymbolTab>();
+        public List<AstNode> Symbols = new List<AstNode>();
 
         /// <summary>
         /// Parent property
@@ -41,11 +44,11 @@ namespace SymbolTable
         /// </summary>
         /// <param name="name"></param>
         /// <param name="token"></param>
-        public NodeSymbolTab(string name, AstNode token)
+        public NodeSymbolTab(AstNode token)
         {
             this.Value = token.Value;
             this.Type = token.Type;
-            this.Name = name;
+            //this.Name = name;
             this.Line = token.Line;
             this.Offset = token.Offset;
            
@@ -63,36 +66,113 @@ namespace SymbolTable
         /// <summary>
         /// Add child to Childrenlist. Set parent property of the child node. Input parameters are Name and Type of the node.
         /// </summary>
-        /// <param Name="name"></param>
-        /// <param Name="Type"></param>
-        public void AddNode(string name, AstNode token)
+        /// <param Name="token"></param>
+        public void AddNode(AstNode token)
         {
-            if (ChildrenList.Any(x => x.Name == name) == false)
+            if (TokenTypeExpressions.IsBlock(token.Type))
             {
-                ChildrenList.Add(new NodeSymbolTab(name, token) { Parent = this });
+               AddBlock(token);
             }
-            else
+            else if (TokenTypeExpressions.IsDcl(token.Type))
             {
-                throw new Exception($"Symbol table contains the Name {name}");
+               AddDcl(token);
+            }
+            else if (TokenTypeExpressions.IsRef(token.Type))
+            {
+               AddRef(token);
             }
         }
+
+        public void AddBlock(AstNode node)
+        {
+            if (node.Type == TokenType.FUNC)
+            {
+                throw new Exception("No functions in functions please!");
+            }
+
+            ChildrenList.Add(new NodeSymbolTab(node) { Parent = this });
+        }
+
+        public void AddDcl(AstNode node)
+        {
+            Symbols.Add(node);
+        }
+
+        public void AddRef(AstNode node)
+        {
+            Findnode(GetNameFromRef(node));
+            if (!Parent.Findnode(GetNameFromRef(node)))
+            {
+                throw new Exception("Symbol not found in symbol table");
+            }
+        }
+
+        public string GetNameFromRef(AstNode node)
+        {
+            string name = "";
+            if (node.Type == TokenType.ASSIGNMENT)
+            {
+                name = ((AssignmentNode) node).Var.Id;
+            }
+            else if (node.Type == TokenType.APIN)
+            {
+                name = ((APinNode) node).Id;
+            }
+            else if (node.Type == TokenType.DPIN)
+            {
+                name = ((DPinNode) node).Id;
+            }
+            else if (node.Type == TokenType.VAR)
+            {
+                name = ((VarNode) node).Id;
+            }
+            else if (node.Type == TokenType.CALL)
+            {
+                name = ((CallNode) node).Id.Id;
+            }
+
+            return name;
+        }
+        
         /// <summary>
         /// Findnode methode to recursively find a node. It searches in curent scope , then parents scope , parents parent scope etc.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public NodeSymbolTab Findnode(string name)
+        public bool Findnode(string name)
         {
-            if(ChildrenList.Any(child => child.Name == name))
+            return Symbols.Any(child => GetNameFromRef(child) == name);
+        }
+        
+        /*public void AddStatementNode(StatementNode statementNode)
+        {
+            string name = "";
+            AstNode astNode = new AndNode(1,1);
+            if (statementNode.Type == TokenType.ASSIGNMENT)
             {
-                return ChildrenList.Where(child => child.Name == name).First();
+                name = ((AssignmentNode) statementNode).Var.Id;
+                astNode = (AstNode) statementNode;
+            }
+            else if (statementNode.Type == TokenType.CALL)
+            {
+                //name = ((CallNode) statementNode).Var.Id;
+                astNode = (AstNode) statementNode;
+            }
+
+            if (astNode.Type == TokenType.OP_AND)
+            {
+                throw new Exception("nope");
+            }
+            
+            if (!ChildrenList.Any(x => x.Name == name && x.Type == astNode.Type))
+            {
+                ChildrenList.Add(new NodeSymbolTab(name, astNode) { Parent = this });
             }
             else
             {
-                return Parent.Findnode(name);
+                throw new Exception($"Symbol table contains the Name {name}");
             }
-        }
-        
-
+        }*/
     }
 }
+
