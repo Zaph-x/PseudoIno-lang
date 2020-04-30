@@ -2,6 +2,6 @@ namespace AbstractSyntaxTree.Objects
 {
     public interface IAssginable
     {
-        public string Id {get;set;}
+        string Id {get;set;}
     }
 }
