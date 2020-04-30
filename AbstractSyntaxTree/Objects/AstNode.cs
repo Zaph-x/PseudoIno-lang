@@ -16,6 +16,8 @@ namespace AbstractSyntaxTree.Objects
         public int Offset { get; set; }
         
         public bool Visited { get; set; }
+        
+        public AstNode Parent { get; set; }
 
         public AstNode(TokenType type, int line, int offset) {
             this.Type = type;
