@@ -4,75 +4,122 @@ using Lexer.Objects;
 using System.Collections;
 using System;
 using System.Linq;
+using AbstractSyntaxTree.Objects;
+using AbstractSyntaxTree.Objects.Nodes;
 
 namespace SymbolTable
 {
     class SymbolTableBuilder
     {
-        //    //current level scope
-        //    int currenLevel = 0;
-        //    public int CurrentLevelProp
-        //    {
-        //        get { return currenLevel; }
-        //        set { currenLevel = value; }
-        //    }
+        public List<SymbolTable> SymbolTables = new List<SymbolTable>();
+        public List<List<SymbolTable>> FinalSymbolTable = new List<List<SymbolTable>>();
+        public SymbolTable GlobalSymbolTable;
+        public SymbolTable CurrentSymbolTable;
+        public Stack<SymbolTable> TopOfScope = new Stack<SymbolTable>();
+        public int Depth { get; set; }
+        public SymbolTableBuilder(SymbolTable global)
+        {
+            GlobalSymbolTable = global;
+            CurrentSymbolTable = global;
+            //SymbolTables.Add(new List<SymbolTable>());
+            //SymbolTables[0][0] = new SymbolTable(GlobalSymbolTable);
+        }
 
-        //    //test
-        //    //Dictionary for lookup of scope and Name to see if there are duplicates. The dictionary also have open and close params. Tuple<level,depth,open, close>
-        //    Dictionary<string, Tuple<int, int, bool, bool>> ScopeTracker = new Dictionary<string, Tuple<int, int, bool, bool>>();
-        //    //List for symboltable content Name and Type
-        //    List<Dictionary<string, TokenType>> Symboltable = new List<Dictionary<string, TokenType>>();
-        //    void OpenScope()
-        //    {
+        public void OpenScope(TokenType type, string name)
+        {
+            Depth++;
+            /*if (SymbolTables.Count < Depth + 1)
+            {
+                SymbolTables.Add(new List<SymbolTable>());
+            }*/
+            SymbolTable symbolTable;
+            if (Depth == 1)
+            {
+                symbolTable = new SymbolTable {Type = type, Name = name, Depth = Depth};
+            }
+            else
+            {
+                symbolTable = new SymbolTable {Type = type, Name = name, Depth = Depth, Parent = TopOfScope.Peek()};                
+            }
+            TopOfScope.Push(symbolTable);
+        }
+        
+        public void CloseScope()
+        {
+            Depth--;
+            SymbolTables.Add(TopOfScope.Peek());
+            TopOfScope.Pop();
+        }
 
-        //    }
-        //    void CloseScope(string Name)
-        //    {
-        //        ScopeTracker[Name] = Tuple.Create(ScopeTracker[Name].Item1, ScopeTracker[Name].Item2, ScopeTracker[Name].Item3, ScopeTracker[Name].Item4 == true);
+        public void AddSymbol(AstNode node)
+        {
+            Symbol symbol = new Symbol(GetNameFromRef(node),node.Type,node);
+            TopOfScope.Peek().Symbols.Add(symbol);
+        }
 
-        //    }
-        //    public TokenType RetrieveSymbol(string Name)
-        //    {
-        //        //if (DicSymbolTable.TryGetValue(Name, out TokenType tokenType))
-        //        //{
-        //        //    return DicSymbolTable[Name];
-        //        //}
-        //        throw new InvalidSyntaxException($"Symbol {Name} was not in symbol table");
-        //    }
-        //    /// <summary>
-        //    /// Add symbol to dictionary Symboltable and list of scope Scopetracker
-        //    /// </summary>
-        //    /// <param Name="Name"></param>
-        //    /// <param Name="Type"></param>
-        //    public void AddSym(string Name, TokenType Type)
-        //    {
+        public void AddRef(AstNode node)
+        {
+            /*Findnode(GetNameFromRef(node));
+            if (!Parent.Findnode(GetNameFromRef(node)))
+            {
+                throw new Exception("Symbol not found in symbol table");
+            }*/
+        }
 
-        //        if (LookUp(Name, CurrentLevelProp) == false && Symboltable.Any(x => x.ContainsKey(Name)) == false)
-        //        {
-        //            //add new symboltable
-        //            Symboltable.Add(new Dictionary<string, TokenType>());
-        //            Symboltable[Symboltable.Count - 1].Add(Name, Type);
-        //            //Add Name, level, open, close param
-        //            // ScopeTracker.Add(Name, Tuple.Create(CurrentLevelProp,true, false));
+        public void MakeFinalTable()
+        {
+            int maxDetph = 0;
+            foreach (var symbolTable in SymbolTables)
+            {
+                if (symbolTable.Depth > maxDetph)
+                {
+                    maxDetph = symbolTable.Depth;
+                }
+            }
+            for (int i = 0; i < maxDetph; i++)
+            {
+                FinalSymbolTable.Add(new List<SymbolTable>());
+            }
+            foreach (var symbolTable in SymbolTables)
+            {
+                FinalSymbolTable[symbolTable.Depth-1].Add(symbolTable);
+            }
+        }
 
-        //        }
-        //        else
-        //        {
-        //            //add to current symboltable
-        //            Symboltable[Symboltable.Count - 1].Add(Name, Type);
-        //        }
+        public string GetNameFromRef(AstNode node)
+        {
+            string name = "";
+            if (node.Type == TokenType.ASSIGNMENT)
+            {
+                name = ((AssignmentNode) node).Var.Id;
+            }
+            else if (node.Type == TokenType.APIN)
+            {
+                name = ((APinNode) node).Id;
+            }
+            else if (node.Type == TokenType.DPIN)
+            {
+                name = ((DPinNode) node).Id;
+            }
+            else if (node.Type == TokenType.VAR)
+            {
+                name = ((VarNode) node).Id;
+            }
+            else if (node.Type == TokenType.CALL)
+            {
+                name = ((CallNode) node).Id.Id;
+            }
+            else if (node.Type == TokenType.FUNC)
+            {
+                name = ((FuncNode) node).Name.Id;
+            }
 
-        //        throw new InvalidSyntaxException($"Symbol {Name} was not added in symbol table, since it is there already");
-        //    }
-        //    public bool LookUp(string Name, int Level)
-        //    {
-
-
-        //        if (ScopeTracker.ContainsKey(Name))
-        //        {
-        //            throw new InvalidSyntaxException($"Symbol { Name } was not added in the symbol table, since it exist already at scope {Level}");
-        //        }
-        //        return false;
-        //    }
+            return name;
+        }
+        
+        public bool Findnode(string name)
+        {
+            return CurrentSymbolTable.Symbols.Any(child => child.Name == name);
+        }
     }
 }

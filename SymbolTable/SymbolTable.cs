@@ -16,99 +16,32 @@ namespace SymbolTable
     public class SymbolTable
     {
         
-        public List<AstNode> Symbols = new List<AstNode>();
+        public List<Symbol> Symbols = new List<Symbol>();
         
         public SymbolTable Parent { get; set; }
+        public TokenType Type { get; set; }
+        public string Name { get; set; }
         
-        public SymbolTable(AstNode token)
-        {
-
-        }
+        public int Depth { get; set; }
         
-        public void AddNode(AstNode token, SymbolTable symbolTable)
+        public SymbolTable()
         {
-            if (TokenTypeExpressions.IsBlock(token.Type))
-            {
-               AddBlock(token, symbolTable);
-            }
-            else if (TokenTypeExpressions.IsDcl(token.Type))
-            {
-               AddDcl(token);
-            }
-            else if (TokenTypeExpressions.IsRef(token.Type))
-            {
-               AddRef(token);
-            }
+            //Parent = parent;
         }
 
-        public void AddBlock(AstNode node, SymbolTable symbolTable)
+        /*public override int GetHashCode()
         {
-            if (node.Type == TokenType.FUNC)
-            {
-                throw new Exception("No functions in functions please!");
-            }
+            return (Parent.GetHashCode()+Type.GetHashCode()).GetHashCode();
+        }*/
 
-            ChildrenList.Add(new SymbolTable(node) { Parent = symbolTable});
-            //if (this.Parent != null)
-            //{
-            //    if (Parent.ChildrenList.Any(x => x.Id == this.Id && x.ChildrenList.Count == 0))
-            //    {
-            //        Parent.ChildrenList.Add(this);
-            //    }
-            //}
-           
-        }
-
-        public void AddDcl(AstNode node)
-        {
-            Symbols.Add(node);
-        }
-
-        public void AddRef(AstNode node)
-        {
-            Findnode(GetNameFromRef(node));
-            if (!Parent.Findnode(GetNameFromRef(node)))
-            {
-                throw new Exception("Symbol not found in symbol table");
-            }
-        }
-
-        public string GetNameFromRef(AstNode node)
-        {
-            string name = "";
-            if (node.Type == TokenType.ASSIGNMENT)
-            {
-                name = ((AssignmentNode) node).Var.Id;
-            }
-            else if (node.Type == TokenType.APIN)
-            {
-                name = ((APinNode) node).Id;
-            }
-            else if (node.Type == TokenType.DPIN)
-            {
-                name = ((DPinNode) node).Id;
-            }
-            else if (node.Type == TokenType.VAR)
-            {
-                name = ((VarNode) node).Id;
-            }
-            else if (node.Type == TokenType.CALL)
-            {
-                name = ((CallNode) node).Id.Id;
-            }
-
-            return name;
-        }
+        
         
         /// <summary>
         /// Findnode methode to recursively find a node. It searches in curent scope , then parents scope , parents parent scope etc.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public bool Findnode(string name)
-        {
-            return Symbols.Any(child => GetNameFromRef(child) == name);
-        }
+        
         
     }
 }

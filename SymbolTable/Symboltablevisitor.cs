@@ -10,12 +10,13 @@ namespace SymbolTable
 {
    public class Symboltablevisitor : Visitor
     {
-        private int Indent { get; set; } = 0;
-        private NodeSymbolTab _symbolTabelGlobal = new NodeSymbolTab();
+        private int Depth { get; set; } = 0;
+        private SymbolTable _symbolTabelGlobal = new SymbolTable();
+        private SymbolTableBuilder _symbolTableBuilder;
         private void Print(string input)
         {
             string line = "";
-            for (int i = 0; i < Indent; i++)
+            for (int i = 0; i < Depth; i++)
             {
                 line += "|---";
             }
@@ -24,8 +25,8 @@ namespace SymbolTable
         public override void Visit(BeginNode beginNode)
         {
             Print("BeginNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
             beginNode.LoopNode.Accept(this);
 
         }
@@ -35,116 +36,117 @@ namespace SymbolTable
         public override void Visit(TimeNode timeNode)
         {
             Print("TimeNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
 
         public override void Visit(DeclParametersNode declParametersNode)
         {
             Print("DeclParametersNode");
-            Indent++;
+            Depth++;
             if (declParametersNode.Parameters.Any())
             {
                 declParametersNode.Parameters.ForEach(stmnt => stmnt.Accept(this));
             }
-            Indent--;
+            Depth--;
         }
 
         public override void Visit(TimesNode timesNode)
         {
             Print("TimesNode");
-            Indent++;
+            Depth++;
 
         }
 
         public override void Visit(FunctionLoopNode loopFnNode)
         {
             Print("FunctionLoopNode");
-            Indent++;
+            Depth++;
             if (loopFnNode.Statements.Any())
             {
                 loopFnNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             }
-            Indent--;
+            Depth--;
         }
 
         public override void Visit(AssignmentNode assignmentNode)
         {
             Print("AssignmentNode");
-            Indent++;
-            Indent--;
+            _symbolTableBuilder.AddSymbol(assignmentNode);
+            Depth++;
+            Depth--;
             //TODO der er interface med IAssginable Var { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
         }
 
         public override void Visit(StatementNode statementNode)
         {
             Print("StatementNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(WithNode withNode)
         {
             Print("WithNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(WaitNode waitNode)
         {
             Print("WaitNode");
-            Indent++;
+            Depth++;
             waitNode.TimeAmount.Accept(this);
             waitNode.TimeModifier.Accept(this);
-            Indent--;
+            Depth--;
         }
 
         public override void Visit(VarNode varNode)
         {
             Print("VarNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(ValNode valNode)
         {
             Print("ValNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
 
         public override void Visit(TimeSecondNode timeSecondNode)
         {
             Print("TimeSecondNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(TimeMinuteNode timeMinuteNode)
         {
             Print("TimeMinuteNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(TimeMillisecondNode timeMillisecondNode)
         {
             Print("TimeMillisecondNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(TimeHourNode timeHourNode)
         {
             Print("TimeHourNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
 
         }
@@ -152,16 +154,16 @@ namespace SymbolTable
         public override void Visit(RightParenthesisNode rightParenthesisNode)
         {
             Print("TimeMillisecondNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(NumericNode numericNode)
         {
             Print("NumericNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
 
         }
@@ -169,163 +171,167 @@ namespace SymbolTable
         public override void Visit(NewlineNode newlineNode)
         {
             Print("NewlineNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
 
         public override void Visit(LeftParenthesisNode leftParenthesisNode)
         {
             Print("LeftParenthesisNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
 
         public override void Visit(InNode inNode)
         {
             Print("InNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
         public override void Visit(EqualNode equalNode)
         {
             Print("EqualNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(EqualsNode equalsNode)
         {
             Print("EqualsNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(EOFNode eOFNode)
         {
             Print("EOFNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(EpsilonNode epsilonNode)
         {
             Print("EpsilonNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(DoNode doNode)
         {
             Print("DoNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
 
         }
 
         public override void Visit(ProgramNode programNode)
         {
-            _symbolTabelGlobal.Type = TokenType.PROG;
+            _symbolTableBuilder = new SymbolTableBuilder(_symbolTabelGlobal);
+            _symbolTableBuilder.CurrentSymbolTable = _symbolTabelGlobal;
             Print("Program");
-            Indent++;
+            _symbolTableBuilder.OpenScope(TokenType.PROG,"main");
+            Depth++;
             if (programNode.FunctionDefinitons.Any())
             {
-                programNode.FunctionDefinitons.ForEach(node => node.Accept(this));
                 programNode.FunctionDefinitons.ForEach(node => node.Parent = programNode);
-                programNode.FunctionDefinitons.ForEach(node => _symbolTabelGlobal.AddNode(node,_symbolTabelGlobal));
+                //programNode.FunctionDefinitons.ForEach(node => _symbolTableBuilder.AddNode(node));
+                programNode.FunctionDefinitons.ForEach(node => node.Accept(this));
             }
             if (programNode.Statements.Any())
             {
                 programNode.Statements.ForEach(node => node.Accept(this));
                 programNode.Statements.ForEach(node => node.Parent = programNode);
-                programNode.Statements.ForEach(node => _symbolTabelGlobal.AddNode(node,_symbolTabelGlobal));
+                //programNode.Statements.ForEach(node => _symbolTableBuilder.AddNode(node));
             }
             programNode.LoopFunction.Accept(this);
-            
-            Indent--;
+            _symbolTableBuilder.CloseScope();
+            Depth--;
+            _symbolTableBuilder.MakeFinalTable();
         }
 
         public override void Visit(CallNode callNode)
         {
             Print("CallNode");
-            Indent++;
+            Depth++;
             callNode.Id.Accept(this);
             callNode.Parameters.ForEach(node => node.Accept(this));
-            Indent--;
+            Depth--;
         }
 
         public override void Visit(EndNode endNode)
         {
             Print("EndNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(AndNode andNode)
         {
             Print("AndNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(PinNode pinNode)
         {
             Print("PinNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(APinNode apinNode)
         {
             Print("APinNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(DPinNode dpinNode)
         {
             Print("DPinNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(OperatorNode operatorNode)
         {
             Print("OperatorNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(BoolOperatorNode boolOperatorNode)
         {
             Print("BoolOperatorNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(CallParametersNode callParametersNode)
         {
             Print("CallParametersNode");
-            Indent++;
+            Depth++;
             callParametersNode.Parameters.ForEach(node => node.Accept(this));
-            Indent--;
+            Depth--;
         }
         public override void Visit(DivideNode divideNode)
         {
             Print("DivideNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(ExpressionNode expressionNode)
         {
             Print("ExpressionNode");
-            Indent++;
+            Depth++;
             expressionNode.Term.Accept(this);
             expressionNode.Operator.Accept(this);
             expressionNode.Expression.Accept(this);
-            Indent--;
+            Depth--;
         }
         public override void Visit(ForNode forNode)
         {
             Print("ForNode");
-            Indent++;
+            Depth++;
+            _symbolTableBuilder.OpenScope(TokenType.FOR,"for");
             forNode.CountingVariable.Accept(this);
             forNode.From.Accept(this);
             forNode.To.Accept(this);
@@ -335,184 +341,169 @@ namespace SymbolTable
                 forNode.Statements.ForEach(node => node.Parent = forNode);
             }
             //forNode.Accept(this);
-            Indent--;
+            _symbolTableBuilder.CloseScope();
+            Depth--;
         }
         public override void Visit(FuncNode funcNode)
         {
-         NodeSymbolTab symbolTabel = new NodeSymbolTab();
-    //symbolTabel.AddNode(funcNode.Name.Id, funcNode);
-    Print("FuncNode");
-            Indent++;
+            Print("FuncNode");
+            Depth++;
+            _symbolTableBuilder.OpenScope(TokenType.FUNC,funcNode.Name.Id);
 
             //funcNode.Accept(this);
             if (funcNode.Statements.Any())
             {
-                funcNode.Statements.ForEach(node => node.Accept(this));
                 funcNode.Statements.ForEach(node => node.Parent = funcNode);
-                funcNode.Statements.ForEach(node => symbolTabel.AddNode(node, symbolTabel));
+                
+                funcNode.Statements.ForEach(node => node.Accept(this));
             }
 
-            symbolTabel.Parent = _symbolTabelGlobal;
-            symbolTabel.Type = TokenType.FUNC;
-            symbolTabel.Line = funcNode.Line;
-            symbolTabel.Offset = funcNode.Offset;
-            _symbolTabelGlobal.ChildrenList.Add(symbolTabel);
-            
             funcNode.Name.Accept(this);
             funcNode.FunctionParameters.ForEach(node => node.Accept(this));
-            Indent--;
+            _symbolTableBuilder.CloseScope();
+            Depth--;
            
         }
         public override void Visit(GreaterNode greaterNode)
         {
             Print("GreaterNode");
-            Indent++;
+            Depth++;
             greaterNode.OrEqualNode.Accept(this);
             //greaterNode.Accept(this);
-            Indent--;
+            Depth--;
         }
         public override void Visit(IfStatementNode ifStatementNode)
         {
-            NodeSymbolTab symbolTab = new NodeSymbolTab
-            {
-                Type = TokenType.IF, Line = ifStatementNode.Line, Offset = ifStatementNode.Offset
-            };
             Print("IfstatementNode");
-            Indent++;
+            Depth++;
+            _symbolTableBuilder.OpenScope(TokenType.IFSTMNT,"if");
             ifStatementNode.Expression?.Accept(this);
             if (ifStatementNode.Statements.Any())
             {
                 ifStatementNode.Statements.ForEach(node => node.Parent = ifStatementNode);
               
                 ifStatementNode.Statements.ForEach(node => node.Accept(this));
-                ifStatementNode.Statements.ForEach(node => symbolTab.AddNode(node, symbolTab));
+                
             }
-            Indent--;
+            _symbolTableBuilder.CloseScope();
+            Depth--;
         }
         public override void Visit(LessNode lessNode)
         {
             Print("LessNode");
-            Indent++;
+            Depth++;
             lessNode.OrEqualNode.Accept(this);
-            Indent--;
+            Depth--;
         }
         public override void Visit(LoopNode loopNode)
         {
             Print("LoopNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(MathOperatorNode mathOperatorNode)
         {
             Print("MathOperatorNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(PlusNode plusNode)
         {
             Print("PlusNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(MinusNode minusNode)
         {
             Print("MinusNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(ModuloNode moduloNode)
         {
             Print("ModuloNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(OrNode orNode)
         {
             Print("OrNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(StringNode stringNode)
         {
             Print("StringNode");
-            Indent++;
-            Indent--;
+            Depth++;
+            Depth--;
         }
         public override void Visit(WhileNode whileNode)
         {
-            NodeSymbolTab symbolTable = new NodeSymbolTab
-            {
-                Type = TokenType.WHILE, Line = whileNode.Line, Offset = whileNode.Offset
-            };
-
             Print("WhileNode");
-            Indent++;
+            Depth++;
+            _symbolTableBuilder.OpenScope(TokenType.WHILE,"while");
 
             whileNode.Expression.Accept(this);
             if (whileNode.Statements.Any())
             {
                 whileNode.Statements.ForEach(node => node.Accept(this));
                 whileNode.Statements.ForEach(node => node.Parent = whileNode);
-                whileNode.Statements.ForEach(node => symbolTable.AddNode(node, symbolTable));
+                
             }
-            
-            Indent--;
+            _symbolTableBuilder.CloseScope();
+            Depth--;
            
         }
         public override void Visit(ElseStatementNode elseStatement)
         {
-            NodeSymbolTab symbolTab = new NodeSymbolTab
-            {
-                Type = TokenType.ELSE, Line = elseStatement.Line, Offset = elseStatement.Offset
-            };
             Print("ElseStatementNode");
-            Indent++;
+            Depth++;
+            _symbolTableBuilder.OpenScope(TokenType.ELSESTMNT,"else");
             if (elseStatement.Statements.Any())
             {
                 elseStatement.Statements.ForEach(node => node.Accept(this));
                 elseStatement.Statements.ForEach(node => node.Parent = elseStatement);
-                elseStatement.Statements.ForEach(node => symbolTab.AddNode(node, symbolTab));
+                
             }
             //elseStatement.Accept(this);
-            Indent--;
+            _symbolTableBuilder.CloseScope();
+            Depth--;
             //symbolTabel.AddNode(elseStatement.ToString(), elseStatement);
         }
         public override void Visit(ElseifStatementNode elseifStatementNode)
         {
-            NodeSymbolTab symbolTab = new NodeSymbolTab();
-            symbolTab.Type = TokenType.ELSEIFSTMNT;
-            symbolTab.Line = elseifStatementNode.Line;
-            symbolTab.Offset = elseifStatementNode.Offset;
+            _symbolTableBuilder.OpenScope(TokenType.ELSEIFSTMNT,"elseif");
             Print("ElseifStatementNode");
-            Indent++;
+            Depth++;
             elseifStatementNode.Val?.Accept(this);
             elseifStatementNode.Expression?.Accept(this);
             if (elseifStatementNode.Statements.Any())
             {
                 elseifStatementNode.Statements.ForEach(node => node.Accept(this));
                 elseifStatementNode.Statements.ForEach(node => node.Parent = elseifStatementNode);
-                elseifStatementNode.Statements.ForEach(node => symbolTab.AddNode(node,symbolTab));
+                
             }
             //elseifStatementNode.Accept(this);
-            Indent--;
+            _symbolTableBuilder.CloseScope();
+            Depth--;
             //symbolTabel.AddNode(elseifStatementNode.ToString(), elseifStatementNode);
         }
         public override void Visit(RangeNode rangeNode)
         {
             Print("RangeNode");
-            Indent++;
+            Depth++;
             rangeNode.From.Accept(this);
             rangeNode.To.Accept(this);
             //rangeNode.Accept(this);
-            Indent--;
+            Depth--;
         }
 
         public override void Visit(ReturnNode returnNode)
         {
             Print("ReturnNode");
-            Indent++;
+            Depth++;
             returnNode.ReturnValue.Accept(this);
-            Indent--;
+            Depth--;
         }
 
     }

@@ -465,7 +465,7 @@ namespace Lexer.Objects
                    || type == IFSTMNT
                    || type == ELSE
                    || type == ELSEIFSTMNT
-                   || type == FUNCDECL
+                   || type == FUNC
                    || type == WHILE
                    || type == FOR
                    || type == IF;
