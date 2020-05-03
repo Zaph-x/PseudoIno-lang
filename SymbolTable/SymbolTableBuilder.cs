@@ -53,17 +53,14 @@ namespace SymbolTable
 
         public void AddSymbol(AstNode node)
         {
-            Symbol symbol = new Symbol(GetNameFromRef(node),node.Type,node);
+            Symbol symbol = new Symbol(GetNameFromRef(node),node.Type, false,node);
             TopOfScope.Peek().Symbols.Add(symbol);
         }
 
         public void AddRef(AstNode node)
         {
-            /*Findnode(GetNameFromRef(node));
-            if (!Parent.Findnode(GetNameFromRef(node)))
-            {
-                throw new Exception("Symbol not found in symbol table");
-            }*/
+            Symbol symbol = new Symbol(GetNameFromRef(node),node.Type, true,node);
+            TopOfScope.Peek().Symbols.Add(symbol);
         }
 
         public void MakeFinalTable()
@@ -112,6 +109,10 @@ namespace SymbolTable
             else if (node.Type == TokenType.FUNC)
             {
                 name = ((FuncNode) node).Name.Id;
+            }
+            else if (node.Type == TokenType.VAR)
+            {
+                name = ((VarNode) node).Id;
             }
 
             return name;

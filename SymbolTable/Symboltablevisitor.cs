@@ -73,6 +73,7 @@ namespace SymbolTable
         {
             Print("AssignmentNode");
             _symbolTableBuilder.AddSymbol(assignmentNode);
+            //((ExpressionNode)assignmentNode.Assignment).Accept(this);
             Depth++;
             Depth--;
             //TODO der er interface med IAssginable Var { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
@@ -259,7 +260,15 @@ namespace SymbolTable
             Print("CallNode");
             Depth++;
             callNode.Id.Accept(this);
+            _symbolTableBuilder.AddRef(callNode);
             callNode.Parameters.ForEach(node => node.Accept(this));
+            foreach (var node in callNode.Parameters)
+            {
+                if (node.Type == TokenType.VAR)
+                {
+                    _symbolTableBuilder.AddRef(node);
+                }
+            }
             Depth--;
         }
 
@@ -323,6 +332,7 @@ namespace SymbolTable
             Print("ExpressionNode");
             Depth++;
             expressionNode.Term.Accept(this);
+            
             expressionNode.Operator.Accept(this);
             expressionNode.Expression.Accept(this);
             Depth--;
