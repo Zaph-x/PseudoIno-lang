@@ -24,219 +24,85 @@ namespace SymbolTable
         }
         public override void Visit(BeginNode beginNode)
         {
-            Print("BeginNode");
-            Depth++;
-            Depth--;
             beginNode.LoopNode.Accept(this);
-
         }
 
 
 
-        public override void Visit(TimeNode timeNode)
-        {
-            Print("TimeNode");
-            Depth++;
-            Depth--;
-        }
+        public override void Visit(TimeNode timeNode) { }
 
         public override void Visit(DeclParametersNode declParametersNode)
         {
-            Print("DeclParametersNode");
-            Depth++;
             if (declParametersNode.Parameters.Any())
             {
                 declParametersNode.Parameters.ForEach(stmnt => stmnt.Accept(this));
             }
-            Depth--;
         }
 
-        public override void Visit(TimesNode timesNode)
-        {
-            Print("TimesNode");
-            Depth++;
-
-        }
+        public override void Visit(TimesNode timesNode) { }
 
         public override void Visit(FunctionLoopNode loopFnNode)
         {
-            Print("FunctionLoopNode");
-            Depth++;
             if (loopFnNode.Statements.Any())
             {
                 loopFnNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             }
-            Depth--;
         }
 
         public override void Visit(AssignmentNode assignmentNode)
         {
-            Print("AssignmentNode");
             _symbolTableBuilder.AddSymbol(assignmentNode);
             //((ExpressionNode)assignmentNode.Assignment).Accept(this);
-            Depth++;
-            Depth--;
             //TODO der er interface med IAssginable Var { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
         }
 
-        public override void Visit(StatementNode statementNode)
-        {
-            Print("StatementNode");
-            Depth++;
-            Depth--;
+        public override void Visit(StatementNode statementNode) { }
 
-        }
-
-        public override void Visit(WithNode withNode)
-        {
-            Print("WithNode");
-            Depth++;
-            Depth--;
-
-        }
+        public override void Visit(WithNode withNode) { }
 
         public override void Visit(WaitNode waitNode)
         {
-            Print("WaitNode");
-            Depth++;
             waitNode.TimeAmount.Accept(this);
             waitNode.TimeModifier.Accept(this);
-            Depth--;
         }
 
-        public override void Visit(VarNode varNode)
-        {
-            Print("VarNode");
-            Depth++;
-            Depth--;
+        public override void Visit(VarNode varNode) { }
 
-        }
+        public override void Visit(ValNode valNode) { }
 
-        public override void Visit(ValNode valNode)
-        {
-            Print("ValNode");
-            Depth++;
-            Depth--;
-        }
+        public override void Visit(TimeSecondNode timeSecondNode) { }
 
-        public override void Visit(TimeSecondNode timeSecondNode)
-        {
-            Print("TimeSecondNode");
-            Depth++;
-            Depth--;
+        public override void Visit(TimeMinuteNode timeMinuteNode) { }
 
-        }
+        public override void Visit(TimeMillisecondNode timeMillisecondNode) { }
 
-        public override void Visit(TimeMinuteNode timeMinuteNode)
-        {
-            Print("TimeMinuteNode");
-            Depth++;
-            Depth--;
+        public override void Visit(TimeHourNode timeHourNode) { }
 
-        }
+        public override void Visit(RightParenthesisNode rightParenthesisNode) { }
 
-        public override void Visit(TimeMillisecondNode timeMillisecondNode)
-        {
-            Print("TimeMillisecondNode");
-            Depth++;
-            Depth--;
+        public override void Visit(NumericNode numericNode) { }
 
-        }
+        public override void Visit(NewlineNode newlineNode) { }
 
-        public override void Visit(TimeHourNode timeHourNode)
-        {
-            Print("TimeHourNode");
-            Depth++;
-            Depth--;
+        public override void Visit(LeftParenthesisNode leftParenthesisNode) { }
 
+        public override void Visit(InNode inNode) { }
+        public override void Visit(EqualNode equalNode) { }
 
-        }
+        public override void Visit(EqualsNode equalsNode) { }
 
-        public override void Visit(RightParenthesisNode rightParenthesisNode)
-        {
-            Print("TimeMillisecondNode");
-            Depth++;
-            Depth--;
+        public override void Visit(EOFNode eOFNode) { }
 
-        }
+        public override void Visit(EpsilonNode epsilonNode) { }
 
-        public override void Visit(NumericNode numericNode)
-        {
-            Print("NumericNode");
-            Depth++;
-            Depth--;
-
-
-        }
-
-        public override void Visit(NewlineNode newlineNode)
-        {
-            Print("NewlineNode");
-            Depth++;
-            Depth--;
-        }
-
-        public override void Visit(LeftParenthesisNode leftParenthesisNode)
-        {
-            Print("LeftParenthesisNode");
-            Depth++;
-            Depth--;
-        }
-
-        public override void Visit(InNode inNode)
-        {
-            Print("InNode");
-            Depth++;
-            Depth--;
-
-        }
-        public override void Visit(EqualNode equalNode)
-        {
-            Print("EqualNode");
-            Depth++;
-            Depth--;
-
-        }
-
-        public override void Visit(EqualsNode equalsNode)
-        {
-            Print("EqualsNode");
-            Depth++;
-            Depth--;
-
-        }
-
-        public override void Visit(EOFNode eOFNode)
-        {
-            Print("EOFNode");
-            Depth++;
-            Depth--;
-
-        }
-
-        public override void Visit(EpsilonNode epsilonNode)
-        {
-            Print("EpsilonNode");
-            Depth++;
-            Depth--;
-
-        }
-
-        public override void Visit(DoNode doNode)
-        {
-            Print("DoNode");
-            Depth++;
-            Depth--;
-
-        }
+        public override void Visit(DoNode doNode) { }
 
         public override void Visit(ProgramNode programNode)
         {
             _symbolTableBuilder = new SymbolTableBuilder(_symbolTabelGlobal);
             _symbolTableBuilder.CurrentSymbolTable = _symbolTabelGlobal;
-            Print("Program");
+
             _symbolTableBuilder.OpenScope(TokenType.PROG,"main");
-            Depth++;
             if (programNode.FunctionDefinitons.Any())
             {
                 programNode.FunctionDefinitons.ForEach(node => node.Parent = programNode);
@@ -251,14 +117,12 @@ namespace SymbolTable
             }
             programNode.LoopFunction.Accept(this);
             _symbolTableBuilder.CloseScope();
-            Depth--;
+
             _symbolTableBuilder.MakeFinalTable();
         }
 
         public override void Visit(CallNode callNode)
         {
-            Print("CallNode");
-            Depth++;
             callNode.Id.Accept(this);
             _symbolTableBuilder.AddRef(callNode);
             callNode.Parameters.ForEach(node => node.Accept(this));
@@ -269,78 +133,29 @@ namespace SymbolTable
                     _symbolTableBuilder.AddRef(node);
                 }
             }
-            Depth--;
         }
 
-        public override void Visit(EndNode endNode)
-        {
-            Print("EndNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(AndNode andNode)
-        {
-            Print("AndNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(PinNode pinNode)
-        {
-            Print("PinNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(APinNode apinNode)
-        {
-            Print("APinNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(DPinNode dpinNode)
-        {
-            Print("DPinNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(OperatorNode operatorNode)
-        {
-            Print("OperatorNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(BoolOperatorNode boolOperatorNode)
-        {
-            Print("BoolOperatorNode");
-            Depth++;
-            Depth--;
-        }
+        public override void Visit(EndNode endNode) { }
+        public override void Visit(AndNode andNode) { }
+        public override void Visit(PinNode pinNode) { }
+        public override void Visit(APinNode apinNode) { }
+        public override void Visit(DPinNode dpinNode) { }
+        public override void Visit(OperatorNode operatorNode) { }
+        public override void Visit(BoolOperatorNode boolOperatorNode) { }
         public override void Visit(CallParametersNode callParametersNode)
         {
-            Print("CallParametersNode");
-            Depth++;
             callParametersNode.Parameters.ForEach(node => node.Accept(this));
-            Depth--;
         }
-        public override void Visit(DivideNode divideNode)
-        {
-            Print("DivideNode");
-            Depth++;
-            Depth--;
-        }
+        public override void Visit(DivideNode divideNode) { }
         public override void Visit(ExpressionNode expressionNode)
         {
-            Print("ExpressionNode");
-            Depth++;
             expressionNode.Term.Accept(this);
             
             expressionNode.Operator.Accept(this);
             expressionNode.Expression.Accept(this);
-            Depth--;
         }
         public override void Visit(ForNode forNode)
         {
-            Print("ForNode");
-            Depth++;
             _symbolTableBuilder.OpenScope(TokenType.FOR,"for");
             forNode.CountingVariable.Accept(this);
             forNode.From.Accept(this);
@@ -352,12 +167,9 @@ namespace SymbolTable
             }
             //forNode.Accept(this);
             _symbolTableBuilder.CloseScope();
-            Depth--;
         }
         public override void Visit(FuncNode funcNode)
         {
-            Print("FuncNode");
-            Depth++;
             _symbolTableBuilder.OpenScope(TokenType.FUNC,funcNode.Name.Id);
 
             //funcNode.Accept(this);
@@ -371,21 +183,15 @@ namespace SymbolTable
             funcNode.Name.Accept(this);
             funcNode.FunctionParameters.ForEach(node => node.Accept(this));
             _symbolTableBuilder.CloseScope();
-            Depth--;
            
         }
         public override void Visit(GreaterNode greaterNode)
         {
-            Print("GreaterNode");
-            Depth++;
             greaterNode.OrEqualNode.Accept(this);
             //greaterNode.Accept(this);
-            Depth--;
         }
         public override void Visit(IfStatementNode ifStatementNode)
         {
-            Print("IfstatementNode");
-            Depth++;
             _symbolTableBuilder.OpenScope(TokenType.IFSTMNT,"if");
             ifStatementNode.Expression?.Accept(this);
             if (ifStatementNode.Statements.Any())
@@ -396,61 +202,20 @@ namespace SymbolTable
                 
             }
             _symbolTableBuilder.CloseScope();
-            Depth--;
         }
         public override void Visit(LessNode lessNode)
         {
-            Print("LessNode");
-            Depth++;
             lessNode.OrEqualNode.Accept(this);
-            Depth--;
         }
-        public override void Visit(LoopNode loopNode)
-        {
-            Print("LoopNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(MathOperatorNode mathOperatorNode)
-        {
-            Print("MathOperatorNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(PlusNode plusNode)
-        {
-            Print("PlusNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(MinusNode minusNode)
-        {
-            Print("MinusNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(ModuloNode moduloNode)
-        {
-            Print("ModuloNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(OrNode orNode)
-        {
-            Print("OrNode");
-            Depth++;
-            Depth--;
-        }
-        public override void Visit(StringNode stringNode)
-        {
-            Print("StringNode");
-            Depth++;
-            Depth--;
-        }
+        public override void Visit(LoopNode loopNode) { }
+        public override void Visit(MathOperatorNode mathOperatorNode) { }
+        public override void Visit(PlusNode plusNode) { }
+        public override void Visit(MinusNode minusNode) { }
+        public override void Visit(ModuloNode moduloNode) { }
+        public override void Visit(OrNode orNode) { }
+        public override void Visit(StringNode stringNode) { }
         public override void Visit(WhileNode whileNode)
         {
-            Print("WhileNode");
-            Depth++;
             _symbolTableBuilder.OpenScope(TokenType.WHILE,"while");
 
             whileNode.Expression.Accept(this);
@@ -461,13 +226,9 @@ namespace SymbolTable
                 
             }
             _symbolTableBuilder.CloseScope();
-            Depth--;
-           
         }
         public override void Visit(ElseStatementNode elseStatement)
         {
-            Print("ElseStatementNode");
-            Depth++;
             _symbolTableBuilder.OpenScope(TokenType.ELSESTMNT,"else");
             if (elseStatement.Statements.Any())
             {
@@ -477,14 +238,11 @@ namespace SymbolTable
             }
             //elseStatement.Accept(this);
             _symbolTableBuilder.CloseScope();
-            Depth--;
             //symbolTabel.AddNode(elseStatement.ToString(), elseStatement);
         }
         public override void Visit(ElseifStatementNode elseifStatementNode)
         {
             _symbolTableBuilder.OpenScope(TokenType.ELSEIFSTMNT,"elseif");
-            Print("ElseifStatementNode");
-            Depth++;
             elseifStatementNode.Val?.Accept(this);
             elseifStatementNode.Expression?.Accept(this);
             if (elseifStatementNode.Statements.Any())
@@ -495,26 +253,18 @@ namespace SymbolTable
             }
             //elseifStatementNode.Accept(this);
             _symbolTableBuilder.CloseScope();
-            Depth--;
             //symbolTabel.AddNode(elseifStatementNode.ToString(), elseifStatementNode);
         }
         public override void Visit(RangeNode rangeNode)
         {
-            Print("RangeNode");
-            Depth++;
             rangeNode.From.Accept(this);
             rangeNode.To.Accept(this);
             //rangeNode.Accept(this);
-            Depth--;
         }
 
         public override void Visit(ReturnNode returnNode)
         {
-            Print("ReturnNode");
-            Depth++;
             returnNode.ReturnValue.Accept(this);
-            Depth--;
         }
-
     }
 }
