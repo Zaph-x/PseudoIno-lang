@@ -10,6 +10,7 @@ namespace AbstractSyntaxTree.Objects
     {
         public TokenType Type { get; set; }
         public string Value { get; set; }
+        public TokenType SymbolType { get; set; } = TokenType.ERROR;
 
         // TODO Pass these from the scanner Token
         public long Line { get; set; }

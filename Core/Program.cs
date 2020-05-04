@@ -11,7 +11,7 @@ using Lexer.Exceptions;
 using Parser;
 using AbstractSyntaxTree.Objects;
 using Lexer.Objects;
-
+using Contextual_analysis;
 
 namespace Core
 {
@@ -93,6 +93,7 @@ namespace Core
                 {
                     parsenizer.Root.Accept(new PrettyPrinter());
                 }
+                parsenizer.Root.Accept(new TypeChecker());
             }
 
             timer.Stop();

@@ -7,6 +7,7 @@ namespace Contextual_analysis
 {
     public class TypeChecker : Visitor
     {
+        private TokenType TermType {get;set;} = TokenType.ERROR;
         private SymbolTable.SymbolTable _symbolTabelGlobal = new SymbolTable.SymbolTable();
         private SymbolTable.SymbolTableBuilder _symbolTableBuilder;
         public override void Visit(BeginNode beginNode)
@@ -38,6 +39,20 @@ namespace Contextual_analysis
 
         public override void Visit(AssignmentNode assignmentNode)
         {
+            if (((VarNode)assignmentNode.Var).SymbolType == TokenType.ERROR)
+            {
+                assignmentNode.Var.Accept(this);
+
+                _symbolTableBuilder.AddSymbol(assignmentNode);
+                //hvis id == assigmenttype så ok ellers error.
+                AstNode typeid = ((AstNode)assignmentNode.Var);
+                AstNode typeassigment = ((AstNode)assignmentNode.Assignment);
+            //if(typeid.)
+
+
+            }
+            //VarNode id = (VarNode)assignmentNode.Var.Accept(this);
+            //dette tilføjer venstre side til symboltable, brug addref til at sætte højre side af statement. De skal ske til sidst når alt er kontrolleret.
             _symbolTableBuilder.AddSymbol(assignmentNode);
             //((ExpressionNode)assignmentNode.Assignment).Accept(this);
             //TODO der er interface med IAssginable Var { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
@@ -252,6 +267,24 @@ namespace Contextual_analysis
         public override void Visit(ReturnNode returnNode)
         {
             returnNode.ReturnValue.Accept(this);
+        }
+
+        public TokenType GetExpressionType(ExpressionNode node) 
+        {   
+            if(TermType == TokenType.ERROR)
+                TermType = ((AstNode)node.Term).Type;
+            if (node.Expression != null)
+            {
+                if (((AstNode)node.Expression.Term).Type != TermType || ((AstNode)node.Expression.Term).Type != TokenType.EXPR) {
+                    // TODO ERROR code goes here
+                } else {
+                    return GetExpressionType(node.Expression);
+                }
+            } else if (((AstNode)node.Term).Type == TokenType.EXPR) {
+                return GetExpressionType((ExpressionNode)node.Term);
+            }
+            TermType = TokenType.ERROR;
+            return ((AstNode)node.Term).Type;
         }
     }
 }
