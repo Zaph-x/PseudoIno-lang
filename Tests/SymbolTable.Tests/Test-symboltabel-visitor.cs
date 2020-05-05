@@ -90,6 +90,167 @@ end foo";
             //base.Visit(parser.Root);
         }
 
+        [Test]
+        public void Test_SymboltableVisitor_main()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            Assert.AreEqual("main",symboltablevisitor._symbolTableBuilder.FinalSymbolTable[0][0].Name); 
+        }
+        
+        [Test]
+        public void Test_SymboltableVisitor_prog()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            Assert.AreEqual(TokenType.PROG,symboltablevisitor._symbolTableBuilder.FinalSymbolTable[0][0].Type); 
+        }
+        
+        [Test]
+        public void Test_SymboltableVisitor_Depth_1_count()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            Assert.AreEqual(1,symboltablevisitor._symbolTableBuilder.FinalSymbolTable[0].Count); 
+        }
+        
+        [Test]
+        public void Test_SymboltableVisitor_Depth_2_count()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            Assert.AreEqual(5,symboltablevisitor._symbolTableBuilder.FinalSymbolTable[1].Count); 
+        }
+        
+        [Test]
+        public void Test_SymboltableVisitor_Depth_3_count()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            Assert.AreEqual(3,symboltablevisitor._symbolTableBuilder.FinalSymbolTable[2].Count); 
+        }
+        
+        [Test]
+        public void Test_SymboltableVisitor_Depth_3_1_name()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            Assert.AreEqual("while",symboltablevisitor._symbolTableBuilder.FinalSymbolTable[2][0].Name); 
+        }
+        
+        [Test]
+        public void Test_SymboltableVisitor_Depth_3_2_name()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            Assert.AreEqual("for",symboltablevisitor._symbolTableBuilder.FinalSymbolTable[2][1].Name); 
+        }
+        
+        [Test]
+        public void Test_SymboltableVisitor_Depth_3_3_name()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            Assert.AreEqual("if",symboltablevisitor._symbolTableBuilder.FinalSymbolTable[2][2].Name); 
+        }
+        
+        [Test]
+        public void Test_SymboltableVisitor_Depth_1_symbols()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            Assert.AreEqual(7,symboltablevisitor._symbolTableBuilder.FinalSymbolTable[0][0].Symbols.Count); 
+        }
+        
+        [Test]
+        public void Test_SymboltableVisitor_ScopeCheck()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            ScopeCheck scopeCheck = new ScopeCheck(symboltablevisitor._symbolTableBuilder);
+            Assert.AreEqual(7,symboltablevisitor._symbolTableBuilder.FinalSymbolTable[0][0].Symbols.Count); 
+        }
+
         public StreamReader CreateFakeReader(string content, Encoding enc)
         {
             byte[] fakeBytes = enc.GetBytes(content);
