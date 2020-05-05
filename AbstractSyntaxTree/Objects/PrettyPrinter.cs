@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using AbstractSyntaxTree.Objects.Nodes;
 using AbstractSyntaxTree.Objects;
-
 namespace AbstractSyntaxTree.Objects
 {
     public class PrettyPrinter : Visitor
@@ -17,27 +16,20 @@ namespace AbstractSyntaxTree.Objects
             }
             Console.WriteLine(line + input);
         }
-
-
-        public override void Visit(BeginNode beginNode)
+        public override object Visit(BeginNode beginNode)
         {
             Print("BeginNode");
-            Indent++;
-            Indent--;
+            
             beginNode.LoopNode.Accept(this);
-
+            return null;
         }
-
-
-
-        public override void Visit(TimeNode timeNode)
+        public override object Visit(TimeNode timeNode)
         {
             Print("TimeNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-
-        public override void Visit(DeclParametersNode declParametersNode)
+        public override object Visit(DeclParametersNode declParametersNode)
         {
             Print("DeclParametersNode");
             Indent++;
@@ -46,16 +38,15 @@ namespace AbstractSyntaxTree.Objects
                 declParametersNode.Parameters.ForEach(stmnt => stmnt.Accept(this));
             }
             Indent--;
+            return null;
         }
-
-        public override void Visit(TimesNode timesNode)
+        public override object Visit(TimesNode timesNode)
         {
             Print("TimesNode");
             Indent++;
-
+            return null;
         }
-
-        public override void Visit(FunctionLoopNode loopFnNode)
+        public override object Visit(FunctionLoopNode loopFnNode)
         {
             Print("FunctionLoopNode");
             Indent++;
@@ -64,168 +55,133 @@ namespace AbstractSyntaxTree.Objects
                 loopFnNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             }
             Indent--;
+            return null;
         }
-
-        public override void Visit(AssignmentNode assignmentNode)
+        public override object Visit(AssignmentNode assignmentNode)
         {
             Print("AssignmentNode");
-            Indent++;
-            Indent--;
+            
             //TODO der er interface med IAssginable Var { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
+            return null;
         }
-
-        public override void Visit(StatementNode statementNode)
+        public override object Visit(StatementNode statementNode)
         {
             Print("StatementNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(WithNode withNode)
+        public override object Visit(WithNode withNode)
         {
             Print("WithNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(WaitNode waitNode)
+        public override object Visit(WaitNode waitNode)
         {
             Print("WaitNode");
             Indent++;
             waitNode.TimeAmount.Accept(this);
             waitNode.TimeModifier.Accept(this);
             Indent--;
+            return null;
         }
-
-        public override void Visit(VarNode varNode)
+        public override object Visit(VarNode varNode)
         {
             Print("VarNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(ValNode valNode)
+        public override object Visit(ValNode valNode)
         {
             Print("ValNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-
-        public override void Visit(TimeSecondNode timeSecondNode)
+        public override object Visit(TimeSecondNode timeSecondNode)
         {
             Print("TimeSecondNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(TimeMinuteNode timeMinuteNode)
+        public override object Visit(TimeMinuteNode timeMinuteNode)
         {
             Print("TimeMinuteNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(TimeMillisecondNode timeMillisecondNode)
+        public override object Visit(TimeMillisecondNode timeMillisecondNode)
         {
             Print("TimeMillisecondNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(TimeHourNode timeHourNode)
+        public override object Visit(TimeHourNode timeHourNode)
         {
             Print("TimeHourNode");
-            Indent++;
-            Indent--;
-
-
+            
+            return null;
         }
-
-        public override void Visit(RightParenthesisNode rightParenthesisNode)
+        public override object Visit(RightParenthesisNode rightParenthesisNode)
         {
             Print("TimeMillisecondNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(NumericNode numericNode)
+        public override object Visit(NumericNode numericNode)
         {
             Print("NumericNode");
-            Indent++;
-            Indent--;
-
-
+            
+            return null;
         }
-
-        public override void Visit(NewlineNode newlineNode)
+        public override object Visit(NewlineNode newlineNode)
         {
             Print("NewlineNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-
-        public override void Visit(LeftParenthesisNode leftParenthesisNode)
+        public override object Visit(LeftParenthesisNode leftParenthesisNode)
         {
             Print("LeftParenthesisNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-
-        public override void Visit(InNode inNode)
+        public override object Visit(InNode inNode)
         {
             Print("InNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-        public override void Visit(EqualNode equalNode)
+        public override object Visit(EqualNode equalNode)
         {
             Print("EqualNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(EqualsNode equalsNode)
+        public override object Visit(EqualsNode equalsNode)
         {
             Print("EqualsNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(EOFNode eOFNode)
+        public override object Visit(EOFNode eOFNode)
         {
             Print("EOFNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(EpsilonNode epsilonNode)
+        public override object Visit(EpsilonNode epsilonNode)
         {
             Print("EpsilonNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(DoNode doNode)
+        public override object Visit(DoNode doNode)
         {
             Print("DoNode");
-            Indent++;
-            Indent--;
-
+            
+            return null;
         }
-
-        public override void Visit(ProgramNode programNode)
+        public override object Visit(ProgramNode programNode)
         {
             Print("Program");
             Indent++;
@@ -239,73 +195,74 @@ namespace AbstractSyntaxTree.Objects
             }
             programNode.LoopFunction.Accept(this);
             Indent--;
+            return null;
         }
-
-        public override void Visit(CallNode callNode)
+        public override object Visit(CallNode callNode)
         {
             Print("CallNode");
             Indent++;
             callNode.Id.Accept(this);
             callNode.Parameters.ForEach(node => node.Accept(this));
             Indent--;
+            return null;
         }
-
-        public override void Visit(EndNode endNode)
+        public override object Visit(EndNode endNode)
         {
             Print("EndNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(AndNode andNode)
+        public override object Visit(AndNode andNode)
         {
             Print("AndNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(PinNode pinNode)
+        public override object Visit(PinNode pinNode)
         {
             Print("PinNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(APinNode apinNode)
+        public override object Visit(APinNode apinNode)
         {
             Print("APinNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(DPinNode dpinNode)
+        public override object Visit(DPinNode dpinNode)
         {
             Print("DPinNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(OperatorNode operatorNode)
+        public override object Visit(OperatorNode operatorNode)
         {
             Print("OperatorNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(BoolOperatorNode boolOperatorNode)
+        public override object Visit(BoolOperatorNode boolOperatorNode)
         {
             Print("BoolOperatorNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(CallParametersNode callParametersNode)
+        public override object Visit(CallParametersNode callParametersNode)
         {
             Print("CallParametersNode");
             Indent++;
             callParametersNode.Parameters.ForEach(node => node.Accept(this));
             Indent--;
+            return null;
         }
-        public override void Visit(DivideNode divideNode)
+        public override object Visit(DivideNode divideNode)
         {
             Print("DivideNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(ExpressionNode expressionNode)
+        public override object Visit(ExpressionNode expressionNode)
         {
             Print("ExpressionNode");
             Indent++;
@@ -313,8 +270,9 @@ namespace AbstractSyntaxTree.Objects
             expressionNode.Operator.Accept(this);
             expressionNode.Expression.Accept(this);
             Indent--;
+            return null;
         }
-        public override void Visit(ForNode forNode)
+        public override object Visit(ForNode forNode)
         {
             Print("ForNode");
             Indent++;
@@ -327,12 +285,12 @@ namespace AbstractSyntaxTree.Objects
             }
             //forNode.Accept(this);
             Indent--;
+            return null;
         }
-        public override void Visit(FuncNode funcNode)
+        public override object Visit(FuncNode funcNode)
         {
             Print("FuncNode");
             Indent++;
-
             //funcNode.Accept(this);
             if (funcNode.Statements.Any())
             {
@@ -341,16 +299,18 @@ namespace AbstractSyntaxTree.Objects
             funcNode.Name.Accept(this);
             funcNode.FunctionParameters.ForEach(node => node.Accept(this));
             Indent--;
+            return null;
         }
-        public override void Visit(GreaterNode greaterNode)
+        public override object Visit(GreaterNode greaterNode)
         {
             Print("GreaterNode");
             Indent++;
             greaterNode.OrEqualNode.Accept(this);
             //greaterNode.Accept(this);
             Indent--;
+            return null;
         }
-        public override void Visit(IfStatementNode ifStatementNode)
+        public override object Visit(IfStatementNode ifStatementNode)
         {
             Print("IfstatementNode");
             Indent++;
@@ -360,69 +320,71 @@ namespace AbstractSyntaxTree.Objects
                 ifStatementNode.Statements.ForEach(node => node.Accept(this));
             }
             Indent--;
+            return null;
         }
-        public override void Visit(LessNode lessNode)
+        public override object Visit(LessNode lessNode)
         {
             Print("LessNode");
             Indent++;
             lessNode.OrEqualNode.Accept(this);
             Indent--;
+            return null;
         }
-        public override void Visit(LoopNode loopNode)
+        public override object Visit(LoopNode loopNode)
         {
             Print("LoopNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(MathOperatorNode mathOperatorNode)
+        public override object Visit(MathOperatorNode mathOperatorNode)
         {
             Print("MathOperatorNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(PlusNode plusNode)
+        public override object Visit(PlusNode plusNode)
         {
             Print("PlusNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(MinusNode minusNode)
+        public override object Visit(MinusNode minusNode)
         {
             Print("MinusNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(ModuloNode moduloNode)
+        public override object Visit(ModuloNode moduloNode)
         {
             Print("ModuloNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(OrNode orNode)
+        public override object Visit(OrNode orNode)
         {
             Print("OrNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(StringNode stringNode)
+        public override object Visit(StringNode stringNode)
         {
             Print("StringNode");
-            Indent++;
-            Indent--;
+            
+            return null;
         }
-        public override void Visit(WhileNode whileNode)
+        public override object Visit(WhileNode whileNode)
         {
             Print("WhileNode");
             Indent++;
-
             whileNode.Expression.Accept(this);
             if (whileNode.Statements.Any())
             {
                 whileNode.Statements.ForEach(node => node.Accept(this));
             }
             Indent--;
+            return null;
         }
-        public override void Visit(ElseStatementNode elseStatement)
+        public override object Visit(ElseStatementNode elseStatement)
         {
             Print("ElseStatementNode");
             Indent++;
@@ -432,8 +394,9 @@ namespace AbstractSyntaxTree.Objects
             }
             //elseStatement.Accept(this);
             Indent--;
+            return null;
         }
-        public override void Visit(ElseifStatementNode elseifStatementNode)
+        public override object Visit(ElseifStatementNode elseifStatementNode)
         {
             Print("ElseifStatementNode");
             Indent++;
@@ -445,8 +408,9 @@ namespace AbstractSyntaxTree.Objects
             }
             //elseifStatementNode.Accept(this);
             Indent--;
+            return null;
         }
-        public override void Visit(RangeNode rangeNode)
+        public override object Visit(RangeNode rangeNode)
         {
             Print("RangeNode");
             Indent++;
@@ -454,14 +418,15 @@ namespace AbstractSyntaxTree.Objects
             rangeNode.To.Accept(this);
             //rangeNode.Accept(this);
             Indent--;
+            return null;
         }
-
-        public override void Visit(ReturnNode returnNode)
+        public override object Visit(ReturnNode returnNode)
         {
             Print("ReturnNode");
             Indent++;
             returnNode.ReturnValue.Accept(this);
             Indent--;
+            return null;
         }
     }
 }
