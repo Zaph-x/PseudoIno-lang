@@ -12,7 +12,7 @@ namespace AbstractSyntaxTree.Tests
         [Test]
         public void Test_AddChild_ChildIsNull()
         {
-            BeginNode node = new BeginNode(1, 1);
+            BeginNode node = new BeginNode(new ScannerToken(TokenType.BEGIN, 1, 1));
             //Assert.Throws<NullReferenceException>(() => node.AddChild(null), "The method accepts a null child.");
         }
 

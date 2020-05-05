@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class NewlineNode : AstNode
     {
-        public NewlineNode(int line, int offset) : base(TokenType.NEWLINE, line, offset)
+        public NewlineNode(ScannerToken token) : base(token)
         {
         }
         public override void Accept(Visitor visitor)

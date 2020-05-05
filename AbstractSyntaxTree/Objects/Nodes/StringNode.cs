@@ -6,7 +6,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public class StringNode : ValNode
     {
         string Value {get;set;}
-        public StringNode(string value, int line, int offset) : base(TokenType.STRING, line, offset)
+        public StringNode(string value,  ScannerToken token) : base(token)
         {
             Value = value;
         }

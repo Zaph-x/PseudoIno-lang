@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class DivideNode : MathOperatorNode
     {
-        public DivideNode(int line, int offset) : base(TokenType.OP_DIVIDE, line, offset)
+        public DivideNode(ScannerToken token) : base(token)
         {
         }
 

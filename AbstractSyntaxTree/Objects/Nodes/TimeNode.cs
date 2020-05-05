@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public abstract class TimeNode : AstNode
     {
-        public TimeNode(TokenType type ,int line, int offset) : base(type, line, offset)
+        public TimeNode( ScannerToken token) : base(token)
         {
         }
         public abstract override void Accept(Visitor visitor);

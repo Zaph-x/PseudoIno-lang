@@ -38,7 +38,7 @@ namespace SymbolTable
             }
         }
 
-        public bool CheckScope(Symbol symbol, SymbolTable symbolTable, int currentDepth)
+        public bool CheckScope(Symbol symbol, SymbolTableObject symbolTable, int currentDepth)
         {
             int NumberOfSymbols = symbolTable.Symbols.Count - 1;
             int i = 0;

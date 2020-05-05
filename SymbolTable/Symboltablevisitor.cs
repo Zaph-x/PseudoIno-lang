@@ -5,13 +5,11 @@ using System.Text;
 using AbstractSyntaxTree.Objects;
 using AbstractSyntaxTree.Objects.Nodes;
 using Lexer.Objects;
-
 namespace SymbolTable
 {
-   public class Symboltablevisitor : Visitor
+    public class Symboltablevisitor : Visitor
     {
         private int Depth { get; set; } = 0;
-        private SymbolTable _symbolTabelGlobal = new SymbolTable();
         public SymbolTableBuilder _symbolTableBuilder;
         private void Print(string input)
         {
@@ -22,87 +20,124 @@ namespace SymbolTable
             }
             Console.WriteLine(line + input);
         }
-        public override void Visit(BeginNode beginNode)
+        public override object Visit(BeginNode beginNode)
         {
             beginNode.LoopNode.Accept(this);
+            return null;
         }
-
-
-
-        public override void Visit(TimeNode timeNode) { }
-
-        public override void Visit(DeclParametersNode declParametersNode)
+        public override object Visit(TimeNode timeNode) { 
+            return null;
+        }
+        public override object Visit(DeclParametersNode declParametersNode)
         {
             if (declParametersNode.Parameters.Any())
             {
                 declParametersNode.Parameters.ForEach(stmnt => stmnt.Accept(this));
             }
+            return null;
         }
-
-        public override void Visit(TimesNode timesNode) { }
-
-        public override void Visit(FunctionLoopNode loopFnNode)
+        public override object Visit(TimesNode timesNode)
+        {
+            return null;
+        }
+        public override object Visit(FunctionLoopNode loopFnNode)
         {
             if (loopFnNode.Statements.Any())
             {
                 loopFnNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             }
+            return null;
         }
-
-        public override void Visit(AssignmentNode assignmentNode)
+        public override object Visit(AssignmentNode assignmentNode)
         {
             _symbolTableBuilder.AddSymbol(assignmentNode);
             //((ExpressionNode)assignmentNode.Assignment).Accept(this);
             //TODO der er interface med IAssginable Var { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
+            return null;
         }
-
-        public override void Visit(StatementNode statementNode) { }
-
-        public override void Visit(WithNode withNode) { }
-
-        public override void Visit(WaitNode waitNode)
+        public override object Visit(StatementNode statementNode)
+        {
+            return null;
+        }
+        public override object Visit(WithNode withNode)
+        {
+            return null;
+        }
+        public override object Visit(WaitNode waitNode)
         {
             waitNode.TimeAmount.Accept(this);
             waitNode.TimeModifier.Accept(this);
+            return null;
         }
-
-        public override void Visit(VarNode varNode) { }
-
-        public override void Visit(ValNode valNode) { }
-
-        public override void Visit(TimeSecondNode timeSecondNode) { }
-
-        public override void Visit(TimeMinuteNode timeMinuteNode) { }
-
-        public override void Visit(TimeMillisecondNode timeMillisecondNode) { }
-
-        public override void Visit(TimeHourNode timeHourNode) { }
-
-        public override void Visit(RightParenthesisNode rightParenthesisNode) { }
-
-        public override void Visit(NumericNode numericNode) { }
-
-        public override void Visit(NewlineNode newlineNode) { }
-
-        public override void Visit(LeftParenthesisNode leftParenthesisNode) { }
-
-        public override void Visit(InNode inNode) { }
-        public override void Visit(EqualNode equalNode) { }
-
-        public override void Visit(EqualsNode equalsNode) { }
-
-        public override void Visit(EOFNode eOFNode) { }
-
-        public override void Visit(EpsilonNode epsilonNode) { }
-
-        public override void Visit(DoNode doNode) { }
-
-        public override void Visit(ProgramNode programNode)
+        public override object Visit(VarNode varNode)
         {
-            _symbolTableBuilder = new SymbolTableBuilder(_symbolTabelGlobal);
-            _symbolTableBuilder.CurrentSymbolTable = _symbolTabelGlobal;
-
-            _symbolTableBuilder.OpenScope(TokenType.PROG,"main");
+            return null;
+        }
+        public override object Visit(ValNode valNode)
+        {
+            return null;
+        }
+        public override object Visit(TimeSecondNode timeSecondNode)
+        {
+            return null;
+        }
+        public override object Visit(TimeMinuteNode timeMinuteNode)
+        {
+            return null;
+        }
+        public override object Visit(TimeMillisecondNode timeMillisecondNode)
+        {
+            return null;
+        }
+        public override object Visit(TimeHourNode timeHourNode)
+        {
+            return null;
+        }
+        public override object Visit(RightParenthesisNode rightParenthesisNode)
+        {
+            return null;
+        }
+        public override object Visit(NumericNode numericNode)
+        {
+            return null;
+        }
+        public override object Visit(NewlineNode newlineNode)
+        {
+            return null;
+        }
+        public override object Visit(LeftParenthesisNode leftParenthesisNode)
+        {
+            return null;
+        }
+        public override object Visit(InNode inNode)
+        {
+            return null;
+        }
+        public override object Visit(EqualNode equalNode)
+        {
+            return null;
+        }
+        public override object Visit(EqualsNode equalsNode)
+        {
+            return null;
+        }
+        public override object Visit(EOFNode eOFNode)
+        {
+            return null;
+        }
+        public override object Visit(EpsilonNode epsilonNode)
+        {
+            return null;
+        }
+        public override object Visit(DoNode doNode)
+        {
+            return null;
+        }
+        public override object Visit(ProgramNode programNode)
+        {
+            // _symbolTableBuilder = new SymbolTableBuilder(_symbolTabelGlobal);
+            // _symbolTableBuilder.CurrentSymbolTable = _symbolTabelGlobal;
+            _symbolTableBuilder.OpenScope(TokenType.PROG, "main");
             if (programNode.FunctionDefinitons.Any())
             {
                 programNode.FunctionDefinitons.ForEach(node => node.Parent = programNode);
@@ -117,11 +152,10 @@ namespace SymbolTable
             }
             programNode.LoopFunction.Accept(this);
             _symbolTableBuilder.CloseScope();
-
             _symbolTableBuilder.MakeFinalTable();
+            return null;
         }
-
-        public override void Visit(CallNode callNode)
+        public override object Visit(CallNode callNode)
         {
             callNode.Id.Accept(this);
             _symbolTableBuilder.AddRef(callNode);
@@ -133,30 +167,52 @@ namespace SymbolTable
                     _symbolTableBuilder.AddRef(node);
                 }
             }
+            return null;
         }
-
-        public override void Visit(EndNode endNode) { }
-        public override void Visit(AndNode andNode) { }
-        public override void Visit(PinNode pinNode) { }
-        public override void Visit(APinNode apinNode) { }
-        public override void Visit(DPinNode dpinNode) { }
-        public override void Visit(OperatorNode operatorNode) { }
-        public override void Visit(BoolOperatorNode boolOperatorNode) { }
-        public override void Visit(CallParametersNode callParametersNode)
+        public override object Visit(EndNode endNode)
+        {
+            return null;
+        }
+        public override object Visit(AndNode andNode)
+        {
+            return null;
+        }
+        public override object Visit(PinNode pinNode)
+        {
+            return null;
+        }
+        public override object Visit(APinNode apinNode)
+        {
+            return null;
+        }
+        public override object Visit(DPinNode dpinNode)
+        {
+            return null;
+        }
+        public override object Visit(OperatorNode operatorNode) {
+            return null;
+        }
+        public override object Visit(BoolOperatorNode boolOperatorNode) {
+            return null;
+        }
+        public override object Visit(CallParametersNode callParametersNode)
         {
             callParametersNode.Parameters.ForEach(node => node.Accept(this));
+            return null;
         }
-        public override void Visit(DivideNode divideNode) { }
-        public override void Visit(ExpressionNode expressionNode)
+        public override object Visit(DivideNode divideNode) {
+            return null;
+        }
+        public override object Visit(ExpressionNode expressionNode)
         {
             expressionNode.Term.Accept(this);
-            
             expressionNode.Operator.Accept(this);
             expressionNode.Expression.Accept(this);
+            return null;
         }
-        public override void Visit(ForNode forNode)
+        public override object Visit(ForNode forNode)
         {
-            _symbolTableBuilder.OpenScope(TokenType.FOR,"for");
+            _symbolTableBuilder.OpenScope(TokenType.FOR, "for");
             forNode.CountingVariable.Accept(this);
             forNode.From.Accept(this);
             forNode.To.Accept(this);
@@ -167,104 +223,117 @@ namespace SymbolTable
             }
             //forNode.Accept(this);
             _symbolTableBuilder.CloseScope();
+            return null;
         }
-        public override void Visit(FuncNode funcNode)
+        public override object Visit(FuncNode funcNode)
         {
-            _symbolTableBuilder.OpenScope(TokenType.FUNC,funcNode.Name.Id);
-
+            _symbolTableBuilder.OpenScope(TokenType.FUNC, funcNode.Name.Id);
             //funcNode.Accept(this);
             if (funcNode.Statements.Any())
             {
                 funcNode.Statements.ForEach(node => node.Parent = funcNode);
-                
                 funcNode.Statements.ForEach(node => node.Accept(this));
             }
-
             funcNode.Name.Accept(this);
             funcNode.FunctionParameters.ForEach(node => node.Accept(this));
             _symbolTableBuilder.CloseScope();
-           
+            return null;
         }
-        public override void Visit(GreaterNode greaterNode)
+        public override object Visit(GreaterNode greaterNode)
         {
             greaterNode.OrEqualNode.Accept(this);
             //greaterNode.Accept(this);
+            return null;
         }
-        public override void Visit(IfStatementNode ifStatementNode)
+        public override object Visit(IfStatementNode ifStatementNode)
         {
-            _symbolTableBuilder.OpenScope(TokenType.IFSTMNT,"if");
+            _symbolTableBuilder.OpenScope(TokenType.IFSTMNT, "if");
             ifStatementNode.Expression?.Accept(this);
             if (ifStatementNode.Statements.Any())
             {
                 ifStatementNode.Statements.ForEach(node => node.Parent = ifStatementNode);
-              
                 ifStatementNode.Statements.ForEach(node => node.Accept(this));
-                
             }
             _symbolTableBuilder.CloseScope();
+            return null;
         }
-        public override void Visit(LessNode lessNode)
+        public override object Visit(LessNode lessNode)
         {
             lessNode.OrEqualNode.Accept(this);
+            return null;
         }
-        public override void Visit(LoopNode loopNode) { }
-        public override void Visit(MathOperatorNode mathOperatorNode) { }
-        public override void Visit(PlusNode plusNode) { }
-        public override void Visit(MinusNode minusNode) { }
-        public override void Visit(ModuloNode moduloNode) { }
-        public override void Visit(OrNode orNode) { }
-        public override void Visit(StringNode stringNode) { }
-        public override void Visit(WhileNode whileNode)
+        public override object Visit(LoopNode loopNode) {
+            return null;
+         }
+        public override object Visit(MathOperatorNode mathOperatorNode) {
+            return null;
+         }
+        public override object Visit(PlusNode plusNode) { 
+            return null;
+        }
+        public override object Visit(MinusNode minusNode) { 
+            return null;
+        }
+        public override object Visit(ModuloNode moduloNode) { 
+            return null;
+        }
+        public override object Visit(OrNode orNode) { 
+            return null;
+        }
+        public override object Visit(StringNode stringNode) {
+            return null;
+         }
+        public override object Visit(WhileNode whileNode)
         {
-            _symbolTableBuilder.OpenScope(TokenType.WHILE,"while");
-
+            _symbolTableBuilder.OpenScope(TokenType.WHILE, "while");
             whileNode.Expression.Accept(this);
             if (whileNode.Statements.Any())
             {
                 whileNode.Statements.ForEach(node => node.Accept(this));
                 whileNode.Statements.ForEach(node => node.Parent = whileNode);
-                
             }
             _symbolTableBuilder.CloseScope();
+            return null;
         }
-        public override void Visit(ElseStatementNode elseStatement)
+        public override object Visit(ElseStatementNode elseStatement)
         {
-            _symbolTableBuilder.OpenScope(TokenType.ELSESTMNT,"else");
+            _symbolTableBuilder.OpenScope(TokenType.ELSESTMNT, "else");
             if (elseStatement.Statements.Any())
             {
                 elseStatement.Statements.ForEach(node => node.Accept(this));
                 elseStatement.Statements.ForEach(node => node.Parent = elseStatement);
-                
             }
             //elseStatement.Accept(this);
             _symbolTableBuilder.CloseScope();
             //symbolTabel.AddNode(elseStatement.ToString(), elseStatement);
+            return null;
         }
-        public override void Visit(ElseifStatementNode elseifStatementNode)
+        public override object Visit(ElseifStatementNode elseifStatementNode)
         {
-            _symbolTableBuilder.OpenScope(TokenType.ELSEIFSTMNT,"elseif");
+            _symbolTableBuilder.OpenScope(TokenType.ELSEIFSTMNT, "elseif");
             elseifStatementNode.Val?.Accept(this);
             elseifStatementNode.Expression?.Accept(this);
             if (elseifStatementNode.Statements.Any())
             {
                 elseifStatementNode.Statements.ForEach(node => node.Accept(this));
                 elseifStatementNode.Statements.ForEach(node => node.Parent = elseifStatementNode);
-                
             }
             //elseifStatementNode.Accept(this);
             _symbolTableBuilder.CloseScope();
             //symbolTabel.AddNode(elseifStatementNode.ToString(), elseifStatementNode);
+            return null;
         }
-        public override void Visit(RangeNode rangeNode)
+        public override object Visit(RangeNode rangeNode)
         {
             rangeNode.From.Accept(this);
             rangeNode.To.Accept(this);
             //rangeNode.Accept(this);
+            return null;
         }
-
-        public override void Visit(ReturnNode returnNode)
+        public override object Visit(ReturnNode returnNode)
         {
             returnNode.ReturnValue.Accept(this);
+            return null;
         }
     }
 }

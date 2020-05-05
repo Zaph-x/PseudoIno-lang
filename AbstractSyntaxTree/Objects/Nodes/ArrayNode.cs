@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class ArrayNode : AstNode, IAssignment
     {
-        public ArrayNode(int line, int offset) : base(TokenType.ARR, line, offset)
+        public ArrayNode(ScannerToken token) : base(token)
         {
         }
 

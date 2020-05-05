@@ -26,6 +26,8 @@ namespace Lexer.Objects
         /// <value>Set in the constructor</value>  
         public int Offset {get;protected set;}
 
+        public TypeContext SymbolicType {get;set;}
+
         /// <summary>
         /// A function to format tokens, when printed to the screen or in other ways used as a string
         /// </summary>

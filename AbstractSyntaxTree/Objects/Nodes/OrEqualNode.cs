@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class OrEqualNode : BoolOperatorNode
     {
-        public OrEqualNode(int line, int offset) : base(TokenType.OP_OREQUAL, line, offset)
+        public OrEqualNode( ScannerToken token) : base(token)
         {
         }
 

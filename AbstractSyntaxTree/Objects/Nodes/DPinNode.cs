@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class DPinNode : PinNode
     {
-        public DPinNode(string pinNum, int line, int offset) : base(TokenType.DPIN, line, offset)
+        public DPinNode(string pinNum, ScannerToken token) : base(token)
         {
             this.Id = pinNum;
         }

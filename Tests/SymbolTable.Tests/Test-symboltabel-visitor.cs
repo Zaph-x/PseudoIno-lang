@@ -2,13 +2,13 @@
 using Lexer;
 using Lexer.Objects;
 using NUnit.Framework;
-using Parser;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using SymbolTable;
+using Parser;
 
 namespace SymbolTable.Tests
 {

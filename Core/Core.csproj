@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AbstractSyntaxTree\AbstractSyntaxTree.csproj" />
+    <ProjectReference Include="..\Contextual_analysis\Contextual_analysis.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

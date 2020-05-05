@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class EqualsNode : AstNode
     {
-        public EqualsNode(int line, int offset) : base(TokenType.EQUALS, line, offset)
+        public EqualsNode(ScannerToken token) : base(token)
         {
         }
         public override void Accept(Visitor visitor)

@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class OrNode : MathOperatorNode
     {
-        public OrNode(int line, int offset) : base(TokenType.OP_OR, line, offset)
+        public OrNode( ScannerToken token) : base(token)
         {
         }
 

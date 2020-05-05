@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public abstract class MathOperatorNode : OperatorNode
     {
-        public MathOperatorNode(TokenType type, int line, int offset) : base(type, line, offset)
+        public MathOperatorNode(ScannerToken token) : base(token)
         {
         }
 
