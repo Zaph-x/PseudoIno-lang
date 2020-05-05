@@ -44,9 +44,7 @@ namespace SymbolTable
             int i = 0;
             foreach (var symbolInTable in symbolTable.Symbols)
             {
-                if (symbolInTable.Name == symbol.Name && 
-                    symbolInTable.IsRef == false && 
-                    symbol.AstNode.Line < symbolInTable.AstNode.Line)
+                if (CheckLocalScope(symbol,symbolTable))
                 {
                     return true;
                 }
@@ -56,10 +54,27 @@ namespace SymbolTable
                 }
                 if (i == NumberOfSymbols)
                 {
-                    return CheckScope(symbol,symbolTable.Parent,currentDepth-1);                    
+                    return CheckScope(symbol,symbolTable.Parent,currentDepth);
                 }
+
+                i++;
             }
 
+            return false;
+        }
+
+        public bool CheckLocalScope(Symbol symbol, SymbolTable symbolTable)
+        {
+            foreach (var tableSymbol in symbolTable.Symbols)
+            {
+                if (!tableSymbol.IsRef)
+                {
+                    if (tableSymbol.Name == symbol.Name && tableSymbol.AstNode.Line < symbol.AstNode.Line)
+                    {
+                        return true;
+                    }
+                }
+            }
             return false;
         }
     }

@@ -234,7 +234,7 @@ end foo";
             Assert.AreEqual(7,symboltablevisitor._symbolTableBuilder.FinalSymbolTable[0][0].Symbols.Count); 
         }
         
-        [Test]
+        /*[Test]
         public void Test_SymboltableVisitor_ScopeCheck()
         {
             StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
@@ -249,7 +249,7 @@ end foo";
             parser.Root.Accept(symboltablevisitor);
             ScopeCheck scopeCheck = new ScopeCheck(symboltablevisitor._symbolTableBuilder);
             Assert.AreEqual(7,symboltablevisitor._symbolTableBuilder.FinalSymbolTable[0][0].Symbols.Count); 
-        }
+        }*/
 
         public StreamReader CreateFakeReader(string content, Encoding enc)
         {
