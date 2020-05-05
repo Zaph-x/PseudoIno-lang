@@ -55,6 +55,8 @@ namespace Lexer
         /// <value>False, unless a syntax error has been found</value>
         public static bool HasError { get; set; }
 
+        private Stack<ScannerToken> ParenthesisStack { get; set; } = new Stack<ScannerToken>();
+        private ScannerToken LastVar { get; set; }
         /// <summary>
         /// The stream that the scanner is reading from
         /// </summary>
@@ -256,7 +258,9 @@ namespace Lexer
                     subString += "0";
                 }
             }
-            Tokens.AddLast(Token(TokenType.NUMERIC, subString));
+            ScannerToken token = Token(TokenType.NUMERIC, subString);
+            token.SymbolicType = new TypeContext(TokenType.NUMERIC);
+            Tokens.AddLast(token);
         }
 
         /// <summary>
@@ -378,10 +382,19 @@ namespace Lexer
             }
             if (Regex.Match(subString.ToLower(), "(a|d)pin\\d+").Success)
             {
+                ScannerToken token;
                 if (subString.StartsWith("a"))
-                    Tokens.AddLast(Token(TokenType.APIN, "A" + subString.Substring(4)));
+                {
+                    token = Token(TokenType.APIN, "A" + subString.Substring(4));
+                    token.SymbolicType = new TypeContext(TokenType.APIN);
+                    Tokens.AddLast(token);
+                }
                 else
-                    Tokens.AddLast(Token(TokenType.DPIN, subString.Substring(4)));
+                {
+                    token = Token(TokenType.DPIN, subString.Substring(4));
+                    token.SymbolicType = new TypeContext(TokenType.DPIN);
+                    Tokens.AddLast(token);
+                }
                 return;
             }
             if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
@@ -389,14 +402,29 @@ namespace Lexer
                 if (tokenType == TokenType.TYPE)
                 {
                     Tokens.AddLast(Token(tokenType, subString));
-                } else if (tokenType == TokenType.BOOL)
+                }
+                else if (tokenType == TokenType.BOOL)
                 {
+                    ScannerToken token;
                     if (subString.ToLower() == "on")
-                        Tokens.AddLast(Token(tokenType, "true"));
+                    {
+                        token = Token(tokenType, "true");
+                        token.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(token);
+                    }
                     else if (subString.ToLower() == "off")
+                    {
                         Tokens.AddLast(Token(tokenType, "false"));
+                        token = Token(tokenType, "false");
+                        token.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(token);
+                    }
                     else
-                        Tokens.AddLast(Token(tokenType, subString));
+                    {
+                        token = Token(tokenType, subString);
+                        token.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(token);
+                    }
                 }
                 else
                 {
@@ -404,7 +432,13 @@ namespace Lexer
                 }
                 return;
             }
-            Tokens.AddLast(Token(TokenType.VAR, subString));
+            ScannerToken token = Token(TokenType.VAR, subString);
+            if (Tokens.Last().Type == TokenType.FUNC || Tokens.Last().Type == TokenType.CALL) {
+                token.SymbolicType = new TypeContext(TokenType.FUNC);
+            } else {
+                token.SymbolicType = new TypeContext(TokenType.VAR);
+            }
+            Tokens.AddLast(token);
             subString = "";
             if (Peek() == '\n')
             {
@@ -461,9 +495,12 @@ namespace Lexer
                     Tokens.AddLast(Token(TokenType.OP_MODULO));
                     break;
                 case '(':
-                    Tokens.AddLast(Token(TokenType.OP_LPAREN));
+                    ScannerToken token = Token(TokenType.OP_LPAREN);
+                    ParenthesisStack.Push(token);
+                    Tokens.AddLast(token);
                     break;
                 case ')':
+                    ParenthesisStack.Pop();
                     Tokens.AddLast(Token(TokenType.OP_RPAREN));
                     break;
                 case ',':
@@ -494,6 +531,10 @@ namespace Lexer
                 else if (CurrentChar == '#' && Peek() == '<') { ScanMultiLineComment(); }
                 else if ("+-*/%(),".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
+            }
+            if (ParenthesisStack.Any())
+            {
+                new InvalidSyntaxException($"Unclosed parenthesis at ({ParenthesisStack.Peek().Line}:{ParenthesisStack.Peek().Offset})");
             }
             // Tokens.AddLast(new ScannerToken(TokenType.EOF, "", this.Line, this.Offset + 1));
         }
