@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AbstractSyntaxTree\AbstractSyntaxTree.csproj" />
     <ProjectReference Include="..\SymbolTable\SymbolTable.csproj" />
+    <ProjectReference Include="..\Lexer\Lexer.csproj" />
   </ItemGroup>
 
 </Project>

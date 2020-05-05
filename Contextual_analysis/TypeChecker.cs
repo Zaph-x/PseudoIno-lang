@@ -1,4 +1,4 @@
-﻿using AbstractSyntaxTree.Objects.Nodes;
+﻿﻿using AbstractSyntaxTree.Objects.Nodes;
 using System.Linq;
 using AbstractSyntaxTree.Objects;
 using Lexer.Objects;
@@ -10,16 +10,16 @@ namespace Contextual_analysis
         private TokenType TermType {get;set;} = TokenType.ERROR;
         private SymbolTable.SymbolTable _symbolTabelGlobal = new SymbolTable.SymbolTable();
         private SymbolTable.SymbolTableBuilder _symbolTableBuilder;
-        public override void Visit(BeginNode beginNode)
+        public override object Visit(BeginNode beginNode)
         {
             beginNode.LoopNode.Accept(this);
         }
 
 
 
-        public override void Visit(TimeNode timeNode) { }
+        public override object Visit(TimeNode timeNode) { }
 
-        public override void Visit(DeclParametersNode declParametersNode)
+        public override object Visit(DeclParametersNode declParametersNode)
         {
             if (declParametersNode.Parameters.Any())
             {
@@ -27,9 +27,9 @@ namespace Contextual_analysis
             }
         }
 
-        public override void Visit(TimesNode timesNode) { }
+        public override object Visit(TimesNode timesNode) { }
 
-        public override void Visit(FunctionLoopNode loopFnNode)
+        public override object Visit(FunctionLoopNode loopFnNode)
         {
             if (loopFnNode.Statements.Any())
             {
@@ -37,7 +37,7 @@ namespace Contextual_analysis
             }
         }
 
-        public override void Visit(AssignmentNode assignmentNode)
+        public override object Visit(AssignmentNode assignmentNode)
         {
             if (((VarNode)assignmentNode.Var).SymbolType == TokenType.ERROR)
             {
@@ -58,48 +58,48 @@ namespace Contextual_analysis
             //TODO der er interface med IAssginable Var { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
         }
 
-        public override void Visit(StatementNode statementNode) { }
+        public override object Visit(StatementNode statementNode) { }
 
-        public override void Visit(WithNode withNode) { }
+        public override object Visit(WithNode withNode) { }
 
-        public override void Visit(WaitNode waitNode)
+        public override object Visit(WaitNode waitNode)
         {
             waitNode.TimeAmount.Accept(this);
             waitNode.TimeModifier.Accept(this);
         }
 
-        public override void Visit(VarNode varNode) { }
+        public override object Visit(VarNode varNode) { }
 
-        public override void Visit(ValNode valNode) { }
+        public override object Visit(ValNode valNode) { }
 
-        public override void Visit(TimeSecondNode timeSecondNode) { }
+        public override object Visit(TimeSecondNode timeSecondNode) { }
 
-        public override void Visit(TimeMinuteNode timeMinuteNode) { }
+        public override object Visit(TimeMinuteNode timeMinuteNode) { }
 
-        public override void Visit(TimeMillisecondNode timeMillisecondNode) { }
+        public override object Visit(TimeMillisecondNode timeMillisecondNode) { }
 
-        public override void Visit(TimeHourNode timeHourNode) { }
+        public override object Visit(TimeHourNode timeHourNode) { }
 
-        public override void Visit(RightParenthesisNode rightParenthesisNode) { }
+        public override object Visit(RightParenthesisNode rightParenthesisNode) { }
 
-        public override void Visit(NumericNode numericNode) { }
+        public override object Visit(NumericNode numericNode) { }
 
-        public override void Visit(NewlineNode newlineNode) { }
+        public override object Visit(NewlineNode newlineNode) { }
 
-        public override void Visit(LeftParenthesisNode leftParenthesisNode) { }
+        public override object Visit(LeftParenthesisNode leftParenthesisNode) { }
 
-        public override void Visit(InNode inNode) { }
-        public override void Visit(EqualNode equalNode) { }
+        public override object Visit(InNode inNode) { }
+        public override object Visit(EqualNode equalNode) { }
 
-        public override void Visit(EqualsNode equalsNode) { }
+        public override object Visit(EqualsNode equalsNode) { }
 
-        public override void Visit(EOFNode eOFNode) { }
+        public override object Visit(EOFNode eOFNode) { }
 
-        public override void Visit(EpsilonNode epsilonNode) { }
+        public override object Visit(EpsilonNode epsilonNode) { }
 
-        public override void Visit(DoNode doNode) { }
+        public override object Visit(DoNode doNode) { }
 
-        public override void Visit(ProgramNode programNode)
+        public override object Visit(ProgramNode programNode)
         {
             _symbolTableBuilder = new SymbolTable.SymbolTableBuilder(_symbolTabelGlobal);
             _symbolTableBuilder.CurrentSymbolTable = _symbolTabelGlobal;
@@ -123,7 +123,7 @@ namespace Contextual_analysis
             _symbolTableBuilder.MakeFinalTable();
         }
 
-        public override void Visit(CallNode callNode)
+        public override object Visit(CallNode callNode)
         {
             callNode.Id.Accept(this);
             _symbolTableBuilder.AddRef(callNode);
@@ -137,26 +137,26 @@ namespace Contextual_analysis
             }
         }
 
-        public override void Visit(EndNode endNode) { }
-        public override void Visit(AndNode andNode) { }
-        public override void Visit(PinNode pinNode) { }
-        public override void Visit(APinNode apinNode) { }
-        public override void Visit(DPinNode dpinNode) { }
-        public override void Visit(OperatorNode operatorNode) { }
-        public override void Visit(BoolOperatorNode boolOperatorNode) { }
-        public override void Visit(CallParametersNode callParametersNode)
+        public override object Visit(EndNode endNode) { }
+        public override object Visit(AndNode andNode) { }
+        public override object Visit(PinNode pinNode) { }
+        public override object Visit(APinNode apinNode) { }
+        public override object Visit(DPinNode dpinNode) { }
+        public override object Visit(OperatorNode operatorNode) { }
+        public override object Visit(BoolOperatorNode boolOperatorNode) { }
+        public override object Visit(CallParametersNode callParametersNode)
         {
             callParametersNode.Parameters.ForEach(node => node.Accept(this));
         }
-        public override void Visit(DivideNode divideNode) { }
-        public override void Visit(ExpressionNode expressionNode)
+        public override object Visit(DivideNode divideNode) { }
+        public override object Visit(ExpressionNode expressionNode)
         {
             expressionNode.Term.Accept(this);
 
             expressionNode.Operator.Accept(this);
             expressionNode.Expression.Accept(this);
         }
-        public override void Visit(ForNode forNode)
+        public override object Visit(ForNode forNode)
         {
             _symbolTableBuilder.OpenScope(TokenType.FOR, "for");
             forNode.CountingVariable.Accept(this);
@@ -170,7 +170,7 @@ namespace Contextual_analysis
             //forNode.Accept(this);
             _symbolTableBuilder.CloseScope();
         }
-        public override void Visit(FuncNode funcNode)
+        public override object Visit(FuncNode funcNode)
         {
             _symbolTableBuilder.OpenScope(TokenType.FUNC, funcNode.Name.Id);
 
@@ -187,12 +187,12 @@ namespace Contextual_analysis
             _symbolTableBuilder.CloseScope();
 
         }
-        public override void Visit(GreaterNode greaterNode)
+        public override object Visit(GreaterNode greaterNode)
         {
             greaterNode.OrEqualNode.Accept(this);
             //greaterNode.Accept(this);
         }
-        public override void Visit(IfStatementNode ifStatementNode)
+        public override object Visit(IfStatementNode ifStatementNode)
         {
             _symbolTableBuilder.OpenScope(TokenType.IFSTMNT, "if");
             ifStatementNode.Expression?.Accept(this);
@@ -205,18 +205,18 @@ namespace Contextual_analysis
             }
             _symbolTableBuilder.CloseScope();
         }
-        public override void Visit(LessNode lessNode)
+        public override object Visit(LessNode lessNode)
         {
             lessNode.OrEqualNode.Accept(this);
         }
-        public override void Visit(LoopNode loopNode) { }
-        public override void Visit(MathOperatorNode mathOperatorNode) { }
-        public override void Visit(PlusNode plusNode) { }
-        public override void Visit(MinusNode minusNode) { }
-        public override void Visit(ModuloNode moduloNode) { }
-        public override void Visit(OrNode orNode) { }
-        public override void Visit(StringNode stringNode) { }
-        public override void Visit(WhileNode whileNode)
+        public override object Visit(LoopNode loopNode) { }
+        public override object Visit(MathOperatorNode mathOperatorNode) { }
+        public override object Visit(PlusNode plusNode) { }
+        public override object Visit(MinusNode minusNode) { }
+        public override object Visit(ModuloNode moduloNode) { }
+        public override object Visit(OrNode orNode) { }
+        public override object Visit(StringNode stringNode) { }
+        public override object Visit(WhileNode whileNode)
         {
             _symbolTableBuilder.OpenScope(TokenType.WHILE, "while");
 
@@ -229,7 +229,7 @@ namespace Contextual_analysis
             }
             _symbolTableBuilder.CloseScope();
         }
-        public override void Visit(ElseStatementNode elseStatement)
+        public override object Visit(ElseStatementNode elseStatement)
         {
             _symbolTableBuilder.OpenScope(TokenType.ELSESTMNT, "else");
             if (elseStatement.Statements.Any())
@@ -242,7 +242,7 @@ namespace Contextual_analysis
             _symbolTableBuilder.CloseScope();
             //symbolTabel.AddNode(elseStatement.ToString(), elseStatement);
         }
-        public override void Visit(ElseifStatementNode elseifStatementNode)
+        public override object Visit(ElseifStatementNode elseifStatementNode)
         {
             _symbolTableBuilder.OpenScope(TokenType.ELSEIFSTMNT, "elseif");
             elseifStatementNode.Val?.Accept(this);
@@ -257,14 +257,14 @@ namespace Contextual_analysis
             _symbolTableBuilder.CloseScope();
             //symbolTabel.AddNode(elseifStatementNode.ToString(), elseifStatementNode);
         }
-        public override void Visit(RangeNode rangeNode)
+        public override object Visit(RangeNode rangeNode)
         {
             rangeNode.From.Accept(this);
             rangeNode.To.Accept(this);
             //rangeNode.Accept(this);
         }
 
-        public override void Visit(ReturnNode returnNode)
+        public override object Visit(ReturnNode returnNode)
         {
             returnNode.ReturnValue.Accept(this);
         }
