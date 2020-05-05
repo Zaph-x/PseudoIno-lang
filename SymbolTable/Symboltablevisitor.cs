@@ -12,7 +12,7 @@ namespace SymbolTable
     {
         private int Depth { get; set; } = 0;
         private SymbolTable _symbolTabelGlobal = new SymbolTable();
-        private SymbolTableBuilder _symbolTableBuilder;
+        public SymbolTableBuilder _symbolTableBuilder;
         private void Print(string input)
         {
             string line = "";

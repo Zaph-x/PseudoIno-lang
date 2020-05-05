@@ -9,7 +9,7 @@ using AbstractSyntaxTree.Objects.Nodes;
 
 namespace SymbolTable
 {
-    class SymbolTableBuilder
+    public class SymbolTableBuilder
     {
         public List<SymbolTable> SymbolTables = new List<SymbolTable>();
         public List<List<SymbolTable>> FinalSymbolTable = new List<List<SymbolTable>>();
