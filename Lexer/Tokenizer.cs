@@ -382,18 +382,18 @@ namespace Lexer
             }
             if (Regex.Match(subString.ToLower(), "(a|d)pin\\d+").Success)
             {
-                ScannerToken token;
+                ScannerToken pinToken;
                 if (subString.StartsWith("a"))
                 {
-                    token = Token(TokenType.APIN, "A" + subString.Substring(4));
-                    token.SymbolicType = new TypeContext(TokenType.APIN);
-                    Tokens.AddLast(token);
+                    pinToken = Token(TokenType.APIN, "A" + subString.Substring(4));
+                    pinToken.SymbolicType = new TypeContext(TokenType.APIN);
+                    Tokens.AddLast(pinToken);
                 }
                 else
                 {
-                    token = Token(TokenType.DPIN, subString.Substring(4));
-                    token.SymbolicType = new TypeContext(TokenType.DPIN);
-                    Tokens.AddLast(token);
+                    pinToken = Token(TokenType.DPIN, subString.Substring(4));
+                    pinToken.SymbolicType = new TypeContext(TokenType.DPIN);
+                    Tokens.AddLast(pinToken);
                 }
                 return;
             }
@@ -405,25 +405,24 @@ namespace Lexer
                 }
                 else if (tokenType == TokenType.BOOL)
                 {
-                    ScannerToken token;
+                    ScannerToken boolToken;
                     if (subString.ToLower() == "on")
                     {
-                        token = Token(tokenType, "true");
-                        token.SymbolicType = new TypeContext(TokenType.BOOL);
-                        Tokens.AddLast(token);
+                        boolToken = Token(tokenType, "true");
+                        boolToken.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(boolToken);
                     }
                     else if (subString.ToLower() == "off")
                     {
-                        Tokens.AddLast(Token(tokenType, "false"));
-                        token = Token(tokenType, "false");
-                        token.SymbolicType = new TypeContext(TokenType.BOOL);
-                        Tokens.AddLast(token);
+                        boolToken = Token(tokenType, "false");
+                        boolToken.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(boolToken);
                     }
                     else
                     {
-                        token = Token(tokenType, subString);
-                        token.SymbolicType = new TypeContext(TokenType.BOOL);
-                        Tokens.AddLast(token);
+                        boolToken = Token(tokenType, subString);
+                        boolToken.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(boolToken);
                     }
                 }
                 else
