@@ -22,7 +22,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public ExpressionNode(int line, int offset) : base(TokenType.EXPR, line, offset)
         {
         }
-
+        public ExpressionNode(ScannerToken token) : base(token)
+        {
+        }
         public override void Accept(Visitor visitor)
         {
 

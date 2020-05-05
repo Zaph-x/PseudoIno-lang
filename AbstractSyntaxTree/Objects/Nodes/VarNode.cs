@@ -5,7 +5,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public class VarNode : ValNode, IAssginable
     {
         public string Id {get;set;}
-        public VarNode(string id, int line, int offset) : base(TokenType.VAR, line, offset)
+        public VarNode(string id,  ScannerToken token) : base(token)
         {
             this.Id = id;
         }

@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class EqualNode : BoolOperatorNode
     {
-        public EqualNode(int line, int offset) : base(TokenType.EQUALS, line, offset)
+        public EqualNode( ScannerToken token) : base(token)
         {
         }
 

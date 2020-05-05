@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class TimeMillisecondNode : TimeNode
     {
-        public TimeMillisecondNode(int line, int offset) : base(TokenType.TIME_MS, line, offset)
+        public TimeMillisecondNode( ScannerToken token) : base(token)
         {
         }
         public override void Accept(Visitor visitor)

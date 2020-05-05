@@ -5,7 +5,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class EndNode : AstNode
     {
-        public EndNode(int line, int offset) : base (TokenType.END, line, offset)
+        public EndNode(ScannerToken token) : base(token)
         {
         }
 

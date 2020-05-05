@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class DoNode : AstNode
     {
-        public DoNode(int line, int offset) : base(TokenType.DO, line, offset)
+        public DoNode(ScannerToken token) : base(token)
         {
         }
         public override void Accept(Visitor visitor)

@@ -7,7 +7,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         //public int Value { get; set; }
         public float FValue {get;set;}
         public int IValue {get;set;}
-        public NumericNode(string value ,int line, int offset) : base(TokenType.NUMERIC, line, offset)
+        public NumericNode(string value , ScannerToken token) : base(token)
         {
             float _f;
             int _i;

@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class InNode : AstNode
     {
-        public InNode(int line, int offset) : base(TokenType.IN, line, offset)
+        public InNode(ScannerToken token) : base(token)
         {
         }
         public override void Accept(Visitor visitor)

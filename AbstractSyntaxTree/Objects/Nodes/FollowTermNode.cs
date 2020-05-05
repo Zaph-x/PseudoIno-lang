@@ -9,7 +9,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public OperatorNode Operator {get;set;}
         public ExpressionNode Expression {get;set;}
 
-        public FollowTermNode(int line, int offset) : base(TokenType.FOLLOWTERM, line, offset)
+        public FollowTermNode(ScannerToken token) : base(TokenType.FOLLOWTERM, token)
         {
         }
 

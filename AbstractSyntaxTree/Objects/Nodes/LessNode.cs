@@ -5,7 +5,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public class LessNode : MathOperatorNode
     {
         public OrEqualNode OrEqualNode { get; set; }
-        public LessNode(int line, int offset) : base(TokenType.OP_LESS, line, offset)
+        public LessNode( ScannerToken token) : base(token)
         {
         }
 

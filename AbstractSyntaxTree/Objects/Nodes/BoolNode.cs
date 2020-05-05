@@ -6,7 +6,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     {
         //public int Value { get; set; }
         public bool Value {get;set;}
-        public BoolNode(string value ,int line, int offset) : base(TokenType.BOOL, line, offset)
+        public BoolNode(string value , ScannerToken token) : base(token)
         {
             Value = bool.Parse(value);
         }

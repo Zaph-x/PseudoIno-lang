@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public abstract class BoolOperatorNode : OperatorNode
     {
-        public BoolOperatorNode(TokenType type, int line, int offset) : base(type, line, offset)
+        public BoolOperatorNode(ScannerToken token) : base(token)
         {
         }
 

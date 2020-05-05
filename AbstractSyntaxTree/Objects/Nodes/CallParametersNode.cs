@@ -6,7 +6,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public class CallParametersNode : AstNode
     {
         public List<ValNode> Parameters { get; set; } = new List<ValNode>();
-        public CallParametersNode(int line, int offset) : base(TokenType.CALLPARAMS, line, offset)
+        public CallParametersNode(ScannerToken token) : base(TokenType.CALLPARAMS,token)
         {
         }
 

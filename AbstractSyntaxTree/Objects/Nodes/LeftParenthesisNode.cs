@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class LeftParenthesisNode : AstNode
     {
-        public LeftParenthesisNode(int line, int offset) : base(TokenType.OP_LPAREN, line, offset)
+        public LeftParenthesisNode(ScannerToken token) : base(token)
         {
         }
         public override void Accept(Visitor visitor)

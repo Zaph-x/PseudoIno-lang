@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class TimesNode : MathOperatorNode
     {
-        public TimesNode(int line, int offset) : base(TokenType.OP_TIMES, line, offset)
+        public TimesNode( ScannerToken token) : base(token)
         {
         }
 

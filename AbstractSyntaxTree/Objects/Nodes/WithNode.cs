@@ -4,7 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class WithNode : AstNode
     {
-        public WithNode(int line, int offset) : base(TokenType.WITH, line, offset)
+        public WithNode(ScannerToken token) : base(token)
         {
         }
         public override void Accept(Visitor visitor)

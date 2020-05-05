@@ -7,7 +7,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public NumericNode From { get; set; }
         public NumericNode To { get; set; }
         
-        public RangeNode(int line, int offset) : base(TokenType.RANGE, line, offset)
+        public RangeNode( ScannerToken token) : base(token)
         {
         }
 
