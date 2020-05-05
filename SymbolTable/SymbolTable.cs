@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.Collections.Generic;
 using Lexer.Objects;
-using Parser.Objects;
-using System.Linq;
-using AbstractSyntaxTree.Objects;
-using AbstractSyntaxTree.Objects.Nodes;
-
 namespace SymbolTable
 {
     /// <summary>
@@ -41,8 +33,6 @@ namespace SymbolTable
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        
-        
     }
 }
 
