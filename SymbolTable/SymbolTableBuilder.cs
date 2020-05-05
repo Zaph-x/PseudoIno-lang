@@ -11,13 +11,13 @@ namespace SymbolTable
 {
     public class SymbolTableBuilder
     {
-        public List<SymbolTable> SymbolTables = new List<SymbolTable>();
-        public List<List<SymbolTable>> FinalSymbolTable = new List<List<SymbolTable>>();
-        public SymbolTable GlobalSymbolTable;
-        public SymbolTable CurrentSymbolTable;
-        public Stack<SymbolTable> TopOfScope = new Stack<SymbolTable>();
+        public List<SymbolTableObject> SymbolTables = new List<SymbolTableObject>();
+        public List<List<SymbolTableObject>> FinalSymbolTable = new List<List<SymbolTableObject>>();
+        public SymbolTableObject GlobalSymbolTable;
+        public SymbolTableObject CurrentSymbolTable;
+        public static Stack<SymbolTableObject> TopOfScope = new Stack<SymbolTableObject>();
         public int Depth { get; set; }
-        public SymbolTableBuilder(SymbolTable global)
+        public SymbolTableBuilder(SymbolTableObject global)
         {
             GlobalSymbolTable = global;
             CurrentSymbolTable = global;
@@ -28,27 +28,15 @@ namespace SymbolTable
         public void OpenScope(TokenType type, string name)
         {
             Depth++;
-            /*if (SymbolTables.Count < Depth + 1)
-            {
-                SymbolTables.Add(new List<SymbolTable>());
-            }*/
-            SymbolTable symbolTable;
-            if (Depth == 1)
-            {
-                symbolTable = new SymbolTable { Type = type, Name = name, Depth = Depth };
-            }
-            else
-            {
-                symbolTable = new SymbolTable { Type = type, Name = name, Depth = Depth, Parent = TopOfScope.Peek() };
-            }
-            TopOfScope.Push(symbolTable);
+            CurrentSymbolTable = new SymbolTableObject { Type = type, Name = name, Depth = Depth, Parent = CurrentSymbolTable };
         }
 
         public void CloseScope()
         {
             Depth--;
             SymbolTables.Add(TopOfScope.Peek());
-            TopOfScope.Pop();
+            
+            CurrentSymbolTable = TopOfScope.Pop().Parent;
         }
 
         public void AddSymbol(AstNode node)
@@ -75,7 +63,7 @@ namespace SymbolTable
             }
             for (int i = 0; i < maxDetph; i++)
             {
-                FinalSymbolTable.Add(new List<SymbolTable>());
+                FinalSymbolTable.Add(new List<SymbolTableObject>());
             }
             foreach (var symbolTable in SymbolTables)
             {

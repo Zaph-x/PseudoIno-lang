@@ -10,7 +10,6 @@ namespace SymbolTable
     public class Symboltablevisitor : Visitor
     {
         private int Depth { get; set; } = 0;
-        private SymbolTable _symbolTabelGlobal = new SymbolTable();
         public SymbolTableBuilder _symbolTableBuilder;
         private void Print(string input)
         {
@@ -136,8 +135,8 @@ namespace SymbolTable
         }
         public override object Visit(ProgramNode programNode)
         {
-            _symbolTableBuilder = new SymbolTableBuilder(_symbolTabelGlobal);
-            _symbolTableBuilder.CurrentSymbolTable = _symbolTabelGlobal;
+            // _symbolTableBuilder = new SymbolTableBuilder(_symbolTabelGlobal);
+            // _symbolTableBuilder.CurrentSymbolTable = _symbolTabelGlobal;
             _symbolTableBuilder.OpenScope(TokenType.PROG, "main");
             if (programNode.FunctionDefinitons.Any())
             {
