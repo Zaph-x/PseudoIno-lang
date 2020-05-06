@@ -135,8 +135,11 @@ namespace SymbolTable
         }
         public override object Visit(ProgramNode programNode)
         {
-            // _symbolTableBuilder = new SymbolTableBuilder(_symbolTabelGlobal);
-            // _symbolTableBuilder.CurrentSymbolTable = _symbolTabelGlobal;
+            SymbolTableObject s = new SymbolTableObject();
+            s.Name = "prog";
+            s.Type = TokenType.PROG;
+            _symbolTableBuilder = new SymbolTableBuilder(s);
+            //_symbolTableBuilder.CurrentSymbolTable = _symbolTabelGlobal;
             _symbolTableBuilder.OpenScope(TokenType.PROG, "main");
             if (programNode.FunctionDefinitons.Any())
             {
