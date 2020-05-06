@@ -44,8 +44,8 @@ namespace Parser
             {
                 return token;
             }
-            // FIXME Skal ikke smide en exception da dette dræber compileren
-            throw new InvalidTokenException("Expected stack not empty but was empty");
+            new InvalidTokenException("Expected stack not empty but was empty");
+            return TokenType.ERROR;
         }
 
         public void Parse(out string verbosity)
@@ -128,9 +128,8 @@ namespace Parser
             {
                 return node;
             }
+            new NoScopeException("No scopes left on scope stack.");
             return null;
-            // FIXME Skal ikke smide en exception da dette dræber compileren
-            // throw new InvalidTokenException("Expected stack not empty but was empty");
         }
 
         public void DecorateAstNode(ScannerToken token)
@@ -426,6 +425,7 @@ namespace Parser
             }
         }
 
+        // TODO Dette skal opdateres i rapporten
         public void AddToAstNode(TokenType token)
         {
             if (CurrentAction == null) return;
