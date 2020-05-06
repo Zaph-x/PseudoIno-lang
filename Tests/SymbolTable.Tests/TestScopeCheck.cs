@@ -70,6 +70,22 @@ end foo";
             ScopeCheck scopeCheck = new ScopeCheck(symboltablevisitor._symbolTableBuilder);
         }
         
+        /*[Test]
+        public void Test_SymboltableVisitor_2()
+        {
+            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);
+            ScopeCheck scopeCheck = new ScopeCheck(symboltablevisitor._symbolTableBuilder);
+        }*/
+        
         public StreamReader CreateFakeReader(string content, Encoding enc)
         {
             byte[] fakeBytes = enc.GetBytes(content);

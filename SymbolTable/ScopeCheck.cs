@@ -1,4 +1,5 @@
 using System;
+using Lexer.Objects;
 
 namespace SymbolTable
 {
@@ -29,10 +30,6 @@ namespace SymbolTable
                             }
                             break;
                         }
-                        else
-                        {
-                            continue;
-                        }
                     }
                 }
             }
@@ -47,6 +44,10 @@ namespace SymbolTable
                 if (CheckLocalScope(symbol,symbolTable))
                 {
                     return true;
+                }
+                if (CheckFuncs(symbol, symbolTable))
+                {
+                    
                 }
                 if (currentDepth == 0 && i == NumberOfSymbols)
                 {
@@ -63,11 +64,31 @@ namespace SymbolTable
             return false;
         }
 
-        public bool CheckLocalScope(Symbol symbol, SymbolTable symbolTable)
+        public bool CheckFuncs(Symbol symbol, SymbolTableObject symbolTableObject)
+        {
+            foreach (var child in SymbolTableBuilder.SymbolTables)
+            {
+                if (child.Name == symbol.Name)
+                {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+
+        public bool CheckLocalScope(Symbol symbol, SymbolTableObject symbolTable)
         {
             foreach (var tableSymbol in symbolTable.Symbols)
             {
-                if (!tableSymbol.IsRef)
+                if (tableSymbol.IsRef && tableSymbol.TokenType == TokenType.CALL)
+                {
+                    if (CheckFuncs(tableSymbol,symbolTable))
+                    {
+                        return true;
+                    }
+                }
+                else
                 {
                     if (tableSymbol.Name == symbol.Name && tableSymbol.AstNode.Line < symbol.AstNode.Line)
                     {
