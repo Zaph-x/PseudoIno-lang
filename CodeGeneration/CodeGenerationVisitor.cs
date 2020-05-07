@@ -49,7 +49,7 @@ namespace CodeGeneration
 
         public override object Visit(StatementNode statementNode)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override object Visit(WithNode withNode)
@@ -230,13 +230,13 @@ namespace CodeGeneration
             funcNode.Name.Accept(this);
             PrintStringToFile("(");
             funcNode.FunctionParameters.ForEach(node => node.Accept(this));
-            PrintStringToFile(")\n");
+            PrintStringToFile(")\n{");
             if (funcNode.Statements.Any())
             {
                 funcNode.Statements.ForEach(node => node.Parent = funcNode);
                 funcNode.Statements.ForEach(node => node.Accept(this));
             }
-          
+            PrintStringToFile("\n}\n");
             return null;
         }
 
@@ -247,7 +247,18 @@ namespace CodeGeneration
 
         public override object Visit(IfStatementNode ifStatementNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile("if(");
+            ifStatementNode.Expression?.Accept(this);
+            PrintStringToFile("){\n");
+            if (ifStatementNode.Statements.Any())
+            {
+                ifStatementNode.Statements.ForEach(node => node.Parent = ifStatementNode);
+
+                ifStatementNode.Statements.ForEach(node => node.Accept(this));
+
+            }
+            PrintStringToFile("\n}\n");
+            return null;
         }
 
         public override object Visit(LessNode lessNode)
@@ -297,12 +308,33 @@ namespace CodeGeneration
 
         public override object Visit(ElseStatementNode elseStatement)
         {
-            throw new NotImplementedException();
+            PrintStringToFile("else{\n");
+            if (elseStatement.Statements.Any())
+            {
+                elseStatement.Statements.ForEach(node => node.Accept(this));
+                elseStatement.Statements.ForEach(node => node.Parent = elseStatement);
+
+            }
+
+            PrintStringToFile("\n}\n");
+            return null;
         }
 
         public override object Visit(ElseifStatementNode elseifStatementNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile("else if (");
+            elseifStatementNode.Val?.Accept(this);
+            elseifStatementNode.Expression?.Accept(this);
+            PrintStringToFile("){\n");
+            if (elseifStatementNode.Statements.Any())
+            {
+                elseifStatementNode.Statements.ForEach(node => node.Accept(this));
+                elseifStatementNode.Statements.ForEach(node => node.Parent = elseifStatementNode);
+
+            }
+            PrintStringToFile("\n}\n");
+
+            return null;
         }
 
         public override object Visit(RangeNode rangeNode)
