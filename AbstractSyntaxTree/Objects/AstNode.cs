@@ -8,6 +8,7 @@ namespace AbstractSyntaxTree.Objects
 {
     public abstract class AstNode
     {
+        public static bool ShowVal {get;set;}
         public TokenType Type { get; set; }
         public string Value { get; set; }
         public TypeContext SymbolType { get; set; }
@@ -46,7 +47,14 @@ namespace AbstractSyntaxTree.Objects
             this.Visited = false;
         }
 
-        public override string ToString() => $"type={Type}; line={Line}; offset={Offset}";
+        public override string ToString() 
+        {
+            if (ShowVal) {
+                return $"{Value}";
+            } else {
+                return $"Type={Type}; Line={Line}; Offset={Offset}; Value={Value}";
+            }
+        }
 
         public abstract void Accept(Visitor visitor);
     }

@@ -49,24 +49,24 @@ namespace Contextual_analysis
 
         public override object Visit(AssignmentNode assignmentNode)
         {
-            ((VarNode)assignmentNode.Var).Accept(this);
-            // if (((VarNode)assignmentNode.Var).SymbolType == null)
+            ((IAssginable)assignmentNode.LeftHand).Accept(this);
+            // if (((VarNode)assignmentNode.LeftHand).SymbolType == null)
             // {
-            //     assignmentNode.Var.Accept(this);
+            //     assignmentNode.LeftHand.Accept(this);
 
             //     _symbolTableBuilder.AddSymbol(assignmentNode);
             //     //hvis id == assigmenttype så ok ellers error.
-            //     AstNode typeid = ((AstNode)assignmentNode.Var);
+            //     AstNode typeid = ((AstNode)assignmentNode.LeftHand);
             //     AstNode typeassigment = ((AstNode)assignmentNode.Assignment);
             //     //if(typeid.)
 
 
             // }
-            //VarNode id = (VarNode)assignmentNode.Var.Accept(this);
+            //VarNode id = (VarNode)assignmentNode.LeftHand.Accept(this);
             //dette tilføjer venstre side til symboltable, brug addref til at sætte højre side af statement. De skal ske til sidst når alt er kontrolleret.
             _symbolTableBuilder.AddSymbol(assignmentNode);
             //((ExpressionNode)assignmentNode.Assignment).Accept(this);
-            //TODO der er interface med IAssginable Var { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
+            //TODO der er interface med IAssginable LeftHand { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
             return null;
         }
 
@@ -245,10 +245,9 @@ namespace Contextual_analysis
         }
         public override object Visit(ExpressionNode expressionNode)
         {
-            expressionNode.Term.Accept(this);
-
+            expressionNode.LeftHand.Accept(this);
             expressionNode.Operator.Accept(this);
-            expressionNode.Expression.Accept(this);
+            expressionNode.RightHand.Accept(this);
             return null;
         }
         public override object Visit(ForNode forNode)
@@ -380,27 +379,27 @@ namespace Contextual_analysis
             return null;
         }
 
-        public TypeContext GetExpressionType(ExpressionNode node)
+        public TypeContext GetExpressionType(IExpr node)
         {
             if (TermType == null)
-                TermType = ((AstNode)node.Term).SymbolType;
-            if (node.Expression != null)
+                TermType = ((AstNode)node.LeftHand).SymbolType;
+            if (node.RightHand != null)
             {
-                if (((AstNode)node.Expression.Term).SymbolType != TermType || ((AstNode)node.Expression.Term).SymbolType.Type != TokenType.EXPR)
+                if (((AstNode)node.RightHand.LeftHand).SymbolType != TermType || ((AstNode)node.RightHand.LeftHand).SymbolType.Type != TokenType.EXPR)
                 {
                     // TODO ERROR code goes here
                 }
                 else
                 {
-                    return GetExpressionType(node.Expression);
+                    return GetExpressionType(node.RightHand);
                 }
             }
-            else if (((AstNode)node.Term).SymbolType.Type == TokenType.EXPR)
+            else if (((AstNode)node.LeftHand).SymbolType.Type == TokenType.EXPR)
             {
-                return GetExpressionType((ExpressionNode)node.Term);
+                return GetExpressionType((ExpressionNode)node.LeftHand);
             }
             TermType = null;
-            return ((AstNode)node.Term).SymbolType;
+            return ((AstNode)node.LeftHand).SymbolType;
            
         }
     }

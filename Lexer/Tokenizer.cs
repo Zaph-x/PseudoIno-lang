@@ -432,7 +432,7 @@ namespace Lexer
                 return;
             }
             ScannerToken token = Token(TokenType.VAR, subString);
-            if (Tokens.Last().Type == TokenType.FUNC || Tokens.Last().Type == TokenType.CALL) {
+            if (Tokens.Any() && (Tokens.Last().Type == TokenType.FUNC || Tokens.Last().Type == TokenType.CALL)) {
                 token.SymbolicType = new TypeContext(TokenType.FUNC);
             } else {
                 token.SymbolicType = new TypeContext(TokenType.VAR);

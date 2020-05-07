@@ -266,9 +266,9 @@ namespace AbstractSyntaxTree.Objects
         {
             Print("ExpressionNode");
             Indent++;
-            expressionNode.Term.Accept(this);
+            expressionNode.LeftHand.Accept(this);
             expressionNode.Operator.Accept(this);
-            expressionNode.Expression.Accept(this);
+            expressionNode.RightHand.Accept(this);
             Indent--;
             return null;
         }

@@ -205,9 +205,9 @@ namespace SymbolTable
         }
         public override object Visit(ExpressionNode expressionNode)
         {
-            expressionNode.Term.Accept(this);
+            expressionNode.LeftHand.Accept(this);
             expressionNode.Operator.Accept(this);
-            expressionNode.Expression.Accept(this);
+            expressionNode.RightHand.Accept(this);
             return null;
         }
         public override object Visit(ForNode forNode)

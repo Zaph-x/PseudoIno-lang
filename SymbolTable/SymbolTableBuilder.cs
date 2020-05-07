@@ -76,7 +76,7 @@ namespace SymbolTable
             string name = "";
             if (node.Type == TokenType.ASSIGNMENT)
             {
-                name = ((AssignmentNode)node).Var.Id;
+                name = ((VarNode)((AssignmentNode)node).LeftHand).Id;
             }
             else if (node.Type == TokenType.APIN)
             {
@@ -104,11 +104,6 @@ namespace SymbolTable
             }
 
             return name;
-        }
-
-        public bool Findnode(string name)
-        {
-            return CurrentSymbolTable.Symbols.Any(child => child.Name == name);
         }
     }
 }

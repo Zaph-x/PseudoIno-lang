@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AbstractSyntaxTree.Objects.Nodes;
 using Lexer.Objects;
+using SymbolTable.Exceptions;
+
 namespace SymbolTable
 {
     /// <summary>
@@ -9,8 +14,8 @@ namespace SymbolTable
     {
 
         public List<Symbol> Symbols = new List<Symbol>();
-        public List<SymbolTableObject> Children {get;set;} = new List<SymbolTableObject>();
-        private SymbolTableObject _parent {get;set;}
+        public List<SymbolTableObject> Children { get; set; } = new List<SymbolTableObject>();
+        private SymbolTableObject _parent { get; set; }
         public SymbolTableObject Parent
         {
             get
@@ -33,7 +38,19 @@ namespace SymbolTable
             SymbolTableBuilder.TopOfScope.Push(this);
         }
 
-        public override string ToString()=> $"{Name}";
+        public override string ToString() => $"{Name}";
+
+        public TypeContext FindSymbol(VarNode var)
+        {
+            if (this.Symbols.Any(sym => sym.Name == var.Id) && this.Symbols.First(sym => sym.Name == var.Id).TokenType != TokenType.VAR) {
+                return new TypeContext(this.Symbols.First(sym => sym.Name == var.Id).TokenType);
+            } else if (this.Parent != null) {
+                return this.Parent.FindSymbol(var);
+            } else {
+                // throw new SymbolNotFoundException($"Symbol {var} was not found in the symboltable");
+                return null;
+            }
+        }
 
         /// <summary>
         /// Findnode methode to recursively find a node. It searches in curent scope , then parents scope , parents parent scope etc.
