@@ -93,7 +93,7 @@ namespace Core
                 {
                     parsenizer.Root.Accept(new PrettyPrinter());
                 }
-                parsenizer.Root.Accept(new TypeChecker());
+                // parsenizer.Root.Accept(new TypeChecker());
             }
 
             timer.Stop();

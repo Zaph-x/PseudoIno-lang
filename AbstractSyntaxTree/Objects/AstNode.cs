@@ -14,7 +14,7 @@ namespace AbstractSyntaxTree.Objects
         public TypeContext SymbolType { get; set; }
 
         // TODO Pass these from the scanner Token
-        public long Line { get; set; }
+        public int Line { get; set; }
         public int Offset { get; set; }
 
         public bool Visited { get; set; }
@@ -31,6 +31,7 @@ namespace AbstractSyntaxTree.Objects
 
         public AstNode(ScannerToken token)
         {
+            this.Value = token.Value;
             this.Type = token.Type;
             this.Line = token.Line;
             this.Offset = token.Offset;
@@ -41,20 +42,14 @@ namespace AbstractSyntaxTree.Objects
         public AstNode(TokenType type, ScannerToken token)
         {
             this.Type = type;
+            this.Value = token.Value;
             this.Line = token.Line;
             this.Offset = token.Offset;
             this.SymbolType = token.SymbolicType;
             this.Visited = false;
         }
 
-        public override string ToString() 
-        {
-            if (ShowVal) {
-                return $"{Value}";
-            } else {
-                return $"Type={Type}; Line={Line}; Offset={Offset}; Value={Value}";
-            }
-        }
+        public override string ToString() => $"Type={Type}";
 
         public abstract void Accept(Visitor visitor);
     }

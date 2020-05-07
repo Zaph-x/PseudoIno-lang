@@ -8,6 +8,10 @@ namespace AbstractSyntaxTree.Objects.Nodes
         {
         }
 
+        public OperatorNode(TokenType type, int line, int offset) : base(type,line,offset)
+        {
+        }
+
         public abstract override void Accept(Visitor visitor);
     }
 }

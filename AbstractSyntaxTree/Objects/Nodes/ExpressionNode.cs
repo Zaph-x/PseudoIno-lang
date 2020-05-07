@@ -5,6 +5,12 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public abstract class ExpressionNode : StatementNode, IAssignment, ITerm, IExpr
     {
+        private ExpressionNode _Parent {get;set;}
+        public ExpressionNode Parent {get => _Parent;set {
+            this._Parent = value;
+            this._Parent.Child = this;
+        }}
+        public ExpressionNode Child {get;set;}
 
         protected ExpressionNode(ScannerToken token) : base(token)
         {
