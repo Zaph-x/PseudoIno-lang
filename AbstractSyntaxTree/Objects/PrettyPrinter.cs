@@ -306,7 +306,6 @@ namespace AbstractSyntaxTree.Objects
             Print("GreaterNode");
             Indent++;
             greaterNode.OrEqualNode.Accept(this);
-            //greaterNode.Accept(this);
             Indent--;
             return null;
         }
@@ -392,7 +391,6 @@ namespace AbstractSyntaxTree.Objects
             {
                 elseStatement.Statements.ForEach(node => node.Accept(this));
             }
-            //elseStatement.Accept(this);
             Indent--;
             return null;
         }
@@ -406,7 +404,6 @@ namespace AbstractSyntaxTree.Objects
             {
                 elseifStatementNode.Statements.ForEach(node => node.Accept(this));
             }
-            //elseifStatementNode.Accept(this);
             Indent--;
             return null;
         }
@@ -416,7 +413,6 @@ namespace AbstractSyntaxTree.Objects
             Indent++;
             rangeNode.From.Accept(this);
             rangeNode.To.Accept(this);
-            //rangeNode.Accept(this);
             Indent--;
             return null;
         }
@@ -457,6 +453,12 @@ namespace AbstractSyntaxTree.Objects
         public override object Visit(FollowTermNode followTermNode)
         {
             throw new NotImplementedException();
+        }
+
+        public override object Visit(BoolNode boolNode)
+        {
+            Print("Bool");
+            return null;
         }
     }
 }
