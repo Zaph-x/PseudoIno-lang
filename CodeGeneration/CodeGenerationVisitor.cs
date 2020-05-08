@@ -71,7 +71,6 @@ namespace CodeGeneration
         {
             PrintStringToFile("_delay_ms(");
             waitNode.TimeAmount.Accept(this);
-            PrintStringToFile(")");
             waitNode.TimeModifier.Accept(this);
             switch (waitNode.TimeModifier.Type)
             {
@@ -89,6 +88,7 @@ namespace CodeGeneration
                 default:
                     throw new Exception("Invalid time exception. Time parameter not specified.");
             }
+            PrintStringToFile(")");
             return null;
         }
 
