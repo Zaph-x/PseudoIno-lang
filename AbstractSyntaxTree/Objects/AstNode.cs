@@ -1,4 +1,5 @@
 
+using System.Net;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -49,8 +50,10 @@ namespace AbstractSyntaxTree.Objects
             this.Visited = false;
         }
 
+        public bool HasParent() => this.Parent != null;
+
         public override string ToString() => $"Type={Type}";
 
-        public abstract void Accept(Visitor visitor);
+        public abstract object Accept(Visitor visitor);
     }
 }
