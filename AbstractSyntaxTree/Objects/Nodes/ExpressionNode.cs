@@ -25,9 +25,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
         }
 
         public ITerm LeftHand { get; set; }
-        public OperatorNode Operator { get; set; }
+        public new OperatorNode Operator { get; set; }
         public IExpr RightHand { get; set; }
 
-        public abstract override void Accept(Visitor visitor);
+        public abstract override object Accept(Visitor visitor);
     }
 }

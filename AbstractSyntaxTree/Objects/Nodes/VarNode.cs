@@ -10,9 +10,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
             this.Id = id;
         }
         public override string ToString() => $"{Id}";
-        public override void Accept(Visitor visitor)
+        public override object Accept(Visitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }

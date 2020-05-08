@@ -12,6 +12,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
         {
         }
 
-        public abstract override void Accept(Visitor visitor);
+        public abstract override object Accept(Visitor visitor);
     }
 }

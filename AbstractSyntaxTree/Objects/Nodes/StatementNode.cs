@@ -10,6 +10,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public StatementNode(TokenType type, ScannerToken token) : base(type, token) { }
         public StatementNode(ScannerToken token) : base(token) { }
 
-        public abstract override void Accept(Visitor visitor);
+        public abstract override object Accept(Visitor visitor);
     }
 }

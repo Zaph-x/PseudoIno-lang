@@ -1,3 +1,5 @@
+using Lexer.Objects;
+
 namespace AbstractSyntaxTree.Objects.Nodes
 {
     public interface IExpr : ITyped
@@ -6,6 +8,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
         OperatorNode Operator { get; set; }
         IExpr RightHand { get; set; }
 
-        void Accept(Visitor visitor);
+        object Accept(Visitor visitor);
     }
 }

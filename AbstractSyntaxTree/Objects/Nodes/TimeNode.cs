@@ -7,6 +7,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public TimeNode( ScannerToken token) : base(token)
         {
         }
-        public abstract override void Accept(Visitor visitor);
+        public abstract override object Accept(Visitor visitor);
     }
 }

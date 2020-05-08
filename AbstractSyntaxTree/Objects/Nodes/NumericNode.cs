@@ -18,8 +18,8 @@ namespace AbstractSyntaxTree.Objects.Nodes
             IValue = _i;
         }
 
-        public override void Accept(Visitor visitor) {
-            visitor.Visit(this);
+        public override object Accept(Visitor visitor) {
+            return visitor.Visit(this);
         }
     }
 }

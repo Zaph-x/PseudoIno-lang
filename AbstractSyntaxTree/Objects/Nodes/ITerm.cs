@@ -5,6 +5,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public interface ITerm : ITyped
     {
-        void Accept(Visitor visitor);
+        object Accept(Visitor visitor);
     }
 }
