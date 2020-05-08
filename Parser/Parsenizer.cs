@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Security;
 using System.Collections.Generic;
@@ -68,11 +69,7 @@ namespace Parser
                 CurrentLine = Tokens[Index].Line;
                 CurrentOffset = Tokens[Index].Offset;
                 verbosity += $"Token: {token} Top: {TopOfStack()}".PadRight(35, ' ');
-                if (top == OP_RPAREN)
-                {
-                    if ((ExpressionNode)Current.Parent != null)
-                        Current = (ExpressionNode)Current.Parent;
-                }
+
                 if (TokenTypeExpressions.IsTerminal(top))
                 {
                     if (top == token)
@@ -158,6 +155,7 @@ namespace Parser
                     {
                         symbolNode = new VarNode(token.Value, token) { SymbolType = new TypeContext(VAR) };
                         ((AssignmentNode)Current).LeftHand = (ITerm)symbolNode;
+                        ((AssignmentNode)Current).RightHand = new NoParenExpression(token);
                         _builder.AddSymbol(symbolNode);
                         break;
                     }
@@ -165,6 +163,7 @@ namespace Parser
                     {
                         symbolNode = new APinNode(token.Value, token) { SymbolType = new TypeContext(NUMERIC) };
                         ((AssignmentNode)Current).LeftHand = (ITerm)symbolNode;
+                        ((AssignmentNode)Current).RightHand = new NoParenExpression(token);
                         _builder.AddSymbol(symbolNode);
                         break;
                     }
@@ -172,14 +171,10 @@ namespace Parser
                     {
                         symbolNode = new DPinNode(token.Value, token) { SymbolType = new TypeContext(BOOL) };
                         ((AssignmentNode)Current).LeftHand = (ITerm)symbolNode;
+                        ((AssignmentNode)Current).RightHand = new NoParenExpression(token);
                         _builder.AddSymbol(symbolNode);
                         break;
                     }
-                case 100:
-                    if (((ExpressionNode)Current).Operator != null)
-                        ((ExpressionNode)Current).Operator = GetOrEqualNode(((ExpressionNode)Current).Operator);
-                    break;
-                    break;
                 case 116 when token.Type == VAR:
                     ((FuncNode)TopScope()).Name = new VarNode(token.Value, token);
                     break;
@@ -187,17 +182,7 @@ namespace Parser
                     ((WhileNode)TopScope()).Expression = new NoParenExpression(token.Line, token.Offset);
                     break;
 
-                // ASSIGNABLES
-                // case 48:
-                //     var expr48 = new ParenthesisExpression(token.Line, token.Offset);
-                //     if (Current.Type == ASSIGNMENT)
-                //         ((AssignmentNode)Current).RightHand = expr48;
-                //     else if (Current.Type == EXPR)
-                //         ((IExpr)Current).LeftHand = expr48;
-                //     else if (Current.Type == WHILE)
-                //         ((IExpr)((WhileNode)Current).Expression).LeftHand = expr48;
-                //     Current = expr48;
-                //     break;
+                #region Assignables
                 case 101:
                     if (Current.Type == ASSIGNMENT)
                     {
@@ -232,7 +217,7 @@ namespace Parser
                     {
                         IExpr expr = new ExpressionTerm(token);
                         expr.LeftHand = new VarNode(token.Value, token);
-                        if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
+                        if (((IExpr)Current).LeftHand != null)
                             ((IExpr)Current).RightHand = (ExpressionNode)expr;
                         else
                             ((IExpr)Current).LeftHand = (ExpressionNode)expr;
@@ -326,7 +311,8 @@ namespace Parser
                     else if (Current.Type == WHILE)
                         ((WhileNode)Current).Expression.LeftHand = new BoolNode(token.Value, token);
                     break;
-
+                #endregion Assignables
+                #region Expressions
                 // EXPRESSIONS
                 case 74:
                     ExpressionNode expr74 = new ParenthesisExpression(token.Line, token.Offset);
@@ -336,7 +322,8 @@ namespace Parser
                     }
                     else if (Current.Type == EXPR)
                     {
-                        DifferLHSAndRHSExpr(expr74);
+                        expr74.Parent = (ExpressionNode)Current;
+                        DifferLHSAndRHSExpr(expr74, (ExpressionNode)Current);
                     }
                     else if (Current.Type == RETURN)
                         ((IExpr)((ReturnNode)Current).ReturnValue).LeftHand = expr74;
@@ -359,7 +346,8 @@ namespace Parser
                     // else if (Current.Type == WHILE)
                     Current = (AstNode)expr74;
                     break;
-
+                #endregion Expressions
+                #region Operators
                 // OPERATORS
                 case 78:
                     if (Current.Type == EXPR)
@@ -371,9 +359,9 @@ namespace Parser
                         }
                         else
                         {
-                            if (Current.Parent != null)
+                            if (((ExpressionNode)Current).Parent != null)
                             {
-                                Current = Current.Parent;
+                                Current = ((ExpressionNode)Current).Parent;
                                 ((IExpr)Current).Operator = new MinusNode(token);
                                 ((IExpr)Current).SymbolType = new TypeContext(NUMERIC);
                             }
@@ -401,9 +389,9 @@ namespace Parser
                         }
                         else
                         {
-                            if (Current.Parent != null)
+                            if (((ExpressionNode)Current).Parent != null)
                             {
-                                Current = Current.Parent;
+                                Current = ((ExpressionNode)Current).Parent;
                                 ((IExpr)Current).Operator = new TimesNode(token);
                                 ((IExpr)Current).SymbolType = new TypeContext(NUMERIC);
                             }
@@ -430,9 +418,9 @@ namespace Parser
                         }
                         else
                         {
-                            if (Current.Parent != null)
+                            if (((ExpressionNode)Current).Parent != null)
                             {
-                                Current = Current.Parent;
+                                Current = ((ExpressionNode)Current).Parent;
                                 ((IExpr)Current).Operator = new DivideNode(token);
                                 ((IExpr)Current).SymbolType = new TypeContext(NUMERIC);
                             }
@@ -459,9 +447,9 @@ namespace Parser
                         }
                         else
                         {
-                            if (Current.Parent != null)
+                            if (((ExpressionNode)Current).Parent != null)
                             {
-                                Current = Current.Parent;
+                                Current = ((ExpressionNode)Current).Parent;
                                 ((IExpr)Current).Operator = new ModuloNode(token);
                                 ((IExpr)Current).SymbolType = new TypeContext(NUMERIC);
                             }
@@ -488,9 +476,9 @@ namespace Parser
                         }
                         else
                         {
-                            if (Current.Parent != null)
+                            if (((ExpressionNode)Current).Parent != null)
                             {
-                                Current = Current.Parent;
+                                Current = ((ExpressionNode)Current).Parent;
                                 ((IExpr)Current).Operator = new PlusNode(token);
                                 ((IExpr)Current).SymbolType = new TypeContext(NUMERIC);
                             }
@@ -517,7 +505,7 @@ namespace Parser
                         }
                         else
                         {
-                            if (Current.Parent != null)
+                            if (((ExpressionNode)Current).Parent != null)
                             {
                                 Current = Current.Parent;
                                 ((IExpr)Current).Operator = new LessNode(token);
@@ -547,9 +535,9 @@ namespace Parser
                         }
                         else
                         {
-                            if (Current.Parent != null)
+                            if (((ExpressionNode)Current).Parent != null)
                             {
-                                Current = Current.Parent;
+                                Current = ((ExpressionNode)Current).Parent;
                                 ((IExpr)Current).Operator = new OrNode(token);
                                 ((IExpr)Current).SymbolType = new TypeContext(BOOL);
                             }
@@ -577,7 +565,7 @@ namespace Parser
                         }
                         else
                         {
-                            if (Current.Parent != null)
+                            if (((ExpressionNode)Current).Parent != null)
                             {
                                 Current = Current.Parent;
                                 ((IExpr)Current).Operator = new AndNode(token);
@@ -607,7 +595,7 @@ namespace Parser
                         }
                         else
                         {
-                            if (Current.Parent != null)
+                            if (((ExpressionNode)Current).Parent != null)
                             {
                                 Current = Current.Parent;
                                 ((IExpr)Current).Operator = new GreaterNode(token);
@@ -637,7 +625,7 @@ namespace Parser
                         }
                         else
                         {
-                            if (Current.Parent != null)
+                            if (((ExpressionNode)Current).Parent != null)
                             {
                                 Current = Current.Parent;
                                 ((IExpr)Current).Operator = new EqualNode(token);
@@ -656,7 +644,7 @@ namespace Parser
                         ((WhileNode)Current).Expression.SymbolType = new TypeContext(BOOL);
                     }
                     break;
-
+                #endregion Operators
                 case 115:
                     if (token.Type == VAR)
                         ((CallNode)Current).Id = new VarNode(token.Value, token);
@@ -723,10 +711,15 @@ namespace Parser
                     Current = new WaitNode(CurrentLine, CurrentOffset);
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
                     break;
+                case 100:
+                    if (((IExpr)Current).Operator != null)
+                        ((IExpr)Current).Operator = GetOrEqualNode(((IExpr)Current).Operator);
+                    break;
                 case 30:
                 case 31:
                 case 32:
                     Current = new AssignmentNode(CurrentLine, CurrentOffset);
+                    // ((AssignmentNode)Current).RightHand = new ExpressionTerm()
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
                     break;
                 case 126:
@@ -799,26 +792,24 @@ namespace Parser
             }
         }
 
-        private void DifferLHSAndRHSExpr(ExpressionNode node)
+        private void DifferLHSAndRHSExpr(ExpressionNode node, ExpressionNode current)
         {
-            node.Parent = (ExpressionNode)Current;
-            if (((IExpr)Current).LeftHand == null)
+            if (((IExpr)current).LeftHand == null)
             {
-                ((IExpr)Current).LeftHand = (ExpressionNode)node;
-                Current = node;
+                ((IExpr)current).LeftHand = (ExpressionNode)node;
+                current = node;
             }
             else
             {
-                if (((IExpr)Current).RightHand == null)
+                if (((IExpr)current).RightHand == null)
                 {
-                    ((IExpr)Current).RightHand = (ExpressionNode)node;
-                    Current = node;
+                    ((IExpr)current).RightHand = (ExpressionNode)node;
+                    current = node;
                 }
                 else
                 {
-                    Current = node.Parent;
-                    if (Current.GetType() == typeof(ExpressionNode))
-                    DifferLHSAndRHSExpr(node);
+                    if (node.Parent.GetType().IsSubclassOf(typeof(ExpressionNode)))
+                        DifferLHSAndRHSExpr(node, node.Parent);
                 }
             }
         }
@@ -828,9 +819,9 @@ namespace Parser
             switch (node.Type)
             {
                 case OP_GREATER:
-                    return new OrEqualNode(node);
+                    return new GreaterOrEqualNode(node);
                 case OP_LESS:
-                    return new OrEqualNode(node);
+                    return new LessOrEqualNode(node);
                 default:
                     return null;
             }
