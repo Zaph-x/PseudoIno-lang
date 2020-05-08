@@ -47,6 +47,11 @@ namespace CodeGeneration
             return null;
         }
 
+        public override object Visit(FollowTermNode followTermNode)
+        {
+            throw new NotImplementedException();
+        }
+
         public override object Visit(AssignmentNode assignmentNode)
         {
             throw new NotImplementedException();
@@ -280,6 +285,11 @@ namespace CodeGeneration
             throw new NotImplementedException();
         }
 
+        public override object Visit(GreaterOrEqualNode greaterNode)
+        {
+            throw new NotImplementedException();
+        }
+
         public override object Visit(IfStatementNode ifStatementNode)
         {
             PrintStringToFile("if(");
@@ -297,6 +307,11 @@ namespace CodeGeneration
         }
 
         public override object Visit(LessNode lessNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(LessOrEqualNode lessNode)
         {
             throw new NotImplementedException();
         }
@@ -394,6 +409,21 @@ namespace CodeGeneration
         }
 
         public override object Visit(ReturnNode returnNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(ExpressionTerm expressionTermNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(NoParenExpression noParenExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(ParenthesisExpression parenthesisExpression)
         {
             throw new NotImplementedException();
         }
