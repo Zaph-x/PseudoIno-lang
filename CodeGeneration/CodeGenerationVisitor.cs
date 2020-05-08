@@ -73,13 +73,22 @@ namespace CodeGeneration
             waitNode.TimeAmount.Accept(this);
             PrintStringToFile(")");
             waitNode.TimeModifier.Accept(this);
-            //switch (waitNode.TimeModifier)
-            //{
-            //    case waitNode.TimeModifier.Type == TimeHourNode:
-            //        PrintStringToFile("*3600000");
-            //    default:
-            //        break;
-            //}
+            switch (waitNode.TimeModifier.Type)
+            {
+                case TokenType.TIME_HR:
+                    PrintStringToFile("*3600000");
+                    break;
+                case TokenType.TIME_MIN:
+                    PrintStringToFile("*60000");
+                    break;
+                case TokenType.TIME_SEC:
+                    PrintStringToFile("*1000");
+                    break;
+                case TokenType.TIME_MS:
+                    break;
+                default:
+                    throw new Exception("Invalid time exception. Time parameter not specified.");
+            }
             return null;
         }
 
