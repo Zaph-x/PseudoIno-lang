@@ -17,6 +17,19 @@ namespace Lexer.Objects
             switch (type)
             {
                 case TokenType.NUMERIC:
+                case TokenType.OP_AND:
+                case TokenType.OP_OR:
+                case TokenType.OP_GREATER:
+                case TokenType.OP_LESS:
+                case TokenType.OP_GEQ:
+                case TokenType.OP_LEQ:
+                case TokenType.OP_PLUS:
+                case TokenType.OP_MINUS:
+                case TokenType.OP_TIMES:
+                case TokenType.OP_DIVIDE:
+                case TokenType.OP_MODULO:
+                case TokenType.OP_NOT:
+                case TokenType.OP_EQUAL:
                 case TokenType.BOOL:
                 case TokenType.STRING:
                 case TokenType.APIN:

@@ -397,7 +397,7 @@ namespace Lexer.Objects
         ENDIF,
         NT_COMMENT,
         ASSIGNSTMNT,
-        TERM, FOLLOWTERM, FACTOR, FOLLOWFACTOR, TERMOP, FACTOROP
+        TERM, FOLLOWTERM, FACTOR, FOLLOWFACTOR, TERMOP, FACTOROP, OP_GEQ, OP_LEQ
     }
 
     /// <summary>
@@ -501,7 +501,8 @@ namespace Lexer.Objects
             || type == OP_EQUAL || type == OP_NOT
             || type == OP_GREATER || type == OP_LESS
             || type == OP_MODULO || type == OP_RPAREN
-            || type == OP_RPAREN;
+            || type == OP_RPAREN || type == OP_LEQ
+            || type == OP_GEQ;
         }
 
         /// <summary>
