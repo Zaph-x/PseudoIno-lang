@@ -42,14 +42,46 @@ namespace SymbolTable
 
         public TypeContext FindSymbol(VarNode var)
         {
-            if (this.Symbols.Any(sym => sym.Name == var.Id) && this.Symbols.First(sym => sym.Name == var.Id).TokenType != TokenType.VAR) {
+            if (this.Symbols.Any(sym => sym.Name == var.Id))
+            {
                 return new TypeContext(this.Symbols.First(sym => sym.Name == var.Id).TokenType);
-            } else if (this.Parent != null) {
+            }
+            else if (this.Parent != null)
+            {
                 return this.Parent.FindSymbol(var);
-            } else {
-                // throw new SymbolNotFoundException($"Symbol {var} was not found in the symboltable");
+            }
+            else
+            {
+                throw new SymbolNotFoundException($"Symbol {var} was not found in the symboltable");
                 return null;
             }
+        }
+
+        public void UpdateTypedef(VarNode leftHand, TypeContext rhs)
+        {
+            foreach (Symbol sym in this.Symbols.Where(s => s.Name == leftHand.Id))
+            {
+                sym.AstNode.SymbolType = rhs;
+                sym.TokenType = rhs.Type;
+            }
+                
+            foreach (SymbolTableObject child in this.Children)
+            {
+                // if (child.Type == TokenType.FUNCDECL)
+                child.UpdateTypedef(leftHand, rhs);
+            }
+        }
+
+        public SymbolTableObject FindChild(string name)
+        {
+            SymbolTableObject found = null;
+            foreach (SymbolTableObject child in this.Children)
+            {
+                if (child.Name == name)
+                    return child;
+                found = child.FindChild(name);
+            }
+            return found;
         }
 
         /// <summary>
