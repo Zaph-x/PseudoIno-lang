@@ -19,7 +19,8 @@ namespace CodeGeneration
         }
         public override object Visit(BeginNode beginNode)
         {
-            throw new NotImplementedException();
+            beginNode.LoopNode.Accept(this);
+            return null;
         }
 
         public override object Visit(TimeNode timeNode)
@@ -38,6 +39,15 @@ namespace CodeGeneration
         }
 
         public override object Visit(FunctionLoopNode loopFnNode)
+        {
+            if (loopFnNode.Statements.Any())
+            {
+                loopFnNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+            }
+            return null;
+        }
+
+        public override object Visit(FollowTermNode followTermNode)
         {
             throw new NotImplementedException();
         }
@@ -174,9 +184,8 @@ namespace CodeGeneration
             }
             if (programNode.Statements.Any())
             {
-                programNode.Statements.ForEach(node => node.Accept(this));
                 programNode.Statements.ForEach(node => node.Parent = programNode);
-                //programNode.Statements.ForEach(node => _symbolTableBuilder.AddNode(node));
+                programNode.Statements.ForEach(node => node.Accept(this));
             }
             programNode.LoopFunction.Accept(this);
         
@@ -186,7 +195,18 @@ namespace CodeGeneration
 
         public override object Visit(CallNode callNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(callNode.Id.Id);
+            PrintStringToFile("(");
+            for (int i = 0; i < callNode.Parameters.Count - 1; i++)
+            {
+                if (i > 0)
+                {
+                    PrintStringToFile(", ");
+                }
+                PrintStringToFile(callNode.Parameters[i].Value);
+            }
+            PrintStringToFile(");\n");
+            return null;
         }
 
         public override object Visit(EndNode endNode)
@@ -241,7 +261,27 @@ namespace CodeGeneration
 
         public override object Visit(ForNode forNode)
         {
-            throw new NotImplementedException();
+            if (forNode.From.IValue < forNode.To.IValue)
+            {
+                PrintStringToFile("for(int " + forNode.CountingVariable.Id + " = " +  
+                                  forNode.From.IValue + ";" + " " + forNode.CountingVariable.Id + " < " + 
+                                  forNode.To.IValue + "; " + 
+                                  forNode.CountingVariable.Id + "++;){\n");
+            }
+            else
+            {
+                PrintStringToFile("for(int " + forNode.CountingVariable.Id + " = " +  
+                                  forNode.From.IValue + ";" + " "+ forNode.CountingVariable.Id + " < " + 
+                                  forNode.To.IValue + "; " + 
+                                  forNode.CountingVariable.Id + "--;){\n");
+            }
+            if (forNode.Statements.Any())
+            {
+                forNode.Statements.ForEach(node => node.Parent = forNode);
+                forNode.Statements.ForEach(node => node.Accept(this));
+            }
+            PrintStringToFile("}");
+            return null;
         }
 
         public override object Visit(FuncNode funcNode)
@@ -262,6 +302,11 @@ namespace CodeGeneration
         }
 
         public override object Visit(GreaterNode greaterNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(GreaterOrEqualNode greaterNode)
         {
             throw new NotImplementedException();
         }
@@ -287,9 +332,24 @@ namespace CodeGeneration
             throw new NotImplementedException();
         }
 
-        public override object Visit(LoopNode loopNode)
+        public override object Visit(LessOrEqualNode lessNode)
         {
             throw new NotImplementedException();
+        }
+
+        public override object Visit(LoopNode loopNode)
+        {
+            // Node not used
+            /*if (loopNode.Type == TokenType.FOR)
+            {
+                
+            }
+            else if (loopNode.Type == TokenType.WHILE)
+            {
+                
+            }*/
+
+            return null;
         }
 
         public override object Visit(MathOperatorNode mathOperatorNode)
@@ -324,7 +384,15 @@ namespace CodeGeneration
 
         public override object Visit(WhileNode whileNode)
         {
-            throw new NotImplementedException();
+            //whileNode.Expression.Accept(this); yeet
+            
+            if (whileNode.Statements.Any())
+            {
+                whileNode.Statements.ForEach(node => node.Accept(this));
+                whileNode.Statements.ForEach(node => node.Parent = whileNode);
+            }
+
+            return null;
         }
 
         public override object Visit(ElseStatementNode elseStatement)
@@ -332,9 +400,8 @@ namespace CodeGeneration
             PrintStringToFile("else{\n");
             if (elseStatement.Statements.Any())
             {
-                elseStatement.Statements.ForEach(node => node.Accept(this));
                 elseStatement.Statements.ForEach(node => node.Parent = elseStatement);
-
+                elseStatement.Statements.ForEach(node => node.Accept(this));
             }
 
             PrintStringToFile("\n}\n");
@@ -344,14 +411,13 @@ namespace CodeGeneration
         public override object Visit(ElseifStatementNode elseifStatementNode)
         {
             PrintStringToFile("else if (");
-            elseifStatementNode.Val?.Accept(this);
+            //elseifStatementNode.Val?.Accept(this);
             elseifStatementNode.Expression?.Accept(this);
             PrintStringToFile("){\n");
             if (elseifStatementNode.Statements.Any())
             {
-                elseifStatementNode.Statements.ForEach(node => node.Accept(this));
                 elseifStatementNode.Statements.ForEach(node => node.Parent = elseifStatementNode);
-
+                elseifStatementNode.Statements.ForEach(node => node.Accept(this));
             }
             PrintStringToFile("\n}\n");
 
@@ -364,6 +430,21 @@ namespace CodeGeneration
         }
 
         public override object Visit(ReturnNode returnNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(ExpressionTerm expressionTermNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(NoParenExpression noParenExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(ParenthesisExpression parenthesisExpression)
         {
             throw new NotImplementedException();
         }

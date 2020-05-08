@@ -2,9 +2,9 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class OrNode : MathOperatorNode
+    public class LessOrEqualNode : BoolOperatorNode
     {
-        public OrNode( ScannerToken token) : base(token)
+        public LessOrEqualNode(OperatorNode node) : base(TokenType.OP_LEQ, node.Line, node.Offset)
         {
         }
 

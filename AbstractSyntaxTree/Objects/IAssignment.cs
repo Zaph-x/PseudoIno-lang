@@ -5,6 +5,6 @@ namespace AbstractSyntaxTree.Objects
 {
     public interface IAssignment : ITyped
     {
-        void Accept(Visitor visitor);
+        object Accept(Visitor visitor);
     }
 }

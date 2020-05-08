@@ -7,9 +7,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public RightParenthesisNode(int line, int offset) : base(TokenType.OP_RPAREN, line, offset)
         {
         }
-        public override void Accept(Visitor visitor)
+        public override object Accept(Visitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }

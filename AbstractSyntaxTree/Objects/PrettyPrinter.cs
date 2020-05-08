@@ -428,5 +428,35 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
+
+        public override object Visit(GreaterOrEqualNode greaterNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(LessOrEqualNode lessNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(ExpressionTerm expressionTermNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(NoParenExpression noParenExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(ParenthesisExpression parenthesisExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(FollowTermNode followTermNode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

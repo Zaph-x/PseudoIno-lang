@@ -5,6 +5,12 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public abstract class ExpressionNode : StatementNode, IAssignment, ITerm, IExpr
     {
+        private ExpressionNode _Parent {get;set;}
+        public ExpressionNode Parent {get => _Parent;set {
+            this._Parent = value;
+            this._Parent.Child = this;
+        }}
+        public ExpressionNode Child {get;set;}
 
         protected ExpressionNode(ScannerToken token) : base(token)
         {
@@ -19,9 +25,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
         }
 
         public ITerm LeftHand { get; set; }
-        public OperatorNode Operator { get; set; }
+        public new OperatorNode Operator { get; set; }
         public IExpr RightHand { get; set; }
 
-        public abstract override void Accept(Visitor visitor);
+        public abstract override object Accept(Visitor visitor);
     }
 }

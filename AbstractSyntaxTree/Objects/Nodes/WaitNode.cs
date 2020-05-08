@@ -9,9 +9,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public WaitNode(int line, int offset) : base(TokenType.WAIT, line, offset)
         {
         }
-        public override void Accept(Visitor visitor)
+        public override object Accept(Visitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }
