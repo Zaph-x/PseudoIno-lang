@@ -335,5 +335,35 @@ namespace SymbolTable
             returnNode.ReturnValue.Accept(this);
             return null;
         }
+
+        public override object Visit(GreaterOrEqualNode greaterNode)
+        {
+            return null;
+        }
+
+        public override object Visit(LessOrEqualNode lessNode)
+        {
+            return null;
+        }
+
+        public override object Visit(FollowTermNode followTermNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(ExpressionTerm expressionTermNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(NoParenExpression noParenExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(ParenthesisExpression parenthesisExpression)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

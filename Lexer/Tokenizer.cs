@@ -376,24 +376,24 @@ namespace Lexer
         private void ScanWord()
         {
             string subString = CurrentChar.ToString();
+            ScannerToken token;
             while (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))
             {
                 subString += Pop();
             }
             if (Regex.Match(subString.ToLower(), "(a|d)pin\\d+").Success)
             {
-                ScannerToken pinToken;
                 if (subString.StartsWith("a"))
                 {
-                    pinToken = Token(TokenType.APIN, "A" + subString.Substring(4));
-                    pinToken.SymbolicType = new TypeContext(TokenType.APIN);
-                    Tokens.AddLast(pinToken);
+                    token = Token(TokenType.APIN, "A" + subString.Substring(4));
+                    token.SymbolicType = new TypeContext(TokenType.APIN);
+                    Tokens.AddLast(token);
                 }
                 else
                 {
-                    pinToken = Token(TokenType.DPIN, subString.Substring(4));
-                    pinToken.SymbolicType = new TypeContext(TokenType.DPIN);
-                    Tokens.AddLast(pinToken);
+                    token = Token(TokenType.DPIN, subString.Substring(4));
+                    token.SymbolicType = new TypeContext(TokenType.DPIN);
+                    Tokens.AddLast(token);
                 }
                 return;
             }
@@ -405,36 +405,42 @@ namespace Lexer
                 }
                 else if (tokenType == TokenType.BOOL)
                 {
-                    ScannerToken boolToken;
                     if (subString.ToLower() == "on")
                     {
-                        boolToken = Token(tokenType, "true");
-                        boolToken.SymbolicType = new TypeContext(TokenType.BOOL);
-                        Tokens.AddLast(boolToken);
+                        token = Token(tokenType, "true");
+                        token.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(token);
                     }
                     else if (subString.ToLower() == "off")
                     {
-                        boolToken = Token(tokenType, "false");
-                        boolToken.SymbolicType = new TypeContext(TokenType.BOOL);
-                        Tokens.AddLast(boolToken);
+                        token = Token(tokenType, "false");
+                        token.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(token);
                     }
                     else
                     {
-                        boolToken = Token(tokenType, subString);
-                        boolToken.SymbolicType = new TypeContext(TokenType.BOOL);
-                        Tokens.AddLast(boolToken);
+                        token = Token(tokenType, subString);
+                        token.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(token);
                     }
                 }
                 else
                 {
-                    Tokens.AddLast(Token(tokenType));
+                    token = Token(tokenType);
+                    if (TokenTypeExpressions.IsOperator(tokenType))
+                        token.SymbolicType = new TypeContext(tokenType);
+
+                    Tokens.AddLast(token);
                 }
                 return;
             }
-            ScannerToken token = Token(TokenType.VAR, subString);
-            if (Tokens.Any() && (Tokens.Last().Type == TokenType.FUNC || Tokens.Last().Type == TokenType.CALL)) {
+            token = Token(TokenType.VAR, subString);
+            if (Tokens.Any() && (Tokens.Last().Type == TokenType.FUNC || Tokens.Last().Type == TokenType.CALL))
+            {
                 token.SymbolicType = new TypeContext(TokenType.FUNC);
-            } else {
+            }
+            else
+            {
                 token.SymbolicType = new TypeContext(TokenType.VAR);
             }
             Tokens.AddLast(token);
@@ -476,25 +482,36 @@ namespace Lexer
         /// </summary>
         private void ScanOperators()
         {
+            ScannerToken token;
             switch (CurrentChar)
             {
                 case '+':
-                    Tokens.AddLast(Token(TokenType.OP_PLUS));
+                    token = Token(TokenType.OP_PLUS);
+                    token.SymbolicType = new TypeContext(TokenType.OP_PLUS);
+                    Tokens.AddLast(token);
                     break;
                 case '-':
-                    Tokens.AddLast(Token(TokenType.OP_MINUS));
+                    token = Token(TokenType.OP_MINUS);
+                    token.SymbolicType = new TypeContext(TokenType.OP_MINUS);
+                    Tokens.AddLast(token);
                     break;
                 case '*':
-                    Tokens.AddLast(Token(TokenType.OP_TIMES));
+                    token = Token(TokenType.OP_TIMES);
+                    token.SymbolicType = new TypeContext(TokenType.OP_TIMES);
+                    Tokens.AddLast(token);
                     break;
                 case '/':
-                    Tokens.AddLast(Token(TokenType.OP_DIVIDE));
+                    token = Token(TokenType.OP_DIVIDE);
+                    token.SymbolicType = new TypeContext(TokenType.OP_DIVIDE);
+                    Tokens.AddLast(token);
                     break;
                 case '%':
-                    Tokens.AddLast(Token(TokenType.OP_MODULO));
+                    token = Token(TokenType.OP_MODULO);
+                    token.SymbolicType = new TypeContext(TokenType.OP_MODULO);
+                    Tokens.AddLast(token);
                     break;
                 case '(':
-                    ScannerToken token = Token(TokenType.OP_LPAREN);
+                    token = Token(TokenType.OP_LPAREN);
                     ParenthesisStack.Push(token);
                     Tokens.AddLast(token);
                     break;

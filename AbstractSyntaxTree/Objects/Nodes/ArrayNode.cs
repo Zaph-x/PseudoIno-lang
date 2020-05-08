@@ -8,7 +8,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         {
         }
 
-        public override void Accept(Visitor visitor)
+        public override object Accept(Visitor visitor)
         {
             throw new System.NotImplementedException();
         }

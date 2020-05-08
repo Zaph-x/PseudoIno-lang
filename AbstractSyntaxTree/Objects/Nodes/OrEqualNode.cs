@@ -10,14 +10,14 @@ namespace AbstractSyntaxTree.Objects.Nodes
             this.UnderlyingComparer = underlying;
         }
 
-        public OrEqualNode(OperatorNode node) : base(node.Line, node.Offset)
+        public OrEqualNode(OperatorNode node) : base(TokenType.OP_OREQUAL, node.Line, node.Offset)
         {
             this.UnderlyingComparer = node.Type;
         }
 
-        public override void Accept(Visitor visitor)
+        public override object Accept(Visitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }

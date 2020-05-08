@@ -11,6 +11,7 @@ namespace AbstractSyntaxTree.Objects
         public abstract object Visit(DeclParametersNode declParametersNode);
         public abstract object Visit(TimesNode timesNode);
         public abstract object Visit(FunctionLoopNode loopFnNode);
+        public abstract object Visit(FollowTermNode followTermNode);
         public abstract object Visit(AssignmentNode assignmentNode);
         public abstract object Visit(StatementNode statementNode);
         public abstract object Visit(WithNode withNode);
@@ -46,8 +47,10 @@ namespace AbstractSyntaxTree.Objects
         public abstract object Visit(ForNode forNode);
         public abstract object Visit(FuncNode funcNode);
         public abstract object Visit(GreaterNode greaterNode);
+        public abstract object Visit(GreaterOrEqualNode greaterNode);
         public abstract object Visit(IfStatementNode ifStatementNode);
         public abstract object Visit(LessNode lessNode);
+        public abstract object Visit(LessOrEqualNode lessNode);
         public abstract object Visit(LoopNode loopNode);
         public abstract object Visit(MathOperatorNode mathOperatorNode);
         public abstract object Visit(PlusNode plusNode);
@@ -60,5 +63,8 @@ namespace AbstractSyntaxTree.Objects
         public abstract object Visit(ElseifStatementNode elseifStatementNode);
         public abstract object Visit(RangeNode rangeNode);
         public abstract object Visit(ReturnNode returnNode);
+        public abstract object Visit(ExpressionTerm expressionTermNode);
+        public abstract object Visit(NoParenExpression noParenExpression);
+        public abstract object Visit(ParenthesisExpression parenthesisExpression);
     }
 }

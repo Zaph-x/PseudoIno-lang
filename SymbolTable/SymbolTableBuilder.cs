@@ -13,7 +13,7 @@ namespace SymbolTable
     {
         public List<SymbolTableObject> SymbolTables = new List<SymbolTableObject>();
         public List<List<SymbolTableObject>> FinalSymbolTable = new List<List<SymbolTableObject>>();
-        public SymbolTableObject GlobalSymbolTable;
+        public static SymbolTableObject GlobalSymbolTable;
         public SymbolTableObject CurrentSymbolTable;
         public static Stack<SymbolTableObject> TopOfScope = new Stack<SymbolTableObject>();
         public int Depth { get; set; }

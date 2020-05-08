@@ -11,8 +11,8 @@ namespace AbstractSyntaxTree.Objects.Nodes
             Value = bool.Parse(value);
         }
 
-        public override void Accept(Visitor visitor) {
-            visitor.Visit(this);
+        public override object Accept(Visitor visitor) {
+            return visitor.Visit(this);
         }
     }
 }

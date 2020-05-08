@@ -15,9 +15,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
             Statements = new List<StatementNode>();
         }
 
-        public override void Accept(Visitor visitor)
+        public override object Accept(Visitor visitor)
         {
-            visitor.Visit(this);
+            return visitor.Visit(this);
         }
     }
 }

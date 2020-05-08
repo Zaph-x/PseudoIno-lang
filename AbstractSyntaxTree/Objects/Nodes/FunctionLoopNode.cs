@@ -13,8 +13,8 @@ namespace AbstractSyntaxTree.Objects.Nodes
         }
 
 
-        public override void Accept(Visitor visitor) {
-            visitor.Visit(this);
+        public override object Accept(Visitor visitor) {
+            return visitor.Visit(this);
         }
     }
 }
