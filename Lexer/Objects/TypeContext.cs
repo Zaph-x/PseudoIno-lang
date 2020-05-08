@@ -1,3 +1,4 @@
+using System;
 using Lexer.Exceptions;
 
 namespace Lexer.Objects
@@ -43,7 +44,7 @@ namespace Lexer.Objects
                     throw new InvalidTypeException($"Type {type} is invalid.");
             }
         }
-
+        public override string ToString() => ""+this.Type;
         // override object.Equals
         public override bool Equals(object obj)
         {
