@@ -725,26 +725,26 @@ namespace Parser
                 case 126:
                     Current = new WhileNode(CurrentLine, CurrentOffset);
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
-                    _builder.OpenScope(token, $"{token}");
+                    _builder.OpenScope(token, $"{token}_{CurrentLine}");
                     Scopes.Push(Current);
                     break;
                 case 123:
                     Current = new ForNode(CurrentLine, CurrentOffset);
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
-                    _builder.OpenScope(token, $"{token}");
+                    _builder.OpenScope(token, $"{token}_{CurrentLine}");
                     Scopes.Push(Current);
                     break;
                 case 116:
                     Current = new FuncNode(CurrentLine, CurrentOffset);
                     ((ProgramNode)TopScope()).FunctionDefinitons.Add((FuncNode)Current);
-                    _builder.OpenScope(token, $"{token}");
+                    _builder.OpenScope(token, $"{token}_{CurrentLine}");
                     Scopes.Push(Current);
                     break;
                 case 111:
                     ExpressionNode expr111 = new NoParenExpression(CurrentLine, CurrentOffset);
                     Current = new IfStatementNode(CurrentLine, CurrentOffset) { Expression = expr111 };
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
-                    _builder.OpenScope(token, $"{token}");
+                    _builder.OpenScope(token, $"{token}_{CurrentLine}");
                     Scopes.Push(Current);
                     Current = ((IfStatementNode)Current).Expression;
                     break;
@@ -753,7 +753,7 @@ namespace Parser
                     Current = new ElseStatementNode(CurrentLine, CurrentOffset);
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
                     _builder.CloseScope();
-                    _builder.OpenScope(token, $"{token}");
+                    _builder.OpenScope(token, $"{token}_{CurrentLine}");
                     Scopes.Push(Current);
                     break;
                 case 114:
@@ -761,7 +761,7 @@ namespace Parser
                     Current = new ElseifStatementNode(CurrentLine, CurrentOffset);
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
                     _builder.CloseScope();
-                    _builder.OpenScope(token, $"{token}");
+                    _builder.OpenScope(token, $"{token}_{CurrentLine}");
                     Scopes.Push(Current);
                     break;
                 case 124:
