@@ -24,7 +24,7 @@ namespace CodeGeneration
 
         public override object Visit(TimeNode timeNode)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override object Visit(DeclParametersNode declParametersNode)
@@ -59,7 +59,18 @@ namespace CodeGeneration
 
         public override object Visit(WaitNode waitNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile("_delay_ms(");
+            waitNode.TimeAmount.Accept(this);
+            PrintStringToFile(")");
+            waitNode.TimeModifier.Accept(this);
+            //switch (waitNode.TimeModifier)
+            //{
+            //    case waitNode.TimeModifier.Type == TimeHourNode:
+            //        PrintStringToFile("*3600000");
+            //    default:
+            //        break;
+            //}
+            return null;
         }
 
         public override object Visit(VarNode varNode)
@@ -100,7 +111,17 @@ namespace CodeGeneration
 
         public override object Visit(NumericNode numericNode)
         {
-            throw new NotImplementedException();
+            if (numericNode.FValue % 1!=0)
+            {
+                PrintStringToFile(numericNode.FValue.ToString());
+                
+            }
+            else
+            {
+                PrintStringToFile(numericNode.IValue.ToString());
+
+            }
+            return null;
         }
 
         public override object Visit(NewlineNode newlineNode)
