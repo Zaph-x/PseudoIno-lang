@@ -457,5 +457,10 @@ namespace CodeGeneration
         {
             throw new NotImplementedException();
         }
+
+        public override object Visit(BoolNode boolNode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
