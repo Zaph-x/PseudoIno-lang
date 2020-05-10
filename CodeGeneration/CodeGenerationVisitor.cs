@@ -394,14 +394,15 @@ namespace CodeGeneration
 
         public override object Visit(WhileNode whileNode)
         {
-            //whileNode.Expression.Accept(this); yeet
-            
+            PrintStringToFile("while(");
+            whileNode.Expression.Accept(this);
+            PrintStringToFile("){\n");
             if (whileNode.Statements.Any())
             {
-                whileNode.Statements.ForEach(node => node.Accept(this));
                 whileNode.Statements.ForEach(node => node.Parent = whileNode);
+                whileNode.Statements.ForEach(node => node.Accept(this));
             }
-
+            PrintStringToFile("}\n");
             return null;
         }
 
@@ -446,7 +447,8 @@ namespace CodeGeneration
 
         public override object Visit(ExpressionTerm expressionTermNode)
         {
-            throw new NotImplementedException();
+            
+            return null;
         }
 
         public override object Visit(NoParenExpression noParenExpression)
