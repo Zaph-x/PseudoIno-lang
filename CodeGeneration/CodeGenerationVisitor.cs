@@ -306,6 +306,7 @@ namespace CodeGeneration
             PrintStringToFile(" ");
             funcNode.Name.Accept(this);
             PrintStringToFile("(");
+            //TODO lav functions paramenter med type symboltable
             funcNode.FunctionParameters.ForEach(node => node.Accept(this));
             PrintStringToFile(")\n{");
             if (funcNode.Statements.Any())
