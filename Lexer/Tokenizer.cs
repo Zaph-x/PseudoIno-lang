@@ -236,6 +236,7 @@ namespace Lexer
         /// </summary>
         private void ScanNumeric()
         {
+            bool isFloat = false;
             string subString = CurrentChar.ToString();
             while (recogniser.IsDigit(Peek()))
             {
@@ -245,9 +246,9 @@ namespace Lexer
             // Make sure it isn't a range
             if (Peek() == '.' && recogniser.IsDigit(Peek(2)))
             {
+                isFloat = !isFloat;
                 Pop();
                 subString += CurrentChar;
-
                 while (recogniser.IsDigit(Peek()))
                 {
                     Pop();
@@ -260,6 +261,7 @@ namespace Lexer
             }
             ScannerToken token = Token(TokenType.NUMERIC, subString);
             token.SymbolicType = new TypeContext(TokenType.NUMERIC);
+            token.SymbolicType.IsFloat = isFloat;
             Tokens.AddLast(token);
         }
 

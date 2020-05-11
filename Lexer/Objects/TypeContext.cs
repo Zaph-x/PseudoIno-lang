@@ -7,6 +7,18 @@ namespace Lexer.Objects
     {
         private TokenType _tokenType { get; set; }
         public TokenType Type { get => _tokenType; }
+        private bool _float {get;set;}
+        public bool IsFloat {
+            get => _float;
+            set {
+                if (Type == TokenType.NUMERIC)
+                {
+                    this._float = value;
+                } else {
+                    throw new InvalidOperationException($"Type {Type} is assigned an invalid float bool.");
+                }
+            }
+        }
 
         public TypeContext(TokenType type)
         {

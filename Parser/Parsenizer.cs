@@ -685,7 +685,11 @@ namespace Parser
         // TODO Dette skal opdateres i rapporten
         public void AddToAstNode(TokenType token)
         {
+            
             if (CurrentAction == null) return;
+            ScannerToken previous = Tokens[0];
+            if (Index > 0)
+                previous = Tokens[Index - 1];
             switch (CurrentAction.Type)
             {
                 case 115:
@@ -780,6 +784,7 @@ namespace Parser
                     break;
 
                 case 120:
+                    Current = TopScope();
                     ReturnNode retNode = new ReturnNode(CurrentLine, CurrentOffset);
                     IExpr expr120 = new NoParenExpression(CurrentLine, CurrentOffset);
                     retNode.ReturnValue = (ExpressionNode)expr120;

@@ -31,7 +31,7 @@ namespace Contextual_analysis
 
         public override object Visit(TimesNode timesNode)
         {
-            return null;
+            return new TypeContext(OP_TIMES);
         }
 
         public override object Visit(FunctionLoopNode loopFnNode)
@@ -315,6 +315,7 @@ namespace Contextual_analysis
             }
             throw new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
         }
+
         public override object Visit(ExpressionTerm expressionNode)
         {
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);

@@ -53,7 +53,7 @@ namespace SymbolTable
             }
             else
             {
-                throw new SymbolNotFoundException($"Symbol {var} was not found in the symboltable");
+                throw new SymbolNotFoundException($"Symbol '{var}' was not found in the symboltable");
             }
         }
 
@@ -83,12 +83,6 @@ namespace SymbolTable
             }
             return found;
         }
-
-        /// <summary>
-        /// Findnode methode to recursively find a node. It searches in curent scope , then parents scope , parents parent scope etc.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
     }
 }
 
