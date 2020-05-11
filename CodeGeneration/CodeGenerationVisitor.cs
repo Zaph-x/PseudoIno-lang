@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using AbstractSyntaxTree.Objects;
 using AbstractSyntaxTree.Objects.Nodes;
+using Contextual_analysis;
 using Lexer.Objects;
 using SymbolTable;
 
@@ -64,7 +65,7 @@ namespace CodeGeneration
         public override object Visit(AssignmentNode assignmentNode)
         {
             assignmentNode.LeftHand.Accept(this);
-            assignmentNode.Operator.Accept(this);
+           // assignmentNode.Operator.Accept(this);
             assignmentNode.RightHand.Accept(this);
             PrintStringToFile("\n");
             return null;
@@ -143,10 +144,10 @@ namespace CodeGeneration
 
         public override object Visit(NumericNode numericNode)
         {
-            if (numericNode.FValue % 1!=0)
+            if (numericNode.FValue % 1 != 0)
             {
                 PrintStringToFile(numericNode.FValue.ToString());
-                
+
             }
             else
             {
@@ -206,7 +207,7 @@ namespace CodeGeneration
             {
                 foreach (var functionDefiniton in programNode.FunctionDefinitons)
                 {
-                    
+
                 }
                 programNode.FunctionDefinitons.ForEach(node => node.Parent = programNode);
                 programNode.FunctionDefinitons.ForEach(node => node.Accept(this));
@@ -299,16 +300,16 @@ namespace CodeGeneration
         {
             if (forNode.From.IValue < forNode.To.IValue)
             {
-                PrintStringToFile("for(int " + forNode.CountingVariable.Id + " = " +  
-                                  forNode.From.IValue + ";" + " " + forNode.CountingVariable.Id + " < " + 
-                                  forNode.To.IValue + "; " + 
+                PrintStringToFile("for(int " + forNode.CountingVariable.Id + " = " +
+                                  forNode.From.IValue + ";" + " " + forNode.CountingVariable.Id + " < " +
+                                  forNode.To.IValue + "; " +
                                   forNode.CountingVariable.Id + "++;){\n");
             }
             else
             {
-                PrintStringToFile("for(int " + forNode.CountingVariable.Id + " = " +  
-                                  forNode.From.IValue + ";" + " "+ forNode.CountingVariable.Id + " < " + 
-                                  forNode.To.IValue + "; " + 
+                PrintStringToFile("for(int " + forNode.CountingVariable.Id + " = " +
+                                  forNode.From.IValue + ";" + " " + forNode.CountingVariable.Id + " < " +
+                                  forNode.To.IValue + "; " +
                                   forNode.CountingVariable.Id + "--;){\n");
             }
             if (forNode.Statements.Any())
@@ -323,10 +324,25 @@ namespace CodeGeneration
         public override object Visit(FuncNode funcNode)
         {
             //TODO function type Return er en expression bruge noget f.eks. funcNode.Statements.Any(statment => statment.Type == Lexer.Objects.TokenType.RETURN);
-            //SymbolTableObject typeFunc = SymbolTableBuilder.GlobalSymbolTable.FindChild($"{funcNode.Type}_{funcNode.Line}");
-            //funcNode.Statements.Last().
-            //funcNode.Statements.Last().Type
-            
+            TypeContext funcType = (TypeContext)funcNode.Accept(new TypeChecker());
+            // (funcType?.Type ?? "void")
+            // null void
+            //numeric
+            //bool
+            if (funcType?.Type==null)
+            {
+                PrintStringToFile("void");
+            }
+            else if (funcType.Type == TokenType.NUMERIC)
+            {
+             //TODO Numeric float og int
+                PrintStringToFile("float");
+            }
+            else
+            {
+                PrintStringToFile("bool");
+            }
+           
             PrintStringToFile(" ");
             funcNode.Name.Accept(this);
             PrintStringToFile("(");
@@ -489,8 +505,8 @@ namespace CodeGeneration
         public override object Visit(NoParenExpression noParenExpression)
         {
             noParenExpression.LeftHand.Accept(this);
-            noParenExpression.Operator.Accept(this);
-            noParenExpression.RightHand.Accept(this);
+            //noParenExpression.Operator.Accept(this);
+            noParenExpression.RightHand?.Accept(this);
             return null;
         }
 
