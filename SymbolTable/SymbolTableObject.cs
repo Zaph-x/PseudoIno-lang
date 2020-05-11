@@ -32,8 +32,6 @@ namespace SymbolTable
         public TokenType Type { get; set; } = TokenType.PROG;
         public string Name { get; set; }
 
-        public int Depth { get; set; }
-
         public SymbolTableObject()
         {
             SymbolTableBuilder.TopOfScope.Push(this);
