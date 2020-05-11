@@ -280,7 +280,7 @@ namespace Contextual_analysis
         {
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
             TypeContext rhs = (TypeContext)expressionNode.LeftHand?.Accept(this);
-            TypeContext opctx = (TypeContext)expressionNode.Operator?.SymbolType;
+            TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
             if (rhs == null && opctx == null)
             {
                 return lhs;
@@ -337,7 +337,7 @@ namespace Contextual_analysis
         public override object Visit(IfStatementNode ifStatementNode)
         {
             CurrentScope = GlobalScope.FindChild($"{ifStatementNode.Type}_{ifStatementNode.Line}");
-            if ((TypeContext)ifStatementNode.Expression.Accept(this) == new TypeContext(BOOL))
+            if (((TypeContext)ifStatementNode.Expression.Accept(this)).Type == BOOL)
             {
                 ifStatementNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             }
@@ -392,7 +392,7 @@ namespace Contextual_analysis
         public override object Visit(WhileNode whileNode)
         {
             CurrentScope = GlobalScope.FindChild($"{whileNode.Type}_{whileNode.Line}");
-            if ((TypeContext)whileNode.Expression.Accept(this) == new TypeContext(BOOL))
+            if (((TypeContext)whileNode.Expression.Accept(this)).Type == BOOL)
             {
                 whileNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             }
@@ -415,7 +415,7 @@ namespace Contextual_analysis
         public override object Visit(ElseifStatementNode elseifStatementNode)
         {
             CurrentScope = GlobalScope.FindChild($"{elseifStatementNode.Type}_{elseifStatementNode.Line}");
-            if ((TypeContext)elseifStatementNode.Expression.Accept(this) == new TypeContext(BOOL))
+            if (((TypeContext)elseifStatementNode.Expression.Accept(this)).Type == BOOL)
             {
                 elseifStatementNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             }
