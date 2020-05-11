@@ -2,9 +2,9 @@ using AbstractSyntaxTree.Objects;
 using System;
 namespace Contextual_analysis.Exceptions
 {
-    public class InvalidTypeException : Exception
+    public class InvalidReturnException : Exception
     {
-        public InvalidTypeException(string message) : base(message)
+        public InvalidReturnException(string message) : base(message)
         {
             Console.Error.WriteLine(message);
             // ASTHelper.HasError = true;

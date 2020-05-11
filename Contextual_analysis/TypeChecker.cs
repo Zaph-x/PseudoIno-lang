@@ -165,14 +165,28 @@ namespace Contextual_analysis
         public override object Visit(ProgramNode programNode)
         {
             programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
-            programNode.FunctionDefinitons.ForEach(func => func.Accept(this));
+            programNode.FunctionDefinitons.ForEach(func =>
+            {
+                GlobalScope.FunctionDefinitions.Add(func);
+                func.Accept(this);
+            });
             programNode.LoopFunction.Accept(this);
             return null;
         }
 
         public override object Visit(CallNode callNode)
         {
-            return null;
+            try
+            {
+                TypeContext ctx = (TypeContext)GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id).Accept(this);
+                if (ctx == null)
+                    throw new InvalidReturnException($"No returntype in function call at {callNode.Line}:{callNode.Offset}");
+                return ctx;
+            }
+            catch
+            {
+                throw new NullReferenceException($"Undefined function call at {callNode.Line}:{callNode.Offset}");
+            }
         }
 
         public override object Visit(EndNode endNode)
@@ -323,7 +337,16 @@ namespace Contextual_analysis
 
         public override object Visit(FuncNode funcNode)
         {
-            funcNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+            funcNode.Statements.ForEach(stmnt =>
+            {
+                if (stmnt is CallNode) {
+                    if (((CallNode)stmnt).Id.Id == funcNode.Name.Id)
+                    {
+                        throw new InvalidOperationException($"Illegal recursion at {stmnt.Line}:{stmnt.Offset}");
+                    }
+                }
+                stmnt.Accept(this);
+            });
             if (funcNode.Statements.Last().Type == TokenType.RETURN)
                 return funcNode.Statements.Last().Accept(this);
             return null;

@@ -737,7 +737,7 @@ namespace Parser
                 case 116:
                     Current = new FuncNode(CurrentLine, CurrentOffset);
                     ((ProgramNode)TopScope()).FunctionDefinitons.Add((FuncNode)Current);
-                    _builder.OpenScope(token, $"{token}_{CurrentLine}");
+                    _builder.OpenScope(token, $"func_{Tokens[Index +1].Value}");
                     Scopes.Push(Current);
                     break;
                 case 111:
