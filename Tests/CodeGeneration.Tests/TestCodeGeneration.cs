@@ -14,30 +14,19 @@ namespace CodeGeneration.Tests
     public class TestCodeGeneration
     {
         private const string content =
-            @"a is 0
+            @"# Builtin led is on digital pin 13
+
+func trigger
+  dpin13 is on
+  wait 1s
+  dpin13 is off
+  wait 1s
+  return 2.1
+end trigger
+
 func loop
-    a is a + 1
-    call foo with 3, 3
-    wait 4s
-end loop
-dpin4 is (4 or (a and 3) or 5)
-
-if a equal b do
-    a is 4
-else if b equal c do
-    b is 4
-else
-    c is 4
-end if
-
-func foo with c
-    begin while c less 6 do
-        c is c + 1
-    end while
-    begin for x in 1..21 do
-        x is 21
-    end for
-end foo";
+  call trigger
+end loop";
 
         private const string content2 =
             @"brightness is 0

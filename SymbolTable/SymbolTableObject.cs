@@ -53,7 +53,7 @@ namespace SymbolTable
             }
             else
             {
-                throw new SymbolNotFoundException($"Symbol {var} was not found in the symboltable");
+                throw new SymbolNotFoundException($"Symbol '{var}' was not found in the symboltable");
             }
         }
 

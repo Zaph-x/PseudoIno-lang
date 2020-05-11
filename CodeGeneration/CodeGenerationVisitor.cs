@@ -4,6 +4,7 @@ using System.Linq;
 using AbstractSyntaxTree.Objects;
 using AbstractSyntaxTree.Objects.Nodes;
 using Contextual_analysis;
+using Contextual_analysis.Exceptions;
 using Lexer.Objects;
 using SymbolTable;
 
@@ -66,7 +67,7 @@ namespace CodeGeneration
         public override object Visit(AssignmentNode assignmentNode)
         {
             assignmentNode.LeftHand.Accept(this);
-           // assignmentNode.Operator.Accept(this);
+            // assignmentNode.Operator.Accept(this);
             assignmentNode.RightHand.Accept(this);
             PrintStringToFile(";\n");
             return null;
@@ -84,9 +85,9 @@ namespace CodeGeneration
 
         public override object Visit(WaitNode waitNode)
         {
-            PrintStringToFile("_delay_ms(");
+            PrintStringToFile("delay(");
             waitNode.TimeAmount.Accept(this);
-//            waitNode.TimeModifier.Accept(this);
+            //            waitNode.TimeModifier.Accept(this);
             switch (waitNode.TimeModifier.Type)
             {
                 case TokenType.TIME_HR:
@@ -101,7 +102,7 @@ namespace CodeGeneration
                 case TokenType.TIME_MS:
                     break;
                 default:
-                    throw new Exception("Invalid time exception. Time parameter not specified.");
+                    throw new InvalidTypeException($"Invalid timemodifier exception at{waitNode.TimeModifier.Line}:{waitNode.TimeModifier.Offset}. Time parameter not specified.");
             }
             PrintStringToFile(")");
             return null;
@@ -330,26 +331,35 @@ namespace CodeGeneration
 
         public override object Visit(FuncNode funcNode)
         {
-            //TODO function type Return er en expression bruge noget f.eks. funcNode.Statements.Any(statment => statment.Type == Lexer.Objects.TokenType.RETURN);
-            TypeContext funcType = (TypeContext)funcNode.Accept(new TypeChecker());
-            // (funcType?.Type ?? "void")
-            // null void
-            //numeric
-            //bool
-            if (funcType?.Type==null)
-            {
-                PrintStringToFile("void");
-            }
-            else if (funcType.Type == TokenType.NUMERIC)
-            {
-             //TODO Numeric float og int
-                PrintStringToFile("float");
-            }
-            else
-            {
-                PrintStringToFile("bool");
-            }
            
+            TypeContext funcType = (TypeContext)funcNode.Accept(new TypeChecker());
+           
+            switch ((funcType?.Type.ToString() ?? "void"))
+            {
+                case "void":
+                    PrintStringToFile("void");
+                    break;
+                case "NUMERIC":
+                    if (funcType.IsFloat)
+                    {
+                        PrintStringToFile("float");
+                    }
+                    else
+                    {
+                        PrintStringToFile("int");
+                    }
+                    break;
+                case "BOOL":
+                    PrintStringToFile("bool");
+                    break;
+                case "STRING":
+                    PrintStringToFile("String");
+                break;
+
+                default:
+                    throw new InvalidTypeException($"Invalid return type in function {funcNode.Name.Id} at {funcNode.Line}:{funcNode.Offset}");
+            }
+
             PrintStringToFile(" ");
             funcNode.Name.Accept(this);
             PrintStringToFile("(");
