@@ -68,7 +68,7 @@ namespace CodeGeneration
             assignmentNode.LeftHand.Accept(this);
            // assignmentNode.Operator.Accept(this);
             assignmentNode.RightHand.Accept(this);
-            PrintStringToFile("\n");
+            PrintStringToFile(";\n");
             return null;
         }
 
@@ -86,7 +86,7 @@ namespace CodeGeneration
         {
             PrintStringToFile("_delay_ms(");
             waitNode.TimeAmount.Accept(this);
-            waitNode.TimeModifier.Accept(this);
+//            waitNode.TimeModifier.Accept(this);
             switch (waitNode.TimeModifier.Type)
             {
                 case TokenType.TIME_HR:
@@ -223,9 +223,9 @@ namespace CodeGeneration
                 programNode.Statements.ForEach(node => node.Accept(this));
             }
             PrintStringToFile("}\n");
-            PrintStringToFile("void loop(){\n");
+            //PrintStringToFile("void loop(){\n");
             programNode.LoopFunction.Accept(this);
-            PrintStringToFile("}\n");
+            //PrintStringToFile("}\n");
             return null;
         }
 
@@ -355,7 +355,7 @@ namespace CodeGeneration
             PrintStringToFile("(");
             //TODO lav functions paramenter med type symboltable
             funcNode.FunctionParameters.ForEach(node => node.Accept(this));
-            PrintStringToFile(")\n{");
+            PrintStringToFile(")\n{\n");
             if (funcNode.Statements.Any())
             {
                 funcNode.Statements.ForEach(node => node.Parent = funcNode);
@@ -503,9 +503,9 @@ namespace CodeGeneration
 
         public override object Visit(ExpressionTerm expressionTermNode)
         {
-            expressionTermNode.LeftHand.Accept(this);
-            expressionTermNode.Operator.Accept(this);
-            expressionTermNode.RightHand.Accept(this);
+            expressionTermNode.LeftHand?.Accept(this);
+            //expressionTermNode.Operator.Accept(this);
+            expressionTermNode.RightHand?.Accept(this);
             return null;
         }
 
