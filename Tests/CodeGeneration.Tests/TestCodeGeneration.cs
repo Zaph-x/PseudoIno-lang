@@ -71,6 +71,10 @@ end loop";
             parser.Parse(out nowhere);
             if (Parsenizer.HasError)
                 Assert.Fail();
+            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);*/
+            //TypeChecker typeChecker = new TypeChecker();
+            parser.Root.Accept(new TypeChecker());
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
             parser.Root.Accept(codeGenerationVisitor);
         }
@@ -86,6 +90,7 @@ end loop";
             parser.Parse(out nowhere);
             if (Parsenizer.HasError)
                 Assert.Fail();
+            parser.Root.Accept(new TypeChecker());
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
      
             parser.Root.Accept(new TypeChecker());
