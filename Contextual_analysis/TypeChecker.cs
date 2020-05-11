@@ -48,12 +48,8 @@ namespace Contextual_analysis
                 if (GlobalScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
                 {
                     GlobalScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs);
-                    lhs = GlobalScope.FindSymbol(assignmentNode.LeftHand as VarNode);
                 }
-                else
-                {
-                    lhs = GlobalScope.FindSymbol(assignmentNode.LeftHand as VarNode);
-                }
+                lhs = GlobalScope.FindSymbol(assignmentNode.LeftHand as VarNode);
             }
             if (lhs.Type != rhs.Type)
             {
