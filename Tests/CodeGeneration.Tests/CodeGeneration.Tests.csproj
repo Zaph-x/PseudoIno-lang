@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\CodeGeneration\CodeGeneration.csproj" />
+      <ProjectReference Include="..\..\Contextual_analysis\Contextual_analysis.csproj" />
       <ProjectReference Include="..\..\Lexer\Lexer.csproj" />
       <ProjectReference Include="..\..\Parser\Parser.csproj" />
     </ItemGroup>

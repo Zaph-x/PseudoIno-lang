@@ -4,12 +4,15 @@ using System.Linq;
 using AbstractSyntaxTree.Objects;
 using AbstractSyntaxTree.Objects.Nodes;
 using Lexer.Objects;
+using SymbolTable;
 
 
 namespace CodeGeneration
 {
     public class CodeGenerationVisitor : Visitor
     {
+        private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
+        private SymbolTableObject CurrentScope;
         public void PrintStringToFile(string content)
         {
             using (StreamWriter writer = File.AppendText("Codegen_output.cpp"))
@@ -303,6 +306,10 @@ namespace CodeGeneration
         public override object Visit(FuncNode funcNode)
         {
             //TODO function type Return er en expression bruge noget f.eks. funcNode.Statements.Any(statment => statment.Type == Lexer.Objects.TokenType.RETURN);
+            //SymbolTableObject typeFunc = SymbolTableBuilder.GlobalSymbolTable.FindChild($"{funcNode.Type}_{funcNode.Line}");
+            //funcNode.Statements.Last().
+            //funcNode.Statements.Last().Type
+            
             PrintStringToFile(" ");
             funcNode.Name.Accept(this);
             PrintStringToFile("(");

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Contextual_analysis;
 using Lexer;
 using Lexer.Objects;
 using NUnit.Framework;
@@ -86,6 +87,8 @@ end loop";
             if (Parsenizer.HasError)
                 Assert.Fail();
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
+     
+            parser.Root.Accept(new TypeChecker());
             parser.Root.Accept(codeGenerationVisitor);
         }
         

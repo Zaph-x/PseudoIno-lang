@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AbstractSyntaxTree\AbstractSyntaxTree.csproj" />
+    <ProjectReference Include="..\SymbolTable\SymbolTable.csproj" />
   </ItemGroup>
 
 </Project>
