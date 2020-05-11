@@ -83,12 +83,6 @@ namespace SymbolTable
             }
             return found;
         }
-
-        /// <summary>
-        /// Findnode methode to recursively find a node. It searches in curent scope , then parents scope , parents parent scope etc.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
     }
 }
 
