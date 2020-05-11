@@ -194,6 +194,10 @@ namespace CodeGeneration
             PrintHeader();
             if (programNode.FunctionDefinitons.Any())
             {
+                foreach (var functionDefiniton in programNode.FunctionDefinitons)
+                {
+                    
+                }
                 programNode.FunctionDefinitons.ForEach(node => node.Parent = programNode);
                 programNode.FunctionDefinitons.ForEach(node => node.Accept(this));
             }
@@ -203,9 +207,10 @@ namespace CodeGeneration
                 programNode.Statements.ForEach(node => node.Parent = programNode);
                 programNode.Statements.ForEach(node => node.Accept(this));
             }
+            PrintStringToFile("}\n");
+            PrintStringToFile("void loop(){\n");
             programNode.LoopFunction.Accept(this);
-        
-           
+            PrintStringToFile("}\n");
             return null;
         }
 

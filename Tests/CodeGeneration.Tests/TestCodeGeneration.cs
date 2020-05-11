@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Contextual_analysis;
 using Lexer;
 using Lexer.Objects;
 using NUnit.Framework;
@@ -70,6 +71,10 @@ end loop";
             parser.Parse(out nowhere);
             if (Parsenizer.HasError)
                 Assert.Fail();
+            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);*/
+            //TypeChecker typeChecker = new TypeChecker();
+            parser.Root.Accept(new TypeChecker());
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
             parser.Root.Accept(codeGenerationVisitor);
         }
@@ -85,6 +90,7 @@ end loop";
             parser.Parse(out nowhere);
             if (Parsenizer.HasError)
                 Assert.Fail();
+            parser.Root.Accept(new TypeChecker());
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
             parser.Root.Accept(codeGenerationVisitor);
         }
