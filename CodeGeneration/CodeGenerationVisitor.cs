@@ -60,7 +60,11 @@ namespace CodeGeneration
 
         public override object Visit(AssignmentNode assignmentNode)
         {
-            throw new NotImplementedException();
+            assignmentNode.LeftHand.Accept(this);
+            assignmentNode.Operator.Accept(this);
+            assignmentNode.RightHand.Accept(this);
+            PrintStringToFile("\n");
+            return null;
         }
 
         public override object Visit(StatementNode statementNode)
@@ -151,7 +155,8 @@ namespace CodeGeneration
 
         public override object Visit(NewlineNode newlineNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile("\n");
+            return null;
         }
 
         public override object Visit(LeftParenthesisNode leftParenthesisNode)
@@ -166,12 +171,14 @@ namespace CodeGeneration
 
         public override object Visit(EqualNode equalNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" = ");
+            return null;
         }
 
         public override object Visit(EqualsNode equalsNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" == ");
+            return null;
         }
 
         public override object Visit(EOFNode eOFNode)
@@ -237,7 +244,8 @@ namespace CodeGeneration
 
         public override object Visit(AndNode andNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" && ");
+            return null;
         }
 
         public override object Visit(PinNode pinNode)
@@ -272,12 +280,16 @@ namespace CodeGeneration
 
         public override object Visit(DivideNode divideNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" / ");
+            return null;
         }
 
         public override object Visit(ExpressionNode expressionNode)
         {
-            throw new NotImplementedException();
+            expressionNode.LeftHand.Accept(this);
+            expressionNode.Operator.Accept(this);
+            expressionNode.RightHand.Accept(this);
+            return null;
         }
 
         public override object Visit(ForNode forNode)
@@ -325,12 +337,14 @@ namespace CodeGeneration
 
         public override object Visit(GreaterNode greaterNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" > ");
+            return null;
         }
 
         public override object Visit(GreaterOrEqualNode greaterNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" >= ");
+            return null;
         }
 
         public override object Visit(IfStatementNode ifStatementNode)
@@ -351,27 +365,19 @@ namespace CodeGeneration
 
         public override object Visit(LessNode lessNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" < ");
+            return null;
         }
 
         public override object Visit(LessOrEqualNode lessNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" <= ");
+            return null;
         }
 
         public override object Visit(LoopNode loopNode)
         {
-            // Node not used
-            /*if (loopNode.Type == TokenType.FOR)
-            {
-                
-            }
-            else if (loopNode.Type == TokenType.WHILE)
-            {
-                
-            }*/
-
-            return null;
+            throw new NotImplementedException();
         }
 
         public override object Visit(MathOperatorNode mathOperatorNode)
@@ -381,27 +387,32 @@ namespace CodeGeneration
 
         public override object Visit(PlusNode plusNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" + ");
+            return null;
         }
 
         public override object Visit(MinusNode minusNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" - ");
+            return null;
         }
 
         public override object Visit(ModuloNode moduloNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" % ");
+            return null;
         }
 
         public override object Visit(OrNode orNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile(" || ");
+            return null;
         }
 
         public override object Visit(StringNode stringNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile($" {stringNode.Value} ");
+            return null;
         }
 
         public override object Visit(WhileNode whileNode)
@@ -454,28 +465,46 @@ namespace CodeGeneration
 
         public override object Visit(ReturnNode returnNode)
         {
-            throw new NotImplementedException();
+            PrintStringToFile("return ");
+            returnNode.ReturnValue.Accept(this);
+            PrintStringToFile(";");
+            return null;
         }
 
         public override object Visit(ExpressionTerm expressionTermNode)
         {
-            throw new NotImplementedException();
+            expressionTermNode.LeftHand.Accept(this);
+            expressionTermNode.Operator.Accept(this);
+            expressionTermNode.RightHand.Accept(this);
             return null;
         }
 
         public override object Visit(NoParenExpression noParenExpression)
         {
-            throw new NotImplementedException();
+            noParenExpression.LeftHand.Accept(this);
+            noParenExpression.Operator.Accept(this);
+            noParenExpression.RightHand.Accept(this);
+            return null;
         }
 
         public override object Visit(ParenthesisExpression parenthesisExpression)
         {
-            throw new NotImplementedException();
+            PrintStringToFile("(");
+            parenthesisExpression.LeftHand.Accept(this);
+            parenthesisExpression.Operator.Accept(this);
+            parenthesisExpression.RightHand.Accept(this);
+            PrintStringToFile(")");
+            return null;
         }
 
         public override object Visit(BoolNode boolNode)
         {
-            throw new NotImplementedException();
+            if (boolNode.Value)
+                PrintStringToFile(" 1");
+            else
+                PrintStringToFile(" 0");
+
+            return null;
         }
     }
 }
