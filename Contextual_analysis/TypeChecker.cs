@@ -59,7 +59,7 @@ namespace Contextual_analysis
             {
                 if ((lhs.Type != DPIN && lhs.Type != APIN) || (rhs.Type != NUMERIC && rhs.Type != BOOL))
                 {
-                    throw new InvalidTypeException($"Type {rhs.Type} is not assignable to {lhs.Type} at {assignmentNode.Line}:{assignmentNode.Offset}");
+                    throw new InvalidTypeException($"Type {rhs.Type} is not assignable toType {lhs.Type} at {assignmentNode.Line}:{assignmentNode.Offset}");
                 }
             }
             return null;
@@ -279,8 +279,8 @@ namespace Contextual_analysis
         public override object Visit(ParenthesisExpression expressionNode)
         {
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
-            TypeContext rhs = (TypeContext)expressionNode.LeftHand.Accept(this);
-            TypeContext opctx = (TypeContext)expressionNode.Operator.SymbolType;
+            TypeContext rhs = (TypeContext)expressionNode.LeftHand?.Accept(this);
+            TypeContext opctx = (TypeContext)expressionNode.Operator?.SymbolType;
             if (rhs == null && opctx == null)
             {
                 return lhs;
@@ -311,9 +311,9 @@ namespace Contextual_analysis
 
         public override object Visit(ForNode forNode)
         {
-            TypeContext from = (TypeContext)forNode.From.Accept(this);
-            TypeContext to = (TypeContext)forNode.To.Accept(this);
-            if (from != to)
+            TypeContext fromType = (TypeContext)forNode.From.Accept(this);
+            TypeContext toType = (TypeContext)forNode.To.Accept(this);
+            if (fromType != toType)
                 throw new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
             if (int.Parse(forNode.From.Value) > int.Parse(forNode.To.Value))
                 throw new InvalidRangeException($"Invalid range in range at {forNode.Line}:{forNode.Offset}");
@@ -337,8 +337,14 @@ namespace Contextual_analysis
         public override object Visit(IfStatementNode ifStatementNode)
         {
             CurrentScope = GlobalScope.FindChild($"{ifStatementNode.Type}_{ifStatementNode.Line}");
-            ifStatementNode.Expression.Accept(this);
-            ifStatementNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+            if ((TypeContext)ifStatementNode.Expression.Accept(this) == new TypeContext(BOOL))
+            {
+                ifStatementNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+            }
+            else
+            {
+                throw new InvalidTypeException($"If statement expected a boolean expression at {ifStatementNode.Line}:{ifStatementNode.Offset}");
+            }
             CurrentScope = CurrentScope.Parent;
             return null;
         }
@@ -386,8 +392,14 @@ namespace Contextual_analysis
         public override object Visit(WhileNode whileNode)
         {
             CurrentScope = GlobalScope.FindChild($"{whileNode.Type}_{whileNode.Line}");
-            whileNode.Expression.Accept(this);
-            whileNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+            if ((TypeContext)whileNode.Expression.Accept(this) == new TypeContext(BOOL))
+            {
+                whileNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+            }
+            else
+            {
+                throw new InvalidTypeException($"While statement expected a boolean expression at {whileNode.Line}:{whileNode.Offset}");
+            }
             CurrentScope = CurrentScope.Parent;
             return null;
         }
@@ -403,17 +415,23 @@ namespace Contextual_analysis
         public override object Visit(ElseifStatementNode elseifStatementNode)
         {
             CurrentScope = GlobalScope.FindChild($"{elseifStatementNode.Type}_{elseifStatementNode.Line}");
-            elseifStatementNode.Expression.Accept(this);
-            elseifStatementNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+            if ((TypeContext)elseifStatementNode.Expression.Accept(this) == new TypeContext(BOOL))
+            {
+                elseifStatementNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+            }
+            else
+            {
+                throw new InvalidTypeException($"Else if statement expected a boolean expression at {elseifStatementNode.Line}:{elseifStatementNode.Offset}");
+            }
             CurrentScope = CurrentScope.Parent;
             return null;
         }
 
         public override object Visit(RangeNode rangeNode)
         {
-            TypeContext from = (TypeContext)rangeNode.From.Accept(this);
-            TypeContext to = (TypeContext)rangeNode.To.Accept(this);
-            if (from != to)
+            TypeContext fromType = (TypeContext)rangeNode.From.Accept(this);
+            TypeContext toType = (TypeContext)rangeNode.To.Accept(this);
+            if (fromType != toType)
                 throw new InvalidTypeException($"Mismatch in range types at {rangeNode.Line}:{rangeNode.Offset}");
             if (int.Parse(rangeNode.From.Value) > int.Parse(rangeNode.To.Value))
                 throw new InvalidRangeException($"Invalid range in range at {rangeNode.Line}:{rangeNode.Offset}");
