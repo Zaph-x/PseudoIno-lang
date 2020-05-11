@@ -16,6 +16,7 @@ namespace SymbolTable
         public List<Symbol> Symbols = new List<Symbol>();
         public List<SymbolTableObject> Children { get; set; } = new List<SymbolTableObject>();
         private SymbolTableObject _parent { get; set; }
+        public List<FuncNode> FunctionDefinitions {get;set;} = new List<FuncNode>();
         public SymbolTableObject Parent
         {
             get

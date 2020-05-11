@@ -92,6 +92,8 @@ end loop";
                 Assert.Fail();
             parser.Root.Accept(new TypeChecker());
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
+     
+            parser.Root.Accept(new TypeChecker());
             parser.Root.Accept(codeGenerationVisitor);
         }
         
