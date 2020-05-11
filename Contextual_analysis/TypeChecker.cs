@@ -179,8 +179,6 @@ namespace Contextual_analysis
             try
             {
                 TypeContext ctx = (TypeContext)GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id).Accept(this);
-                if (ctx == null)
-                    throw new InvalidReturnException($"No returntype in function call at {callNode.Line}:{callNode.Offset}");
                 return ctx;
             }
             catch
