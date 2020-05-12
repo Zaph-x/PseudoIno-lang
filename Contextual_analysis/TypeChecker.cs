@@ -249,7 +249,7 @@ namespace Contextual_analysis
             }
             else if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_PLUS, OP_MODULO, OP_MINUS, OP_TIMES, OP_DIVIDE))
             {
-                return new TypeContext(NUMERIC);
+                return new TypeContext(NUMERIC) {IsFloat = (lhs.IsFloat || rhs.IsFloat)};
             }
             else if (IsOfTypes(opctx, OP_EQUAL))
             {
@@ -276,7 +276,7 @@ namespace Contextual_analysis
             }
             else if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_PLUS, OP_MODULO, OP_MINUS, OP_TIMES, OP_DIVIDE))
             {
-                return new TypeContext(NUMERIC);
+                return new TypeContext(NUMERIC) {IsFloat = (lhs.IsFloat || rhs.IsFloat)};
             }
             else if (IsOfTypes(opctx, OP_EQUAL))
             {
@@ -303,7 +303,7 @@ namespace Contextual_analysis
             }
             else if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_PLUS, OP_MODULO, OP_MINUS, OP_TIMES, OP_DIVIDE))
             {
-                return new TypeContext(NUMERIC);
+                return new TypeContext(NUMERIC) {IsFloat = (lhs.IsFloat || rhs.IsFloat)};
             }
             else if (IsOfTypes(opctx, OP_EQUAL))
             {
@@ -320,21 +320,25 @@ namespace Contextual_analysis
 
         public override object Visit(ForNode forNode)
         {
+
+            CurrentScope = GlobalScope.FindChild($"{forNode.Type}_{forNode.Line}");
             TypeContext fromType = (TypeContext)forNode.From.Accept(this);
             TypeContext toType = (TypeContext)forNode.To.Accept(this);
             if (fromType != toType)
                 throw new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
             if (int.Parse(forNode.From.Value) > int.Parse(forNode.To.Value))
                 throw new InvalidRangeException($"Invalid range in range at {forNode.Line}:{forNode.Offset}");
-
+            CurrentScope = CurrentScope.Parent;
             return null;
         }
 
         public override object Visit(FuncNode funcNode)
         {
+            CurrentScope = GlobalScope.FindChild($"func_{funcNode.Name.Id}");
             funcNode.Statements.ForEach(stmnt =>
             {
-                if (stmnt is CallNode) {
+                if (stmnt is CallNode)
+                {
                     if (((CallNode)stmnt).Id.Id == funcNode.Name.Id)
                     {
                         throw new InvalidOperationException($"Illegal recursion at {stmnt.Line}:{stmnt.Offset}");
@@ -342,8 +346,9 @@ namespace Contextual_analysis
                 }
                 stmnt.Accept(this);
             });
+            CurrentScope = CurrentScope.Parent;
             if (funcNode.Statements.Last().Type == TokenType.RETURN)
-                return funcNode.Statements.Last().Accept(this);
+                return funcNode.SymbolType = (TypeContext)funcNode.Statements.Last().Accept(this);
             return null;
         }
 
