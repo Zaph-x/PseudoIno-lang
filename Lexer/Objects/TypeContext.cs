@@ -19,7 +19,6 @@ namespace Lexer.Objects
                 }
             }
         }
-
         public TypeContext(TokenType type)
         {
             ValidateType(type);

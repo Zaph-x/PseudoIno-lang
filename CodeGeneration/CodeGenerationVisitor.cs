@@ -331,8 +331,6 @@ namespace CodeGeneration
 
         public override object Visit(FuncNode funcNode)
         {
-            
-           // TypeContext funcType = (TypeContext)funcNode.Accept(new TypeChecker());
            
             switch ((funcNode.SymbolType?.Type.ToString() ?? "void"))
             {
@@ -355,6 +353,10 @@ namespace CodeGeneration
                 case "STRING":
                     PrintStringToFile("String");
                 break;
+                case "Var":
+                    //TODO print type of VAR node
+                    PrintStringToFile("Var");
+                    break;
 
                 default:
                     throw new InvalidTypeException($"Invalid return type in function {funcNode.Name.Id} at {funcNode.Line}:{funcNode.Offset}");
