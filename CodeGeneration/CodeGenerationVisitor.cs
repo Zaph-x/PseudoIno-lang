@@ -192,12 +192,12 @@ namespace CodeGeneration
 
         public override object Visit(EOFNode eOFNode)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override object Visit(EpsilonNode epsilonNode)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override object Visit(DoNode doNode)
