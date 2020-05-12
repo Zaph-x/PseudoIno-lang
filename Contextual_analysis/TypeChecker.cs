@@ -45,11 +45,11 @@ namespace Contextual_analysis
             TypeContext lhs = (TypeContext)assignmentNode.LeftHand.Accept(this);
             if (lhs.Type == VAR)
             {
-                if (GlobalScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
+                if (CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
                 {
                     GlobalScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs);
                 }
-                lhs = GlobalScope.FindSymbol(assignmentNode.LeftHand as VarNode);
+                lhs = CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode);
             }
             if (lhs.Type != rhs.Type)
             {

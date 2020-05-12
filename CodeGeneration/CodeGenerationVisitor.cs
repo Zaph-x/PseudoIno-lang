@@ -383,10 +383,9 @@ namespace CodeGeneration
 
         public override object Visit(FuncNode funcNode)
         {
-            
-           // TypeContext funcType = (TypeContext)funcNode.Accept(new TypeChecker());
+            // TypeContext funcType = (TypeContext)funcNode.Accept(new TypeChecker());
            string func = "";
-            switch ((funcNode.SymbolType?.Type.ToString() ?? "void"))
+           switch ((funcNode.SymbolType?.Type.ToString() ?? "void"))
             {
                 case "void":
                     func += "void ";
@@ -407,7 +406,6 @@ namespace CodeGeneration
                 case "STRING":
                     func += "string ";
                 break;
-
                 default:
                     throw new InvalidTypeException($"Invalid return type in function {funcNode.Name.Id} at {funcNode.Line}:{funcNode.Offset}");
             }

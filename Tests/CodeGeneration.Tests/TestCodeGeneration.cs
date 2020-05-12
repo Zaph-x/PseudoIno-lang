@@ -14,14 +14,16 @@ namespace CodeGeneration.Tests
     public class TestCodeGeneration
     {
         private const string content =
-            @"# Builtin led is on digital pin 13
+            @"#Builtin led is on digital pin 13
+
 
 func trigger
   dpin13 is on
   wait 1s
   dpin13 is off
   wait 1s
-  return 2.1
+a is 3
+  return a
 end trigger
 
 func loop
