@@ -314,7 +314,7 @@ namespace Contextual_analysis
 
         public override object Visit(ExpressionTerm expressionNode)
         {
-            TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
+            TypeContext lhs = expressionNode.SymbolType;
             return lhs;
         }
 
