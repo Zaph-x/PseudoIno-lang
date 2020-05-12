@@ -39,6 +39,7 @@ func loop
     amountToAdd is amountToAdd * -1
   end if
   wait 30ms
+wait 30m
 end loop";
         
         string nowhere;
