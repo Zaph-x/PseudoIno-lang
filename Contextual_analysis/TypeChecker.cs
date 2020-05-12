@@ -249,7 +249,7 @@ namespace Contextual_analysis
             }
             else if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_PLUS, OP_MODULO, OP_MINUS, OP_TIMES, OP_DIVIDE))
             {
-                return new TypeContext(NUMERIC) {IsFloat = (lhs.IsFloat || rhs.IsFloat)};
+                return new TypeContext(NUMERIC) { IsFloat = (lhs.IsFloat || rhs.IsFloat) };
             }
             else if (IsOfTypes(opctx, OP_EQUAL))
             {
@@ -264,6 +264,10 @@ namespace Contextual_analysis
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
             if (rhs == null && opctx == null)
             {
+                if (lhs.Type == VAR)
+                {
+                    lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
+                }
                 return lhs;
             }
             if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER, OP_EQUAL))
@@ -276,7 +280,7 @@ namespace Contextual_analysis
             }
             else if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_PLUS, OP_MODULO, OP_MINUS, OP_TIMES, OP_DIVIDE))
             {
-                return new TypeContext(NUMERIC) {IsFloat = (lhs.IsFloat || rhs.IsFloat)};
+                return new TypeContext(NUMERIC) { IsFloat = (lhs.IsFloat || rhs.IsFloat) };
             }
             else if (IsOfTypes(opctx, OP_EQUAL))
             {
@@ -303,7 +307,7 @@ namespace Contextual_analysis
             }
             else if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_PLUS, OP_MODULO, OP_MINUS, OP_TIMES, OP_DIVIDE))
             {
-                return new TypeContext(NUMERIC) {IsFloat = (lhs.IsFloat || rhs.IsFloat)};
+                return new TypeContext(NUMERIC) { IsFloat = (lhs.IsFloat || rhs.IsFloat) };
             }
             else if (IsOfTypes(opctx, OP_EQUAL))
             {
@@ -314,7 +318,11 @@ namespace Contextual_analysis
 
         public override object Visit(ExpressionTerm expressionNode)
         {
-            TypeContext lhs = expressionNode.SymbolType;
+            TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
+            if (lhs.Type == VAR)
+            {
+                lhs = CurrentScope.FindSymbol(expressionNode.LeftHand as VarNode);
+            }
             return lhs;
         }
 
@@ -346,9 +354,14 @@ namespace Contextual_analysis
                 }
                 stmnt.Accept(this);
             });
-            CurrentScope = CurrentScope.Parent;
             if (funcNode.Statements.Last().Type == TokenType.RETURN)
-                return funcNode.SymbolType = (TypeContext)funcNode.Statements.Last().Accept(this);
+            {
+                {
+                    funcNode.SymbolType = (TypeContext)funcNode.Statements.Last().Accept(this);
+                    CurrentScope = CurrentScope.Parent;
+                    return funcNode.SymbolType;
+                }
+            }
             return null;
         }
 
