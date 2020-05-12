@@ -13,12 +13,12 @@ namespace CodeGeneration
 {
     public class CodeGenerationVisitor : Visitor
     {
-        private string _header { get; set; }
-        private string _global { get; set; }
-        private string _prototypes { get; set; }
-        private string _setup { get; set; }
-        private string _funcs { get; set; }
-        private string _loop { get; set; }
+        private string Header { get; set; }
+        private string Global { get; set; }
+        private string Prototypes { get; set; }
+        private string Setup { get; set; }
+        private string Funcs { get; set; }
+        private string Loop { get; set; }
         
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
         private SymbolTableObject CurrentScope;
@@ -29,35 +29,45 @@ namespace CodeGeneration
                 writer.Write(content);
             }
         }
+        
+        public void PrintStringToFile()
+        {
+            string content = "";
+            content += Header + Global + Prototypes + Setup + Funcs + Loop;
+            using (StreamWriter writer = File.AppendText("Codegen_output.cpp"))
+            {
+                writer.Write(content);
+            }
+        }
 
         public void PrintToHeader(string input)
         {
-            _header += input;
+            Header += input;
         }
         
         public void PrintToGlobal(string input)
         {
-            _global += input;
+            Global += input;
         }
         
         public void PrintToPrototypes(string input)
         {
-            _prototypes += input;
+            Prototypes += input;
         }
         
         public void PrintToSetup(string input)
         {
-            _setup += input;
+            Setup += input;
         }
         
         public void PrintToFuncs(string input)
         {
-            _funcs += input;
+            Funcs += input;
         }
         
         public void PrintToLoop(string input)
         {
-            _loop += input;
+            Loop += input;
         }
         public override object Visit(BeginNode beginNode)
         {
@@ -77,17 +87,18 @@ namespace CodeGeneration
 
         public override object Visit(TimesNode timesNode)
         {
-            PrintStringToFile(" * ");
-            return null;
+            //PrintStringToFile(" * ");
+            return " * ";
         }
 
         public override object Visit(FunctionLoopNode loopFnNode)
         {
+            string funcloop = "";
             if (loopFnNode.Statements.Any())
             {
-                loopFnNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+                loopFnNode.Statements.ForEach(stmnt => funcloop += stmnt.Accept(this));
             }
-            return null;
+            return funcloop;
         }
 
         public override object Visit(FollowTermNode followTermNode)
@@ -97,12 +108,12 @@ namespace CodeGeneration
 
         public override object Visit(AssignmentNode assignmentNode)
         {
-            assignmentNode.LeftHand.Accept(this);
-            PrintStringToFile(" = ");
+            string assign = (string)assignmentNode.LeftHand.Accept(this);
+            assign += " = ";
             // assignmentNode.Operator.Accept(this);
-            assignmentNode.RightHand.Accept(this);
-            PrintStringToFile(";\n");
-            return null;
+            assign += (string)assignmentNode.RightHand.Accept(this);
+            assign += ";\n";
+            return assign;
         }
 
         public override object Visit(StatementNode statementNode)
@@ -117,39 +128,39 @@ namespace CodeGeneration
 
         public override object Visit(WaitNode waitNode)
         {
-            PrintStringToFile("delay(");
+            string delay = "delay(";
             waitNode.TimeAmount.Accept(this);
             //            waitNode.TimeModifier.Accept(this);
             switch (waitNode.TimeModifier.Type)
             {
                 case TokenType.TIME_HR:
-                    PrintStringToFile("*3600000");
+                    delay += "*3600000";
                     break;
                 case TokenType.TIME_MIN:
-                    PrintStringToFile("*60000");
+                    delay += "*60000";
                     break;
                 case TokenType.TIME_SEC:
-                    PrintStringToFile("*1000");
+                    delay += "*1000";
                     break;
                 case TokenType.TIME_MS:
                     break;
                 default:
                     throw new InvalidTypeException($"Invalid timemodifier exception at{waitNode.TimeModifier.Line}:{waitNode.TimeModifier.Offset}. Time parameter not specified.");
             }
-            PrintStringToFile(")\n");
-            return null;
+            delay += ")\n";
+            return delay;
         }
 
         public override object Visit(VarNode varNode)
         {
-            PrintStringToFile(varNode.Id);
-            return null;
+            //PrintStringToFile(varNode.Id);
+            return varNode.Id;
         }
 
         public override object Visit(ValNode valNode)
         {
-            PrintStringToFile(valNode.Value);
-            return null;
+            //PrintStringToFile(valNode.Value);
+            return valNode.Value;
         }
 
         public override object Visit(TimeSecondNode timeSecondNode)
@@ -174,35 +185,36 @@ namespace CodeGeneration
 
         public override object Visit(RightParenthesisNode rightParenthesisNode)
         {
-            PrintStringToFile(")");
-            return null;
+            //PrintStringToFile(")");
+            return ")";
         }
 
         public override object Visit(NumericNode numericNode)
         {
+            string numeric = "";
             if (numericNode.FValue % 1 != 0)
             {
-                PrintStringToFile(numericNode.FValue.ToString());
+                numeric += numericNode.FValue.ToString();
 
             }
             else
             {
-                PrintStringToFile(numericNode.IValue.ToString());
+                numeric += numericNode.IValue.ToString();
 
             }
-            return null;
+            return numeric;
         }
 
         public override object Visit(NewlineNode newlineNode)
         {
-            PrintStringToFile("\n");
+            //PrintStringToFile("\n");
             return null;
         }
 
         public override object Visit(LeftParenthesisNode leftParenthesisNode)
         {
-            PrintStringToFile("(");
-            return null;
+            //PrintStringToFile("(");
+            return "(";
         }
 
         public override object Visit(InNode inNode)
@@ -212,14 +224,14 @@ namespace CodeGeneration
 
         public override object Visit(EqualNode equalNode)
         {
-            PrintStringToFile(" = ");
-            return null;
+            //PrintStringToFile(" = ");
+            return " = ";
         }
 
         public override object Visit(EqualsNode equalsNode)
         {
-            PrintStringToFile(" == ");
-            return null;
+            //PrintStringToFile(" == ");
+            return " == ";
         }
 
         public override object Visit(EOFNode eOFNode)
@@ -246,38 +258,43 @@ namespace CodeGeneration
             {
                 foreach (var functionDefiniton in programNode.FunctionDefinitons)
                 {
-
+                    //PrintToPrototypes(functionDefiniton.Name.Id + "(");
                 }
+
+                string funcs = "";
                 programNode.FunctionDefinitons.ForEach(node => node.Parent = programNode);
-                programNode.FunctionDefinitons.ForEach(node => node.Accept(this));
+                programNode.FunctionDefinitons.ForEach(node => funcs += node.Accept(this));
+                PrintToFuncs(funcs);
             }
-            PrintStringToFile("void setup()\n{\n");
+            string setupString = "void setup()\n{\n";
             if (programNode.Statements.Any())
             {
                 programNode.Statements.ForEach(node => node.Parent = programNode);
-                programNode.Statements.ForEach(node => node.Accept(this));
+                programNode.Statements.ForEach(node => setupString += node.Accept(this));
             }
-            PrintStringToFile("}\n");
+            setupString += "}\n";
+            PrintToSetup(setupString);
             //PrintStringToFile("void loop(){\n");
-            programNode.LoopFunction.Accept(this);
+            string loopString = (string)programNode.LoopFunction.Accept(this);
+            PrintToLoop(loopString);
             //PrintStringToFile("}\n");
+            PrintStringToFile();
             return null;
         }
 
         public override object Visit(CallNode callNode)
         {
-            PrintStringToFile(callNode.Id.Id);
-            PrintStringToFile("(");
+            string callString = callNode.Id.Id + "(";
             for (int i = 0; i < callNode.Parameters.Count - 1; i++)
             {
                 if (i > 0)
                 {
-                    PrintStringToFile(", ");
+                    callString += ", ";
                 }
-                PrintStringToFile(callNode.Parameters[i].Value);
+                callString += callNode.Parameters[i].Value;
             }
-            PrintStringToFile(");\n");
-            return null;
+            callString += ");\n";
+            return callString;
         }
 
         public override object Visit(EndNode endNode)
@@ -287,8 +304,8 @@ namespace CodeGeneration
 
         public override object Visit(AndNode andNode)
         {
-            PrintStringToFile(" && ");
-            return null;
+            //PrintStringToFile(" && ");
+            return " && ";
         }
 
         public override object Visit(PinNode pinNode)
@@ -326,8 +343,8 @@ namespace CodeGeneration
 
         public override object Visit(DivideNode divideNode)
         {
-            PrintStringToFile(" / ");
-            return null;
+            //PrintStringToFile(" / ");
+            return " / ";
         }
 
         public override object Visit(ExpressionNode expressionNode)
@@ -340,59 +357,55 @@ namespace CodeGeneration
 
         public override object Visit(ForNode forNode)
         {
+            string forLoop = "";
             if (forNode.From.IValue < forNode.To.IValue)
             {
-                PrintStringToFile("for(int " + forNode.CountingVariable.Id + " = " +
+                forLoop += "for(int " + forNode.CountingVariable.Id + " = " +
                                   forNode.From.IValue + ";" + " " + forNode.CountingVariable.Id + " < " +
                                   forNode.To.IValue + "; " +
-                                  forNode.CountingVariable.Id + "++;){\n");
+                                  forNode.CountingVariable.Id + "++;){\n";
             }
             else
             {
-                PrintStringToFile("for(int " + forNode.CountingVariable.Id + " = " +
+                forLoop += "for(int " + forNode.CountingVariable.Id + " = " +
                                   forNode.From.IValue + ";" + " " + forNode.CountingVariable.Id + " < " +
                                   forNode.To.IValue + "; " +
-                                  forNode.CountingVariable.Id + "--;){\n");
+                                  forNode.CountingVariable.Id + "--;){\n";
             }
             if (forNode.Statements.Any())
             {
                 forNode.Statements.ForEach(node => node.Parent = forNode);
-                forNode.Statements.ForEach(node => node.Accept(this));
+                forNode.Statements.ForEach(node => forLoop += ((string)node.Accept(this)));
             }
-            PrintStringToFile("}\n");
-            return null;
+            forLoop += "}\n";
+            return forLoop;
         }
 
         public override object Visit(FuncNode funcNode)
         {
             
            // TypeContext funcType = (TypeContext)funcNode.Accept(new TypeChecker());
-           
+           string func = "";
             switch ((funcNode.SymbolType?.Type.ToString() ?? "void"))
             {
                 case "void":
-                    PrintToFuncs("void ");
-                    PrintToPrototypes("void ");
+                    func += "void ";
                     break;
                 case "NUMERIC":
                     if (funcNode.SymbolType.IsFloat)
                     {
-                        PrintToFuncs("float ");
-                        PrintToPrototypes("float ");
+                        func += "float ";
                     }
                     else
                     {
-                        PrintToFuncs("int ");
-                        PrintToPrototypes("int ");
+                        func += "int ";
                     }
                     break;
                 case "BOOL":
-                    PrintToFuncs("bool ");
-                    PrintToPrototypes("bool ");
+                    func += "bool ";
                     break;
                 case "STRING":
-                    PrintToFuncs("string ");
-                    PrintToPrototypes("string ");
+                    func += "string ";
                 break;
 
                 default:
@@ -400,59 +413,59 @@ namespace CodeGeneration
             }
             
             //funcNode.Name.Accept(this);
-            PrintToFuncs(funcNode.Name.Id + "(");
-            PrintToPrototypes(funcNode.Name.Id + "(");
+            func += funcNode.Name.Id + "(";
             
             //TODO lav functions paramenter med type symboltable
-            funcNode.FunctionParameters.ForEach(node => node.Accept(this));
-            PrintStringToFile(")\n{\n");
+            funcNode.FunctionParameters.ForEach(node => func += node.Accept(this));
+            func += ")\n{\n";
             if (funcNode.Statements.Any())
             {
                 funcNode.Statements.ForEach(node => node.Parent = funcNode);
-                funcNode.Statements.ForEach(node => node.Accept(this));
+                funcNode.Statements.ForEach(node => func += node.Accept(this));
             }
-            PrintStringToFile("\n}\n");
-            return null;
+            func += "\n}\n";
+            return func;
         }
 
         public override object Visit(GreaterNode greaterNode)
         {
-            PrintStringToFile(" > ");
-            return null;
+            //PrintStringToFile(" > ");
+            return " > ";
         }
 
         public override object Visit(GreaterOrEqualNode greaterNode)
         {
-            PrintStringToFile(" >= ");
-            return null;
+            //PrintStringToFile(" >= ");
+            return " >= ";
         }
 
         public override object Visit(IfStatementNode ifStatementNode)
         {
-            PrintStringToFile("if(");
-            ifStatementNode.Expression?.Accept(this);
-            PrintStringToFile("){\n");
+            string ifNode = "";
+            ifNode += "if(";
+            ifNode += ifStatementNode.Expression?.Accept(this);
+            ifNode += "){\n";
             if (ifStatementNode.Statements.Any())
             {
                 ifStatementNode.Statements.ForEach(node => node.Parent = ifStatementNode);
 
-                ifStatementNode.Statements.ForEach(node => node.Accept(this));
+                ifStatementNode.Statements.ForEach(node => ifNode += node.Accept(this));
 
             }
-            PrintStringToFile("\n}\n");
-            return null;
+            ifNode += "\n}\n";
+            return ifNode;
         }
 
         public override object Visit(LessNode lessNode)
         {
-            PrintStringToFile(" < ");
-            return null;
+            //PrintStringToFile(" < ");
+            return " < ";
         }
 
         public override object Visit(LessOrEqualNode lessNode)
         {
-            PrintStringToFile(" <= ");
-            return null;
+            //PrintStringToFile(" <= ");
+            return " <= ";
         }
 
         public override object Visit(LoopNode loopNode)
@@ -467,75 +480,76 @@ namespace CodeGeneration
 
         public override object Visit(PlusNode plusNode)
         {
-            PrintStringToFile(" + ");
-            return null;
+            //PrintStringToFile(" + ");
+            return " + ";
         }
 
         public override object Visit(MinusNode minusNode)
         {
-            PrintStringToFile(" - ");
-            return null;
+            //PrintStringToFile(" - ");
+            return " - ";
         }
 
         public override object Visit(ModuloNode moduloNode)
         {
-            PrintStringToFile(" % ");
-            return null;
+            //PrintStringToFile(" % ");
+            return " % ";
         }
 
         public override object Visit(OrNode orNode)
         {
-            PrintStringToFile(" || ");
-            return null;
+            //PrintStringToFile(" || ");
+            return " || ";
         }
 
         public override object Visit(StringNode stringNode)
         {
-            PrintStringToFile($" {stringNode.Value} ");
-            return null;
+            //PrintStringToFile($" {stringNode.Value} ");
+            return $" {stringNode.Value} ";
         }
 
         public override object Visit(WhileNode whileNode)
         {
-            PrintStringToFile("while(");
-            whileNode.Expression.Accept(this);
-            PrintStringToFile("){\n");
+            string whileString = "";
+            whileString += "while(";
+            whileString += whileNode.Expression.Accept(this);
+            whileString += "){\n";
             if (whileNode.Statements.Any())
             {
                 whileNode.Statements.ForEach(node => node.Parent = whileNode);
-                whileNode.Statements.ForEach(node => node.Accept(this));
+                whileNode.Statements.ForEach(node => whileString += node.Accept(this));
             }
-            PrintStringToFile("}\n");
-            return null;
+            whileString += "}\n";
+            return whileString;
         }
 
         public override object Visit(ElseStatementNode elseStatement)
         {
-            PrintStringToFile("else{\n");
+            string elseString = "else{\n";
             if (elseStatement.Statements.Any())
             {
                 elseStatement.Statements.ForEach(node => node.Parent = elseStatement);
-                elseStatement.Statements.ForEach(node => node.Accept(this));
+                elseStatement.Statements.ForEach(node => elseString += node.Accept(this));
             }
 
-            PrintStringToFile("\n}\n");
-            return null;
+            elseString += "\n}\n";
+            return elseString;
         }
 
         public override object Visit(ElseifStatementNode elseifStatementNode)
         {
-            PrintStringToFile("else if (");
+            string elseif = "else if (";
             //elseifStatementNode.Val?.Accept(this);
-            elseifStatementNode.Expression?.Accept(this);
-            PrintStringToFile("){\n");
+            elseif += elseifStatementNode.Expression?.Accept(this);
+            elseif += "){\n";
             if (elseifStatementNode.Statements.Any())
             {
                 elseifStatementNode.Statements.ForEach(node => node.Parent = elseifStatementNode);
-                elseifStatementNode.Statements.ForEach(node => node.Accept(this));
+                elseifStatementNode.Statements.ForEach(node => elseif += node.Accept(this));
             }
-            PrintStringToFile("\n}\n");
+            elseif += ("\n}\n");
 
-            return null;
+            return elseif;
         }
 
         public override object Visit(RangeNode rangeNode)
@@ -545,46 +559,49 @@ namespace CodeGeneration
 
         public override object Visit(ReturnNode returnNode)
         {
-            PrintStringToFile("return ");
-            returnNode.ReturnValue.Accept(this);
-            PrintStringToFile(";");
-            return null;
+            string ret = "return ";
+            ret += returnNode.ReturnValue.Accept(this);
+            ret += ";";
+            return ret;
         }
 
         public override object Visit(ExpressionTerm expressionTermNode)
         {
-            expressionTermNode.LeftHand?.Accept(this);
+            string exp = "";
+            exp += expressionTermNode.LeftHand?.Accept(this);
             //expressionTermNode.Operator.Accept(this);
-            expressionTermNode.RightHand?.Accept(this);
-            return null;
+            exp += expressionTermNode.RightHand?.Accept(this);
+            return exp;
         }
 
         public override object Visit(NoParenExpression noParenExpression)
         {
-            noParenExpression.LeftHand.Accept(this);
+            string exp = "";
+            exp += noParenExpression.LeftHand.Accept(this);
             //noParenExpression.Operator.Accept(this);
-            noParenExpression.RightHand?.Accept(this);
-            return null;
+            exp += noParenExpression.RightHand?.Accept(this);
+            return exp;
         }
 
         public override object Visit(ParenthesisExpression parenthesisExpression)
         {
-            PrintStringToFile("(");
-            parenthesisExpression.LeftHand.Accept(this);
-            parenthesisExpression.Operator.Accept(this);
-            parenthesisExpression.RightHand.Accept(this);
-            PrintStringToFile(")");
-            return null;
+            string exp = "(";
+            exp += parenthesisExpression.LeftHand.Accept(this);
+            exp += parenthesisExpression.Operator.Accept(this);
+            exp += parenthesisExpression.RightHand.Accept(this);
+            exp += ")";
+            return exp;
         }
 
         public override object Visit(BoolNode boolNode)
         {
+            string boolVal = "";
             if (boolNode.Value)
-                PrintStringToFile(" 1");
+                boolVal += " 1";
             else
-                PrintStringToFile(" 0");
+                boolVal += " 0";
 
-            return null;
+            return boolVal;
         }
     }
 }
