@@ -365,17 +365,17 @@ namespace CodeGeneration
 
         public override object Visit(FuncNode funcNode)
         {
+            
+           // TypeContext funcType = (TypeContext)funcNode.Accept(new TypeChecker());
            
-            TypeContext funcType = (TypeContext)funcNode.Accept(new TypeChecker());
-           
-            switch ((funcType?.Type.ToString() ?? "void"))
+            switch ((funcNode.SymbolType?.Type.ToString() ?? "void"))
             {
                 case "void":
                     PrintToFuncs("void ");
                     PrintToPrototypes("void ");
                     break;
                 case "NUMERIC":
-                    if (funcType.IsFloat)
+                    if (funcNode.SymbolType.IsFloat)
                     {
                         PrintToFuncs("float ");
                         PrintToPrototypes("float ");
