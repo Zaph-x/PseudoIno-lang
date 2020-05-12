@@ -22,7 +22,8 @@ func trigger with a,b
   wait 1s
   dpin13 is off
   wait 1s
-a is 3
+a is 3.1
+b is 3.3
   return a
 end trigger
 

@@ -129,7 +129,7 @@ namespace CodeGeneration
         public override object Visit(WaitNode waitNode)
         {
             string delay = "delay(";
-            waitNode.TimeAmount.Accept(this);
+           delay+= waitNode.TimeAmount.Accept(this);
             //            waitNode.TimeModifier.Accept(this);
             switch (waitNode.TimeModifier.Type)
             {
@@ -416,6 +416,8 @@ namespace CodeGeneration
 
             //TODO lav functions paramenter 
             funcNode.FunctionParameters.ForEach(node => func += node.Accept(this));
+            //for hver sætning med functionsparameters i så print type
+
             func += ")\n{\n";
             if (funcNode.Statements.Any())
             {
@@ -425,6 +427,7 @@ namespace CodeGeneration
             func += "\n}\n";
             return func;
         }
+        
 
         public override object Visit(GreaterNode greaterNode)
         {
