@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AbstractSyntaxTree.Objects;
@@ -129,7 +130,7 @@ namespace CodeGeneration
         public override object Visit(WaitNode waitNode)
         {
             string delay = "delay(";
-           delay+= waitNode.TimeAmount.Accept(this);
+            delay += waitNode.TimeAmount.Accept(this);
             //            waitNode.TimeModifier.Accept(this);
             switch (waitNode.TimeModifier.Type)
             {
@@ -414,9 +415,7 @@ namespace CodeGeneration
             //funcNode.Name.Accept(this);
             func += funcNode.Name.Id + "(";
 
-            //TODO lav functions paramenter 
-            funcNode.FunctionParameters.ForEach(node => func += node.Accept(this));
-            //for hver sætning med functionsparameters i så print type
+            funcNode.FunctionParameters.ForEach(node => func += findFuncInputparam(node, funcNode) + node.Accept(this) + " ");
 
             func += ")\n{\n";
             if (funcNode.Statements.Any())
@@ -427,7 +426,29 @@ namespace CodeGeneration
             func += "\n}\n";
             return func;
         }
-        
+        private string findFuncInputparam(VarNode functionsParam, FuncNode function)
+        {
+
+            SymbolTableObject inputparameters = GlobalScope.FindChild("func_" + function.Name);
+
+            Symbol funcparamtype = inputparameters.Symbols.Find(x => x.Name == functionsParam.Id);
+
+            if (funcparamtype.AstNode.SymbolType.IsFloat)
+            {
+                return "float";
+            }
+            else if (funcparamtype.AstNode.SymbolType.Type == TokenType.BOOL)
+            {
+                return "bool";
+            }
+            else
+            {
+                return "int";
+            }
+
+
+        }
+
 
         public override object Visit(GreaterNode greaterNode)
         {
