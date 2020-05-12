@@ -391,12 +391,7 @@ namespace CodeGeneration
                 case "STRING":
                     PrintToFuncs("string ");
                     PrintToPrototypes("string ");
-                break;
-                case "Var":
-                    //TODO print type of VAR node
-                    PrintStringToFile("Var");
                     break;
-
                 default:
                     throw new InvalidTypeException($"Invalid return type in function {funcNode.Name.Id} at {funcNode.Line}:{funcNode.Offset}");
             }
