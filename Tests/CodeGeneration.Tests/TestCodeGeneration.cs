@@ -17,7 +17,7 @@ namespace CodeGeneration.Tests
             @"#Builtin led is on digital pin 13
 
 
-func trigger
+func trigger with a,b
   dpin13 is on
   wait 1s
   dpin13 is off

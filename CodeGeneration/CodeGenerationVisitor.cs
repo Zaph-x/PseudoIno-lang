@@ -153,8 +153,9 @@ namespace CodeGeneration
 
         public override object Visit(VarNode varNode)
         {
+            string varNodeId = " " + varNode.Id.ToString();
             //PrintStringToFile(varNode.Id);
-            return varNode.Id;
+            return varNodeId;
         }
 
         public override object Visit(ValNode valNode)
@@ -384,6 +385,7 @@ namespace CodeGeneration
         public override object Visit(FuncNode funcNode)
         {
             string func = "";
+
             switch ((funcNode.SymbolType?.Type.ToString() ?? "void"))
             {
                 case "void":
@@ -412,7 +414,7 @@ namespace CodeGeneration
             //funcNode.Name.Accept(this);
             func += funcNode.Name.Id + "(";
 
-            //TODO lav functions paramenter med type symboltable
+            //TODO lav functions paramenter 
             funcNode.FunctionParameters.ForEach(node => func += node.Accept(this));
             func += ")\n{\n";
             if (funcNode.Statements.Any())
