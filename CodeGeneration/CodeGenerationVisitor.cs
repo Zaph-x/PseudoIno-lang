@@ -104,7 +104,7 @@ namespace CodeGeneration
                 default:
                     throw new InvalidTypeException($"Invalid timemodifier exception at{waitNode.TimeModifier.Line}:{waitNode.TimeModifier.Offset}. Time parameter not specified.");
             }
-            PrintStringToFile(")");
+            PrintStringToFile(")\n");
             return null;
         }
 
@@ -122,22 +122,22 @@ namespace CodeGeneration
 
         public override object Visit(TimeSecondNode timeSecondNode)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override object Visit(TimeMinuteNode timeMinuteNode)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override object Visit(TimeMillisecondNode timeMillisecondNode)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override object Visit(TimeHourNode timeHourNode)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override object Visit(RightParenthesisNode rightParenthesisNode)
