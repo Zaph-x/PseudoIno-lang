@@ -20,6 +20,8 @@ namespace CodeGeneration
         private string Setup { get; set; }
         private string Funcs { get; set; }
         private string Loop { get; set; }
+        
+        private List<string> PinDefs = new List<string>();
 
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
         private SymbolTableObject CurrentScope;
@@ -34,6 +36,13 @@ namespace CodeGeneration
         public void PrintStringToFile()
         {
             string content = "";
+            List<string> uniqueList = PinDefs.Distinct().ToList();
+            foreach (var pinDef in uniqueList)
+            {
+                Setup += pinDef + "\n";
+            }
+
+            Setup += "}\n";
             content += Header + Global + Prototypes + Setup + Funcs + Loop;
             using (StreamWriter writer = File.AppendText("Codegen_output.cpp"))
             {
@@ -109,10 +118,24 @@ namespace CodeGeneration
 
         public override object Visit(AssignmentNode assignmentNode)
         {
-            string assign = (string)assignmentNode.LeftHand.Accept(this);
-            assign += " = ";
-            // assignmentNode.Operator.Accept(this);
-            assign += (string)assignmentNode.RightHand.Accept(this);
+            string assign = "";
+            if (assignmentNode.LeftHand.Type == TokenType.DPIN || assignmentNode.LeftHand.Type == TokenType.APIN)
+            {
+                string pinDef = "pinMode(" + assignmentNode.LeftHand.Accept(this) + ", OUTPUT)";
+                PinDefs.Add(pinDef);
+                
+                assign += "digitalWrite(" + assignmentNode.LeftHand.Accept(this) + ", ";
+                assign += assignmentNode.RightHand.Accept(this) + ")";
+            }
+            else
+            {
+                assign += (string)assignmentNode.LeftHand.Accept(this);
+                assign += " = ";
+                // assignmentNode.Operator.Accept(this);
+                assign += (string)assignmentNode.RightHand.Accept(this);
+            }
+            
+            
             assign += ";\n";
             return assign;
         }
@@ -274,7 +297,7 @@ namespace CodeGeneration
                 programNode.Statements.ForEach(node => node.Parent = programNode);
                 programNode.Statements.ForEach(node => setupString += node.Accept(this));
             }
-            setupString += "}\n";
+            //setupString += "}\n";
             PrintToSetup(setupString);
             //PrintStringToFile("void loop(){\n");
             string loopString = (string)programNode.LoopFunction.Accept(this);
@@ -317,14 +340,12 @@ namespace CodeGeneration
 
         public override object Visit(APinNode apinNode)
         {
-            //TODO Write to a thing thats does the thing - ask sejbas :)
-            return null;
+            return apinNode.Id;
         }
 
         public override object Visit(DPinNode dpinNode)
         {
-            //TODO Write to a thing thats does the thing - ask sejbas :)
-            return null;
+            return dpinNode.Id;
         }
 
         public override object Visit(OperatorNode operatorNode)
