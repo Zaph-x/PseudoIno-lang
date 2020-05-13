@@ -121,7 +121,7 @@ namespace CodeGeneration
             string assign = "";
             if (assignmentNode.LeftHand.Type == TokenType.DPIN || assignmentNode.LeftHand.Type == TokenType.APIN)
             {
-                string pinDef = "pinMode(" + assignmentNode.LeftHand.Accept(this) + ", OUTPUT)";
+                string pinDef = "pinMode(" + assignmentNode.LeftHand.Accept(this) + ", OUTPUT);";
                 PinDefs.Add(pinDef);
                 
                 assign += "digitalWrite(" + assignmentNode.LeftHand.Accept(this) + ", ";
@@ -171,7 +171,7 @@ namespace CodeGeneration
                 default:
                     throw new InvalidTypeException($"Invalid timemodifier exception at{waitNode.TimeModifier.Line}:{waitNode.TimeModifier.Offset}. Time parameter not specified.");
             }
-            delay += ")\n";
+            delay += ");\n";
             return delay;
         }
 
@@ -436,7 +436,7 @@ namespace CodeGeneration
             //funcNode.Name.Accept(this);
             func += funcNode.Name.Id + "(";
 
-            funcNode.FunctionParameters.ForEach(node => func += findFuncInputparam(node, funcNode) + node.Accept(this) + " ");
+            funcNode.FunctionParameters.ForEach(node => func += findFuncInputparam(node, funcNode) + node.Accept(this) +(funcNode.FunctionParameters.IndexOf(node)< funcNode.FunctionParameters.Count-1? ", ":" "));
 
             func += ")\n{\n";
             if (funcNode.Statements.Any())
