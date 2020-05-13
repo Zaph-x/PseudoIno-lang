@@ -452,6 +452,7 @@ namespace CodeGeneration
             func += "\n}\n";
             return func;
         }
+    
         private string findFuncInputparam(VarNode functionsParam, FuncNode function)
         {
 
@@ -467,9 +468,13 @@ namespace CodeGeneration
             {
                 return "bool";
             }
-            else
+            else if (!funcparamtype.AstNode.SymbolType.IsFloat)
             {
                 return "int";
+            }
+            else
+            {
+                throw new InvalidTypeException($"The function{function.Name} input parameter {functionsParam.Id} at {functionsParam.Line}:{functionsParam.Offset} is not used.");
             }
 
 
