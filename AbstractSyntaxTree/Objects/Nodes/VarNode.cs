@@ -5,6 +5,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public class VarNode : ValNode, IAssginable
     {
         public string Id {get;set;}
+        public bool Declaration { get; set; } = false;
         public VarNode(string id,  ScannerToken token) : base(token)
         {
             this.Id = id;
