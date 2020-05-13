@@ -524,6 +524,46 @@ namespace Lexer
                 case ',':
                     Tokens.AddLast(Token(TokenType.SEPARATOR));
                     break;
+                case '<':
+                    Tokens.AddLast(Token(TokenType.OP_LESS));
+                    if (Peek() == '=')
+                    {
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.OP_OR));
+                        Tokens.AddLast(Token(TokenType.OP_EQUAL));
+                    }
+                    break;
+                case '>':
+                    Tokens.AddLast(Token(TokenType.OP_LESS));
+                    if (Peek() == '=')
+                    {
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.OP_OR));
+                        Tokens.AddLast(Token(TokenType.OP_EQUAL));
+                    }
+                    break;
+                case '&':
+                    if (Peek() == '&')
+                    {
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.OP_AND));
+                    }
+                    else
+                    {
+                        new InvalidSyntaxException("And operator requires two '&' symbols");
+                    }
+                    break;
+                case '|':
+                    if (Peek() == '|')
+                    {
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.OP_OR));
+                    }
+                    else
+                    {
+                        new InvalidSyntaxException("And operator requires two '|' symbols");
+                    }
+                    break;
                 default:
                     new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
                     return;
@@ -547,7 +587,7 @@ namespace Lexer
                 else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanWord(); }
                 else if (CurrentChar == '#' && Peek() != '<') { ScanComment(); }
                 else if (CurrentChar == '#' && Peek() == '<') { ScanMultiLineComment(); }
-                else if ("+-*/%(),".Contains(CurrentChar)) { ScanOperators(); }
+                else if ("+-*/%(),<>&|".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
             }
             if (ParenthesisStack.Any())
