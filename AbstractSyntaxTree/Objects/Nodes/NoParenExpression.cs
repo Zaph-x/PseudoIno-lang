@@ -5,7 +5,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public class NoParenExpression : ExpressionNode, IExpr
     {
         public ITerm LeftHand { get; set; }
-        public OperatorNode Operator { get; set; }
+        public new OperatorNode Operator { get; set; }
         public IExpr RightHand { get; set; }
         public NoParenExpression(ScannerToken token) : base(token)
         {

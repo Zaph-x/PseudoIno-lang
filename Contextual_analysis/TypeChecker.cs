@@ -13,7 +13,7 @@ namespace Contextual_analysis
     public class TypeChecker : Visitor
     {
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
-        private SymbolTableObject CurrentScope;
+        private SymbolTableObject CurrentScope = SymbolTableBuilder.GlobalSymbolTable;
         public override object Visit(BeginNode beginNode)
         {
             return null;
@@ -47,7 +47,7 @@ namespace Contextual_analysis
             {
                 if (CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
                 {
-                    GlobalScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs);
+                    CurrentScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs);
                 }
                 lhs = CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode);
             }
@@ -174,7 +174,7 @@ namespace Contextual_analysis
         {
             try
             {
-                TypeContext ctx = (TypeContext)GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id).Accept(this);
+                TypeContext ctx = GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id).SymbolType;
                 return ctx;
             }
             catch
@@ -185,7 +185,7 @@ namespace Contextual_analysis
 
         public override object Visit(EndNode endNode)
         {
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -329,14 +329,14 @@ namespace Contextual_analysis
         public override object Visit(ForNode forNode)
         {
 
-            CurrentScope = GlobalScope.FindChild($"{forNode.Type}_{forNode.Line}");
+            CurrentScope = GlobalScope.FindChild($"LOOPF_{forNode.Line}");
             TypeContext fromType = (TypeContext)forNode.From.Accept(this);
             TypeContext toType = (TypeContext)forNode.To.Accept(this);
             if (fromType != toType)
                 throw new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
             if (int.Parse(forNode.From.Value) > int.Parse(forNode.To.Value))
                 throw new InvalidRangeException($"Invalid range in range at {forNode.Line}:{forNode.Offset}");
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -358,10 +358,11 @@ namespace Contextual_analysis
             {
                 {
                     funcNode.SymbolType = (TypeContext)funcNode.Statements.Last().Accept(this);
-                    CurrentScope = CurrentScope.Parent;
+                    CurrentScope = CurrentScope.Parent ?? GlobalScope;
                     return funcNode.SymbolType;
                 }
             }
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -381,7 +382,7 @@ namespace Contextual_analysis
             {
                 throw new InvalidTypeException($"If statement expected a boolean expression at {ifStatementNode.Line}:{ifStatementNode.Offset}");
             }
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -427,7 +428,7 @@ namespace Contextual_analysis
 
         public override object Visit(WhileNode whileNode)
         {
-            CurrentScope = GlobalScope.FindChild($"{whileNode.Type}_{whileNode.Line}");
+            CurrentScope = GlobalScope.FindChild($"LOOPW_{whileNode.Line}");
             if (((TypeContext)whileNode.Expression.Accept(this)).Type == BOOL)
             {
                 whileNode.Statements.ForEach(stmnt => stmnt.Accept(this));
@@ -436,7 +437,7 @@ namespace Contextual_analysis
             {
                 throw new InvalidTypeException($"While statement expected a boolean expression at {whileNode.Line}:{whileNode.Offset}");
             }
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -444,7 +445,7 @@ namespace Contextual_analysis
         {
             CurrentScope = GlobalScope.FindChild($"{elseStatement.Type}_{elseStatement.Line}");
             elseStatement.Statements.ForEach(stmnt => stmnt.Accept(this));
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -459,7 +460,7 @@ namespace Contextual_analysis
             {
                 throw new InvalidTypeException($"Else if statement expected a boolean expression at {elseifStatementNode.Line}:{elseifStatementNode.Offset}");
             }
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
