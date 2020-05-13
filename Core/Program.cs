@@ -44,7 +44,7 @@ namespace Core
                 verbosePrinter.Info("Done.");
                 return 0;
             }
-            
+
             verbosePrinter.Info("Initialising file.");
             using (StreamReader reader = new StreamReader(options.InputFile))
             {
@@ -84,6 +84,7 @@ namespace Core
                 verbosePrinter.Info(debugMessage);
                 if (Parsenizer.HasError)
                 {
+                    verbosePrinter.Error("Encountered an error state in the parser. Stopping.");
                     return 4;
                 }
                 // ASTHelper ast = new ASTHelper(tokens);
@@ -94,6 +95,11 @@ namespace Core
                     parsenizer.Root.Accept(new PrettyPrinter());
                 }
                 parsenizer.Root.Accept(new TypeChecker());
+                if (TypeChecker.HasError)
+                {
+                    verbosePrinter.Error("Encountered an error in the type checker. Stopping.");
+                    return 3;
+                }
             }
 
             timer.Stop();
@@ -151,7 +157,7 @@ namespace Core
                         break;
                     case "-l":
                     case "--logfile":
-                        if (args.Length >= i + 1 && !args[i+1].StartsWith('-'))
+                        if (args.Length >= i + 1 && !args[i + 1].StartsWith('-'))
                         {
                             ++i;
                             options.LogFile = args[i];
