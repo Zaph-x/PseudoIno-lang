@@ -180,7 +180,21 @@ namespace CodeGeneration
             string varNodeId = "";
             if (varNode.Declaration)
             {
-                varNodeId += varNode.SymbolType.Type.ToString() + " ";
+                if (varNode.SymbolType.Type == TokenType.NUMERIC)
+                {
+                    if (varNode.SymbolType.IsFloat)
+                    {
+                        varNodeId += "float ";
+                    }
+                    else
+                    {
+                        varNodeId += "int ";
+                    }
+                }
+                else if (varNode.SymbolType.Type == TokenType.BOOL)
+                {
+                    varNodeId += "bool ";
+                }
             }
             varNodeId += varNode.Id;
             //PrintStringToFile(varNode.Id);
@@ -317,7 +331,7 @@ namespace CodeGeneration
         public override object Visit(CallNode callNode)
         {
             string callString = callNode.Id.Id + "(";
-            for (int i = 0; i < callNode.Parameters.Count - 1; i++)
+            for (int i = 0; i < callNode.Parameters.Count; i++)
             {
                 if (i > 0)
                 {
