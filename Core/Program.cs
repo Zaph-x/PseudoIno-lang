@@ -103,18 +103,19 @@ namespace Core
                     return 3;
                 }
 
-                if (options.OutputFile)
+                if (!options.OutputFile)
                 {
                     try
                     {
                         parsenizer.Root.Accept(new CodeGenerationVisitor("Codegen_output.cpp"));
+                        if (options.DryRun) File.Delete("Codegen_output.cpp");
                     }
                     catch (Exception e)
                     {
                         verbosePrinter.Error("Encountered an error in code generation. Stopping.");
                         return 2;
                     }
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                     {
                         Console.WriteLine("We're on Linux!");
                         string strCmdText =
