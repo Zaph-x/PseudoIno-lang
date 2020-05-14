@@ -105,10 +105,11 @@ namespace Core
 
                 if (!options.OutputFile)
                 {
+                    string path = Directory.GetCurrentDirectory()+"/";
                     try
                     {
-                        parsenizer.Root.Accept(new CodeGenerationVisitor("Codegen_output.cpp"));
-                        if (options.DryRun) File.Delete("Codegen_output.cpp");
+                        parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}Core/PrecompiledBinaries/tmp/sketch/output.ino.cpp.o"));
+                        if (options.DryRun) File.Delete($"{path}Core/PrecompiledBinaries/tmp/sketch/output.ino.cpp.o");
                     }
                     catch (Exception e)
                     {
@@ -118,9 +119,31 @@ namespace Core
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                     {
                         Console.WriteLine("We're on Linux!");
-                        string strCmdText =
-                            $"Core/PrecompiledBinaries/unix/arduino-builder -dump-prefs -logger=machine -hardware Core/PrecompiledBinaries/unix/hardware -tools /home/padi/Documents/apps/arduino-1.8.11/tools-builder -tools Core/PrecompiledBinaries/unix/hardware/tools/avr -built-in-libraries Core/PrecompiledBinaries/unix/libraries -libraries /home/padi/Arduino/libraries -fqbn=arduino:avr:pro:cpu=16MHzatmega328 -ide-version=10811 -build-path /tmp/arduino_build_815641 -warnings=none -build-cache Core/PrecompiledBinaries/tmp/arduino_cache -prefs=build.warn_data_percentage=75 -prefs=runtime.tools.avrdude.path=Core/PrecompiledBinaries/unix/hardware/tools/avr -prefs=runtime.tools.avrdude-6.3.0-arduino17.path=Core/PrecompiledBinaries/unix/hardware/tools/avr -prefs=runtime.tools.arduinoOTA.path=Core/PrecompiledBinaries/unix/hardware/tools/avr -prefs=runtime.tools.arduinoOTA-1.3.0.path=Core/PrecompiledBinaries/unix/hardware/tools/avr -prefs=runtime.tools.avr-gcc.path=Core/PrecompiledBinaries/unix/hardware/tools/avr -prefs=runtime.tools.avr-gcc-7.3.0-atmel3.6.1-arduino5.path=Core/PrecompiledBinaries/unix/hardware/tools/avr -verbose Codegen_output.cpp";// Core/PrecompiledBinaries/unix/{options.InputFile}";
-                        System.Diagnostics.Process.Start("/bin/bash",strCmdText);
+                        
+                        List<string> cmds = new List<string>();
+                        cmds.Add($"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o {path}Core/PrecompiledBinaries/tmp/output.ino.elf {path}Core/PrecompiledBinaries/tmp/sketch/output.ino.cpp.o /tmp/../core/core_arduino_avr_pro_cpu_16MHzatmega328_db62bc5f977f010e956e85fb47a0c0b7.a -L/tmp/ -lm");
+                        cmds.Add($"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 /tmp/output.ino.elf /tmp/output.ino.eep");
+                        cmds.Add($"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -R .eeprom /tmp/output.ino.elf /tmp/output.ino.hex");
+                        RunCommandsUnix(cmds,"");
+                        //Console.WriteLine(path);
+                        /*string strCmdText =
+                            $"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o {path}Core/PrecompiledBinaries/tmp/output.ino.elf {path}Core/PrecompiledBinaries/tmp/sketch/output.ino.cpp.o /tmp/../core/core_arduino_avr_pro_cpu_16MHzatmega328_db62bc5f977f010e956e85fb47a0c0b7.a -L/tmp/ -lm";
+                        var p = System.Diagnostics.Process.Start("/bin/bash",strCmdText);
+                        
+                        using (StreamWriter sw = p.StandardInput)
+                        {
+                            if (sw.BaseStream.CanWrite)
+                            {
+                                //sw.WriteLine("mysql -u root -p");
+                                sw.WriteLine($"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 /tmp/output.ino.elf /tmp/output.ino.eep");
+                                sw.WriteLine($"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -R .eeprom /tmp/output.ino.elf /tmp/output.ino.hex");
+                            }
+                        }*/
+                        // {path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o /tmp/arduino_build_815641/BlinkWithoutDelay.ino.elf /tmp/arduino_build_815641/sketch/BlinkWithoutDelay.ino.cpp.o /tmp/arduino_build_815641/../arduino_cache_826307/core/core_arduino_avr_pro_cpu_16MHzatmega328_db62bc5f977f010e956e85fb47a0c0b7.a -L/tmp/arduino_build_815641 -lm
+                        // {path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 /tmp/arduino_build_815641/BlinkWithoutDelay.ino.elf /tmp/arduino_build_815641/BlinkWithoutDelay.ino.eep
+                        // {path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -R .eeprom /tmp/arduino_build_815641/BlinkWithoutDelay.ino.elf /tmp/arduino_build_815641/BlinkWithoutDelay.ino.hex
+                        
+                        // avrdude -CC:\Program Files (x86)\Arduino\hardware\tools\avr/etc/avrdude.conf -v -patmega328p -carduino -PCOM5 -b115200 -D -Uflash:w:C:\Users\flufg\AppData\Local\Temp\arduino_build_22316/Blink.ino.hex:i
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
@@ -144,6 +167,31 @@ namespace Core
             return 0;
         }
 
+        static void RunCommandsUnix(List<string> cmds, string workingDirectory = "")
+        {
+            var process = new Process();
+            var psi = new ProcessStartInfo();
+            psi.FileName = "/bin/bash";
+            psi.RedirectStandardInput = true;
+            psi.RedirectStandardOutput = true;
+            psi.RedirectStandardError = true;
+            psi.UseShellExecute = false;
+            psi.WorkingDirectory = workingDirectory;
+            process.StartInfo = psi;
+            process.Start();
+            process.OutputDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
+            process.ErrorDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+            using (StreamWriter sw = process.StandardInput)
+            {
+                foreach (var cmd in cmds)
+                {
+                    sw.WriteLine (cmd);
+                }
+            }
+            process.WaitForExit();
+        }
 
         public static void Help()
         {
