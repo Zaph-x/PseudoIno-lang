@@ -112,7 +112,7 @@ namespace Core
                     catch (Exception e)
                     {
                         verbosePrinter.Error("Encountered an error in code generation. Stopping.");
-                        return 123456789;
+                        return 2;
                     }
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                     {
