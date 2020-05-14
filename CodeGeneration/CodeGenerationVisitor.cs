@@ -177,7 +177,12 @@ namespace CodeGeneration
 
         public override object Visit(VarNode varNode)
         {
-            string varNodeId = " " + varNode.Id.ToString();
+            string varNodeId = "";
+            if (varNode.Declaration)
+            {
+                varNodeId += varNode.SymbolType.Type.ToString() + " ";
+            }
+            varNodeId += varNode.Id;
             //PrintStringToFile(varNode.Id);
             return varNodeId;
         }
@@ -462,15 +467,15 @@ namespace CodeGeneration
 
             if (funcparamtype.AstNode.SymbolType.IsFloat)
             {
-                return "float";
+                return "float ";
             }
             else if (funcparamtype.AstNode.SymbolType.Type == TokenType.BOOL)
             {
-                return "bool";
+                return "bool ";
             }
             else if (!funcparamtype.AstNode.SymbolType.IsFloat)
             {
-                return "int";
+                return "int ";
             }
             else
             {

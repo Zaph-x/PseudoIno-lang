@@ -29,7 +29,10 @@ func trigger with a,b,c
 end trigger
 
 func loop
-  call trigger
+  a is on
+  b is 3.3
+  c is 1
+  call trigger with a, b, c
 end loop";
 
         private const string content2 =

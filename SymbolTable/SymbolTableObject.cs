@@ -57,6 +57,46 @@ namespace SymbolTable
 
         public void UpdateTypedef(VarNode leftHand, TypeContext rhs)
         {
+            SymbolTableObject global = this.Parent;
+            while (global?.Parent != null)
+            {
+                global = global.Parent;
+            }
+
+            if (global != null)
+            {
+                foreach (var func in global.FunctionDefinitions)
+                {
+                    var s = this.Name.Split("func_");
+                    if (s.Length == 2)
+                    {
+                        if (s[1] == func.Name.Id)
+                        {
+                            foreach (var parameter in func.FunctionParameters)
+                            {
+                                if (parameter.Id == leftHand.Id)
+                                {
+                                    leftHand.Declaration = false;
+                                    break;
+                                }
+                                else
+                                {
+                                    leftHand.Declaration = true;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            leftHand.Declaration = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                leftHand.Declaration = true;
+            }
+            
             foreach (Symbol sym in this.Symbols.Where(s => s.Name == leftHand.Id))
             {
                 sym.AstNode.SymbolType = rhs;
