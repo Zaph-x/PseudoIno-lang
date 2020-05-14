@@ -106,20 +106,20 @@ namespace Parser.Objects
             this[EXPR, OP_LPAREN] = new ParseAction(48,TERM, FOLLOWTERM);
             this[EXPR, BOOL] = new ParseAction(137,TERM, FOLLOWTERM);
 
-            this[FOLLOWTERM, EOF] = new ParseAction(0);
-            this[FOLLOWTERM, WAIT] = new ParseAction(0);
-            this[FOLLOWTERM, END] = new ParseAction(0);
-            this[FOLLOWTERM, DO] = new ParseAction(0);
-            this[FOLLOWTERM, VAR] = new ParseAction(0);
-            this[FOLLOWTERM, BEGIN] = new ParseAction(0);
-            this[FOLLOWTERM, RETURN] = new ParseAction(0);
-            this[FOLLOWTERM, FUNC] = new ParseAction(0);
-            this[FOLLOWTERM, CALL] = new ParseAction(0);
-            this[FOLLOWTERM, IF] = new ParseAction(0);
-            this[FOLLOWTERM, ELSE] = new ParseAction(0);
-            this[FOLLOWTERM, APIN] = new ParseAction(0);
-            this[FOLLOWTERM, DPIN] = new ParseAction(0);
-            this[FOLLOWTERM, DPIN] = new ParseAction(0);
+            this[FOLLOWTERM, EOF] = new ParseAction(9000);
+            this[FOLLOWTERM, WAIT] = new ParseAction(9001);
+            this[FOLLOWTERM, END] = new ParseAction(9002);
+            this[FOLLOWTERM, DO] = new ParseAction(9003);
+            this[FOLLOWTERM, VAR] = new ParseAction(9004);
+            this[FOLLOWTERM, BEGIN] = new ParseAction(9005);
+            this[FOLLOWTERM, RETURN] = new ParseAction(9006);
+            this[FOLLOWTERM, FUNC] = new ParseAction(9007);
+            this[FOLLOWTERM, CALL] = new ParseAction(9008);
+            this[FOLLOWTERM, IF] = new ParseAction(9009);
+            this[FOLLOWTERM, ELSE] = new ParseAction(90010);
+            this[FOLLOWTERM, APIN] = new ParseAction(90011);
+            this[FOLLOWTERM, DPIN] = new ParseAction(90012);
+            this[FOLLOWTERM, DPIN] = new ParseAction(90013);
             this[FOLLOWTERM, OP_MINUS] = new ParseAction(49,TERMOP, EXPR);
             this[FOLLOWTERM, OP_EQUAL] = new ParseAction(50,TERMOP, EXPR);
             this[FOLLOWTERM, OP_OR] = new ParseAction(51,TERMOP, EXPR);
@@ -128,9 +128,9 @@ namespace Parser.Objects
             this[FOLLOWTERM, OP_AND] = new ParseAction(54,TERMOP, EXPR);
             this[FOLLOWTERM, OP_PLUS] = new ParseAction(55,TERMOP, EXPR);
             this[FOLLOWTERM, OP_NOT] = new ParseAction(56,TERMOP, EXPR);
-            this[FOLLOWTERM, OP_RPAREN] = new ParseAction(0);
-            this[FOLLOWTERM, MULT_COMNT] = new ParseAction(0);
-            this[FOLLOWTERM, COMMENT] = new ParseAction(0);
+            this[FOLLOWTERM, OP_RPAREN] = new ParseAction(90014);
+            this[FOLLOWTERM, MULT_COMNT] = new ParseAction(90015);
+            this[FOLLOWTERM, COMMENT] = new ParseAction(90016);
 
             this[TERM, NUMERIC] = new ParseAction(57,FACTOR, FOLLOWFACTOR);
             this[TERM, VAR] = new ParseAction(58,FACTOR, FOLLOWFACTOR);
@@ -141,32 +141,32 @@ namespace Parser.Objects
             this[TERM, OP_MINUS] = new ParseAction(63,FACTOR, FOLLOWFACTOR);
             this[TERM, OP_LPAREN] = new ParseAction(64,FACTOR, FOLLOWFACTOR);
 
-            this[FOLLOWFACTOR, EOF] = new ParseAction(0);
-            this[FOLLOWFACTOR, WAIT] = new ParseAction(0);
-            this[FOLLOWFACTOR, END] = new ParseAction(0);
-            this[FOLLOWFACTOR, DO] = new ParseAction(0);
-            this[FOLLOWFACTOR, VAR] = new ParseAction(0);
-            this[FOLLOWFACTOR, BEGIN] = new ParseAction(0);
-            this[FOLLOWFACTOR, RETURN] = new ParseAction(0);
-            this[FOLLOWFACTOR, FUNC] = new ParseAction(0);
-            this[FOLLOWFACTOR, CALL] = new ParseAction(0);
-            this[FOLLOWFACTOR, IF] = new ParseAction(0);
-            this[FOLLOWFACTOR, ELSE] = new ParseAction(0);
-            this[FOLLOWFACTOR, APIN] = new ParseAction(0);
-            this[FOLLOWFACTOR, DPIN] = new ParseAction(0);
-            this[FOLLOWFACTOR, OP_EQUAL] = new ParseAction(0);
-            this[FOLLOWFACTOR, OP_OR] = new ParseAction(0);
-            this[FOLLOWFACTOR, OP_NOT] = new ParseAction(0);
-            this[FOLLOWFACTOR, OP_GREATER] = new ParseAction(0);
-            this[FOLLOWFACTOR, OP_LESS] = new ParseAction(0);
-            this[FOLLOWFACTOR, OP_AND] = new ParseAction(0);
+            this[FOLLOWFACTOR, EOF] = new ParseAction(90017);
+            this[FOLLOWFACTOR, WAIT] = new ParseAction(90018);
+            this[FOLLOWFACTOR, END] = new ParseAction(90019);
+            this[FOLLOWFACTOR, DO] = new ParseAction(90020);
+            this[FOLLOWFACTOR, VAR] = new ParseAction(90021);
+            this[FOLLOWFACTOR, BEGIN] = new ParseAction(90022);
+            this[FOLLOWFACTOR, RETURN] = new ParseAction(90023);
+            this[FOLLOWFACTOR, FUNC] = new ParseAction(90024);
+            this[FOLLOWFACTOR, CALL] = new ParseAction(90025);
+            this[FOLLOWFACTOR, IF] = new ParseAction(90026);
+            this[FOLLOWFACTOR, ELSE] = new ParseAction(90027);
+            this[FOLLOWFACTOR, APIN] = new ParseAction(90028);
+            this[FOLLOWFACTOR, DPIN] = new ParseAction(90029);
+            this[FOLLOWFACTOR, OP_EQUAL] = new ParseAction(90030);
+            this[FOLLOWFACTOR, OP_OR] = new ParseAction(90031);
+            this[FOLLOWFACTOR, OP_NOT] = new ParseAction(90032);
+            this[FOLLOWFACTOR, OP_GREATER] = new ParseAction(90033);
+            this[FOLLOWFACTOR, OP_LESS] = new ParseAction(90034);
+            this[FOLLOWFACTOR, OP_AND] = new ParseAction(90035);
             this[FOLLOWFACTOR, OP_DIVIDE] = new ParseAction(65,FACTOROP, TERM);
             this[FOLLOWFACTOR, OP_MODULO] = new ParseAction(66,FACTOROP, TERM);
             this[FOLLOWFACTOR, OP_TIMES] = new ParseAction(67,FACTOROP, TERM);
-            this[FOLLOWFACTOR, OP_PLUS] = new ParseAction(0);
-            this[FOLLOWFACTOR, OP_RPAREN] = new ParseAction(0);
-            this[FOLLOWFACTOR, MULT_COMNT] = new ParseAction(0);
-            this[FOLLOWFACTOR, COMMENT] = new ParseAction(0);
+            this[FOLLOWFACTOR, OP_PLUS] = new ParseAction(90036);
+            this[FOLLOWFACTOR, OP_RPAREN] = new ParseAction(90037);
+            this[FOLLOWFACTOR, MULT_COMNT] = new ParseAction(90038);
+            this[FOLLOWFACTOR, COMMENT] = new ParseAction(90039);
 
             this[FACTOR, NUMERIC] = new ParseAction(68,VAL);
             this[FACTOR, VAR] = new ParseAction(69,VAL);
@@ -373,160 +373,6 @@ namespace Parser.Objects
             this[CALLPARAM, COMMENT] = new ParseAction(0);
             this[CALLPARAM, MULT_COMNT] = new ParseAction(0);
             this[CALLPARAM, SEPARATOR] = new ParseAction(135,SEPARATOR, VAL, CALLPARAM);
-
-
-            // this[PROG, VAR] = new ParseAction(STMNTS);
-            // this[PROG, IF] = new ParseAction(STMNTS);
-            // this[PROG, CALL] = new ParseAction(STMNTS);
-            // this[PROG, FUNC] = new ParseAction(STMNTS);
-            // this[PROG, BEGIN] = new ParseAction(STMNTS);
-            // this[PROG, WAIT] = new ParseAction(STMNTS);
-            // this[PROG, APIN] = new ParseAction(STMNTS);
-            // this[PROG, DPIN] = new ParseAction(STMNTS);
-            // this[PROG, EOF] = new ParseAction(EOF);
-
-            // this[TYPE, STRING] = new ParseAction(STRING);
-            // this[TYPE, NUMERIC] = new ParseAction(NUMERIC);
-            // this[TYPE, BOOL] = new ParseAction(BOOL);
-            // this[TYPE, DPIN] = new ParseAction(DPIN);
-            // this[TYPE, APIN] = new ParseAction(APIN);
-
-            // this[STMNTS, VAR] = new ParseAction(STMNT);
-            // this[STMNTS, IF] = new ParseAction(STMNT);
-            // this[STMNTS, CALL] = new ParseAction(STMNT);
-            // this[STMNTS, FUNC] = new ParseAction(FUNCDECL);
-            // this[STMNTS, BEGIN] = new ParseAction(STMNT);
-            // this[STMNTS, WAIT] = new ParseAction(STMNT);
-            // this[STMNTS, APIN] = new ParseAction(STMNT);
-            // this[STMNTS, DPIN] = new ParseAction(STMNT);
-            // this[STMNTS, ELSE] = new ParseAction(0);
-
-            // this[STMNT, IF] = new ParseAction(IFSTMNT);
-            // this[STMNT, CALL] = new ParseAction(FUNCCALL);
-            // this[STMNT, BEGIN] = new ParseAction(BEGINSTMNT);
-            // this[STMNT, WAIT] = new ParseAction(WAITSTMNT);
-            // this[STMNT, VAR] = new ParseAction(VAR, ASSIGN, ASSIGNMENT);
-            // this[STMNT, APIN] = new ParseAction(APIN, ASSIGN, ASSIGNMENT);
-            // this[STMNT, DPIN] = new ParseAction(DPIN, ASSIGN, ASSIGNMENT);
-            // // this[STMNT, END] = new ParseAction(END, ENDABLE);
-
-            // // this[ENDABLE, VAR] = new ParseAction(VAR);
-            // // this[ENDABLE, FOR] = new ParseAction(FOR);
-            // // this[ENDABLE, WHILE] = new ParseAction(WHILE);
-
-
-            // this[ASSIGNMENT, VAR] = new ParseAction(VAR, EXPR);
-            // this[ASSIGNMENT, NUMERIC] = new ParseAction(NUMERIC, EXPR);
-            // this[ASSIGNMENT, OP_MINUS] = new ParseAction(OP_MINUS, NUMERIC, EXPR);
-            // this[ASSIGNMENT, STRING] = new ParseAction(STRING, EXPR);
-            // this[ASSIGNMENT, BOOL] = new ParseAction(BOOL, EXPR);
-            // this[ASSIGNMENT, DPIN] = new ParseAction(DPIN, EXPR);
-            // this[ASSIGNMENT, APIN] = new ParseAction(APIN, EXPR);
-            // this[ASSIGNMENT, OP_LPAREN] = new ParseAction(OP_LPAREN, ASSIGNMENT);
-
-            // this[EXPR, OP_PLUS] = new ParseAction(OP_PLUS, VAL, EXPR);
-            // this[EXPR, OP_MINUS] = new ParseAction(OP_MINUS, VAL, EXPR);
-            // this[EXPR, OP_TIMES] = new ParseAction(OP_TIMES, VAL, EXPR);
-            // this[EXPR, OP_DIVIDE] = new ParseAction(OP_DIVIDE, VAL, EXPR);
-            // this[EXPR, OP_MODULO] = new ParseAction(OP_MODULO, VAL, EXPR);
-            // this[EXPR, OP_RPAREN] = new ParseAction(OP_RPAREN, EXPR);
-
-            // this[EXPR, OP_AND] = new ParseAction(OP_AND, VAL, EXPR);
-            // this[EXPR, OP_OR] = new ParseAction(OP_OR, VAL, EXPR);
-            // this[EXPR, OP_EQUAL] = new ParseAction(OP_EQUAL, VAL, EXPR);
-            // this[EXPR, OP_NOT] = new ParseAction(OP_NOT, VAL, EXPR);
-            // this[EXPR, OP_LESS] = new ParseAction(OP_LESS, OP_OREQUAL, VAL, EXPR);
-            // this[EXPR, OP_GREATER] = new ParseAction(OP_GREATER, OP_OREQUAL, VAL, EXPR);
-
-            // this[EXPR, VAR] = new ParseAction(0);
-            // this[EXPR, IF] = new ParseAction(0);
-            // this[EXPR, DO] = new ParseAction(0);
-            // this[EXPR, END] = new ParseAction(0);
-            // this[EXPR, ELSE] = new ParseAction(0);
-            // this[EXPR, CALL] = new ParseAction(0);
-            // this[EXPR, FUNC] = new ParseAction(0);
-            // this[EXPR, BEGIN] = new ParseAction(0);
-            // this[EXPR, WAIT] = new ParseAction(0);
-
-            // this[OP_OREQUAL, OP_OR] = new ParseAction(OP_OR, OP_EQUAL);
-            // this[OP_OREQUAL, VAR] = new ParseAction(0);
-            // this[OP_OREQUAL, NUMERIC] = new ParseAction(0);
-            // this[OP_OREQUAL, BOOL] = new ParseAction(0);
-            // this[OP_OREQUAL, STRING] = new ParseAction(0);
-            // this[OP_OREQUAL, DPIN] = new ParseAction(0);
-            // this[OP_OREQUAL, APIN] = new ParseAction(0);
-
-            // this[VAL, VAR] = new ParseAction(VAR);
-            // this[VAL, NUMERIC] = new ParseAction(NUMERIC);
-            // this[VAL, OP_MINUS] = new ParseAction(OP_MINUS, NUMERIC);
-            // this[VAL, STRING] = new ParseAction(STRING);
-            // this[VAL, BOOL] = new ParseAction(BOOL);
-            // this[VAL, DPIN] = new ParseAction(DPIN);
-            // this[VAL, APIN] = new ParseAction(APIN);
-
-            // this[ARR, ARRAYLEFT] = new ParseAction(ARRAYLEFT, NUMERIC, ARRAYRIGHT, ARR);
-            // this[ARR, VAR] = new ParseAction(0);
-            // this[ARR, IF] = new ParseAction(0);
-            // this[ARR, END] = new ParseAction(0);
-            // this[ARR, ELSE] = new ParseAction(0);
-            // this[ARR, CALL] = new ParseAction(0);
-            // this[ARR, FUNC] = new ParseAction(0);
-            // this[ARR, BEGIN] = new ParseAction(0);
-            // this[ARR, WAIT] = new ParseAction(0);
-
-            // this[PIN, DPIN] = new ParseAction(DPIN);
-            // this[PIN, APIN] = new ParseAction(APIN);
-
-            // this[IFSTMNT, IF] = new ParseAction(IF, VAL, EXPR, DO, STMNTS, ELSESTMNT, END, IF);
-
-            // this[ELSESTMNT, ELSE] = new ParseAction(ELSE, ELSEIFSTMNT, STMNTS);
-            // this[ELSESTMNT, END] = new ParseAction(0);
-
-            // this[ELSEIFSTMNT, IF] = new ParseAction(IF, VAL, EXPR, DO, STMNTS, ELSESTMNT);
-            // this[ELSEIFSTMNT, CALL] = new ParseAction(0);
-            // this[ELSEIFSTMNT, BEGIN] = new ParseAction(0);
-            // this[ELSEIFSTMNT, WAIT] = new ParseAction(0);
-            // this[ELSEIFSTMNT, VAR] = new ParseAction(0);
-
-            // this[FUNCCALL, CALL] = new ParseAction(CALL, VAR, CALLPARAMS);
-
-            // this[FUNCDECL, FUNC] = new ParseAction(FUNC, VAR, OPTNL_ARGS, STMNTS, END, VAR);
-
-            // this[BEGINSTMNT, BEGIN] = new ParseAction(BEGIN, BEGINABLE);
-
-            // this[BEGINABLE, WHILE] = new ParseAction(WHILE, VAL, EXPR, DO, STMNTS, END, WHILE);
-            // this[BEGINABLE, FOR] = new ParseAction(FOR, VAR, IN, RANGE, DO, STMNTS, END, FOR);
-
-            // this[OPTNL_ARGS, WITH] = new ParseAction(WITH ,VAR, ARGLIST);
-            // this[OPTNL_ARGS, VAR] = new ParseAction(0);
-            // this[OPTNL_ARGS, IF] = new ParseAction(0);
-            // this[OPTNL_ARGS, END] = new ParseAction(0);
-            // this[OPTNL_ARGS, CALL] = new ParseAction(0);
-            // this[OPTNL_ARGS, FUNC] = new ParseAction(0);
-            // this[OPTNL_ARGS, BEGIN] = new ParseAction(BEGINSTMNT);
-            // this[OPTNL_ARGS, WAIT] = new ParseAction(0);
-
-            // this[ARGLIST, SEPARATOR] = new ParseAction(SEPARATOR, VAR, ARGLIST);
-            // this[ARGLIST, VAR] = new ParseAction(0);
-            // this[ARGLIST, IF] = new ParseAction(0);
-            // this[ARGLIST, END] = new ParseAction(0);
-            // this[ARGLIST, CALL] = new ParseAction(0);
-            // this[ARGLIST, BEGIN] = new ParseAction(0);
-            // this[ARGLIST, WAIT] = new ParseAction(0);
-
-
-            // this[RANGE, NUMERIC] = new ParseAction(NUMERIC, OP_RANGE, NUMERIC);
-
-            // this[WAITSTMNT, WAIT] = new ParseAction(WAIT, NUMERIC, TIME_MOD);
-
-            // this[TIME_MOD, TIME_HR] = new ParseAction(TIME_HR);
-            // this[TIME_MOD, TIME_MIN] = new ParseAction(TIME_MIN);
-            // this[TIME_MOD, TIME_SEC] = new ParseAction(TIME_SEC);
-            // this[TIME_MOD, TIME_MS] = new ParseAction(TIME_MS);
-
-            // this[CALLPARAMS, WITH] = new ParseAction(WITH, VAL, CALLPARAM);
-            // this[CALLPARAM, SEPARATOR] = new ParseAction(SEPARATOR, VAL);
-            // this[CALLPARAM, OP_RPAREN] = new ParseAction(0);
         }
     }
 }

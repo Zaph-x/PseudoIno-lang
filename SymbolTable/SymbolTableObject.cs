@@ -78,6 +78,7 @@ namespace SymbolTable
                 if (child.Name == name)
                     return child;
                 found = child.FindChild(name);
+                if (found != null) break;
             }
             return found;
         }

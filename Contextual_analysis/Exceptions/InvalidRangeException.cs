@@ -7,7 +7,7 @@ namespace Contextual_analysis.Exceptions
         public InvalidRangeException(string message) : base(message)
         {
             Console.Error.WriteLine(message);
-            // ASTHelper.HasError = true;
+            TypeChecker.HasError = true;
         }
     }
 }

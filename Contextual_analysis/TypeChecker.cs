@@ -13,7 +13,8 @@ namespace Contextual_analysis
     public class TypeChecker : Visitor
     {
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
-        private SymbolTableObject CurrentScope;
+        private SymbolTableObject CurrentScope = SymbolTableBuilder.GlobalSymbolTable;
+        public static bool HasError { get; set; } = false;
         public override object Visit(BeginNode beginNode)
         {
             return null;
@@ -47,7 +48,7 @@ namespace Contextual_analysis
             {
                 if (CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
                 {
-                    GlobalScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs);
+                    CurrentScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs);
                 }
                 lhs = CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode);
             }
@@ -55,7 +56,7 @@ namespace Contextual_analysis
             {
                 if ((lhs.Type != DPIN && lhs.Type != APIN) || (rhs.Type != NUMERIC && rhs.Type != BOOL))
                 {
-                    throw new InvalidTypeException($"Type {rhs.Type} is not assignable toType {lhs.Type} at {assignmentNode.Line}:{assignmentNode.Offset}");
+                    new InvalidTypeException($"Type {rhs.Type} is not assignable toType {lhs.Type} at {assignmentNode.Line}:{assignmentNode.Offset}");
                 }
             }
             return null;
@@ -174,18 +175,19 @@ namespace Contextual_analysis
         {
             try
             {
-                TypeContext ctx = (TypeContext)GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id).Accept(this);
+                TypeContext ctx = GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id).SymbolType;
                 return ctx;
             }
             catch
             {
-                throw new NullReferenceException($"Undefined function call at {callNode.Line}:{callNode.Offset}");
+                new NotDefinedException($"Undefined function call at {callNode.Line}:{callNode.Offset}");
+                return null;
             }
         }
 
         public override object Visit(EndNode endNode)
         {
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -255,7 +257,8 @@ namespace Contextual_analysis
             {
                 return new TypeContext(BOOL);
             }
-            throw new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
+            new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
+            return null;
         }
         public override object Visit(NoParenExpression expressionNode)
         {
@@ -264,10 +267,6 @@ namespace Contextual_analysis
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
             if (rhs == null && opctx == null)
             {
-                if (lhs.Type == VAR)
-                {
-                    lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
-                }
                 return lhs;
             }
             if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER, OP_EQUAL))
@@ -286,7 +285,8 @@ namespace Contextual_analysis
             {
                 return new TypeContext(BOOL);
             }
-            throw new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
+            new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
+            return null;
         }
         public override object Visit(ParenthesisExpression expressionNode)
         {
@@ -313,7 +313,8 @@ namespace Contextual_analysis
             {
                 return new TypeContext(BOOL);
             }
-            throw new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
+            new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
+            return null;
         }
 
         public override object Visit(ExpressionTerm expressionNode)
@@ -329,14 +330,14 @@ namespace Contextual_analysis
         public override object Visit(ForNode forNode)
         {
 
-            CurrentScope = GlobalScope.FindChild($"{forNode.Type}_{forNode.Line}");
+            CurrentScope = GlobalScope.FindChild($"LOOPF_{forNode.Line}");
             TypeContext fromType = (TypeContext)forNode.From.Accept(this);
             TypeContext toType = (TypeContext)forNode.To.Accept(this);
             if (fromType != toType)
-                throw new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
+                new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
             if (int.Parse(forNode.From.Value) > int.Parse(forNode.To.Value))
-                throw new InvalidRangeException($"Invalid range in range at {forNode.Line}:{forNode.Offset}");
-            CurrentScope = CurrentScope.Parent;
+                new InvalidRangeException($"Invalid range in range at {forNode.Line}:{forNode.Offset}");
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -349,7 +350,7 @@ namespace Contextual_analysis
                 {
                     if (((CallNode)stmnt).Id.Id == funcNode.Name.Id)
                     {
-                        throw new InvalidOperationException($"Illegal recursion at {stmnt.Line}:{stmnt.Offset}");
+                        new InvalidOperationException($"Illegal recursion at {stmnt.Line}:{stmnt.Offset}");
                     }
                 }
                 stmnt.Accept(this);
@@ -358,10 +359,11 @@ namespace Contextual_analysis
             {
                 {
                     funcNode.SymbolType = (TypeContext)funcNode.Statements.Last().Accept(this);
-                    CurrentScope = CurrentScope.Parent;
+                    CurrentScope = CurrentScope.Parent ?? GlobalScope;
                     return funcNode.SymbolType;
                 }
             }
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -379,9 +381,9 @@ namespace Contextual_analysis
             }
             else
             {
-                throw new InvalidTypeException($"If statement expected a boolean expression at {ifStatementNode.Line}:{ifStatementNode.Offset}");
+                new InvalidTypeException($"If statement expected a boolean expression at {ifStatementNode.Line}:{ifStatementNode.Offset}");
             }
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -427,16 +429,16 @@ namespace Contextual_analysis
 
         public override object Visit(WhileNode whileNode)
         {
-            CurrentScope = GlobalScope.FindChild($"{whileNode.Type}_{whileNode.Line}");
+            CurrentScope = GlobalScope.FindChild($"LOOPW_{whileNode.Line}");
             if (((TypeContext)whileNode.Expression.Accept(this)).Type == BOOL)
             {
                 whileNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             }
             else
             {
-                throw new InvalidTypeException($"While statement expected a boolean expression at {whileNode.Line}:{whileNode.Offset}");
+                new InvalidTypeException($"While statement expected a boolean expression at {whileNode.Line}:{whileNode.Offset}");
             }
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -444,7 +446,7 @@ namespace Contextual_analysis
         {
             CurrentScope = GlobalScope.FindChild($"{elseStatement.Type}_{elseStatement.Line}");
             elseStatement.Statements.ForEach(stmnt => stmnt.Accept(this));
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -457,9 +459,9 @@ namespace Contextual_analysis
             }
             else
             {
-                throw new InvalidTypeException($"Else if statement expected a boolean expression at {elseifStatementNode.Line}:{elseifStatementNode.Offset}");
+                new InvalidTypeException($"Else if statement expected a boolean expression at {elseifStatementNode.Line}:{elseifStatementNode.Offset}");
             }
-            CurrentScope = CurrentScope.Parent;
+            CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
 
@@ -468,9 +470,9 @@ namespace Contextual_analysis
             TypeContext fromType = (TypeContext)rangeNode.From.Accept(this);
             TypeContext toType = (TypeContext)rangeNode.To.Accept(this);
             if (fromType != toType)
-                throw new InvalidTypeException($"Mismatch in range types at {rangeNode.Line}:{rangeNode.Offset}");
+                new InvalidTypeException($"Mismatch in range types at {rangeNode.Line}:{rangeNode.Offset}");
             if (int.Parse(rangeNode.From.Value) > int.Parse(rangeNode.To.Value))
-                throw new InvalidRangeException($"Invalid range in range at {rangeNode.Line}:{rangeNode.Offset}");
+                new InvalidRangeException($"Invalid range in range at {rangeNode.Line}:{rangeNode.Offset}");
 
             return null;
         }

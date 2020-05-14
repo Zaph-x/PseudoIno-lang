@@ -69,7 +69,6 @@ namespace Parser
                 CurrentLine = Tokens[Index].Line;
                 CurrentOffset = Tokens[Index].Offset;
                 verbosity += $"Token: {token} Top: {TopOfStack()}".PadRight(35, ' ');
-
                 if (TokenTypeExpressions.IsTerminal(top))
                 {
                     if (top == token)
@@ -192,11 +191,13 @@ namespace Parser
                     }
                     else if (Current.Type == EXPR)
                     {
-                        ExpressionNode term = new ExpressionTerm(token);
+                        ExpressionTerm term = new ExpressionTerm(token);
+                        term.LeftHand = new NumericNode(token.Value, token);
                         term.Parent = (ExpressionNode)Current;
                         if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
                         {
                             ((IExpr)Current).RightHand = term;
+                            Current = Current.Parent ?? TopScope();
                         }
                         else
                             ((IExpr)Current).LeftHand = term;
@@ -204,7 +205,18 @@ namespace Parser
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new NumericNode(token.Value, token));
                     else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.LeftHand = new NumericNode(token.Value, token);
+                    {
+
+                        ExpressionTerm term = new ExpressionTerm(token);
+                        term.LeftHand = new NumericNode(token.Value, token);
+                        if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
+                        {
+                            ((IExpr)((WhileNode)Current).Expression).RightHand = term;
+                            Current = Current.Parent ?? TopScope();
+                        }
+                        else
+                            ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
+                    }
                     break;
                 case 102:
                     if (Current.Type == ASSIGNMENT)
@@ -218,14 +230,28 @@ namespace Parser
                         IExpr expr = new ExpressionTerm(token);
                         expr.LeftHand = new VarNode(token.Value, token);
                         if (((IExpr)Current).LeftHand != null)
+                        {
                             ((IExpr)Current).RightHand = (ExpressionNode)expr;
+                            Current = Current.Parent ?? TopScope();
+                        }
                         else
                             ((IExpr)Current).LeftHand = (ExpressionNode)expr;
                     }
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new VarNode(token.Value, token));
                     else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.LeftHand = new VarNode(token.Value, token);
+                    {
+
+                        ExpressionTerm term = new ExpressionTerm(token);
+                        term.LeftHand = new VarNode(token.Value, token);
+                        if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
+                        {
+                            ((IExpr)((WhileNode)Current).Expression).RightHand = term;
+                            Current = Current.Parent ?? TopScope();
+                        }
+                        else
+                            ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
+                    }
                     break;
                 case 103:
                     if (Current.Type == ASSIGNMENT)
@@ -237,16 +263,31 @@ namespace Parser
                     else if (Current.Type == EXPR)
                     {
                         ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new APinNode(token.Value, token);
                         term.Parent = (ExpressionNode)Current;
                         if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
+                        {
                             ((IExpr)Current).RightHand = term;
+                            Current = Current.Parent ?? TopScope();
+                        }
                         else
                             ((IExpr)Current).LeftHand = term;
                     }
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new APinNode(token.Value, token));
                     else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.LeftHand = new APinNode(token.Value, token);
+                    {
+
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new APinNode(token.Value, token);
+                        if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
+                        {
+                            ((IExpr)((WhileNode)Current).Expression).RightHand = term;
+                            Current = Current.Parent ?? TopScope();
+                        }
+                        else
+                            ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
+                    }
                     break;
                 case 104:
                     if (Current.Type == ASSIGNMENT)
@@ -260,7 +301,18 @@ namespace Parser
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new DPinNode(token.Value, token));
                     else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.LeftHand = new DPinNode(token.Value, token);
+                    {
+
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new DPinNode(token.Value, token);
+                        if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
+                        {
+                            ((IExpr)((WhileNode)Current).Expression).RightHand = term;
+                            Current = Current.Parent ?? TopScope();
+                        }
+                        else
+                            ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
+                    }
                     break;
                 case 106:
                     if (Current.Type == ASSIGNMENT)
@@ -274,21 +326,44 @@ namespace Parser
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new StringNode(token.Value, token));
                     else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.LeftHand = new StringNode(token.Value, token);
+                    {
+
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new DPinNode(token.Value, token);
+                        if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
+                        {
+                            ((IExpr)((WhileNode)Current).Expression).RightHand = term;
+                            Current = Current.Parent ?? TopScope();
+                        }
+                        else
+                            ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
+                    }
                     break;
-                case 107:
+                case 107 when token.Type == NUMERIC:
+                    token.Value = "-" + token.Value;
                     if (Current.Type == ASSIGNMENT)
                     {
                         IExpr expr = new NoParenExpression(token);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
-                        ((IExpr)((AssignmentNode)Current).RightHand).LeftHand = new NumericNode("-" + token.Value, token);
+                        ((IExpr)((AssignmentNode)Current).RightHand).LeftHand = new NumericNode(token.Value, token);
                     }
                     else if (Current.Type == EXPR)
-                        ((IExpr)Current).LeftHand = new NumericNode("-" + token.Value, token);
+                        ((IExpr)Current).LeftHand = new NumericNode(token.Value, token);
                     else if (Current.Type == CALL)
-                        ((CallNode)Current).Parameters.Add(new NumericNode("-" + token.Value, token));
+                        ((CallNode)Current).Parameters.Add(new NumericNode(token.Value, token));
                     else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.LeftHand = new NumericNode("-" + token.Value, token);
+                    {
+
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new NumericNode(token.Value, token);
+                        if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
+                        {
+                            ((IExpr)((WhileNode)Current).Expression).RightHand = term;
+                            Current = Current.Parent ?? TopScope();
+                        }
+                        else
+                            ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
+                    }
                     break;
                 case 105:
                     if (Current.Type == ASSIGNMENT)
@@ -300,16 +375,31 @@ namespace Parser
                     else if (Current.Type == EXPR)
                     {
                         ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new NumericNode(token.Value, token);
                         term.Parent = (ExpressionNode)Current;
                         if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
+                        {
                             ((IExpr)Current).RightHand = term;
+                            Current = Current.Parent ?? TopScope();
+                        }
                         else
                             ((IExpr)Current).LeftHand = term;
                     }
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new BoolNode(token.Value, token));
                     else if (Current.Type == WHILE)
-                        ((WhileNode)Current).Expression.LeftHand = new BoolNode(token.Value, token);
+                    {
+
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new NumericNode(token.Value, token);
+                        if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
+                        {
+                            ((IExpr)((WhileNode)Current).Expression).RightHand = term;
+                            Current = Current.Parent ?? TopScope();
+                        }
+                        else
+                            ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
+                    }
                     break;
                 #endregion Assignables
                 #region Expressions
@@ -332,7 +422,7 @@ namespace Parser
                         if (((IExpr)((IfStatementNode)Current).Expression).LeftHand != null)
                         {
                             ((IExpr)((IfStatementNode)Current).Expression).RightHand = (ExpressionNode)expr74;
-                            expr74.Parent = (ExpressionNode)Current;
+                            expr74.Parent = ((IfStatementNode)Current).Expression;
                             Current = expr74;
                         }
                         else
@@ -342,8 +432,12 @@ namespace Parser
                             Current = expr74;
                         }
 
-                    };
-                    // else if (Current.Type == WHILE)
+                    }
+                    else if (Current.Type == WHILE)
+                    {
+                        expr74.Parent = (ExpressionNode)Current;
+                        ((WhileNode)Current).Expression = expr74;
+                    }
                     Current = (AstNode)expr74;
                     break;
                 #endregion Expressions
@@ -374,8 +468,8 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        ((WhileNode)Current).Expression.Operator = new MinusNode(token);
-                        ((WhileNode)Current).Expression.SymbolType = new TypeContext(NUMERIC);
+                        ((IExpr)((WhileNode)Current).Expression).Operator = new MinusNode(token);
+                        ((IExpr)((WhileNode)Current).Expression).SymbolType = new TypeContext(NUMERIC);
                     }
                     break;
                 case 87:
@@ -404,7 +498,7 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        ((WhileNode)Current).Expression.Operator = new TimesNode(token);
+                        ((IExpr)((WhileNode)Current).Expression).Operator = new TimesNode(token);
                         ((WhileNode)Current).SymbolType = new TypeContext(NUMERIC);
                     }
                     break;
@@ -433,8 +527,8 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        ((WhileNode)Current).Expression.Operator = new DivideNode(token);
-                        ((WhileNode)Current).Expression.SymbolType = new TypeContext(NUMERIC);
+                        ((IExpr)((WhileNode)Current).Expression).Operator = new DivideNode(token);
+                        ((IExpr)((WhileNode)Current).Expression).SymbolType = new TypeContext(NUMERIC);
                     }
                     break;
                 case 86:
@@ -462,8 +556,8 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        ((WhileNode)Current).Expression.Operator = new ModuloNode(token);
-                        ((WhileNode)Current).Expression.SymbolType = new TypeContext(NUMERIC);
+                        ((IExpr)((WhileNode)Current).Expression).Operator = new ModuloNode(token);
+                        ((IExpr)((WhileNode)Current).Expression).SymbolType = new TypeContext(NUMERIC);
                     }
                     break;
                 case 85:
@@ -491,8 +585,8 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        ((WhileNode)Current).Expression.Operator = new PlusNode(token);
-                        ((WhileNode)Current).Expression.SymbolType = new TypeContext(NUMERIC);
+                        ((IExpr)((WhileNode)Current).Expression).Operator = new PlusNode(token);
+                        ((IExpr)((WhileNode)Current).Expression).SymbolType = new TypeContext(NUMERIC);
                     }
                     break;
                 case 96:
@@ -520,8 +614,8 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        ((WhileNode)Current).Expression.Operator = new LessNode(token);
-                        ((WhileNode)Current).SymbolType = new TypeContext(BOOL);
+                        ((IExpr)((WhileNode)Current).Expression).Operator = new LessNode(token);
+                        ((IExpr)((WhileNode)Current).Expression).SymbolType = new TypeContext(BOOL);
                     }
                     break;
                 case 95:
@@ -550,8 +644,13 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        ((WhileNode)Current).Expression.Operator = new OrNode(token);
-                        ((WhileNode)Current).Expression.SymbolType = new TypeContext(BOOL);
+                        ((IExpr)((WhileNode)Current).Expression).Operator = new OrNode(token);
+                        ((IExpr)((WhileNode)Current).Expression).SymbolType = new TypeContext(BOOL);
+                    }
+                    else if (Current.Type == IFSTMNT)
+                    {
+                        ((IExpr)((IfStatementNode)Current).Expression).Operator = new OrNode(token);
+                        ((IExpr)((IfStatementNode)Current).Expression).SymbolType = new TypeContext(BOOL);
                     }
                     break;
                 case 94:
@@ -580,8 +679,8 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        ((WhileNode)Current).Expression.Operator = new AndNode(token);
-                        ((WhileNode)Current).Expression.SymbolType = new TypeContext(BOOL);
+                        ((IExpr)((WhileNode)Current).Expression).Operator = new AndNode(token);
+                        ((IExpr)((WhileNode)Current).Expression).SymbolType = new TypeContext(BOOL);
                     }
                     break;
                 case 97:
@@ -610,8 +709,8 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        ((WhileNode)Current).Expression.Operator = new GreaterNode(token);
-                        ((WhileNode)Current).Expression.SymbolType = new TypeContext(BOOL);
+                        ((IExpr)((WhileNode)Current).Expression).Operator = new GreaterNode(token);
+                        ((IExpr)((WhileNode)Current).Expression).SymbolType = new TypeContext(BOOL);
                     }
                     break;
                 case 98:
@@ -640,14 +739,41 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        ((WhileNode)Current).Expression.Operator = new EqualNode(token);
-                        ((WhileNode)Current).Expression.SymbolType = new TypeContext(BOOL);
+                        ((IExpr)((WhileNode)Current).Expression).Operator = new EqualNode(token);
+                        ((IExpr)((WhileNode)Current).Expression).SymbolType = new TypeContext(BOOL);
                     }
                     break;
                 #endregion Operators
                 case 115:
                     if (token.Type == VAR)
+                    {
                         ((CallNode)Current).Id = new VarNode(token.Value, token);
+                        break;
+                    }
+
+                    if (Current == null)
+                    {
+                        CallNode node = new CallNode(CurrentLine, CurrentOffset);
+                        Root.Statements.Add(node);
+                        Current = node;
+                    }
+                    else if (Current.Type == ASSIGNMENT)
+                    {
+                        if (((AssignmentNode)Current).RightHand.LeftHand != null)
+                        {
+                            Current = new CallNode(CurrentLine, CurrentOffset);
+                            ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                            break;
+                        }
+                        CallNode node = new CallNode(CurrentLine, CurrentOffset);
+                        ((AssignmentNode)Current).RightHand = (IExpr)node;
+                        Current = node;
+                    }
+                    else
+                    {
+                        Current = new CallNode(CurrentLine, CurrentOffset);
+                        ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                    }
                     break;
 
                 case 123:
@@ -685,39 +811,20 @@ namespace Parser
         // TODO Dette skal opdateres i rapporten
         public void AddToAstNode(TokenType token)
         {
-            
+
             if (CurrentAction == null) return;
             ScannerToken previous = Tokens[0];
             if (Index > 0)
                 previous = Tokens[Index - 1];
             switch (CurrentAction.Type)
             {
-                case 115:
-                    if (Current == null)
-                    {
-                        CallNode node = new CallNode(CurrentLine, CurrentOffset);
-                        Root.Statements.Add(node);
-                        Current = node;
-                    }
-                    else if (Current.Type == ASSIGNMENT)
-                    {
-                        CallNode node = new CallNode(CurrentLine, CurrentOffset);
-                        ((AssignmentNode)Current).RightHand = (IExpr)node;
-                        Current = node;
-                    }
-                    else
-                    {
-                        Current = new CallNode(CurrentLine, CurrentOffset);
-                        ((IScope)TopScope()).Statements.Add((StatementNode)Current);
-                    }
-                    break;
                 case 129:
                     Current = new WaitNode(CurrentLine, CurrentOffset);
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
                     break;
                 case 100:
-                    if (((IExpr)Current).Operator != null)
-                        ((IExpr)Current).Operator = GetOrEqualNode(((IExpr)Current).Operator);
+                    if (((ExpressionNode)Current).Operator != null)
+                        ((ExpressionNode)Current).Operator = GetOrEqualNode(((IExpr)Current).Operator);
                     break;
                 case 30:
                 case 31:
@@ -741,7 +848,7 @@ namespace Parser
                 case 116:
                     Current = new FuncNode(CurrentLine, CurrentOffset);
                     ((ProgramNode)TopScope()).FunctionDefinitons.Add((FuncNode)Current);
-                    _builder.OpenScope(token, $"func_{Tokens[Index +1].Value}");
+                    _builder.OpenScope(token, $"func_{Tokens[Index + 1].Value}");
                     Scopes.Push(Current);
                     break;
                 case 111:
