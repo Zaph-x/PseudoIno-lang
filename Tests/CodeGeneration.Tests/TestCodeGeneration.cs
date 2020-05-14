@@ -205,7 +205,7 @@ end loop";
             parser.Root.Accept(symboltablevisitor);*/
             //TypeChecker typeChecker = new TypeChecker();
             parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
             parser.Root.Accept(codeGenerationVisitor);
         }
 
@@ -221,8 +221,9 @@ end loop";
             if (Parsenizer.HasError)
                 Assert.Fail();
             parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
 
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+     
             parser.Root.Accept(new TypeChecker());
             parser.Root.Accept(codeGenerationVisitor);
         }
@@ -239,7 +240,7 @@ end loop";
             if (Parsenizer.HasError)
                 Assert.Fail();
             parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
 
             parser.Root.Accept(new TypeChecker());
             parser.Root.Accept(codeGenerationVisitor);
@@ -256,7 +257,7 @@ end loop";
             if (Parsenizer.HasError)
                 Assert.Fail();
             parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
 
             parser.Root.Accept(new TypeChecker());
             parser.Root.Accept(codeGenerationVisitor);
@@ -276,7 +277,7 @@ end loop";
             parser.Root.Accept(symboltablevisitor);*/
             //TypeChecker typeChecker = new TypeChecker();
             parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
             parser.Root.Accept(codeGenerationVisitor);
         }
 
@@ -295,7 +296,7 @@ end loop";
             parser.Root.Accept(symboltablevisitor);*/
             //TypeChecker typeChecker = new TypeChecker();
             parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
             parser.Root.Accept(codeGenerationVisitor);
         }
         public StreamReader CreateFakeReader(string content, Encoding enc)
