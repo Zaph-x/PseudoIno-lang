@@ -414,14 +414,14 @@ namespace CodeGeneration
                 forLoop += "for(int " + forNode.CountingVariable.Id + " = " +
                                   forNode.From.IValue + ";" + " " + forNode.CountingVariable.Id + " < " +
                                   forNode.To.IValue + "; " +
-                                  forNode.CountingVariable.Id + "++;){\n";
+                                  forNode.CountingVariable.Id + "++){\n";
             }
             else
             {
                 forLoop += "for(int " + forNode.CountingVariable.Id + " = " +
                                   forNode.From.IValue + ";" + " " + forNode.CountingVariable.Id + " < " +
                                   forNode.To.IValue + "; " +
-                                  forNode.CountingVariable.Id + "--;){\n";
+                                  forNode.CountingVariable.Id + "--){\n";
             }
             if (forNode.Statements.Any())
             {
