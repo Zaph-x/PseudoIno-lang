@@ -21,13 +21,20 @@ namespace CodeGeneration
         private string Funcs { get; set; }
         private string Loop { get; set; }
         
+        private string FileName { get; set; }
+        
         private List<string> PinDefs = new List<string>();
 
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
         private SymbolTableObject CurrentScope;
+
+        public CodeGenerationVisitor(string fileName)
+        {
+            FileName = fileName;
+        }
         public void PrintStringToFile(string content)
         {
-            using (StreamWriter writer = File.AppendText("Codegen_output.cpp"))
+            using (StreamWriter writer = File.AppendText(FileName))
             {
                 writer.Write(content);
             }
@@ -44,7 +51,7 @@ namespace CodeGeneration
 
             Setup += "}\n";
             content += Header + Global + Prototypes + Setup + Funcs + Loop;
-            using (StreamWriter writer = File.AppendText("Codegen_output.cpp"))
+            using (StreamWriter writer = File.AppendText(FileName))
             {
                 writer.Write(content);
             }
