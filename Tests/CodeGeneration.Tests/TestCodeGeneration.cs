@@ -51,34 +51,49 @@ end loop";
 
 //If statment test
 private const string content3 =
-@"#Builtin led is on digital pin 13
-g is 4
-brightness is 0
-amountToAdd is 5
- if (brightness less or equal 0) or (brightness greater or equal 255) do
-    amountToAdd is amountToAdd * -1
-else
-y is 3
-end if
-func trigger with a,b,c
+@"# Builtin led is on digital pin 13
+        g is 4
+       brightness is 0
+        amountToAdd is 5
+        if (brightness less or equal 0) or (brightness greater or equal 255) do
+            amountToAdd is amountToAdd* -1
+        #else if (brightness equal 0)
+        #amountToAdd is 1
+        #else 
+       # amountToAdd is 5
+        end if
+        func trigger with a, b, c
+ 
+          dpin13 is on
+          wait 1s
+          dpin13 is off
+          wait 1s
+          a is on
+          b is 3.3
+          c is 1
+          return b
+        end trigger
 
+        func loop
+          a is on
+          b is 3.3
+          c is 1
+          call trigger with a, b, c
+        end loop";
+
+        //blink program til arduino
+        private const string blink =
+       @"#Builtin led is on digital pin 13
+func blink
   dpin13 is on
   wait 1s
   dpin13 is off
   wait 1s
-  a is on
-  b is 3.3
-  c is 1
-  return b
-end trigger
+end blink
 
 func loop
-  a is on
-  b is 3.3
-  c is 1
-  call trigger with a, b, c
+  call blink
 end loop";
-
         string nowhere;
         
         [SetUp]
@@ -128,6 +143,23 @@ end loop";
         public void Test_CodeGenVisitor_content3()
         {
             StreamReader FakeReader = CreateFakeReader(content3, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            parser.Root.Accept(new TypeChecker());
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
+
+            parser.Root.Accept(new TypeChecker());
+            parser.Root.Accept(codeGenerationVisitor);
+        }
+        [Test]
+        public void Test_CodeGenVisitor_blink()
+        {
+            StreamReader FakeReader = CreateFakeReader(blink, Encoding.UTF8);
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();

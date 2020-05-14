@@ -642,7 +642,7 @@ namespace CodeGeneration
         {
             string exp = "";
             exp += expressionTermNode.LeftHand?.Accept(this);
-            //expressionTermNode.Operator.Accept(this);
+            exp += expressionTermNode.Operator?.Accept(this);
             exp += expressionTermNode.RightHand?.Accept(this);
             return exp;
         }
@@ -651,7 +651,7 @@ namespace CodeGeneration
         {
             string exp = "";
             exp += noParenExpression.LeftHand.Accept(this);
-            //noParenExpression.Operator.Accept(this);
+            exp += noParenExpression.Operator?.Accept(this);
             exp += noParenExpression.RightHand?.Accept(this);
             return exp;
         }
