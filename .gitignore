@@ -156,3 +156,4 @@ fabric.properties
 **/[Dd]ebug]/
 **/[Bb]in/
 !Core/PrecompiledBinaries/**
+**/tmp/**
