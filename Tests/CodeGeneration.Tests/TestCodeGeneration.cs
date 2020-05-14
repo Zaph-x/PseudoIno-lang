@@ -49,37 +49,37 @@ func loop
 wait 30m
 end loop";
 
-//If statment test
-private const string Ifstatment =
-@"# Builtin led is on digital pin 13
-        g is 4
-       brightness is 0
-        amountToAdd is 5
-        if (brightness less or equal 0) or (brightness greater or equal 255) do
-            amountToAdd is amountToAdd* -1
-        #else if (brightness equal 0)
-        #amountToAdd is 1
-        #else 
-       # amountToAdd is 5
-        end if
-        func trigger with a, b, c
- 
-          dpin13 is on
-          wait 1s
-          dpin13 is off
-          wait 1s
-          a is on
-          b is 3.3
-          c is 1
-          return b
-        end trigger
+        //If statment test
+        private const string Ifstatment =
+        @"# Builtin led is on digital pin 13
 
-        func loop
-          a is on
-          b is 3.3
-          c is 1
-          call trigger with a, b, c
-        end loop";
+func trigger with a, b, c
+    g is 4
+    brightness is 0
+    amountToAdd is 5
+    if (brightness less or equal 0) or (brightness greater or equal 255) do
+        amountToAdd is amountToAdd* -1
+    else if (brightness equal 0) do
+        amountToAdd is 1
+    else 
+        amountToAdd is 5
+    end if
+    dpin13 is on
+    wait 1s
+    dpin13 is off
+    wait 1s
+    a is on
+    b is 3.3
+    c is 1
+    return b
+end trigger
+
+func loop
+    a is on
+    b is 3.3
+    c is 1
+    call trigger with a, b, c
+end loop";
 
         //blink program til arduino
         private const string blink =
@@ -167,12 +167,27 @@ g is 0
   call trigger with g
 end loop";
 
+
+        private const string forstatmenttest =
+      @"#for statement test
+func trigger with g
+g is 4
+begin for x in 1..5 do
+g is x
+end for
+end trigger
+
+func loop
+g is 0
+  call trigger with g
+end loop";
+
         string nowhere;
-        
+
         [SetUp]
         public void TestInit()
         {
-            
+
         }
 
         [Test]
@@ -193,7 +208,7 @@ end loop";
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
             parser.Root.Accept(codeGenerationVisitor);
         }
-        
+
         [Test]
         public void Test_CodeGenVisitor_content2()
         {
@@ -207,7 +222,7 @@ end loop";
                 Assert.Fail();
             parser.Root.Accept(new TypeChecker());
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
-     
+
             parser.Root.Accept(new TypeChecker());
             parser.Root.Accept(codeGenerationVisitor);
         }
@@ -250,6 +265,25 @@ end loop";
         public void Test_CodeGenVisitor_whilestatment()
         {
             StreamReader FakeReader = CreateFakeReader(whilestatment2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);*/
+            //TypeChecker typeChecker = new TypeChecker();
+            parser.Root.Accept(new TypeChecker());
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor();
+            parser.Root.Accept(codeGenerationVisitor);
+        }
+
+        [Test]
+        public void Test_CodeGenVisitor_forstatmenttest()
+        {
+            StreamReader FakeReader = CreateFakeReader(forstatmenttest, Encoding.UTF8);
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();

@@ -446,7 +446,7 @@ namespace Contextual_analysis
         {
             CurrentScope = GlobalScope.FindChild($"{elseStatement.Type}_{elseStatement.Line}");
             elseStatement.Statements.ForEach(stmnt => stmnt.Accept(this));
-            CurrentScope = CurrentScope.Parent ?? GlobalScope;
+            CurrentScope = CurrentScope?.Parent ?? GlobalScope;
             return null;
         }
 
