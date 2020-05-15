@@ -144,12 +144,7 @@ z is 8
 begin while (z less or equal 9) or (z is less 9)  do    
 g is g +1
 z is 9
-end while 
-z is 10
-begin while z greater 9  do    
-g is g +1
-z is 9
-end while 
+end while  
 
 end trigger
 
