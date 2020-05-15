@@ -17,6 +17,7 @@ namespace CodeGeneration
     {
         public static bool HasError {get;set;} = false;
         private string Header { get; set; }
+        private string Declarations { get; set; }
         private string Global { get; set; }
         private string Prototypes { get; set; }
         private string Setup { get; set; }
@@ -52,7 +53,7 @@ namespace CodeGeneration
             }
 
             Setup += "}\n";
-            content += Header + Global + Prototypes + Setup + Funcs + Loop;
+            content += Header + Global + Prototypes + Declarations + Setup + Funcs + Loop;
             using (StreamWriter writer = File.AppendText(FileName))
             {
                 writer.Write(content);
@@ -287,13 +288,13 @@ namespace CodeGeneration
             throw new NotImplementedException();
         }
 
-        public override object Visit(EqualNode equalNode)
+        public override object Visit(EqualsNode equalsNode)
         {
             //PrintStringToFile(" = ");
             return " = ";
         }
 
-        public override object Visit(EqualsNode equalsNode)
+        public override object Visit(EqualNode equalNode)
         {
             //PrintStringToFile(" == ");
             return " == ";
@@ -337,7 +338,19 @@ namespace CodeGeneration
             if (programNode.Statements.Any())
             {
                 programNode.Statements.ForEach(node => node.Parent = programNode);
-                programNode.Statements.ForEach(node => setupString += node.Accept(this));
+                foreach (var node in programNode.Statements)
+                {
+                    if (node.Type == TokenType.ASSIGNMENT)
+                    {
+                        if (((VarNode)((AssignmentNode)node).LeftHand).Declaration)
+                        {
+                            Declarations += node.Accept(this);
+                            continue;
+                        }
+                    }
+                    setupString += node.Accept(this);
+                }
+                //programNode.Statements.ForEach(node => setupString += node.Accept(this));
             }
             //setupString += "}\n";
             PrintToSetup(setupString);
@@ -496,22 +509,23 @@ namespace CodeGeneration
     
         private string findFuncInputparam(VarNode functionsParam, FuncNode function)
         {
+            VarNode param = function.FunctionParameters.Find(x => x.Id == functionsParam.Id);
 
-            SymbolTableObject inputparameters = GlobalScope.FindChild("func_" + function.Name);
-
-            Symbol funcparamtype = inputparameters.Symbols.Find(x => x.Name == functionsParam.Id);
-
-            if (funcparamtype.AstNode.SymbolType.IsFloat)
+            if (param.SymbolType.IsFloat)
             {
                 return "float ";
             }
-            else if (funcparamtype.AstNode.SymbolType.Type == TokenType.BOOL)
+            else if (param.SymbolType.Type == TokenType.BOOL)
             {
                 return "bool ";
             }
-            else if (!funcparamtype.AstNode.SymbolType.IsFloat)
+            else if (!param.SymbolType.IsFloat)
             {
                 return "int ";
+            }
+            else if (param.SymbolType.Type == TokenType.STRING)
+            {
+                return "String ";
             }
             else
             {

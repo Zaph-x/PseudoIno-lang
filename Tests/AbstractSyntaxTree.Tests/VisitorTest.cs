@@ -40,7 +40,7 @@ func loop
     wait 4s
     a is a + 1
 end loop
-dpin4 is b and (4 or (a less (3 + 5)))
+dpin4 is b less (4 + (3 + 5))
 
 if a equal b do
     if b equal c do

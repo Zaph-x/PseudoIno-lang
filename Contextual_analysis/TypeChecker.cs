@@ -337,10 +337,8 @@ namespace Contextual_analysis
             CurrentScope = GlobalScope.FindChild($"LOOPF_{forNode.Line}");
             TypeContext fromType = (TypeContext)forNode.From.Accept(this);
             TypeContext toType = (TypeContext)forNode.To.Accept(this);
-            if (fromType != toType)
+            if (fromType.Type != toType.Type)
                 new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
-            if (int.Parse(forNode.From.Value) > int.Parse(forNode.To.Value))
-                new InvalidRangeException($"Invalid range in range at {forNode.Line}:{forNode.Offset}");
             CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
@@ -448,7 +446,7 @@ namespace Contextual_analysis
 
         public override object Visit(ElseStatementNode elseStatement)
         {
-            CurrentScope = GlobalScope.FindChild($"{elseStatement.Type}_{elseStatement.Line}");
+            CurrentScope = GlobalScope.FindChild($"ELSESTMNT_{elseStatement.Line}");
             elseStatement.Statements.ForEach(stmnt => stmnt.Accept(this));
             CurrentScope = CurrentScope?.Parent ?? GlobalScope;
             return null;

@@ -205,6 +205,8 @@ namespace Parser.Objects
             this[ARRAYACCESSING, OP_RPAREN] = new ParseAction(0);
             this[ARRAYACCESSING, COMMENT] = new ParseAction(0);
             this[ARRAYACCESSING, MULT_COMNT] = new ParseAction(0);
+            this[ARRAYACCESSING, APIN] = new ParseAction(0);
+            this[ARRAYACCESSING, DPIN] = new ParseAction(0);
 
             this[INDEXER, VAR] = new ParseAction(76,VAR);
             this[INDEXER, NUMERIC] = new ParseAction(77,NUMERIC);
