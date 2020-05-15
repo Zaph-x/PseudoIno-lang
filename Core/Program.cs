@@ -108,12 +108,17 @@ namespace Core
                 {
                     File.Delete($"{path}Core/PrecompiledBinaries/tmp/sketch/output.cpp");
                     parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}Core/PrecompiledBinaries/tmp/sketch/output.cpp"));
-                    if (options.DryRun) File.Delete($"{path}Core/PrecompiledBinaries/tmp/sketch/output.cpp");
+                    if (options.DryRun)
+                    {
+                        File.Delete($"{path}Core/PrecompiledBinaries/tmp/sketch/output.cpp");
+                        return 0;
+                    } else if (CodeGenerationVisitor.HasError) return 2;
                 }
                 catch (Exception e)
                 {
                     verbosePrinter.Error("Encountered an error in code generation. Stopping.");
-                    return 2;
+                    Console.Error.WriteLine(e.Message);
+                    return 21;
                 }
                 if (!options.OutputFile)
                 {
@@ -137,7 +142,6 @@ namespace Core
                         cmds.Add($"{path}Core\\PrecompiledBinaries\\win\\avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino -I{path}Core\\PrecompiledBinaries\\arduino\\avr\\variants\\standard {path}Core\\PrecompiledBinaries\\tmp\\sketch\\output.cpp -o nul");
                         cmds.Add($"{path}Core\\PrecompiledBinaries\\win\\avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino -I{path}Core\\PrecompiledBinaries\\arduino\\avr\\variants\\standard {path}Core\\PrecompiledBinaries\\tmp\\sketch\\output.cpp -o {path}Core\\PrecompiledBinaries\\tmp\\preproc\\ctags_target_for_gcc_minus_e.cpp");
                         cmds.Add($"{path}Core\\PrecompiledBinaries\\win\\ctags.exe -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives {path}Core\\PrecompiledBinaries\\tmp\\preproc\\ctags_target_for_gcc_minus_e.cpp");
-                        // cmds.Add($"{path}Core\\PrecompiledBinaries\\win\\avr-g++.exe -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino -I{path}Core\\PrecompiledBinaries\\arduino\\avr\\variants\\standard C:\\Users\\Mikkel\\AppData\\Local\\Temp\\arduino_build_220767\\sketch\\Blink.ino.cpp -o C:\\Users\\Mikkel\\AppData\\Local\\Temp\\arduino_build_220767\\sketch\\Blink.ino.cpp.o");
                         cmds.Add($"{path}Core\\PrecompiledBinaries\\win\\avr-g++.exe -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino -I{path}Core\\PrecompiledBinaries\\arduino\\avr\\variants\\standard {path}Core\\PrecompiledBinaries\\tmp\\sketch\\output.cpp -o {path}Core\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o");
                         cmds.Add($"{path}Core\\PrecompiledBinaries\\win\\avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o {path}Core\\PrecompiledBinaries\\tmp\\output.cpp.elf {path}Core\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o {path}Core\\PrecompiledBinaries\\randomAFile.a -L{path}Core\\PrecompiledBinaries\\tmp -lm"); //  \\tmp\\..\\core\\core_arduino_avr_pro_cpu_16MHzatmega328_db62bc5f977f010e956e85fb47a0c0b7.a 
                         cmds.Add($"{path}Core\\PrecompiledBinaries\\win\\avr-objcopy.exe -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 {path}Core\\PrecompiledBinaries\\tmp\\output.cpp.elf {path}Core\\PrecompiledBinaries\\tmp\\output.cpp.eep");
@@ -174,7 +178,7 @@ namespace Core
             process.StartInfo = psi;
             process.Start();
             // process.OutputDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
-            process.ErrorDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
+            process.ErrorDataReceived += (sender, e) => { Console.WriteLine(e.Data); return; };
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             using (StreamWriter sw = process.StandardInput)
@@ -200,7 +204,7 @@ namespace Core
             process.StartInfo = psi;
             process.Start();
             // process.OutputDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
-            process.ErrorDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
+            process.ErrorDataReceived += (sender, e) => { Console.WriteLine(e.Data); return; };
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             using (StreamWriter sw = process.StandardInput)
