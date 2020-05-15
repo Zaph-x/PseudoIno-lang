@@ -1,9 +1,9 @@
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\tmp\\sketch\\output.cpp"
-# 1 "E:\\Uni\\P4-program//"
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/tmp/sketch/output.cpp"
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program//"
 # 1 "<built-in>"
 # 1 "<command-line>"
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\tmp\\sketch\\output.cpp"
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 1
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/tmp/sketch/output.cpp"
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 1
 /*
   Arduino.h - Main include file for the Arduino SDK
   Copyright (c) 2005-2013 Arduino Team.  All right reserved.
@@ -26,9 +26,9 @@
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdlib.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdlib.h" 1 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdlib.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdlib.h" 3
 /* Copyright (c) 2002, Marek Michalkiewicz
    Copyright (c) 2004,2007 Joerg Wunsch
 
@@ -66,8 +66,8 @@
 
   $Id$
 */
-# 48 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdlib.h" 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 1 3 4
+# 48 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdlib.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 1 3 4
 /* Copyright (C) 1989-2017 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -103,7 +103,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 46 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 46 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -121,7 +121,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 92 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 92 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -134,7 +134,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 117 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 117 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -145,14 +145,14 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 165 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 216 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 216 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 typedef unsigned int size_t;
-# 242 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 242 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Wide character type.
    Locale-writers should change this as necessary to
    be big enough to hold unique values not between 0 and 127,
@@ -160,7 +160,7 @@ typedef unsigned int size_t;
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 283 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 283 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* On BSD/386 1.1, at least, machine/ansi.h defines _BSD_WCHAR_T_
    instead of _WCHAR_T_, and _BSD_RUNE_T_ (which, unlike the other
    symbols in the _FOO_T_ family, stays defined even after its
@@ -171,18 +171,18 @@ typedef unsigned int size_t;
    and _BSD_WCHAR_T_ is not defined, then rune_t is available.
    machine/ansi.h says, "Note that _WCHAR_T_ and _RUNE_T_ must be of
    the same type." */
-# 310 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 310 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* FreeBSD 5 can't be handled well using "traditional" logic above
    since it no longer defines _BSD_RUNE_T_ yet still desires to export
    rune_t in some cases... */
-# 362 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 362 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 398 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 398 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* A null pointer constant.  */
-# 49 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdlib.h" 2 3
+# 49 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdlib.h" 2 3
 
 
 
@@ -217,7 +217,7 @@ typedef struct {
 
 /** Comparision function type for qsort(), just for convenience. */
 typedef int (*__compar_fn_t)(const void *, const void *);
-# 112 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdlib.h" 3
+# 112 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdlib.h" 3
 /** The abort() function causes abnormal program termination to occur.
     This realization disables interrupts and jumps to _exit() function
     with argument equal to 1. In the limited AVR environment, execution is
@@ -798,8 +798,8 @@ extern char *getenv (const char *);
 
 
 }
-# 24 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stdbool.h" 1 3 4
+# 24 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stdbool.h" 1 3 4
 /* Copyright (C) 1998-2017 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -826,12 +826,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /*
  * ISO C Standard:  7.16  Boolean type and values  <stdbool.h>
  */
-# 39 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stdbool.h" 3 4
+# 39 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stdbool.h" 3 4
 /* Supporting _Bool in C++ is a GCC extension.  */
-# 51 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stdbool.h" 3 4
+# 51 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stdbool.h" 3 4
 /* Signal that all the definitions are present.  */
-# 25 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\string.h" 1 3
+# 25 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/string.h" 1 3
 /* Copyright (c) 2002,2007 Marek Michalkiewicz
    All rights reserved.
 
@@ -877,7 +877,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 1 3 4
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 1 3 4
 /* Copyright (C) 1989-2017 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -913,7 +913,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 46 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 46 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -931,7 +931,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 92 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 92 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -944,7 +944,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 117 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 117 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -955,12 +955,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 165 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 242 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 242 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Wide character type.
    Locale-writers should change this as necessary to
    be big enough to hold unique values not between 0 and 127,
@@ -968,15 +968,15 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 362 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 362 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 398 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 398 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* A null pointer constant.  */
-# 47 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\string.h" 2 3
-# 58 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\string.h" 3
+# 47 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/string.h" 2 3
+# 58 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/string.h" 3
 extern "C" {
 
 
@@ -1009,7 +1009,7 @@ extern "C" {
     The least significant bit is position 1.  Only 16 bits of argument
     are evaluted.
 */
-# 113 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\string.h" 3
+# 113 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/string.h" 3
 /** \ingroup avr_string
     \fn int ffs(int val);
 
@@ -1514,8 +1514,8 @@ extern size_t strxfrm(char *dest, const char *src, size_t n);
 
 
 }
-# 26 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\math.h" 1 3
+# 26 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/math.h" 1 3
 /* Copyright (c) 2002,2007-2009 Michael Stumpf
 
    Portions of documentation Copyright (c) 1990 - 1994
@@ -1628,7 +1628,7 @@ extern size_t strxfrm(char *dest, const char *src, size_t n);
 
 
 /** INFINITY constant.	*/
-# 121 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\math.h" 3
+# 121 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/math.h" 3
 extern "C" {
 
 
@@ -1970,9 +1970,9 @@ extern long lrint (double __x) __attribute__((__const__));
 
 
 /*@}*/
-# 27 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
+# 27 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 1 3
 /* Copyright (c) 2002-2007  Marek Michalkiewicz
    Copyright (c) 2006, Carlos Lamas
    Copyright (c) 2009-2010, Jan Waclawek
@@ -2060,7 +2060,7 @@ extern long lrint (double __x) __attribute__((__const__));
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 1 3
 /* Copyright (c) 2004,2005,2007,2012 Joerg Wunsch
    Copyright (c) 2005, Carlos Lamas
    All rights reserved.
@@ -2097,9 +2097,9 @@ extern long lrint (double __x) __attribute__((__const__));
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stdint.h" 1 3 4
-# 9 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stdint.h" 3 4
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdint.h" 1 3 4
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stdint.h" 1 3 4
+# 9 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stdint.h" 3 4
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdint.h" 1 3 4
 /* Copyright (c) 2002,2004,2005 Marek Michalkiewicz
    Copyright (c) 2005, Carlos Lamas
    Copyright (c) 2005,2007 Joerg Wunsch
@@ -2155,9 +2155,9 @@ extern long lrint (double __x) __attribute__((__const__));
 /*
  * __USING_MINT8 is defined to 1 if the -mint8 option is in effect.
  */
-# 64 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdint.h" 3 4
+# 64 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdint.h" 3 4
 /* Integer types */
-# 123 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdint.h" 3 4
+# 123 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdint.h" 3 4
 /* actual implementation goes here */
 
 typedef signed int int8_t __attribute__((__mode__(__QI__)));
@@ -2324,7 +2324,7 @@ typedef uint64_t uintmax_t;
 
 
 /* Helping macro */
-# 298 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdint.h" 3 4
+# 298 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdint.h" 3 4
 /** \name Limits of specified-width integer types
    C++ implementations should define these macros only when
    __STDC_LIMIT_MACROS is defined before <stdint.h> is included */
@@ -2338,7 +2338,7 @@ typedef uint64_t uintmax_t;
 
 /** \ingroup avr_stdint
     smallest negative value an int8_t can hold. */
-# 328 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdint.h" 3 4
+# 328 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdint.h" 3 4
 /** \ingroup avr_stdint
     largest value an uint8_t can hold. */
 
@@ -2611,7 +2611,7 @@ typedef uint64_t uintmax_t;
 
 /* Limits of wint_t */
 /* wchar.h is currently not implemented */
-# 615 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdint.h" 3 4
+# 615 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdint.h" 3 4
 /** \name Macros for integer constants
     C++ implementations should define these macros only when
     __STDC_CONSTANT_MACROS is defined before <stdint.h> is included.
@@ -2621,10 +2621,10 @@ typedef uint64_t uintmax_t;
 
 /* The GNU C preprocessor defines special macros in the implementation
    namespace to allow a definition that works in #if expressions.  */
-# 700 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdint.h" 3 4
+# 700 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdint.h" 3 4
 /*@}*/
-# 10 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stdint.h" 2 3 4
-# 38 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 2 3
+# 10 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stdint.h" 2 3 4
+# 38 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 2 3
 
 /** \file */
 /** \defgroup avr_inttypes <inttypes.h>: Integer Type conversions
@@ -2741,7 +2741,7 @@ typedef uint32_t uint_farptr_t;
 
 /** \ingroup avr_inttypes
     integer printf format for int_fast32_t */
-# 173 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 3
+# 173 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 3
 /** \ingroup avr_inttypes
     decimal printf format for intptr_t */
 
@@ -2869,7 +2869,7 @@ typedef uint32_t uint_farptr_t;
 
 /** \ingroup avr_inttypes
     uppercase hexadecimal printf format for uint_fast32_t */
-# 328 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 3
+# 328 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 3
 /** \ingroup avr_inttypes
     octal printf format for uintptr_t */
 
@@ -2944,7 +2944,7 @@ typedef uint32_t uint_farptr_t;
 
 /** \ingroup avr_inttypes
     generic-integer scanf format for int_fast32_t */
-# 420 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 3
+# 420 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 3
 /** \ingroup avr_inttypes
     decimal scanf format for intptr_t */
 
@@ -3041,7 +3041,7 @@ typedef uint32_t uint_farptr_t;
 
 /** \ingroup avr_inttypes
     hexadecimal scanf format for uint_fast32_t */
-# 539 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 3
+# 539 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 3
 /** \ingroup avr_inttypes
     octal scanf format for uintptr_t */
 
@@ -3053,8 +3053,8 @@ typedef uint32_t uint_farptr_t;
 
 
 /*@}*/
-# 89 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 2 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 1 3 4
+# 89 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 2 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 1 3 4
 /* Copyright (C) 1989-2017 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -3090,7 +3090,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 46 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 46 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -3108,7 +3108,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 92 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 92 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -3121,7 +3121,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 117 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 117 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -3132,12 +3132,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 165 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 242 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 242 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Wide character type.
    Locale-writers should change this as necessary to
    be big enough to hold unique values not between 0 and 127,
@@ -3145,15 +3145,15 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 362 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 362 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 398 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 398 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* A null pointer constant.  */
-# 90 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 2 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 1 3
+# 90 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 2 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 1 3
 /* Copyright (c) 2002,2003,2005,2006,2007 Marek Michalkiewicz, Joerg Wunsch
    Copyright (c) 2007 Eric B. Weddington
    All rights reserved.
@@ -3252,7 +3252,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\sfr_defs.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/sfr_defs.h" 1 3
 /* Copyright (c) 2002, Marek Michalkiewicz <marekm@amelek.gda.pl>
    All rights reserved.
 
@@ -3369,9 +3369,9 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    <tt>__SFR_OFFSET</tt> are supported - the \c _SFR_ADDR(SPMCR) macro can be
    used to get the address of the \c SPMCR register (0x57 or 0x68 depending on
    device). */
-# 125 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\sfr_defs.h" 3
+# 125 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/sfr_defs.h" 3
 /* These only work in C programs.  */
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 1 3
 /* Copyright (c) 2004,2005,2007,2012 Joerg Wunsch
    Copyright (c) 2005, Carlos Lamas
    All rights reserved.
@@ -3404,8 +3404,8 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
   POSSIBILITY OF SUCH DAMAGE. */
 
 /* $Id$ */
-# 127 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\sfr_defs.h" 2 3
-# 194 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\sfr_defs.h" 3
+# 127 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/sfr_defs.h" 2 3
+# 194 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/sfr_defs.h" 3
 /** \name Bit manipulation */
 
 /*@{*/
@@ -3423,7 +3423,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 /*@}*/
-# 219 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\sfr_defs.h" 3
+# 219 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/sfr_defs.h" 3
 /** \name IO register bit manipulation */
 
 /*@{*/
@@ -3471,9 +3471,9 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 /*@}*/
-# 100 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 2 3
-# 272 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\iom328p.h" 1 3
+# 100 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 2 3
+# 272 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/iom328p.h" 1 3
 /* Copyright (c) 2007 Atmel Corporation
 
    All rights reserved.
@@ -3533,27 +3533,27 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
   POSSIBILITY OF SUCH DAMAGE. 
 
 */
-# 32 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\iom328p.h" 3
+# 32 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/iom328p.h" 3
 /* $Id: iom328p.h 2444 2014-08-11 22:10:47Z joerg_wunsch $ */
 
 /* avr/iom328p.h - definitions for ATmega328P. */
 
 /* This file should only be included from <avr/io.h>, never directly. */
-# 52 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\iom328p.h" 3
+# 52 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/iom328p.h" 3
 /* Registers and associated bit numbers */
-# 799 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\iom328p.h" 3
+# 799 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/iom328p.h" 3
 /* Interrupt Vectors */
 /* Interrupt Vector 0 is the reset vector. */
-# 881 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\iom328p.h" 3
+# 881 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/iom328p.h" 3
 /* Constants */
-# 893 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\iom328p.h" 3
+# 893 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/iom328p.h" 3
 /* Fuses */
 
 
 /* Low Fuse Byte */
-# 907 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\iom328p.h" 3
+# 907 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/iom328p.h" 3
 /* High Fuse Byte */
-# 918 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\iom328p.h" 3
+# 918 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/iom328p.h" 3
 /* Extended Fuse Byte */
 
 
@@ -3569,9 +3569,9 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 /* Signature */
-# 273 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 2 3
-# 703 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 1 3
+# 273 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 2 3
+# 703 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 1 3
 /* Copyright (c) 2003  Theodore A. Roth
    All rights reserved.
 
@@ -3616,37 +3616,37 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Define Generic PORTn, DDn, and PINn values. */
 
 /* Port Data Register (generic) */
-# 54 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 54 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* Port Data Direction Register (generic) */
-# 64 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 64 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* Port Input Pins (generic) */
-# 74 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 74 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* Define PORTxn an Pxn values for all possible port pins if not defined already by io.h. */
 
 /* PORT A */
-# 119 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 119 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* PORT B */
-# 162 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 162 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* PORT C */
-# 205 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 205 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* PORT D */
-# 248 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 248 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* PORT E */
-# 291 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 291 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* PORT F */
-# 334 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 334 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* PORT G */
-# 377 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 377 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* PORT H */
-# 420 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 420 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* PORT J */
-# 463 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 463 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* PORT K */
-# 506 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\portpins.h" 3
+# 506 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/portpins.h" 3
 /* PORT L */
-# 704 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 2 3
+# 704 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 2 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 1 3
 /* Copyright (c) 2007 Eric B. Weddington
    All rights reserved.
 
@@ -3683,7 +3683,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\sfr_defs.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/sfr_defs.h" 1 3
 /* Copyright (c) 2002, Marek Michalkiewicz <marekm@amelek.gda.pl>
    All rights reserved.
 
@@ -3717,7 +3717,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* avr/sfr_defs.h - macros for accessing AVR special function registers */
 
 /* $Id$ */
-# 38 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 2 3
+# 38 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 2 3
 
 /* 
 This purpose of this header is to define registers that have not been 
@@ -3749,11 +3749,11 @@ less than 256 bytes of possible RAM locations (128 Bytes of SRAM
 and no option for external RAM), thus SPH is officially "reserved"
 for them.
 */
-# 98 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 98 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* Status Register */
-# 108 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 108 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* SREG bit definitions */
-# 206 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 206 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /*------------ Common Symbols ------------*/
 
 /* 
@@ -3762,29 +3762,29 @@ and families.
 */
 
 /* Pointer registers definitions */
-# 224 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 224 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* Status Register */
-# 234 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 234 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* Stack Pointer (combined) Register */
-# 244 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 244 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* Stack Pointer High Register */
-# 255 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 255 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* Stack Pointer Low Register */
-# 265 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 265 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* RAMPD Register */
-# 275 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 275 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* RAMPX Register */
-# 285 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 285 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* RAMPY Register */
-# 295 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 295 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* RAMPZ Register */
-# 305 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 305 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /* Extended Indirect Register */
-# 315 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\common.h" 3
+# 315 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/common.h" 3
 /*------------ Workaround to old compilers (4.1.2 and earlier)  ------------*/
-# 706 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 2 3
+# 706 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 2 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\version.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/version.h" 1 3
 /* Copyright (c) 2005, Joerg Wunsch                               -*- c -*-
    All rights reserved.
 
@@ -3872,14 +3872,14 @@ and families.
 
 /** \ingroup avr_version
     Library revision number. */
-# 708 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 2 3
+# 708 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 2 3
 
 
 
 
 
 /* Include fuse.h after individual IO header files. */
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\fuse.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/fuse.h" 1 3
 /* Copyright (c) 2007, Atmel Corporation
    All rights reserved.
 
@@ -4101,17 +4101,17 @@ and families.
     lower address to a higher address, left to right.
 
 */
-# 239 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\fuse.h" 3
+# 239 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/fuse.h" 3
 typedef struct
 {
     unsigned char low;
     unsigned char high;
     unsigned char extended;
 } __fuse_t;
-# 715 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 2 3
+# 715 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 2 3
 
 /* Include lock.h after individual IO header files. */
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\lock.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/lock.h" 1 3
 /* Copyright (c) 2007, Atmel Corporation
    All rights reserved.
 
@@ -4296,11 +4296,11 @@ typedef struct
     \endcode
 
 */
-# 197 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\lock.h" 3
+# 197 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/lock.h" 3
 /* Lock Bit Modes */
-# 718 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 2 3
-# 91 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 2 3
-# 106 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 3
+# 718 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 2 3
+# 91 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 2 3
+# 106 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 3
 /**
    \ingroup avr_pgmspace
    \def PROGMEM
@@ -4312,7 +4312,7 @@ typedef struct
 
 
 extern "C" {
-# 386 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 3
+# 386 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 3
 /* Although in C, we can get away with just using __c, it does not work in
    C++. We need to use &__c[0] to avoid the compiler puking. Dave Hylands
    explaned it thusly,
@@ -4322,9 +4322,9 @@ extern "C" {
      compatible, they aren't the same thing (especially in C++). The type
      returned by &__c[0] is a prog_char *, which explains why it works
      fine. */
-# 407 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 3
+# 407 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 3
 /* The real thing. */
-# 616 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 3
+# 616 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 3
 /*
 Macro to read data from program memory for avr tiny parts(tiny 4/5/9/10/20/40).
 why:
@@ -4334,7 +4334,7 @@ But it must be addressed starting from 0x4000 when accessed via data memory.
 Reference: TINY device (ATTiny 4,5,9,10,20 and 40) datasheets
 Bug: avrtc-536
 */
-# 639 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 3
+# 639 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 3
 /** \ingroup avr_pgmspace
     \def pgm_read_byte_near(address_short)
     Read a byte from the program space with a 16-bit (near) address. 
@@ -4374,7 +4374,7 @@ Bug: avrtc-536
     Read a pointer from the program space with a 16-bit (near) address. 
     \note The address is a byte address. 
     The address is in the program space. */
-# 1048 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 3
+# 1048 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 3
 /** \ingroup avr_pgmspace
     \def pgm_read_byte(address_short)
     Read a byte from the program space with a 16-bit (near) address. 
@@ -4452,7 +4452,7 @@ Bug: avrtc-536
      script used and linker options. The value returned can be seen then as a
      universal pointer.
 */
-# 1146 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 3
+# 1146 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 3
 /** \ingroup avr_pgmspace
     \fn const void * memchr_P(const void *s, int val, size_t len)
     \brief Scan flash memory for a character.
@@ -5068,7 +5068,7 @@ extern size_t strlcpy_PF(char *dst, uint_farptr_t src, size_t siz);
     respectively, to be less than, to match, or be greater than the first
     \p len bytes of \p s2.  */
 extern int memcmp_PF(const void *, uint_farptr_t, size_t) __attribute__((__pure__));
-# 1779 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 3
+# 1779 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 3
 extern size_t __strlen_P(const char *) __attribute__((__const__)); /* internal helper function */
 __attribute__((__always_inline__)) static __inline__ size_t strlen_P(const char * s);
 static __inline__ size_t strlen_P(const char *s) {
@@ -5079,8 +5079,8 @@ static __inline__ size_t strlen_P(const char *s) {
 
 
 }
-# 29 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 1 3
+# 29 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 1 3
 /* Copyright (c) 2002,2003,2005,2006,2007 Marek Michalkiewicz, Joerg Wunsch
    Copyright (c) 2007 Eric B. Weddington
    All rights reserved.
@@ -5175,8 +5175,8 @@ static __inline__ size_t strlen_P(const char *s) {
     The size of the EEPROM page.
     
 */
-# 30 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\interrupt.h" 1 3
+# 30 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/interrupt.h" 1 3
 /* Copyright (c) 2002,2005,2007 Marek Michalkiewicz
    Copyright (c) 2007, Dean Camera
 
@@ -5214,7 +5214,7 @@ static __inline__ size_t strlen_P(const char *s) {
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 1 3
 /* Copyright (c) 2002,2003,2005,2006,2007 Marek Michalkiewicz, Joerg Wunsch
    Copyright (c) 2007 Eric B. Weddington
    All rights reserved.
@@ -5309,7 +5309,7 @@ static __inline__ size_t strlen_P(const char *s) {
     The size of the EEPROM page.
     
 */
-# 39 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\interrupt.h" 2 3
+# 39 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/interrupt.h" 2 3
 
 
 /* Auxiliary macro for ISR_ALIAS(). */
@@ -5336,17 +5336,17 @@ static __inline__ size_t strlen_P(const char *s) {
     \ref optim_code_reorder for things to be taken into account with
     respect to compiler optimizations.
 */
-# 103 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\interrupt.h" 3
+# 103 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/interrupt.h" 3
 /** \name Macros for writing interrupt handler functions */
-# 283 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\interrupt.h" 3
+# 283 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/interrupt.h" 3
 /** \name ISR attributes */
-# 342 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\interrupt.h" 3
+# 342 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/interrupt.h" 3
 /* \@} */
-# 31 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
+# 31 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
 
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/binary.h" 1
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/binary.h" 1
 
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/binary.h"
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/binary.h"
 /*
   binary.h - Definitions for binary constants
   Copyright (c) 2006 David A. Mellis.  All right reserved.
@@ -5365,16 +5365,16 @@ static __inline__ size_t strlen_P(const char *s) {
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-# 33 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
+# 33 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
 
 
 extern "C"{
 
 
 void yield(void);
-# 87 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h"
+# 87 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h"
 // undefine stdlib's abs if encountered
-# 117 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h"
+# 117 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h"
 // avr-libc defines _NOP() since 1.6.2
 
 
@@ -5423,36 +5423,36 @@ void loop(void);
 // On the ATmega1280, the addresses of some of the port registers are
 // greater than 255, so we can't store them in uint8_t's.
 extern const uint16_t 
-# 164 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 3
+# 164 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 3
                      __attribute__((__progmem__)) 
-# 164 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h"
+# 164 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h"
                              port_to_mode_PGM[];
 extern const uint16_t 
-# 165 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 3
+# 165 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 3
                      __attribute__((__progmem__)) 
-# 165 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h"
+# 165 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h"
                              port_to_input_PGM[];
 extern const uint16_t 
-# 166 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 3
+# 166 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 3
                      __attribute__((__progmem__)) 
-# 166 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h"
+# 166 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h"
                              port_to_output_PGM[];
 
 extern const uint8_t 
-# 168 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 3
+# 168 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 3
                     __attribute__((__progmem__)) 
-# 168 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h"
+# 168 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h"
                             digital_pin_to_port_PGM[];
 // extern const uint8_t PROGMEM digital_pin_to_bit_PGM[];
 extern const uint8_t 
-# 170 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 3
+# 170 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 3
                     __attribute__((__progmem__)) 
-# 170 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h"
+# 170 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h"
                             digital_pin_to_bit_mask_PGM[];
 extern const uint8_t 
-# 171 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 3
+# 171 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 3
                     __attribute__((__progmem__)) 
-# 171 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h"
+# 171 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h"
                             digital_pin_to_timer_PGM[];
 
 // Get the bit location within the hardware port of the given virtual pin.
@@ -5460,12 +5460,12 @@ extern const uint8_t
 // 
 // These perform slightly better as macros compared to inline functions
 //
-# 227 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h"
+# 227 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h"
 } // extern "C"
 
 
 
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WCharacter.h" 1
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WCharacter.h" 1
 /*
  WCharacter.h - Character utility functions for Wiring & Arduino
  Copyright (c) 2010 Hernando Barragan.  All right reserved.
@@ -5488,9 +5488,9 @@ extern const uint8_t
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\ctype.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/ctype.h" 1 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\ctype.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/ctype.h" 3
 /* Copyright (c) 2002,2007 Michael Stumpf
    All rights reserved.
 
@@ -5529,7 +5529,7 @@ extern const uint8_t
   Author : Michael Stumpf
            Michael.Stumpf@t-online.de
 */
-# 48 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\ctype.h" 3
+# 48 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/ctype.h" 3
 extern "C" {
 
 
@@ -5673,10 +5673,10 @@ extern int toupper(int __c) __attribute__((__const__));
 
 
 }
-# 24 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WCharacter.h" 2
+# 24 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WCharacter.h" 2
 
 
-# 25 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WCharacter.h"
+# 25 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WCharacter.h"
 // WCharacter.h prototypes
 inline boolean isAlphaNumeric(int c) __attribute__((always_inline));
 inline boolean isAlpha(int c) __attribute__((always_inline));
@@ -5819,8 +5819,8 @@ inline int toUpperCase(int c)
 {
   return toupper (c);
 }
-# 232 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WString.h" 1
+# 232 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WString.h" 1
 /*
   WString.h - String library for Wiring & Arduino
   ...mostly rewritten by Paul Stoffregen...
@@ -5846,9 +5846,9 @@ inline int toUpperCase(int c)
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdlib.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdlib.h" 1 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdlib.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdlib.h" 3
 /* Copyright (c) 2002, Marek Michalkiewicz
    Copyright (c) 2004,2007 Joerg Wunsch
 
@@ -5886,8 +5886,8 @@ inline int toUpperCase(int c)
 
   $Id$
 */
-# 27 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WString.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\string.h" 1 3
+# 27 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WString.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/string.h" 1 3
 /* Copyright (c) 2002,2007 Marek Michalkiewicz
    All rights reserved.
 
@@ -5926,8 +5926,8 @@ inline int toUpperCase(int c)
    Contributors:
      Created by Marek Michalkiewicz <marekm@linux.org.pl>
  */
-# 28 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WString.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\ctype.h" 1 3
+# 28 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WString.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/ctype.h" 1 3
 /* Copyright (c) 2002,2007 Michael Stumpf
    All rights reserved.
 
@@ -5966,8 +5966,8 @@ inline int toUpperCase(int c)
   Author : Michael Stumpf
            Michael.Stumpf@t-online.de
 */
-# 29 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WString.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 1 3
+# 29 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WString.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 1 3
 /* Copyright (c) 2002-2007  Marek Michalkiewicz
    Copyright (c) 2006, Carlos Lamas
    Copyright (c) 2009-2010, Jan Waclawek
@@ -6048,10 +6048,10 @@ inline int toUpperCase(int c)
     command register (\c NVM.CMD or \c NVM_CMD) is set to 0x00 (NOP)
     before using any of these functions.
 */
-# 30 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WString.h" 2
+# 30 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WString.h" 2
 
 
-# 31 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WString.h"
+# 31 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WString.h"
 // When compiling programs with this class, the following gcc parameters
 // dramatically increase performance and memory (RAM) efficiency, typically
 // with little or no increase in code size.
@@ -6248,8 +6248,8 @@ public:
  StringSumHelper(float num) : String(num) {}
  StringSumHelper(double num) : String(num) {}
 };
-# 233 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/HardwareSerial.h" 1
+# 233 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/HardwareSerial.h" 1
 /*
   HardwareSerial.h - Hardware serial library for Wiring
   Copyright (c) 2006 Nicholas Zambetti.  All right reserved.
@@ -6276,9 +6276,9 @@ public:
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 1 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 3
 /* Copyright (c) 2004,2005,2007,2012 Joerg Wunsch
    Copyright (c) 2005, Carlos Lamas
    All rights reserved.
@@ -6311,11 +6311,11 @@ public:
   POSSIBILITY OF SUCH DAMAGE. */
 
 /* $Id$ */
-# 28 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/HardwareSerial.h" 2
+# 28 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/HardwareSerial.h" 2
 
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Stream.h" 1
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Stream.h" 1
 
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Stream.h"
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Stream.h"
 /*
   Stream.h - base class for character-based streams.
   Copyright (c) 2010 David A. Mellis.  All right reserved.
@@ -6340,9 +6340,9 @@ public:
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 1 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 3
 /* Copyright (c) 2004,2005,2007,2012 Joerg Wunsch
    Copyright (c) 2005, Carlos Lamas
    All rights reserved.
@@ -6375,10 +6375,10 @@ public:
   POSSIBILITY OF SUCH DAMAGE. */
 
 /* $Id$ */
-# 26 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Stream.h" 2
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Print.h" 1
+# 26 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Stream.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Print.h" 1
 
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Print.h"
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Print.h"
 /*
   Print.h - Base class that provides print() and println()
   Copyright (c) 2008 David A. Mellis.  All right reserved.
@@ -6401,9 +6401,9 @@ public:
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 1 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 3
 /* Copyright (c) 2004,2005,2007,2012 Joerg Wunsch
    Copyright (c) 2005, Carlos Lamas
    All rights reserved.
@@ -6436,8 +6436,8 @@ public:
   POSSIBILITY OF SUCH DAMAGE. */
 
 /* $Id$ */
-# 24 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Print.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdio.h" 1 3
+# 24 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Print.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdio.h" 1 3
 /* Copyright (c) 2002, 2005, 2007 Joerg Wunsch
    All rights reserved.
 
@@ -6481,7 +6481,7 @@ public:
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 1 3
 /* Copyright (c) 2004,2005,2007,2012 Joerg Wunsch
    Copyright (c) 2005, Carlos Lamas
    All rights reserved.
@@ -6514,8 +6514,8 @@ public:
   POSSIBILITY OF SUCH DAMAGE. */
 
 /* $Id$ */
-# 45 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdio.h" 2 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stdarg.h" 1 3 4
+# 45 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdio.h" 2 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stdarg.h" 1 3 4
 /* Copyright (C) 1989-2017 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -6542,7 +6542,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /*
  * ISO C Standard:  7.15  Variable arguments  <stdarg.h>
  */
-# 36 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stdarg.h" 3 4
+# 36 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stdarg.h" 3 4
 /* Define __gnuc_va_list.  */
 
 
@@ -6552,14 +6552,14 @@ typedef __builtin_va_list __gnuc_va_list;
 
 /* Define the standard macros for the user,
    if this invocation was from the user program.  */
-# 56 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stdarg.h" 3 4
+# 56 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stdarg.h" 3 4
 /* Define va_list, if desired, from __gnuc_va_list. */
 /* We deliberately do not define va_list when called from
    stdio.h, because ANSI C says that stdio.h is not supposed to define
    va_list.  stdio.h needs to have access to that data type, 
    but must not use that name.  It should use the name __gnuc_va_list,
    which is safe because it is reserved for the implementation.  */
-# 86 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stdarg.h" 3 4
+# 86 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stdarg.h" 3 4
 /* The macro _VA_LIST_ is the same thing used by this file in Ultrix.
    But on BSD NET2 we must not test or define or undef it.
    (Note that the comments in NET 2's ansi.h
@@ -6574,12 +6574,12 @@ typedef __builtin_va_list __gnuc_va_list;
 /* The macro __va_list__ is used by BeOS.  */
 
 typedef __gnuc_va_list va_list;
-# 46 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdio.h" 2 3
+# 46 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdio.h" 2 3
 
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 1 3 4
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 1 3 4
 /* Copyright (C) 1989-2017 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -6615,7 +6615,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 /* Any one of these symbols __need_* means that GNU libc
    wants us just to define one data type.  So don't define
    the symbols that indicate this file's entire job has been done.  */
-# 46 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 46 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* This avoids lossage on SunOS but only if stdtypes.h comes first.
    There's no way to win with the other order!  Sun lossage.  */
 
@@ -6633,7 +6633,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 92 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 92 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -6646,7 +6646,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 117 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 117 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -6657,12 +6657,12 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 165 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 165 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Unsigned type of `sizeof' something.  */
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 242 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 242 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Wide character type.
    Locale-writers should change this as necessary to
    be big enough to hold unique values not between 0 and 127,
@@ -6670,14 +6670,14 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 362 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 362 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 398 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 398 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* A null pointer constant.  */
-# 51 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdio.h" 2 3
+# 51 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdio.h" 2 3
 
 
 /** \file */
@@ -6875,7 +6875,7 @@ struct __file {
  char *buf; /* buffer pointer */
  unsigned char unget; /* ungetc() buffer */
  uint8_t flags; /* flags, see below */
-# 263 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdio.h" 3
+# 263 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdio.h" 3
  int size; /* size of buffer */
  int len; /* characters read or written so far */
  int (*put)(char, struct __file *); /* function to write one char to device */
@@ -6938,7 +6938,7 @@ typedef struct __file FILE;
 
 /** This macro retrieves a pointer to user defined data from a FILE
     stream object. */
-# 363 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdio.h" 3
+# 363 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdio.h" 3
 /**
  * Return code for an error condition during device read.
  *
@@ -6951,7 +6951,7 @@ typedef struct __file FILE;
  *
  * To be used in the get function of fdevopen().
  */
-# 399 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdio.h" 3
+# 399 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdio.h" 3
 extern "C" {
 
 
@@ -6961,7 +6961,7 @@ extern "C" {
  */
 
 extern struct __file *__iob[];
-# 418 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdio.h" 3
+# 418 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdio.h" 3
 /* New prototype for avr-libc 1.4 and above. */
 extern FILE *fdevopen(int (*__put)(char, FILE*), int (*__get)(FILE*));
 
@@ -7473,7 +7473,7 @@ extern int sscanf(const char *__buf, const char *__fmt, ...);
    Variant of sscanf() using a \c fmt string in program memory.
  */
 extern int sscanf_P(const char *__buf, const char *__fmt, ...);
-# 940 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdio.h" 3
+# 940 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdio.h" 3
 static __inline__ int fflush(FILE *stream __attribute__((unused)))
 {
  return 0;
@@ -7515,11 +7515,11 @@ extern char *tmpnam (char *s);
  * stdio subsystem.  They are defined here since the gcc build
  * environment expects them to be here.
  */
-# 25 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Print.h" 2
+# 25 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Print.h" 2
 
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WString.h" 1
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WString.h" 1
 
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/WString.h"
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/WString.h"
 /*
   WString.h - String library for Wiring & Arduino
   ...mostly rewritten by Paul Stoffregen...
@@ -7540,8 +7540,8 @@ extern char *tmpnam (char *s);
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-# 27 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Print.h" 2
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Printable.h" 1
+# 27 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Print.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Printable.h" 1
 /*
   Printable.h - Interface class that allows printing of complex types
   Copyright (c) 2011 Adrian McEwen.  All right reserved.
@@ -7564,9 +7564,9 @@ extern char *tmpnam (char *s);
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdlib.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdlib.h" 1 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\stdlib.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/stdlib.h" 3
 /* Copyright (c) 2002, Marek Michalkiewicz
    Copyright (c) 2004,2007 Joerg Wunsch
 
@@ -7604,10 +7604,10 @@ extern char *tmpnam (char *s);
 
   $Id$
 */
-# 24 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Printable.h" 2
+# 24 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Printable.h" 2
 
 
-# 25 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Printable.h"
+# 25 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Printable.h"
 class Print;
 
 /** The Printable class provides a way for new classes to allow themselves to be printed.
@@ -7621,8 +7621,8 @@ class Printable
   public:
     virtual size_t printTo(Print& p) const = 0;
 };
-# 28 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Print.h" 2
-# 37 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Print.h"
+# 28 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Print.h" 2
+# 37 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Print.h"
 class Print
 {
   private:
@@ -7640,9 +7640,9 @@ class Print
     virtual size_t write(uint8_t) = 0;
     size_t write(const char *str) {
       if (str == 
-# 53 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Print.h" 3 4
+# 53 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Print.h" 3 4
                 __null
-# 53 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Print.h"
+# 53 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Print.h"
                     ) return 0;
       return write((const uint8_t *)str, strlen(str));
     }
@@ -7682,7 +7682,7 @@ class Print
 
     virtual void flush() { /* Empty implementation for backward compatibility */ }
 };
-# 27 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Stream.h" 2
+# 27 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Stream.h" 2
 
 // compatability macros for testing
 /*
@@ -7783,7 +7783,7 @@ class Stream : public Print
   // Returns index of the target that is found first or -1 if timeout occurs.
   int findMulti(struct MultiTarget *targets, int tCount);
 };
-# 30 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/HardwareSerial.h" 2
+# 30 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/HardwareSerial.h" 2
 
 // Define constants and variables for buffering incoming serial data.  We're
 // using a ring buffer (I think), in which head is the index of the location
@@ -7796,7 +7796,7 @@ class Stream : public Print
 // atomicity guards needed for that are not implemented. This will
 // often work, but occasionally a race condition can occur that makes
 // Serial behave erratically. See https://github.com/arduino/Arduino/issues/2405
-# 59 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/HardwareSerial.h"
+# 59 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/HardwareSerial.h"
 typedef uint8_t tx_buffer_index_t;
 
 
@@ -7806,7 +7806,7 @@ typedef uint8_t rx_buffer_index_t;
 
 
 // Define config for Serial.begin(baud, config);
-# 93 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/HardwareSerial.h"
+# 93 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/HardwareSerial.h"
 class HardwareSerial : public Stream
 {
   protected:
@@ -7858,10 +7858,10 @@ class HardwareSerial : public Stream
 
 
   extern HardwareSerial Serial;
-# 159 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/HardwareSerial.h"
+# 159 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/HardwareSerial.h"
 extern void serialEventRun(void) __attribute__((weak));
-# 234 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/USBAPI.h" 1
+# 234 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/USBAPI.h" 1
 /*
   USBAPI.h
   Copyright (c) 2005-2014 Arduino.  All right reserved.
@@ -7884,9 +7884,9 @@ extern void serialEventRun(void) __attribute__((weak));
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 1 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 3
 /* Copyright (c) 2004,2005,2007,2012 Joerg Wunsch
    Copyright (c) 2005, Carlos Lamas
    All rights reserved.
@@ -7919,8 +7919,8 @@ extern void serialEventRun(void) __attribute__((weak));
   POSSIBILITY OF SUCH DAMAGE. */
 
 /* $Id$ */
-# 24 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/USBAPI.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 1 3
+# 24 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/USBAPI.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 1 3
 /* Copyright (c) 2002-2007  Marek Michalkiewicz
    Copyright (c) 2006, Carlos Lamas
    Copyright (c) 2009-2010, Jan Waclawek
@@ -8001,8 +8001,8 @@ extern void serialEventRun(void) __attribute__((weak));
     command register (\c NVM.CMD or \c NVM_CMD) is set to 0x00 (NOP)
     before using any of these functions.
 */
-# 25 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/USBAPI.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\eeprom.h" 1 3
+# 25 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/USBAPI.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/eeprom.h" 1 3
 /* Copyright (c) 2002, 2003, 2004, 2007 Marek Michalkiewicz
    Copyright (c) 2005, 2006 Bjoern Haase
    Copyright (c) 2008 Atmel Corporation
@@ -8040,7 +8040,7 @@ extern void serialEventRun(void) __attribute__((weak));
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\io.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/io.h" 1 3
 /* Copyright (c) 2002,2003,2005,2006,2007 Marek Michalkiewicz, Joerg Wunsch
    Copyright (c) 2007 Eric B. Weddington
    All rights reserved.
@@ -8135,9 +8135,9 @@ extern void serialEventRun(void) __attribute__((weak));
     The size of the EEPROM page.
     
 */
-# 39 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\eeprom.h" 2 3
-# 50 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\eeprom.h" 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 1 3 4
+# 39 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/eeprom.h" 2 3
+# 50 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/eeprom.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 1 3 4
 /* Copyright (C) 1989-2017 Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -8200,7 +8200,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    defined if the corresponding type is *not* defined.
    FreeBSD-2.1 defines _MACHINE_ANSI_H_ instead of _ANSI_H_.
    NetBSD defines _I386_ANSI_H_ and _X86_64_ANSI_H_ instead of _ANSI_H_ */
-# 92 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 92 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Sequent's header files use _PTRDIFF_T_ in some conflicting way.
    Just ignore it.  */
 
@@ -8213,7 +8213,7 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
    not defined, and so that defining this macro defines _GCC_SIZE_T.
    If we find that the macros are still defined at this point, we must
    invoke them so that the type is defined as expected.  */
-# 117 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 117 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* In case nobody has defined these types, but we aren't running under
    GCC 2.00, make sure that __PTRDIFF_TYPE__, __SIZE_TYPE__, and
    __WCHAR_TYPE__ have reasonable values.  This can happen if the
@@ -8224,9 +8224,9 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 149 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 149 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 typedef int ptrdiff_t;
-# 160 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 160 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* If this symbol has done its job, get rid of it.  */
 
 
@@ -8236,7 +8236,7 @@ typedef int ptrdiff_t;
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 242 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 242 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Wide character type.
    Locale-writers should change this as necessary to
    be big enough to hold unique values not between 0 and 127,
@@ -8244,14 +8244,14 @@ typedef int ptrdiff_t;
 
 /* Define this type if we are doing the whole job,
    or if we want this type in particular.  */
-# 362 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 362 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /*  In 4.3bsd-net2, leave these undefined to indicate that size_t, etc.
     are already defined.  */
 /*  BSD/OS 3.1 and FreeBSD [23].x require the MACHINE_ANSI_H check here.  */
 /*  NetBSD 5 requires the I386_ANSI_H and X86_64_ANSI_H checks here.  */
-# 398 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 398 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* A null pointer constant.  */
-# 416 "e:\\uni\\p4-program\\core\\precompiledbinaries\\lib\\gcc\\avr\\7.3.0\\include\\stddef.h" 3 4
+# 416 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/lib/gcc/avr/7.3.0/include/stddef.h" 3 4
 /* Offset of member MEMBER in a struct of type TYPE. */
 
 
@@ -8281,7 +8281,7 @@ typedef struct {
 
 
   typedef decltype(nullptr) nullptr_t;
-# 51 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\eeprom.h" 2 3
+# 51 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/eeprom.h" 2 3
 
 
 /** \defgroup avr_eeprom <avr/eeprom.h>: EEPROM handling
@@ -8324,7 +8324,7 @@ typedef struct {
 
 
 extern "C" {
-# 103 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\eeprom.h" 3
+# 103 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/eeprom.h" 3
 /** \def EEMEM
     \ingroup avr_eeprom
     Attribute expression causing a variable to be allocated within the
@@ -8335,7 +8335,7 @@ extern "C" {
     \ingroup avr_eeprom
     \returns 1 if EEPROM is ready for a new read/write operation, 0 if not.
  */
-# 126 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\eeprom.h" 3
+# 126 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/eeprom.h" 3
 /** \def eeprom_busy_wait
     \ingroup avr_eeprom
     Loops until the eeprom is no longer busy.
@@ -8452,8 +8452,8 @@ void eeprom_update_block (const void *__src, void *__dst, size_t __n);
 
 
 }
-# 26 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/USBAPI.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\interrupt.h" 1 3
+# 26 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/USBAPI.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/interrupt.h" 1 3
 /* Copyright (c) 2002,2005,2007 Marek Michalkiewicz
    Copyright (c) 2007, Dean Camera
 
@@ -8487,8 +8487,8 @@ void eeprom_update_block (const void *__src, void *__dst, size_t __n);
   POSSIBILITY OF SUCH DAMAGE. */
 
 /* $Id$ */
-# 27 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/USBAPI.h" 2
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 1 3
+# 27 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/USBAPI.h" 2
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 1 3
 /* Copyright (c) 2002, Marek Michalkiewicz
    Copyright (c) 2004,2005,2007 Joerg Wunsch
    Copyright (c) 2007  Florin-Viorel Petrov
@@ -8522,8 +8522,8 @@ void eeprom_update_block (const void *__src, void *__dst, size_t __n);
   POSSIBILITY OF SUCH DAMAGE. */
 
 /* $Id$ */
-# 44 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 1 3
+# 44 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 1 3
 /* Copyright (c) 2004,2005,2007,2012 Joerg Wunsch
    Copyright (c) 2005, Carlos Lamas
    All rights reserved.
@@ -8556,8 +8556,8 @@ void eeprom_update_block (const void *__src, void *__dst, size_t __n);
   POSSIBILITY OF SUCH DAMAGE. */
 
 /* $Id$ */
-# 45 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 2 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay_basic.h" 1 3
+# 45 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 2 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay_basic.h" 1 3
 /* Copyright (c) 2002, Marek Michalkiewicz
    Copyright (c) 2007 Joerg Wunsch
    All rights reserved.
@@ -8594,7 +8594,7 @@ void eeprom_update_block (const void *__src, void *__dst, size_t __n);
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\inttypes.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/inttypes.h" 1 3
 /* Copyright (c) 2004,2005,2007,2012 Joerg Wunsch
    Copyright (c) 2005, Carlos Lamas
    All rights reserved.
@@ -8627,7 +8627,7 @@ void eeprom_update_block (const void *__src, void *__dst, size_t __n);
   POSSIBILITY OF SUCH DAMAGE. */
 
 /* $Id$ */
-# 38 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay_basic.h" 2 3
+# 38 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay_basic.h" 2 3
 
 
 static __inline__ void _delay_loop_1(uint8_t __count) __attribute__((__always_inline__));
@@ -8702,8 +8702,8 @@ _delay_loop_2(uint16_t __count)
   : "0" (__count)
  );
 }
-# 46 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 2 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\math.h" 1 3
+# 46 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 2 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/math.h" 1 3
 /* Copyright (c) 2002,2007-2009 Michael Stumpf
 
    Portions of documentation Copyright (c) 1990 - 1994
@@ -8750,7 +8750,7 @@ _delay_loop_2(uint16_t __count)
    that "do not examine any values except their arguments, and have
    no effects except the return value", for better optimization by gcc.
  */
-# 47 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 2 3
+# 47 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 2 3
 
 /** \file */
 /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
@@ -8792,8 +8792,8 @@ _delay_loop_2(uint16_t __count)
 
 static __inline__ void _delay_us(double __us) __attribute__((__always_inline__));
 static __inline__ void _delay_ms(double __ms) __attribute__((__always_inline__));
-# 118 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 3
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\math.h" 1 3
+# 118 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/math.h" 1 3
 /* Copyright (c) 2002,2007-2009 Michael Stumpf
 
    Portions of documentation Copyright (c) 1990 - 1994
@@ -8840,7 +8840,7 @@ static __inline__ void _delay_ms(double __ms) __attribute__((__always_inline__))
    that "do not examine any values except their arguments, and have
    no effects except the return value", for better optimization by gcc.
  */
-# 119 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 2 3
+# 119 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 2 3
 
 
 /**
@@ -8897,17 +8897,17 @@ _delay_ms(double __ms)
  uint32_t __ticks_dc;
  extern void __builtin_avr_delay_cycles(unsigned long);
  __tmp = ((
-# 174 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h"
+# 174 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h"
           16000000L
-# 174 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 3
+# 174 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 3
                ) / 1e3) * __ms;
-# 183 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 3
+# 183 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 3
   //round up by default
   __ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 
 
  __builtin_avr_delay_cycles(__ticks_dc);
-# 210 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 3
+# 210 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 3
 }
 
 /**
@@ -8962,27 +8962,27 @@ _delay_us(double __us)
  uint32_t __ticks_dc;
  extern void __builtin_avr_delay_cycles(unsigned long);
  __tmp = ((
-# 263 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h"
+# 263 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h"
           16000000L
-# 263 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 3
+# 263 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 3
                ) / 1e6) * __us;
-# 272 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 3
+# 272 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 3
   //round up by default
   __ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 
 
  __builtin_avr_delay_cycles(__ticks_dc);
-# 299 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\util\\delay.h" 3
+# 299 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/util/delay.h" 3
 }
-# 28 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/USBAPI.h" 2
+# 28 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/USBAPI.h" 2
 
 
-# 29 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/USBAPI.h"
+# 29 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/USBAPI.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 1
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 1
 /*
   Arduino.h - Main include file for the Arduino SDK
   Copyright (c) 2005-2013 Arduino Team.  All right reserved.
@@ -9001,11 +9001,11 @@ typedef unsigned long u32;
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-# 34 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/USBAPI.h" 2
+# 34 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/USBAPI.h" 2
 
 // This definitions is usefull if you want to reduce the EP_SIZE to 16
 // at the moment only 64 and 16 as EP_SIZE for all EPs are supported except the control endpoint
-# 235 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
+# 235 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
 
 
 
@@ -9029,7 +9029,7 @@ long map(long, long, long, long, long);
 
 
 
-# 1 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\variants\\standard/pins_arduino.h" 1
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard/pins_arduino.h" 1
 /*
   pins_arduino.h - Pin definition functions for Arduino
   Part of Arduino - http://www.arduino.cc/
@@ -9055,9 +9055,9 @@ long map(long, long, long, long, long);
 
 
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 1 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 1 3
 
-# 1 "e:\\uni\\p4-program\\core\\precompiledbinaries\\avr\\include\\avr\\pgmspace.h" 3
+# 1 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/tools/avr/avr/include/avr/pgmspace.h" 3
 /* Copyright (c) 2002-2007  Marek Michalkiewicz
    Copyright (c) 2006, Carlos Lamas
    Copyright (c) 2009-2010, Jan Waclawek
@@ -9138,10 +9138,10 @@ long map(long, long, long, long, long);
     command register (\c NVM.CMD or \c NVM_CMD) is set to 0x00 (NOP)
     before using any of these functions.
 */
-# 27 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\variants\\standard/pins_arduino.h" 2
-# 43 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\variants\\standard/pins_arduino.h"
+# 27 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard/pins_arduino.h" 2
+# 43 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard/pins_arduino.h"
 
-# 43 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\variants\\standard/pins_arduino.h"
+# 43 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard/pins_arduino.h"
 static const uint8_t SS = (10);
 static const uint8_t MOSI = (11);
 static const uint8_t MISO = (12);
@@ -9152,7 +9152,7 @@ static const uint8_t SCK = (13);
 
 static const uint8_t SDA = (18);
 static const uint8_t SCL = (19);
-# 65 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\variants\\standard/pins_arduino.h"
+# 65 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard/pins_arduino.h"
 static const uint8_t A0 = (14);
 static const uint8_t A1 = (15);
 static const uint8_t A2 = (16);
@@ -9161,7 +9161,7 @@ static const uint8_t A4 = (18);
 static const uint8_t A5 = (19);
 static const uint8_t A6 = (20);
 static const uint8_t A7 = (21);
-# 236 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\variants\\standard/pins_arduino.h"
+# 236 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard/pins_arduino.h"
 // These serial port names are intended to allow libraries and architecture-neutral
 // sketches to automatically default to the correct port name for a particular type
 // of use.  For example, a GPS module would normally connect to SERIAL_PORT_HARDWARE_OPEN,
@@ -9177,72 +9177,26 @@ static const uint8_t A7 = (21);
 //
 // SERIAL_PORT_HARDWARE_OPEN  Hardware serial ports which are open for use.  Their RX & TX
 //                            pins are NOT connected to anything by default.
-# 259 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino/Arduino.h" 2
-# 2 "E:\\Uni\\P4-program\\Core\\PrecompiledBinaries\\tmp\\sketch\\output.cpp" 2
+# 259 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino/Arduino.h" 2
+# 2 "/home/padi/Documents/Uni/4_semester/P4/P4-program/Core/PrecompiledBinaries/tmp/sketch/output.cpp" 2
 //code generated by the PseudoIno compiler
+void blink();
 void setup();
 void loop();
 void setup()
 {
 pinMode(13, 0x1);
 }
+void blink()
+{
+digitalWrite(13, 0x1);
+delay(1*1000);
+digitalWrite(13, 0x0);
+delay(1*1000);
+
+}
 void loop()
 {
-digitalWrite(13, 1);
-delay(500);
-digitalWrite(13, 0);
-delay(1500);
-digitalWrite(13, 1);
-delay(500);
-digitalWrite(13, 0);
-delay(200);
-digitalWrite(13, 1);
-delay(500);
-digitalWrite(13, 0);
-delay(200);
-digitalWrite(13, 1);
-delay(500);
-digitalWrite(13, 0);
-delay(1500);
-digitalWrite(13, 1);
-delay(200);
-digitalWrite(13, 0);
-delay(500);
-digitalWrite(13, 1);
-delay(500);
-digitalWrite(13, 0);
-delay(500);
-digitalWrite(13, 1);
-delay(200);
-digitalWrite(13, 0);
-delay(1500);
-digitalWrite(13, 1);
-delay(500);
-digitalWrite(13, 0);
-delay(500);
-digitalWrite(13, 1);
-delay(200);
-digitalWrite(13, 0);
-delay(500);
-digitalWrite(13, 1);
-delay(200);
-digitalWrite(13, 0);
-delay(500);
-digitalWrite(13, 1);
-delay(200);
-digitalWrite(13, 0);
-delay(1500);
-digitalWrite(13, 1);
-delay(200);
-digitalWrite(13, 0);
-delay(1500);
-digitalWrite(13, 1);
-delay(500);
-digitalWrite(13, 0);
-delay(500);
-digitalWrite(13, 1);
-delay(200);
-digitalWrite(13, 0);
-delay(1500);
+blink();
 
 }
