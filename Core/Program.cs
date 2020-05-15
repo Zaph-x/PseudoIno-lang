@@ -132,7 +132,7 @@ namespace Core
                         cmds.Add($"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o {path}Core/PrecompiledBinaries/tmp/output.cpp.elf {path}Core/PrecompiledBinaries/tmp/sketch/output.cpp.o {path}Core/PrecompiledBinaries/randomAFile.a -L{path}Core/PrecompiledBinaries/tmp -lm"); //  \\tmp\\..\\core\\core_arduino_avr_pro_cpu_16MHzatmega328_db62bc5f977f010e956e85fb47a0c0b7.a 
                         cmds.Add($"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 {path}Core/PrecompiledBinaries/tmp/output.cpp.elf {path}Core/PrecompiledBinaries/tmp/output.cpp.eep");
                         cmds.Add($"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -R .eeprom {path}Core/PrecompiledBinaries/tmp/output.cpp.elf {path}Core/PrecompiledBinaries/tmp/output.cpp.hex");
-                        cmds.Add($"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avrdude -C{path}Core/PrecompiledBinaries/etc/avrdude.conf -v -patmega328p -carduino -PCOM3 -b115200 -D -Uflash:w:{path}Core/PrecompiledBinaries/tmp/output.cpp.hex:i");
+                        cmds.Add($"{path}Core/PrecompiledBinaries/unix/hardware/tools/avr/bin/avrdude -C{path}Core/PrecompiledBinaries/etc/avrdude.conf -v -patmega328p -carduino -P/dev/ttyACM3 -b115200 -D -Uflash:w:{path}Core/PrecompiledBinaries/tmp/output.cpp.hex:i");
                         RunCommandsUnix(cmds,"");
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
