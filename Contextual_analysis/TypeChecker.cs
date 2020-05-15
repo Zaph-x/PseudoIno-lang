@@ -243,23 +243,23 @@ namespace Contextual_analysis
             TypeContext opctx = (TypeContext)expressionNode.Operator.Accept(this);
             if (rhs == null && opctx == null)
             {
-                return lhs;
+                return expressionNode.SymbolType = lhs;
             }
             if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER, OP_EQUAL))
             {
-                return new TypeContext(BOOL);
+                return expressionNode.SymbolType = new TypeContext(BOOL);
             }
             else if (IsOfTypes(lhs, BOOL) && IsOfTypes(rhs, BOOL) && IsOfTypes(opctx, OP_EQUAL, OP_AND, OP_OR))
             {
-                return new TypeContext(BOOL);
+                return expressionNode.SymbolType = new TypeContext(BOOL);
             }
             else if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_PLUS, OP_MODULO, OP_MINUS, OP_TIMES, OP_DIVIDE))
             {
-                return new TypeContext(NUMERIC) { IsFloat = (lhs.IsFloat || rhs.IsFloat) };
+                return expressionNode.SymbolType = new TypeContext(NUMERIC) { IsFloat = (lhs.IsFloat || rhs.IsFloat) };
             }
             else if (IsOfTypes(opctx, OP_EQUAL))
             {
-                return new TypeContext(BOOL);
+                return expressionNode.SymbolType = new TypeContext(BOOL);
             }
             new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
             return null;
@@ -271,23 +271,23 @@ namespace Contextual_analysis
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
             if (rhs == null && opctx == null)
             {
-                return lhs;
+                return expressionNode.SymbolType = lhs;
             }
             if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER, OP_EQUAL))
             {
-                return new TypeContext(BOOL);
+                return expressionNode.SymbolType = new TypeContext(BOOL);
             }
             else if (IsOfTypes(lhs, BOOL) && IsOfTypes(rhs, BOOL) && IsOfTypes(opctx, OP_EQUAL, OP_AND, OP_OR))
             {
-                return new TypeContext(BOOL);
+                return expressionNode.SymbolType = new TypeContext(BOOL);
             }
             else if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_PLUS, OP_MODULO, OP_MINUS, OP_TIMES, OP_DIVIDE))
             {
-                return new TypeContext(NUMERIC) { IsFloat = (lhs.IsFloat || rhs.IsFloat) };
+                return expressionNode.SymbolType = new TypeContext(NUMERIC) { IsFloat = (lhs.IsFloat || rhs.IsFloat) };
             }
             else if (IsOfTypes(opctx, OP_EQUAL))
             {
-                return new TypeContext(BOOL);
+                return expressionNode.SymbolType = new TypeContext(BOOL);
             }
             new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
             return null;
@@ -299,23 +299,23 @@ namespace Contextual_analysis
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
             if (rhs == null && opctx == null)
             {
-                return lhs;
+                return expressionNode.SymbolType = lhs;
             }
             if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER, OP_EQUAL))
             {
-                return new TypeContext(BOOL);
+                return expressionNode.SymbolType = new TypeContext(BOOL);
             }
             else if (IsOfTypes(lhs, BOOL) && IsOfTypes(rhs, BOOL) && IsOfTypes(opctx, OP_EQUAL, OP_AND, OP_OR))
             {
-                return new TypeContext(BOOL);
+                return expressionNode.SymbolType = new TypeContext(BOOL);
             }
             else if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_PLUS, OP_MODULO, OP_MINUS, OP_TIMES, OP_DIVIDE))
             {
-                return new TypeContext(NUMERIC) { IsFloat = (lhs.IsFloat || rhs.IsFloat) };
+                return expressionNode.SymbolType = new TypeContext(NUMERIC) { IsFloat = (lhs.IsFloat || rhs.IsFloat) };
             }
             else if (IsOfTypes(opctx, OP_EQUAL))
             {
-                return new TypeContext(BOOL);
+                return expressionNode.SymbolType = new TypeContext(BOOL);
             }
             new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
             return null;
@@ -328,7 +328,7 @@ namespace Contextual_analysis
             {
                 lhs = CurrentScope.FindSymbol(expressionNode.LeftHand as VarNode);
             }
-            return lhs;
+            return expressionNode.SymbolType = lhs;
         }
 
         public override object Visit(ForNode forNode)
@@ -337,8 +337,10 @@ namespace Contextual_analysis
             CurrentScope = GlobalScope.FindChild($"LOOPF_{forNode.Line}");
             TypeContext fromType = (TypeContext)forNode.From.Accept(this);
             TypeContext toType = (TypeContext)forNode.To.Accept(this);
+            CurrentScope.Symbols.Add(new Symbol(forNode.CountingVariable.Id,TokenType.NUMERIC, false, forNode.CountingVariable));
             if (fromType.Type != toType.Type)
                 new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
+            forNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
