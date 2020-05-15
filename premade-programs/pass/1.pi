@@ -5,6 +5,6 @@ should also be accepted >#
 a is 4
 b is 6
 c is a + b
-func test with x, y, z
-    return x + y equal z
+func test
+    return a + b equal c
 end test
