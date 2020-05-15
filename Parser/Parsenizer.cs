@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Security;
@@ -849,7 +850,12 @@ namespace Parser
                 case 116:
                     Current = new FuncNode(CurrentLine, CurrentOffset);
                     ((ProgramNode)TopScope()).FunctionDefinitons.Add((FuncNode)Current);
+                    try {
                     _builder.OpenScope(token, $"func_{Tokens[Index + 1].Value}");
+                    } catch (IndexOutOfRangeException)
+                    {
+                        new InvalidProgramException($"Function definitions must have a function name at {CurrentLine}:{CurrentOffset}");
+                    }
                     Scopes.Push(Current);
                     break;
                 case 111:
