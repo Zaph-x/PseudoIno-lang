@@ -155,5 +155,9 @@ fabric.properties
 **/[Oo]bj/
 **/[Dd]ebug]/
 **/[Bb]in/
+
+/.vs/Project
+
 !Core/PrecompiledBinaries/**
 **/tmp/**
+
