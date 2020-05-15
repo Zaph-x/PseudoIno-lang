@@ -287,13 +287,13 @@ namespace CodeGeneration
             throw new NotImplementedException();
         }
 
-        public override object Visit(EqualNode equalNode)
+        public override object Visit(EqualsNode equalsNode)
         {
             //PrintStringToFile(" = ");
             return " = ";
         }
 
-        public override object Visit(EqualsNode equalsNode)
+        public override object Visit(EqualNode equalNode)
         {
             //PrintStringToFile(" == ");
             return " == ";
