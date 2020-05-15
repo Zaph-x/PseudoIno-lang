@@ -8,3 +8,5 @@ c is a + b
 func test
     return a + b equal c
 end test
+func loop
+end loop
