@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection.Metadata;
 using AbstractSyntaxTree.Objects.Nodes;
 using System.Linq;
