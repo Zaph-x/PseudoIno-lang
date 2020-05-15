@@ -870,10 +870,13 @@ namespace Parser
                 case 114:
                     Scopes.Pop();
                     Current = new ElseifStatementNode(CurrentLine, CurrentOffset);
+                    ExpressionNode expr114 = new NoParenExpression(CurrentLine, CurrentOffset);
+                    ((ElseifStatementNode)Current).Expression = expr114;
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
                     _builder.CloseScope();
                     _builder.OpenScope(token, $"{token}_{CurrentLine}");
                     Scopes.Push(Current);
+                    Current = expr114;
                     break;
                 case 124:
                 case 127:
