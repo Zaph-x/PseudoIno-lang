@@ -15,6 +15,7 @@ namespace CodeGeneration
     public class CodeGenerationVisitor : Visitor
     {
         private string Header { get; set; }
+        private string Declarations { get; set; }
         private string Global { get; set; }
         private string Prototypes { get; set; }
         private string Setup { get; set; }
@@ -50,7 +51,7 @@ namespace CodeGeneration
             }
 
             Setup += "}\n";
-            content += Header + Global + Prototypes + Setup + Funcs + Loop;
+            content += Header + Global + Prototypes + Declarations + Setup + Funcs + Loop;
             using (StreamWriter writer = File.AppendText(FileName))
             {
                 writer.Write(content);
@@ -334,7 +335,19 @@ namespace CodeGeneration
             if (programNode.Statements.Any())
             {
                 programNode.Statements.ForEach(node => node.Parent = programNode);
-                programNode.Statements.ForEach(node => setupString += node.Accept(this));
+                foreach (var node in programNode.Statements)
+                {
+                    if (node.Type == TokenType.ASSIGNMENT)
+                    {
+                        if (((VarNode)((AssignmentNode)node).LeftHand).Declaration)
+                        {
+                            Declarations += node.Accept(this);
+                            continue;
+                        }
+                    }
+                    setupString += node.Accept(this);
+                }
+                //programNode.Statements.ForEach(node => setupString += node.Accept(this));
             }
             //setupString += "}\n";
             PrintToSetup(setupString);
