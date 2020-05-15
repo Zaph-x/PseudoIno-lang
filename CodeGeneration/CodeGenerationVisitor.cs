@@ -15,7 +15,7 @@ namespace CodeGeneration
 {
     public class CodeGenerationVisitor : Visitor
     {
-        public static bool HasError {get;set;} = false;
+        public static bool HasError { get; set; } = false;
         private string Header { get; set; }
         private string Declarations { get; set; }
         private string Global { get; set; }
@@ -23,9 +23,9 @@ namespace CodeGeneration
         private string Setup { get; set; }
         private string Funcs { get; set; }
         private string Loop { get; set; }
-        
+
         private string FileName { get; set; }
-        
+
         private List<string> PinDefs = new List<string>();
 
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
@@ -133,10 +133,10 @@ namespace CodeGeneration
             {
                 string pinDef = "pinMode(" + assignmentNode.LeftHand.Accept(this) + ", OUTPUT);";
                 PinDefs.Add(pinDef);
-                
+
                 assign += "digitalWrite(" + assignmentNode.LeftHand.Accept(this) + ", ";
                 string boolValue = assignmentNode.RightHand.Accept(this) + ")";
-                assign +=boolValue== " 1)"? "HIGH)" : "LOW)";
+                assign += boolValue == " 1)" ? "HIGH)" : "LOW)";
             }
             else if (assignmentNode.LeftHand.Type == TokenType.APIN)
             {
@@ -145,8 +145,11 @@ namespace CodeGeneration
 
                 assign += "analogWrite(" + assignmentNode.LeftHand.Accept(this) + ", ";
                 string boolValue = assignmentNode.RightHand.Accept(this) + ")";
-                assign += boolValue == " 1)" ? "255)" : "0)";
-                
+                if (assignmentNode.RightHand.SymbolType.Type == TokenType.NUMERIC)
+                    assign += boolValue;
+                else
+                    assign += boolValue == " 1)" ? "255)" : "0)";
+
             }
             else
             {
@@ -155,8 +158,8 @@ namespace CodeGeneration
                 // assignmentNode.Operator.Accept(this);
                 assign += (string)assignmentNode.RightHand.Accept(this);
             }
-            
-            
+
+
             assign += ";\n";
             return assign;
         }
@@ -492,7 +495,7 @@ namespace CodeGeneration
             //funcNode.Name.Accept(this);
             func += funcNode.Name.Id + "(";
 
-            funcNode.FunctionParameters.ForEach(node => func += findFuncInputparam(node, funcNode) + node.Accept(this) +(funcNode.FunctionParameters.IndexOf(node)< funcNode.FunctionParameters.Count-1? ", ":" "));
+            funcNode.FunctionParameters.ForEach(node => func += findFuncInputparam(node, funcNode) + node.Accept(this) + (funcNode.FunctionParameters.IndexOf(node) < funcNode.FunctionParameters.Count - 1 ? ", " : " "));
 
             func += ")";
             Global += func + ";";
@@ -506,7 +509,7 @@ namespace CodeGeneration
             func += "\n}\n";
             return func;
         }
-    
+
         private string findFuncInputparam(VarNode functionsParam, FuncNode function)
         {
             VarNode param = function.FunctionParameters.Find(x => x.Id == functionsParam.Id);
