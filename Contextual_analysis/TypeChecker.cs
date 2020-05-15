@@ -167,6 +167,10 @@ namespace Contextual_analysis
                 GlobalScope.FunctionDefinitions.Add(func);
                 func.Accept(this);
             });
+            if (programNode.LoopFunction == null) {
+                new NotDefinedException("Loop function was not defined.");
+                return null;
+            }
             programNode.LoopFunction.Accept(this);
             return null;
         }
@@ -260,7 +264,7 @@ namespace Contextual_analysis
             new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
             return null;
         }
-        public override object Visit(NoParenExpression expressionNode)
+        public override object Visit(BinaryExpression expressionNode)
         {
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
             TypeContext rhs = (TypeContext)expressionNode.RightHand?.Accept(this);
