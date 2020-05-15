@@ -355,7 +355,7 @@ namespace Contextual_analysis
                 }
                 stmnt.Accept(this);
             });
-            if (funcNode.Statements.Last().Type == TokenType.RETURN)
+            if (funcNode.Statements.Any() && funcNode.Statements.Last().Type == TokenType.RETURN)
             {
                 {
                     funcNode.SymbolType = (TypeContext)funcNode.Statements.Last().Accept(this);
