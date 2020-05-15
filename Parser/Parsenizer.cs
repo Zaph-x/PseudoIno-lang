@@ -154,7 +154,7 @@ namespace Parser
                     {
                         symbolNode = new VarNode(token.Value, token) { SymbolType = new TypeContext(VAR) };
                         ((AssignmentNode)Current).LeftHand = (ITerm)symbolNode;
-                        ((AssignmentNode)Current).RightHand = new NoParenExpression(token);
+                        ((AssignmentNode)Current).RightHand = new BinaryExpression(token);
                         _builder.AddSymbol(symbolNode);
                         break;
                     }
@@ -162,7 +162,7 @@ namespace Parser
                     {
                         symbolNode = new APinNode(token.Value, token) { SymbolType = new TypeContext(NUMERIC) };
                         ((AssignmentNode)Current).LeftHand = (ITerm)symbolNode;
-                        ((AssignmentNode)Current).RightHand = new NoParenExpression(token);
+                        ((AssignmentNode)Current).RightHand = new BinaryExpression(token);
                         _builder.AddSymbol(symbolNode);
                         break;
                     }
@@ -170,7 +170,7 @@ namespace Parser
                     {
                         symbolNode = new DPinNode(token.Value, token) { SymbolType = new TypeContext(BOOL) };
                         ((AssignmentNode)Current).LeftHand = (ITerm)symbolNode;
-                        ((AssignmentNode)Current).RightHand = new NoParenExpression(token);
+                        ((AssignmentNode)Current).RightHand = new BinaryExpression(token);
                         _builder.AddSymbol(symbolNode);
                         break;
                     }
@@ -178,14 +178,14 @@ namespace Parser
                     ((FuncNode)TopScope()).Name = new VarNode(token.Value, token);
                     break;
                 case 126:
-                    ((WhileNode)TopScope()).Expression = new NoParenExpression(token.Line, token.Offset);
+                    ((WhileNode)TopScope()).Expression = new BinaryExpression(token.Line, token.Offset);
                     break;
 
                 #region Assignables
                 case 101:
                     if (Current.Type == ASSIGNMENT)
                     {
-                        IExpr expr = new NoParenExpression(token);
+                        IExpr expr = new BinaryExpression(token);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
                         ((IExpr)((AssignmentNode)Current).RightHand).LeftHand = new NumericNode(token.Value, token);
                     }
@@ -221,7 +221,7 @@ namespace Parser
                 case 102:
                     if (Current.Type == ASSIGNMENT)
                     {
-                        IExpr expr = new NoParenExpression(token);
+                        IExpr expr = new BinaryExpression(token);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
                         ((IExpr)((AssignmentNode)Current).RightHand).LeftHand = new VarNode(token.Value, token);
                     }
@@ -256,7 +256,7 @@ namespace Parser
                 case 103:
                     if (Current.Type == ASSIGNMENT)
                     {
-                        IExpr expr = new NoParenExpression(token);
+                        IExpr expr = new BinaryExpression(token);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
                         ((IExpr)((AssignmentNode)Current).RightHand).LeftHand = new APinNode(token.Value, token);
                     }
@@ -292,7 +292,7 @@ namespace Parser
                 case 104:
                     if (Current.Type == ASSIGNMENT)
                     {
-                        IExpr expr = new NoParenExpression(token);
+                        IExpr expr = new BinaryExpression(token);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
                         ((IExpr)((AssignmentNode)Current).RightHand).LeftHand = new DPinNode(token.Value, token);
                     }
@@ -317,7 +317,7 @@ namespace Parser
                 case 106:
                     if (Current.Type == ASSIGNMENT)
                     {
-                        IExpr expr = new NoParenExpression(token);
+                        IExpr expr = new BinaryExpression(token);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
                         ((IExpr)((AssignmentNode)Current).RightHand).LeftHand = new StringNode(token.Value, token);
                     }
@@ -343,7 +343,7 @@ namespace Parser
                     token.Value = "-" + token.Value;
                     if (Current.Type == ASSIGNMENT)
                     {
-                        IExpr expr = new NoParenExpression(token);
+                        IExpr expr = new BinaryExpression(token);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
                         ((IExpr)((AssignmentNode)Current).RightHand).LeftHand = new NumericNode(token.Value, token);
                     }
@@ -368,7 +368,7 @@ namespace Parser
                 case 105:
                     if (Current.Type == ASSIGNMENT)
                     {
-                        IExpr expr = new NoParenExpression(token);
+                        IExpr expr = new BinaryExpression(token);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
                         ((IExpr)((AssignmentNode)Current).RightHand).LeftHand = new BoolNode(token.Value, token);
                     }
@@ -852,7 +852,7 @@ namespace Parser
                     Scopes.Push(Current);
                     break;
                 case 111:
-                    ExpressionNode expr111 = new NoParenExpression(CurrentLine, CurrentOffset);
+                    ExpressionNode expr111 = new BinaryExpression(CurrentLine, CurrentOffset);
                     Current = new IfStatementNode(CurrentLine, CurrentOffset) { Expression = expr111 };
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
                     _builder.OpenScope(token, $"{token}_{CurrentLine}");
@@ -870,7 +870,7 @@ namespace Parser
                 case 114:
                     Scopes.Pop();
                     Current = new ElseifStatementNode(CurrentLine, CurrentOffset);
-                    ExpressionNode expr114 = new NoParenExpression(CurrentLine, CurrentOffset);
+                    ExpressionNode expr114 = new BinaryExpression(CurrentLine, CurrentOffset);
                     ((ElseifStatementNode)Current).Expression = expr114;
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
                     _builder.CloseScope();
@@ -896,7 +896,7 @@ namespace Parser
                 case 120:
                     Current = TopScope();
                     ReturnNode retNode = new ReturnNode(CurrentLine, CurrentOffset);
-                    IExpr expr120 = new NoParenExpression(CurrentLine, CurrentOffset);
+                    IExpr expr120 = new BinaryExpression(CurrentLine, CurrentOffset);
                     retNode.ReturnValue = (ExpressionNode)expr120;
                     ((FuncNode)Current).Statements.Add(retNode);
                     Current = (ExpressionNode)expr120;

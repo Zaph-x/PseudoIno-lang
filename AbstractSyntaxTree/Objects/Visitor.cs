@@ -64,7 +64,7 @@ namespace AbstractSyntaxTree.Objects
         public abstract object Visit(RangeNode rangeNode);
         public abstract object Visit(ReturnNode returnNode);
         public abstract object Visit(ExpressionTerm expressionTermNode);
-        public abstract object Visit(NoParenExpression noParenExpression);
+        public abstract object Visit(BinaryExpression noParenExpression);
         public abstract object Visit(ParenthesisExpression parenthesisExpression);
         public abstract object Visit(BoolNode boolNode);
     }

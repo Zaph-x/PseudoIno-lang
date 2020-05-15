@@ -440,7 +440,7 @@ namespace AbstractSyntaxTree.Objects
             throw new NotImplementedException();
         }
 
-        public override object Visit(NoParenExpression noParenExpression)
+        public override object Visit(BinaryExpression noParenExpression)
         {
             throw new NotImplementedException();
         }

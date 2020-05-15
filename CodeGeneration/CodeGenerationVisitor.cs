@@ -670,7 +670,7 @@ namespace CodeGeneration
             return exp;
         }
 
-        public override object Visit(NoParenExpression noParenExpression)
+        public override object Visit(BinaryExpression noParenExpression)
         {
             string exp = "";
             exp += noParenExpression.LeftHand.Accept(this);
