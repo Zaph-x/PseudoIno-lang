@@ -134,13 +134,13 @@ namespace Contextual_analysis
 
         public override object Visit(EqualNode equalNode)
         {
-            return new TypeContext(BOOL);
+            return new TypeContext(OP_EQUAL);
 
         }
 
         public override object Visit(EqualsNode equalsNode)
         {
-            return new TypeContext(BOOL);
+            return new TypeContext(OP_EQUAL);
 
         }
 

@@ -185,9 +185,10 @@ namespace Parser
                 case 101:
                     if (Current.Type == ASSIGNMENT)
                     {
-                        IExpr expr = new BinaryExpression(token);
+                        IExpr expr = new BinaryExpression(CurrentLine, CurrentOffset);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
-                        ((IExpr)((AssignmentNode)Current).RightHand).LeftHand = new NumericNode(token.Value, token);
+                        expr.LeftHand = new NumericNode(token.Value, token);
+                        Current = (BinaryExpression)expr;
                     }
                     else if (Current.Type == EXPR)
                     {

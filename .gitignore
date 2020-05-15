@@ -155,5 +155,5 @@ fabric.properties
 **/[Oo]bj/
 **/[Dd]ebug]/
 **/[Bb]in/
-!Core/PrecompiledBinaries/**
+!/Core/PrecompiledBinaries/**
 **/tmp/**

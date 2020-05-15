@@ -4,65 +4,25 @@ void setup();
 void loop();
 void setup()
 {
-pinMode(13, OUTPUT);
+int brightness = 0;
+int amountToAdd = 5;
+int a = 2 + 5;
+pinMode(A9, OUTPUT);
 }
 void loop()
 {
-digitalWrite(13,  1);
-delay(500);
-digitalWrite(13,  0);
-delay(1500);
-digitalWrite(13,  1);
-delay(500);
-digitalWrite(13,  0);
-delay(200);
-digitalWrite(13,  1);
-delay(500);
-digitalWrite(13,  0);
-delay(200);
-digitalWrite(13,  1);
-delay(500);
-digitalWrite(13,  0);
-delay(1500);
-digitalWrite(13,  1);
-delay(200);
-digitalWrite(13,  0);
-delay(500);
-digitalWrite(13,  1);
-delay(500);
-digitalWrite(13,  0);
-delay(500);
-digitalWrite(13,  1);
-delay(200);
-digitalWrite(13,  0);
-delay(1500);
-digitalWrite(13,  1);
-delay(500);
-digitalWrite(13,  0);
-delay(500);
-digitalWrite(13,  1);
-delay(200);
-digitalWrite(13,  0);
-delay(500);
-digitalWrite(13,  1);
-delay(200);
-digitalWrite(13,  0);
-delay(500);
-digitalWrite(13,  1);
-delay(200);
-digitalWrite(13,  0);
-delay(1500);
-digitalWrite(13,  1);
-delay(200);
-digitalWrite(13,  0);
-delay(1500);
-digitalWrite(13,  1);
-delay(500);
-digitalWrite(13,  0);
-delay(500);
-digitalWrite(13,  1);
-delay(200);
-digitalWrite(13,  0);
-delay(1500);
+analogWrite(A9, 0);
+if((brightness < 0) || (brightness > 255)){
+amountToAdd = -1;
+
+}
+else{
+
+}
+else if ((amountToAdd < 2)){
+amountToAdd = 0;
+
+}
+delay(30);
 
 }
