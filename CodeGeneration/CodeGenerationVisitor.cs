@@ -128,13 +128,24 @@ namespace CodeGeneration
         public override object Visit(AssignmentNode assignmentNode)
         {
             string assign = "";
-            if (assignmentNode.LeftHand.Type == TokenType.DPIN || assignmentNode.LeftHand.Type == TokenType.APIN)
+            if (assignmentNode.LeftHand.Type == TokenType.DPIN)
             {
                 string pinDef = "pinMode(" + assignmentNode.LeftHand.Accept(this) + ", OUTPUT);";
                 PinDefs.Add(pinDef);
                 
                 assign += "digitalWrite(" + assignmentNode.LeftHand.Accept(this) + ", ";
-                assign += assignmentNode.RightHand.Accept(this) + ")";
+                string boolValue = assignmentNode.RightHand.Accept(this) + ")";
+                assign +=boolValue== " 1)"? "HIGH)" : "LOW)";
+            }
+            else if (assignmentNode.LeftHand.Type == TokenType.APIN)
+            {
+                string pinDef = "pinMode(" + assignmentNode.LeftHand.Accept(this) + ", OUTPUT);";
+                PinDefs.Add(pinDef);
+
+                assign += "analogWrite(" + assignmentNode.LeftHand.Accept(this) + ", ";
+                string boolValue = assignmentNode.RightHand.Accept(this) + ")";
+                assign += boolValue == " 1)" ? "255)" : "0)";
+                
             }
             else
             {
