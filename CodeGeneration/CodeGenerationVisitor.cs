@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using AbstractSyntaxTree.Objects;
 using AbstractSyntaxTree.Objects.Nodes;
+using CodeGeneration.Exceptions;
 using Contextual_analysis;
 using Contextual_analysis.Exceptions;
 using Lexer.Objects;
@@ -14,6 +15,7 @@ namespace CodeGeneration
 {
     public class CodeGenerationVisitor : Visitor
     {
+        public static bool HasError {get;set;} = false;
         private string Header { get; set; }
         private string Global { get; set; }
         private string Prototypes { get; set; }
@@ -176,7 +178,8 @@ namespace CodeGeneration
                 case TokenType.TIME_MS:
                     break;
                 default:
-                    throw new InvalidTypeException($"Invalid timemodifier exception at{waitNode.TimeModifier.Line}:{waitNode.TimeModifier.Offset}. Time parameter not specified.");
+                    new InvalidCodeException($"Invalid timemodifier exception at{waitNode.TimeModifier.Line}:{waitNode.TimeModifier.Offset}. Time parameter not specified.");
+                    break;
             }
             delay += ");\n";
             return delay;
@@ -458,7 +461,8 @@ namespace CodeGeneration
                     func += "string ";
                     break;
                 default:
-                    throw new InvalidTypeException($"Invalid return type in function {funcNode.Name.Id} at {funcNode.Line}:{funcNode.Offset}");
+                    new InvalidCodeException($"Invalid return type in function {funcNode.Name.Id} at {funcNode.Line}:{funcNode.Offset}");
+                    break;
             }
 
             //funcNode.Name.Accept(this);
@@ -500,7 +504,8 @@ namespace CodeGeneration
             }
             else
             {
-                throw new InvalidTypeException($"The function{function.Name} input parameter {functionsParam.Id} at {functionsParam.Line}:{functionsParam.Offset} is not used.");
+                new InvalidCodeException($"The function{function.Name} input parameter {functionsParam.Id} at {functionsParam.Line}:{functionsParam.Offset} is not used.");
+                return "";
             }
 
 
