@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Reflection.Metadata;
 using AbstractSyntaxTree.Objects.Nodes;
 using System.Linq;
@@ -134,13 +134,13 @@ namespace Contextual_analysis
 
         public override object Visit(EqualNode equalNode)
         {
-            return new TypeContext(BOOL);
+            return new TypeContext(OP_EQUAL);
 
         }
 
         public override object Visit(EqualsNode equalsNode)
         {
-            return new TypeContext(BOOL);
+            return new TypeContext(OP_EQUAL);
 
         }
 
@@ -167,6 +167,10 @@ namespace Contextual_analysis
                 GlobalScope.FunctionDefinitions.Add(func);
                 func.Accept(this);
             });
+            if (programNode.LoopFunction == null) {
+                new NotDefinedException("Loop function was not defined.");
+                return null;
+            }
             programNode.LoopFunction.Accept(this);
             return null;
         }
@@ -260,7 +264,7 @@ namespace Contextual_analysis
             new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
             return null;
         }
-        public override object Visit(NoParenExpression expressionNode)
+        public override object Visit(BinaryExpression expressionNode)
         {
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
             TypeContext rhs = (TypeContext)expressionNode.RightHand?.Accept(this);
@@ -333,10 +337,8 @@ namespace Contextual_analysis
             CurrentScope = GlobalScope.FindChild($"LOOPF_{forNode.Line}");
             TypeContext fromType = (TypeContext)forNode.From.Accept(this);
             TypeContext toType = (TypeContext)forNode.To.Accept(this);
-            if (fromType != toType)
+            if (fromType.Type != toType.Type)
                 new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
-            if (int.Parse(forNode.From.Value) > int.Parse(forNode.To.Value))
-                new InvalidRangeException($"Invalid range in range at {forNode.Line}:{forNode.Offset}");
             CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
@@ -444,7 +446,7 @@ namespace Contextual_analysis
 
         public override object Visit(ElseStatementNode elseStatement)
         {
-            CurrentScope = GlobalScope.FindChild($"{elseStatement.Type}_{elseStatement.Line}");
+            CurrentScope = GlobalScope.FindChild($"ELSESTMNT_{elseStatement.Line}");
             elseStatement.Statements.ForEach(stmnt => stmnt.Accept(this));
             CurrentScope = CurrentScope?.Parent ?? GlobalScope;
             return null;

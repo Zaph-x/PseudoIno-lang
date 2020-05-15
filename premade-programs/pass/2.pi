@@ -1,33 +1,6 @@
-call a
-a is on
-b is 4
 func loop
-    a is a + 1
-    call foo with 3
-    wait 4s
-    a is a + 1
+  dpin13 is on
+  wait 1s
+  dpin13 is off
+  wait 1s
 end loop
-dpin4 is b and (4 or (a less (3 + 5)))
-
-if a equal b do
-    if b equal c do
-        a is 4
-    end if
-else if b equal c do
-    b is 4
-else
-    c is 4
-end if
-d is c less 4
-call foo
-f is call foo with 23
-
-func foo with c, d
-    begin while c less (6 + 5) do
-        c is c + 1
-    end while
-    begin for x in 1..21 do
-        x is 21
-    end for
-    return 3
-end foo

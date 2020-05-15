@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AbstractSyntaxTree.Objects;
 using AbstractSyntaxTree.Objects.Nodes;
+using CodeGeneration.Exceptions;
 using Contextual_analysis;
 using Contextual_analysis.Exceptions;
 using Lexer.Objects;
@@ -14,6 +15,7 @@ namespace CodeGeneration
 {
     public class CodeGenerationVisitor : Visitor
     {
+        public static bool HasError {get;set;} = false;
         private string Header { get; set; }
         private string Declarations { get; set; }
         private string Global { get; set; }
@@ -188,7 +190,8 @@ namespace CodeGeneration
                 case TokenType.TIME_MS:
                     break;
                 default:
-                    throw new InvalidTypeException($"Invalid timemodifier exception at{waitNode.TimeModifier.Line}:{waitNode.TimeModifier.Offset}. Time parameter not specified.");
+                    new InvalidCodeException($"Invalid timemodifier exception at{waitNode.TimeModifier.Line}:{waitNode.TimeModifier.Offset}. Time parameter not specified.");
+                    break;
             }
             delay += ");\n";
             return delay;
@@ -285,13 +288,13 @@ namespace CodeGeneration
             throw new NotImplementedException();
         }
 
-        public override object Visit(EqualNode equalNode)
+        public override object Visit(EqualsNode equalsNode)
         {
             //PrintStringToFile(" = ");
             return " = ";
         }
 
-        public override object Visit(EqualsNode equalsNode)
+        public override object Visit(EqualNode equalNode)
         {
             //PrintStringToFile(" == ");
             return " == ";
@@ -482,7 +485,8 @@ namespace CodeGeneration
                     func += "string ";
                     break;
                 default:
-                    throw new InvalidTypeException($"Invalid return type in function {funcNode.Name.Id} at {funcNode.Line}:{funcNode.Offset}");
+                    new InvalidCodeException($"Invalid return type in function {funcNode.Name.Id} at {funcNode.Line}:{funcNode.Offset}");
+                    break;
             }
 
             //funcNode.Name.Accept(this);
@@ -505,26 +509,28 @@ namespace CodeGeneration
     
         private string findFuncInputparam(VarNode functionsParam, FuncNode function)
         {
+            VarNode param = function.FunctionParameters.Find(x => x.Id == functionsParam.Id);
 
-            SymbolTableObject inputparameters = GlobalScope.FindChild("func_" + function.Name);
-
-            Symbol funcparamtype = inputparameters.Symbols.Find(x => x.Name == functionsParam.Id);
-
-            if (funcparamtype.AstNode.SymbolType.IsFloat)
+            if (param.SymbolType.IsFloat)
             {
                 return "float ";
             }
-            else if (funcparamtype.AstNode.SymbolType.Type == TokenType.BOOL)
+            else if (param.SymbolType.Type == TokenType.BOOL)
             {
                 return "bool ";
             }
-            else if (!funcparamtype.AstNode.SymbolType.IsFloat)
+            else if (!param.SymbolType.IsFloat)
             {
                 return "int ";
             }
+            else if (param.SymbolType.Type == TokenType.STRING)
+            {
+                return "String ";
+            }
             else
             {
-                throw new InvalidTypeException($"The function{function.Name} input parameter {functionsParam.Id} at {functionsParam.Line}:{functionsParam.Offset} is not used.");
+                new InvalidCodeException($"The function{function.Name} input parameter {functionsParam.Id} at {functionsParam.Line}:{functionsParam.Offset} is not used.");
+                return "";
             }
 
 
@@ -678,7 +684,7 @@ namespace CodeGeneration
             return exp;
         }
 
-        public override object Visit(NoParenExpression noParenExpression)
+        public override object Visit(BinaryExpression noParenExpression)
         {
             string exp = "";
             exp += noParenExpression.LeftHand.Accept(this);

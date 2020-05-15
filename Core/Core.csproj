@@ -5,6 +5,9 @@
     <ProjectReference Include="..\Lexer\Lexer.csproj" />
     <ProjectReference Include="..\Parser\Parser.csproj" />
     <Content Include="boilerplate" CopyToOutputDirectory="Always" />
+    <Content Include="PrecompiledBinaries\**"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
+    </Content> 
   </ItemGroup>
 
   <ItemGroup>

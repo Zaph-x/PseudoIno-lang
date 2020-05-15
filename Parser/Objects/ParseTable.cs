@@ -164,6 +164,7 @@ namespace Parser.Objects
             this[FOLLOWFACTOR, OP_MODULO] = new ParseAction(66,FACTOROP, TERM);
             this[FOLLOWFACTOR, OP_TIMES] = new ParseAction(67,FACTOROP, TERM);
             this[FOLLOWFACTOR, OP_PLUS] = new ParseAction(90036);
+            this[FOLLOWFACTOR, OP_MINUS] = new ParseAction(90036);
             this[FOLLOWFACTOR, OP_RPAREN] = new ParseAction(90037);
             this[FOLLOWFACTOR, MULT_COMNT] = new ParseAction(90038);
             this[FOLLOWFACTOR, COMMENT] = new ParseAction(90039);
@@ -204,6 +205,8 @@ namespace Parser.Objects
             this[ARRAYACCESSING, OP_RPAREN] = new ParseAction(0);
             this[ARRAYACCESSING, COMMENT] = new ParseAction(0);
             this[ARRAYACCESSING, MULT_COMNT] = new ParseAction(0);
+            this[ARRAYACCESSING, APIN] = new ParseAction(0);
+            this[ARRAYACCESSING, DPIN] = new ParseAction(0);
 
             this[INDEXER, VAR] = new ParseAction(76,VAR);
             this[INDEXER, NUMERIC] = new ParseAction(77,NUMERIC);

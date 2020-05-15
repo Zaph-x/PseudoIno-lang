@@ -2,20 +2,20 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class NoParenExpression : ExpressionNode, IExpr
+    public class BinaryExpression : ExpressionNode, IExpr
     {
         public ITerm LeftHand { get; set; }
         public new OperatorNode Operator { get; set; }
         public IExpr RightHand { get; set; }
-        public NoParenExpression(ScannerToken token) : base(token)
+        public BinaryExpression(ScannerToken token) : base(token)
         {
         }
 
-        public NoParenExpression(TokenType type, ScannerToken token) : base(type, token)
+        public BinaryExpression(TokenType type, ScannerToken token) : base(type, token)
         {
         }
 
-        public NoParenExpression(int line, int offset) : base(TokenType.EXPR, line, offset)
+        public BinaryExpression(int line, int offset) : base(TokenType.EXPR, line, offset)
         {
         }
 

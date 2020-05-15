@@ -54,24 +54,15 @@ end loop";
         @"# Builtin led is on digital pin 13
 
 func trigger with a, b, c
-    g is 4
     brightness is 0
     amountToAdd is 5
     if (brightness less or equal 0) or (brightness greater or equal 255) do
-        amountToAdd is amountToAdd* -1
+        amountToAdd is amountToAdd * -1
     else if (brightness equal 0) do
         amountToAdd is 1
     else 
         amountToAdd is 5
     end if
-    dpin13 is on
-    wait 1s
-    dpin13 is off
-    wait 1s
-    a is on
-    b is 3.3
-    c is 1
-    return b
 end trigger
 
 func loop
@@ -95,7 +86,7 @@ func loop
   call blink
 end loop";
 
-        //kan køre
+        //kan kï¿½re
         private const string whilestatment =
 @"#while statement test
 func trigger with g
@@ -144,7 +135,7 @@ g is 0
   call trigger with g
 end loop";
 
-        //kan ikke køre 
+        //kan ikke kï¿½re 
         private const string whilestatment3 =
       @"#while statement test
 func trigger with g

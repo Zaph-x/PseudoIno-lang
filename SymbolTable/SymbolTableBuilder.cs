@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Lexer.Exceptions;
 using Lexer.Objects;
 using System.Collections;

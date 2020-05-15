@@ -437,17 +437,33 @@ namespace AbstractSyntaxTree.Objects
 
         public override object Visit(ExpressionTerm expressionTermNode)
         {
-            throw new NotImplementedException();
+            Print("ExpressionTerm");
+            Indent++;
+            expressionTermNode.LeftHand.Accept(this);
+            Indent--;
+            return null;
         }
 
-        public override object Visit(NoParenExpression noParenExpression)
+        public override object Visit(BinaryExpression binaryExpression)
         {
-            throw new NotImplementedException();
+            Print("BinaryExpression");
+            Indent++;
+            binaryExpression.LeftHand.Accept(this);
+            binaryExpression.Operator?.Accept(this);
+            binaryExpression.RightHand?.Accept(this);
+            Indent--;
+            return null;
         }
 
         public override object Visit(ParenthesisExpression parenthesisExpression)
         {
-            throw new NotImplementedException();
+            Print("ParenthesisExpression");
+            Indent++;
+            parenthesisExpression.LeftHand.Accept(this);
+            parenthesisExpression.Operator?.Accept(this);
+            parenthesisExpression.RightHand?.Accept(this);
+            Indent--;
+            return null;
         }
 
         public override object Visit(FollowTermNode followTermNode)

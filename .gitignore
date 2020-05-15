@@ -158,6 +158,6 @@ fabric.properties
 
 /.vs/Project
 
-!Core/PrecompiledBinaries/**
+!/Core/PrecompiledBinaries/**
 **/tmp/**
 
