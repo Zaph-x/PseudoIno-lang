@@ -68,8 +68,6 @@ namespace Parser
                 TokenType top = Stack.Pop();
                 TokenType token = Tokens[Index].Type;
                 CurrentLine = Tokens[Index].Line;
-                if (token == OP_RPAREN)
-                    System.Console.WriteLine("RPAREN");
                 CurrentOffset = Tokens[Index].Offset;
                 verbosity += $"Token: {token} Top: {TopOfStack()}".PadRight(35, ' ');
                 if (TokenTypeExpressions.IsTerminal(top))
