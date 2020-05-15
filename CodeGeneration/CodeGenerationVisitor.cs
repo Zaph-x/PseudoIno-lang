@@ -496,22 +496,23 @@ namespace CodeGeneration
     
         private string findFuncInputparam(VarNode functionsParam, FuncNode function)
         {
+            VarNode param = function.FunctionParameters.Find(x => x.Id == functionsParam.Id);
 
-            SymbolTableObject inputparameters = GlobalScope.FindChild("func_" + function.Name);
-
-            Symbol funcparamtype = inputparameters.Symbols.Find(x => x.Name == functionsParam.Id);
-
-            if (funcparamtype.AstNode.SymbolType.IsFloat)
+            if (param.SymbolType.IsFloat)
             {
                 return "float ";
             }
-            else if (funcparamtype.AstNode.SymbolType.Type == TokenType.BOOL)
+            else if (param.SymbolType.Type == TokenType.BOOL)
             {
                 return "bool ";
             }
-            else if (!funcparamtype.AstNode.SymbolType.IsFloat)
+            else if (!param.SymbolType.IsFloat)
             {
                 return "int ";
+            }
+            else if (param.SymbolType.Type == TokenType.STRING)
+            {
+                return "String ";
             }
             else
             {

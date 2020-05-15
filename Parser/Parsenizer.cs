@@ -436,7 +436,7 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        expr74.Parent = (ExpressionNode)Current;
+                        expr74.Parent = ((WhileNode)Current).Expression;
                         ((WhileNode)Current).Expression = expr74;
                     }
                     Current = (AstNode)expr74;

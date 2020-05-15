@@ -448,7 +448,7 @@ namespace Contextual_analysis
 
         public override object Visit(ElseStatementNode elseStatement)
         {
-            CurrentScope = GlobalScope.FindChild($"{elseStatement.Type}_{elseStatement.Line}");
+            CurrentScope = GlobalScope.FindChild($"ELSESTMNT_{elseStatement.Line}");
             elseStatement.Statements.ForEach(stmnt => stmnt.Accept(this));
             CurrentScope = CurrentScope?.Parent ?? GlobalScope;
             return null;
