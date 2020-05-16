@@ -161,3 +161,4 @@ fabric.properties
 !/Core/PrecompiledBinaries/**
 **/tmp/**
 
+coverage*
