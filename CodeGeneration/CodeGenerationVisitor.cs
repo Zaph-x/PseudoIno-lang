@@ -89,43 +89,13 @@ namespace CodeGeneration
         {
             Loop += input;
         }
-        public override object Visit(BeginNode beginNode)
-        {
-            beginNode.LoopNode.Accept(this);
-            return null;
-        }
-
-        public override object Visit(TimeNode timeNode)
-        {
-            return null;
-        }
-
-        public override object Visit(DeclParametersNode declParametersNode)
-        {
-            throw new NotImplementedException();
-        }
 
         public override object Visit(TimesNode timesNode)
         {
             //PrintStringToFile(" * ");
             return " * ";
         }
-
-        public override object Visit(FunctionLoopNode loopFnNode)
-        {
-            string funcloop = "";
-            if (loopFnNode.Statements.Any())
-            {
-                loopFnNode.Statements.ForEach(stmnt => funcloop += stmnt.Accept(this));
-            }
-            return funcloop;
-        }
-
-        public override object Visit(FollowTermNode followTermNode)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public override object Visit(AssignmentNode assignmentNode)
         {
             string assign = "";
@@ -162,16 +132,6 @@ namespace CodeGeneration
 
             assign += ";\n";
             return assign;
-        }
-
-        public override object Visit(StatementNode statementNode)
-        {
-            return null;
-        }
-
-        public override object Visit(WithNode withNode)
-        {
-            throw new NotImplementedException();
         }
 
         public override object Visit(WaitNode waitNode)
@@ -252,12 +212,6 @@ namespace CodeGeneration
             return null;
         }
 
-        public override object Visit(RightParenthesisNode rightParenthesisNode)
-        {
-            //PrintStringToFile(")");
-            return ")";
-        }
-
         public override object Visit(NumericNode numericNode)
         {
             string numeric = "";
@@ -274,48 +228,10 @@ namespace CodeGeneration
             return numeric;
         }
 
-        public override object Visit(NewlineNode newlineNode)
-        {
-            //PrintStringToFile("\n");
-            return null;
-        }
-
-        public override object Visit(LeftParenthesisNode leftParenthesisNode)
-        {
-            //PrintStringToFile("(");
-            return "(";
-        }
-
-        public override object Visit(InNode inNode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override object Visit(EqualsNode equalsNode)
-        {
-            //PrintStringToFile(" = ");
-            return " = ";
-        }
-
         public override object Visit(EqualNode equalNode)
         {
             //PrintStringToFile(" == ");
             return " == ";
-        }
-
-        public override object Visit(EOFNode eOFNode)
-        {
-            return null;
-        }
-
-        public override object Visit(EpsilonNode epsilonNode)
-        {
-            return null;
-        }
-
-        public override object Visit(DoNode doNode)
-        {
-            throw new NotImplementedException();
         }
 
         public override object Visit(ProgramNode programNode)
@@ -380,20 +296,10 @@ namespace CodeGeneration
             return callString;
         }
 
-        public override object Visit(EndNode endNode)
-        {
-            throw new NotImplementedException();
-        }
-
         public override object Visit(AndNode andNode)
         {
             //PrintStringToFile(" && ");
             return " && ";
-        }
-
-        public override object Visit(PinNode pinNode)
-        {
-            throw new NotImplementedException();
         }
 
         public override object Visit(APinNode apinNode)
@@ -406,34 +312,10 @@ namespace CodeGeneration
             return dpinNode.Id;
         }
 
-        public override object Visit(OperatorNode operatorNode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override object Visit(BoolOperatorNode boolOperatorNode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override object Visit(CallParametersNode callParametersNode)
-        {
-            //TODO Make this
-            throw new NotImplementedException();
-        }
-
         public override object Visit(DivideNode divideNode)
         {
             //PrintStringToFile(" / ");
             return " / ";
-        }
-
-        public override object Visit(ExpressionNode expressionNode)
-        {
-            expressionNode.LeftHand.Accept(this);
-            expressionNode.Operator.Accept(this);
-            expressionNode.RightHand.Accept(this);
-            return null;
         }
 
         public override object Visit(ForNode forNode)
@@ -579,16 +461,6 @@ namespace CodeGeneration
         {
             //PrintStringToFile(" <= ");
             return " <= ";
-        }
-
-        public override object Visit(LoopNode loopNode)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override object Visit(MathOperatorNode mathOperatorNode)
-        {
-            throw new NotImplementedException();
         }
 
         public override object Visit(PlusNode plusNode)
