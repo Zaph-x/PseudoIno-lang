@@ -216,8 +216,8 @@ namespace Parser
                         term.LeftHand = new NumericNode(token.Value, token);
                         if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
                         {
-                            BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
-                            ((IExpr)Current).RightHand = binExpr;
+                            BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { LeftHand = term };
+                            ((IExpr)((WhileNode)Current).Expression).RightHand = binExpr;
                             Current = binExpr;
                         }
                         else
@@ -310,7 +310,19 @@ namespace Parser
                         Current = (BinaryExpression)expr;
                     }
                     else if (Current.Type == EXPR)
-                        ((IExpr)Current).LeftHand = new DPinNode(token.Value, token);
+                    {
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new DPinNode(token.Value, token);
+                        term.Parent = (ExpressionNode)Current;
+                        if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
+                        {
+                            BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
+                            ((IExpr)Current).RightHand = binExpr;
+                            Current = binExpr;
+                        }
+                        else
+                            ((IExpr)Current).LeftHand = term;
+                    }
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new DPinNode(token.Value, token));
                     else if (Current.Type == WHILE)
@@ -337,7 +349,19 @@ namespace Parser
                         Current = (BinaryExpression)expr;
                     }
                     else if (Current.Type == EXPR)
-                        ((IExpr)Current).LeftHand = new StringNode(token.Value, token);
+                    {
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new StringNode(token.Value, token);
+                        term.Parent = (ExpressionNode)Current;
+                        if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
+                        {
+                            BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
+                            ((IExpr)Current).RightHand = binExpr;
+                            Current = binExpr;
+                        }
+                        else
+                            ((IExpr)Current).LeftHand = term;
+                    }
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new StringNode(token.Value, token));
                     else if (Current.Type == WHILE)
@@ -365,7 +389,19 @@ namespace Parser
                         Current = (BinaryExpression)expr;
                     }
                     else if (Current.Type == EXPR)
-                        ((IExpr)Current).LeftHand = new NumericNode(token.Value, token);
+                    {
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new NumericNode(token.Value, token);
+                        term.Parent = (ExpressionNode)Current;
+                        if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
+                        {
+                            BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
+                            ((IExpr)Current).RightHand = binExpr;
+                            Current = binExpr;
+                        }
+                        else
+                            ((IExpr)Current).LeftHand = term;
+                    }
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new NumericNode(token.Value, token));
                     else if (Current.Type == WHILE)
