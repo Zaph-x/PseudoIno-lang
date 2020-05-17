@@ -49,7 +49,7 @@ func loop
   end if
   wait 30ms
 end loop";
-        //Blink mega til arduino uno analog pin 0 - 5
+        //Blink2 mega med for loop til arduino uno analog pin 0 - 5
         private const string Blink2 = @"
 func loop
     begin for brightness in 0..255 do
@@ -80,22 +80,22 @@ end loop
         private const string FadeIfstatment =
         @"
 func trigger with brightness
-	amountToAdd is 5
-	if (brightness less or equal 0) or (brightness greater or equal 255) do
-		amountToAdd is amountToAdd* -1
-	else if (brightness equal 0) do
-		amountToAdd is 1
-	else 
-		amountToAdd is 5
-	end if
-	brightness is amountToAdd + brightness 
-	apin1 is brightness 
-	wait 1s
+    amountToAdd is 5
+    if (brightness less or equal 0) or (brightness greater or equal 255) do
+        amountToAdd is amountToAdd* -1
+    else if (brightness equal 0) do
+        amountToAdd is 1
+    else 
+        amountToAdd is 5
+    end if
+    brightness is amountToAdd + brightness 
+    apin1 is brightness 
+    wait 1s
 end trigger
 
 func loop
-	brightness is 0
-	call trigger with brightness 
+    brightness is 0
+    call trigger with brightness 
 end loop
 ";
 
@@ -103,11 +103,11 @@ end loop
         private const string Blinkwhile = @"
             
 func blinkWhile
-	dpin1 is on
+	dpin13 is on
 	i is 4
 	d is i % 2
 	begin while d equal 0  do 
-	depin1 is off
+	depin13 is off
 	end while
 end blink
 
@@ -286,24 +286,24 @@ end loop";
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
             parser.Root.Accept(codeGenerationVisitor);
         }
-        [Test]
-        public void Test_Fadeif()
-        {
-            StreamReader FakeReader = CreateFakeReader(FadeIfstatment, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-            parser.Root.Accept(symboltablevisitor);*/
-            //TypeChecker typeChecker = new TypeChecker();
-            parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-            parser.Root.Accept(codeGenerationVisitor);
-        }
+        //[Test]
+        //public void Test_Fadeif()
+        //{
+        //    StreamReader FakeReader = CreateFakeReader(FadeIfstatment, Encoding.UTF8);
+        //    Tokenizer tokenizer = new Tokenizer(FakeReader);
+        //    tokenizer.GenerateTokens();
+        //    List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+        //    Parsenizer parser = new Parsenizer(tokens);
+        //    parser.Parse(out nowhere);
+        //    if (Parsenizer.HasError)
+        //        Assert.Fail();
+        //    /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+        //    parser.Root.Accept(symboltablevisitor);*/
+        //    //TypeChecker typeChecker = new TypeChecker();
+        //    parser.Root.Accept(new TypeChecker());
+        //    CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+        //    parser.Root.Accept(codeGenerationVisitor);
+        //}
         [Test]
         public void Test_BlinkWhile()
         {
