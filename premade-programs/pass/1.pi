@@ -6,7 +6,7 @@ a is 4
 b is 6
 c is a + b
 func test
-    return a + b equal c
+    return (a + b) equal c
 end test
 func loop
 end loop

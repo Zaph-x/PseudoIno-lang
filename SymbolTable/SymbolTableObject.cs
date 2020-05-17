@@ -56,33 +56,57 @@ namespace SymbolTable
             }
         }
 
-        public void UpdateTypedef(VarNode leftHand, TypeContext rhs)
+        public void UpdateTypedef(VarNode leftHand, TypeContext rhs, string scopeName)
         {
+            if (IsInFunction())
+            {
+                string name = GetEnclosingFunction().Name.Substring(5);
+                if (SymbolTableBuilder.GlobalSymbolTable.FunctionDefinitions.First(fn => fn.Name.Id == name)?.FunctionParameters.Any(fnp => fnp.Id == leftHand.Id) ?? false)
+                {
+                    leftHand.Declaration = false;
+                    if (this.Name == scopeName)
+                    {
+                        foreach (SymbolTableObject child in this.Children)
+                        {
+                            child.UpdateTypedef(leftHand, rhs, scopeName);
+                        }
+                    }
+                    if (this.Symbols.Any(sym => sym.Name == leftHand.Id))
+                        foreach (Symbol sym in this.Symbols.Where(s => s.Name == leftHand.Id))
+                        {
+                            sym.AstNode.SymbolType = rhs;
+                            sym.TokenType = rhs.Type;
+                        }
+                    return;
+                }
+            }
             SymbolTableObject global = this.Parent;
             while (global?.Parent != null)
             {
+                global.Parent.UpdateTypedef(leftHand, rhs, scopeName);
                 global = global.Parent;
             }
 
             if (global != null)
             {
-                foreach (var func in global.FunctionDefinitions)
+                foreach (FuncNode func in global.FunctionDefinitions)
                 {
-                    var s = this.Name.Split("func_");
+                    string[] s = this.Name.Split("func_");
                     if (s.Length == 2)
                     {
                         if (s[1] == func.Name.Id)
                         {
-                            foreach (var parameter in func.FunctionParameters)
+                            foreach (VarNode parameter in func.FunctionParameters)
                             {
                                 if (parameter.Id == leftHand.Id)
                                 {
-                                    leftHand.Declaration = false;
+                                    parameter.SymbolType = rhs;
+                                    parameter.Declaration = false;
                                     break;
                                 }
                                 else
                                 {
-                                    leftHand.Declaration = true;
+                                    parameter.Declaration = true;
                                 }
                             }
                         }
@@ -97,20 +121,40 @@ namespace SymbolTable
             {
                 leftHand.Declaration = true;
             }
+            if (this.Name == scopeName)
+            {
+                foreach (SymbolTableObject child in this.Children)
+                {
+                    child.UpdateTypedef(leftHand, rhs, scopeName);
+                }
+            }
             if (this.Symbols.Any(sym => sym.Name == leftHand.Id))
                 foreach (Symbol sym in this.Symbols.Where(s => s.Name == leftHand.Id))
                 {
                     sym.AstNode.SymbolType = rhs;
                     sym.TokenType = rhs.Type;
                 }
-            else
-                this.Symbols.Add(new Symbol(leftHand.Id, rhs.Type, false, leftHand));
+        }
 
-            foreach (SymbolTableObject child in this.Children)
+        public bool IsInFunction()
+        {
+            SymbolTableObject symtab = this;
+            while (this.Parent != null && (!this.Parent.Name?.StartsWith("func_") ?? false))
             {
-                // if (child.Type == TokenType.FUNCDECL)
-                child.UpdateTypedef(leftHand, rhs);
+                symtab = this.Parent;
             }
+            return symtab.Parent?.Name?.StartsWith("func_") ?? false;
+        }
+        public SymbolTableObject GetEnclosingFunction()
+        {
+            SymbolTableObject symtab = this;
+            while (this.Parent != null && (!this.Parent.Name?.StartsWith("func_") ?? false))
+            {
+                symtab = this.Parent;
+            }
+            if (symtab.Parent?.Name?.StartsWith("func_") ?? false)
+                return symtab.Parent;
+            return null;
         }
 
         public SymbolTableObject FindChild(string name)
