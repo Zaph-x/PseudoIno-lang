@@ -33,27 +33,7 @@ end loop";
             func loop
              call blink
             end loop";
-        private const string content =
-@"#Builtin led is on digital pin 13
-g is 4
 
-func trigger with a,b,c
-  dpin13 is on
-  wait 1s
-  dpin13 is off
-  wait 1s
-  a is on
-  b is 3.3
-  c is 1
-  return b
-end trigger
-
-func loop
-  a is on
-  b is 3.3
-  c is 1
-  call trigger with a, b, c
-end loop";
         //Fade program analog pin
         private const string Fade =
 @"
@@ -61,7 +41,7 @@ brightness is 0
 amountToAdd is 5
 
 func loop
-  apin9 is brightness
+  apin1 is brightness
   brightness is amountToAdd + brightness 
   
   if (brightness less or equal 0) or (brightness greater or equal 255) do
@@ -96,39 +76,47 @@ end loop
 ";
         
 
-        //If statment test
-        private const string Ifstatment =
-        @"# Builtin led is on digital pin 13
-
-func trigger with a, b, c
-    g is 4
-    brightness is 0
-    amountToAdd is 5
-    if (brightness less or equal 0) or (brightness greater or equal 255) do
-        amountToAdd is amountToAdd* -1
-    else if (brightness equal 0) do
-        amountToAdd is 1
-    else 
-        amountToAdd is 5
-    end if
-    dpin13 is on
-    wait 1s
-    dpin13 is off
-    wait 1s
-    a is on
-    b is 3.3
-    c is 1
-    return b
+        //Fade med If statment else else if 
+        private const string FadeIfstatment =
+        @"
+func trigger with brightness
+	amountToAdd is 5
+	if (brightness less or equal 0) or (brightness greater or equal 255) do
+		amountToAdd is amountToAdd* -1
+	else if (brightness equal 0) do
+		amountToAdd is 1
+	else 
+		amountToAdd is 5
+	end if
+	brightness is amountToAdd + brightness 
+	apin1 is brightness 
+	wait 1s
 end trigger
 
 func loop
-    a is on
-    b is 3.3
-    c is 1
-    call trigger with a, b, c
-end loop";
+	brightness is 0
+	call trigger with brightness 
+end loop
+";
 
-       
+        //blink program med while loop til arduino
+        private const string Blinkwhile = @"
+            
+func blinkWhile
+	dpin1 is on
+	i is 4
+	d is i % 2
+	begin while d equal 0  do 
+	depin1 is off
+	end while
+end blink
+
+func loop
+	call blinkWhile
+end loop
+";
+
+
 
         //kan køre
         private const string whilestatment =
@@ -284,6 +272,42 @@ end loop";
         public void Test_Blink2()
         {
             StreamReader FakeReader = CreateFakeReader(Blink2, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);*/
+            //TypeChecker typeChecker = new TypeChecker();
+            parser.Root.Accept(new TypeChecker());
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+            parser.Root.Accept(codeGenerationVisitor);
+        }
+        [Test]
+        public void Test_Fadeif()
+        {
+            StreamReader FakeReader = CreateFakeReader(FadeIfstatment, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);*/
+            //TypeChecker typeChecker = new TypeChecker();
+            parser.Root.Accept(new TypeChecker());
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+            parser.Root.Accept(codeGenerationVisitor);
+        }
+        [Test]
+        public void Test_BlinkWhile()
+        {
+            StreamReader FakeReader = CreateFakeReader(Blinkwhile, Encoding.UTF8);
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
