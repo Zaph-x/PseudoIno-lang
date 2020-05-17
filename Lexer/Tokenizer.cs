@@ -494,8 +494,8 @@ namespace Lexer
                 case '<':
                     if (Peek() == '=')
                     {
-                        Pop();
                         Tokens.AddLast(Token(TokenType.OP_LESS));
+                        Pop();
                         Tokens.AddLast(Token(TokenType.OP_OR));
                         Tokens.AddLast(Token(TokenType.OP_EQUAL));
                     }
@@ -510,7 +510,7 @@ namespace Lexer
                     }
                     break;
                 case '>':
-                    Tokens.AddLast(Token(TokenType.OP_LESS));
+                    Tokens.AddLast(Token(TokenType.OP_GREATER));
                     if (Peek() == '=')
                     {
                         Pop();
