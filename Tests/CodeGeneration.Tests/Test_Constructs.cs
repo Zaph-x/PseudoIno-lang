@@ -107,7 +107,7 @@ func blinkWhile
 	i is 4
 	d is i % 2
 	begin while d equal 0  do 
-	dpin13 is off
+	depin13 is off
 	end while
 end blink
 
