@@ -76,26 +76,26 @@ end loop";
         private const string blink =
        @"#Builtin led is on digital pin 13
 func blink
-  dpin13 is on
-  wait 1s
-  dpin13 is off
-  wait 1s
+    dpin13 is on
+    wait 1s
+    dpin13 is off
+    wait 1s
 end blink
 
 func loop
-  call blink
+    call blink
 end loop";
 
         //kan k�re
         private const string whilestatment =
 @"#while statement test
 func trigger with g
-g is 4
-z is on
-begin while z  do    
-g is g +1
-z is off
-end while 
+    g is 4
+    z is on
+    begin while z  do    
+        g is g +1
+        z is off
+    end while 
 
 end trigger
 
@@ -109,47 +109,46 @@ end loop";
 
 
 func trigger with g
-g is 4
-z is 8
-begin while z less 9  do    
-g is g +1
-z is 9
-end while 
-z is 10
+    g is 4
+    z is 8
+    begin while z less 9  do    
+        g is g +1
+        z is 9
+    end while 
+    z is 10
 
-#while test 2
-begin while z greater 9  do    
-g is g +1
-z is 9
-end while  
-y is 10
+    #while test 2
+    begin while z greater 9  do    
+        g is g +1
+        z is 9
+    end while  
+    y is 10
 
-#test while bool
-x is on
-begin while x  do    
-x is off
-end while
+    #test while bool
+    x is on
+    begin while x do    
+        x is off
+    end while
 end trigger
 func loop
-g is 0
-  call trigger with g
+    g is 0
+    call trigger with g
 end loop";
 
-        //kan ikke k�re 
         private const string whilestatment3 =
       @"#while statement test
 func trigger with g
-g is 4
-z is 8
-begin while (z less or equal 9) or (z is less 9)  do    
-g is g +1
-z is 9
-end while  
+    g is 4
+    z is 8
+    begin while (z less or equal 9) or (z less 9) do    
+        g is g +1
+        z is 9
+    end while  
 
 end trigger
 
 func loop
-g is 0
+    g is 0
   call trigger with g
 end loop";
 
@@ -167,123 +166,53 @@ func loop
   g is 0
   call trigger with g
 end loop";
+        const string time =
+@"wait 1ms
+wait 1s
+wait 2m
+wait 3h
+func loop
+end loop";
+        const string stringTest =
+@"a is ""Test string""
+func loop
+end loop";
 
-        string nowhere;
+        string dbg;
 
         [SetUp]
         public void TestInit()
         {
-
+            CodeGenerationVisitor.HasError = false;
+            Parsenizer.HasError=false;
+            TypeChecker.HasError = false;
+            dbg = "";
         }
 
-        [Test]
-        public void Test_CodeGenVisitor_content()
+        [TestCase(content)]
+        [TestCase(content2)]
+        [TestCase(blink)]
+        [TestCase(forstatmenttest)]
+        [TestCase(Ifstatment)]
+        [TestCase(whilestatment)]
+        [TestCase(whilestatment2)]
+        [TestCase(whilestatment3)]
+        [TestCase(time)]
+        [TestCase(stringTest)]
+        public void Test_CodeGenVisitor_content(string prog)
         {
-            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
+            StreamReader FakeReader = CreateFakeReader(prog, Encoding.UTF8);
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
+            parser.Parse(out dbg);
             if (Parsenizer.HasError)
-                Assert.Fail();
-            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-            parser.Root.Accept(symboltablevisitor);*/
-            //TypeChecker typeChecker = new TypeChecker();
+                Assert.Fail("The parser encountered an error\n\n"+dbg);
             parser.Root.Accept(new TypeChecker());
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
             parser.Root.Accept(codeGenerationVisitor);
-        }
-
-        [Test]
-        public void Test_CodeGenVisitor_content2()
-        {
-            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            parser.Root.Accept(new TypeChecker());
-
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-     
-            parser.Root.Accept(new TypeChecker());
-            parser.Root.Accept(codeGenerationVisitor);
-        }
-
-        [Test]
-        public void Test_CodeGenVisitor_Ifstatment()
-        {
-            StreamReader FakeReader = CreateFakeReader(Ifstatment, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-
-            parser.Root.Accept(new TypeChecker());
-            parser.Root.Accept(codeGenerationVisitor);
-        }
-        [Test]
-        public void Test_CodeGenVisitor_blink()
-        {
-            StreamReader FakeReader = CreateFakeReader(blink, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-
-            parser.Root.Accept(new TypeChecker());
-            parser.Root.Accept(codeGenerationVisitor);
-        }
-        [Test]
-        public void Test_CodeGenVisitor_whilestatment()
-        {
-            StreamReader FakeReader = CreateFakeReader(whilestatment2, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-            parser.Root.Accept(symboltablevisitor);*/
-            //TypeChecker typeChecker = new TypeChecker();
-            parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-            parser.Root.Accept(codeGenerationVisitor);
-        }
-
-        [Test]
-        public void Test_CodeGenVisitor_forstatmenttest()
-        {
-            StreamReader FakeReader = CreateFakeReader(forstatmenttest, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-            parser.Root.Accept(symboltablevisitor);*/
-            //TypeChecker typeChecker = new TypeChecker();
-            parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-            parser.Root.Accept(codeGenerationVisitor);
+            Assert.IsFalse(CodeGenerationVisitor.HasError, "Code gen visitor encountered an error");
         }
         public StreamReader CreateFakeReader(string content, Encoding enc)
         {

@@ -38,7 +38,6 @@ namespace AbstractSyntaxTree.Objects
         public abstract object Visit(WhileNode whileNode);
         public abstract object Visit(ElseStatementNode elseStatement);
         public abstract object Visit(ElseifStatementNode elseifStatementNode);
-        public abstract object Visit(RangeNode rangeNode);
         public abstract object Visit(ReturnNode returnNode);
         public abstract object Visit(ExpressionTerm expressionTermNode);
         public abstract object Visit(BinaryExpression noParenExpression);

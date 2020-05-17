@@ -254,15 +254,6 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
-        public override object Visit(RangeNode rangeNode)
-        {
-            Print("RangeNode");
-            Indent++;
-            rangeNode.From.Accept(this);
-            rangeNode.To.Accept(this);
-            Indent--;
-            return null;
-        }
         public override object Visit(ReturnNode returnNode)
         {
             Print("ReturnNode");

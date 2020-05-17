@@ -28,6 +28,14 @@ end loop";
 b is 5 / 2
 func loop
 end loop";
+
+        const string program3 =
+@"wait 1ms
+wait 2s
+wait 3m
+wait 4h
+func loop
+end loop";
         [SetUp]
         public void Setup()
         {
@@ -41,6 +49,7 @@ end loop";
 
         [TestCase(program1)]
         [TestCase(program2)]
+        [TestCase(program3)]
         public void Test_TypeChecker_CheckHasNoErrors(string program)
         {
             StreamReader reader = CreateFakeReader(program);
@@ -64,11 +73,14 @@ end loop";
             Assert.IsNull(((AssignmentNode)parser.Root.Statements[0]).Operator, "Operator was not null for assignment node");
         }
 
-        const string exceptionProgram =
+        const string exceptionProgram1 =
 @"call foo
 func loop
 end loop";
-        [TestCase(exceptionProgram)]
+        const string exceptionProgram2 =
+@"wait 1s";
+        [TestCase(exceptionProgram1)]
+        [TestCase(exceptionProgram2)]
         public void Test_TypeChecker_CanThrowExceptions(string program)
         {
             StreamReader reader = CreateFakeReader(program);

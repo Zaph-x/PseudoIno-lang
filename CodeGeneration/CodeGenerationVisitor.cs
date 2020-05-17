@@ -95,7 +95,7 @@ namespace CodeGeneration
             //PrintStringToFile(" * ");
             return " * ";
         }
-        
+
         public override object Visit(AssignmentNode assignmentNode)
         {
             string assign = "";
@@ -138,24 +138,7 @@ namespace CodeGeneration
         {
             string delay = "delay(";
             delay += waitNode.TimeAmount.Accept(this);
-            //            waitNode.TimeModifier.Accept(this);
-            switch (waitNode.TimeModifier.Type)
-            {
-                case TokenType.TIME_HR:
-                    delay += "*3600000";
-                    break;
-                case TokenType.TIME_MIN:
-                    delay += "*60000";
-                    break;
-                case TokenType.TIME_SEC:
-                    delay += "*1000";
-                    break;
-                case TokenType.TIME_MS:
-                    break;
-                default:
-                    new InvalidCodeException($"Invalid timemodifier exception at{waitNode.TimeModifier.Line}:{waitNode.TimeModifier.Offset}. Time parameter not specified.");
-                    break;
-            }
+            delay += waitNode.TimeModifier.Accept(this);
             delay += ");\n";
             return delay;
         }
@@ -194,22 +177,22 @@ namespace CodeGeneration
 
         public override object Visit(TimeSecondNode timeSecondNode)
         {
-            return null;
+            return "*1000";
         }
 
         public override object Visit(TimeMinuteNode timeMinuteNode)
         {
-            return null;
+            return "*60000";
         }
 
         public override object Visit(TimeMillisecondNode timeMillisecondNode)
         {
-            return null;
+            return "";
         }
 
         public override object Visit(TimeHourNode timeHourNode)
         {
-            return null;
+            return "*3600000";
         }
 
         public override object Visit(NumericNode numericNode)
@@ -535,11 +518,6 @@ namespace CodeGeneration
             elseif += ("\n}\n");
 
             return elseif;
-        }
-
-        public override object Visit(RangeNode rangeNode)
-        {
-            throw new NotImplementedException();
         }
 
         public override object Visit(ReturnNode returnNode)

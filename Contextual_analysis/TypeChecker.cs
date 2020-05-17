@@ -356,16 +356,6 @@ namespace Contextual_analysis
             return null;
         }
 
-        public override object Visit(RangeNode rangeNode)
-        {
-            TypeContext fromType = (TypeContext)rangeNode.From.Accept(this);
-            TypeContext toType = (TypeContext)rangeNode.To.Accept(this);
-            if (fromType != toType)
-                new InvalidTypeException($"Mismatch in range types at {rangeNode.Line}:{rangeNode.Offset}");
-
-            return null;
-        }
-
         public override object Visit(ReturnNode returnNode)
         {
             return returnNode.ReturnValue.Accept(this);
