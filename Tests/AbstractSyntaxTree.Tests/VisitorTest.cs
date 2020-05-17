@@ -31,15 +31,19 @@ namespace AbstractSyntaxTree.Tests
         //     end test";
 
         private const string content2 =
-@"call a
+@"
+func foo with c, d
+    begin while c less (6 + 5) do
+        c is c + 1
+    end while
+    begin for x in 1..21 do
+        x is 21
+    end for
+    return 3
+end foo
 a is on
 b is 4
-func loop
-    a is a + 1
-    call foo with 3
-    wait 4s
-    a is a + 1
-end loop
+
 dpin4 is b less (4 + (3 + 5))
 
 if a equal b do
@@ -54,16 +58,13 @@ end if
 d is c less 4
 call foo
 f is call foo with 23
-
-func foo with c, d
-    begin while c less (6 + 5) do
-        c is c + 1
-    end while
-    begin for x in 1..21 do
-        x is 21
-    end for
-    return 3
-end foo";
+func loop
+    a is a + 1
+    call foo with 3
+    wait 4s
+    a is a + 1
+end loop
+";
 
         string nowhere;
 

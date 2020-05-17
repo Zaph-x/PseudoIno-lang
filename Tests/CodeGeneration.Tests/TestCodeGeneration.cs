@@ -157,14 +157,14 @@ end loop";
         private const string forstatmenttest =
       @"#for statement test
 func trigger with g
-g is 4
-begin for x in 1..5 do
-g is x
-end for
+  g is 4
+  begin for x in 1..5 do
+    g is x
+  end for
 end trigger
 
 func loop
-g is 0
+  g is 0
   call trigger with g
 end loop";
 

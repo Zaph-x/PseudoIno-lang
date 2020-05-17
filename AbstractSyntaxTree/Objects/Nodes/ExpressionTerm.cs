@@ -4,7 +4,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class ExpressionTerm : ExpressionNode
     {
-        ValNode Term { get; set; }
         public ExpressionTerm(ScannerToken token) : base(token)
         {
         }

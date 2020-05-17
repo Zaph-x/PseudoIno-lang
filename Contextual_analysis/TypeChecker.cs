@@ -15,7 +15,7 @@ namespace Contextual_analysis
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
         private SymbolTableObject CurrentScope = SymbolTableBuilder.GlobalSymbolTable;
         public static bool HasError { get; set; } = false;
-       
+
 
         public override object Visit(TimesNode timesNode)
         {
@@ -90,13 +90,14 @@ namespace Contextual_analysis
         }
         public override object Visit(ProgramNode programNode)
         {
-            programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             programNode.FunctionDefinitons.ForEach(func =>
             {
                 GlobalScope.FunctionDefinitions.Add(func);
                 func.Accept(this);
             });
-            if (programNode.LoopFunction == null) {
+            programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+            if (programNode.LoopFunction == null)
+            {
                 new NotDefinedException("Loop function was not defined.");
                 return null;
             }
@@ -120,7 +121,7 @@ namespace Contextual_analysis
 
         public override object Visit(AndNode andNode)
         {
-            return new TypeContext(BOOL);
+            return new TypeContext(OP_AND);
 
         }
 
@@ -143,6 +144,17 @@ namespace Contextual_analysis
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
             TypeContext rhs = (TypeContext)expressionNode.RightHand?.Accept(this);
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
+            if (lhs.Type == VAR)
+            {
+                if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC));
+                } else if (IsOfTypes(opctx, OP_AND, OP_OR))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(BOOL));
+                }
+                lhs = CurrentScope.FindSymbol(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode);
+            }
             if (rhs == null && opctx == null)
             {
                 return expressionNode.SymbolType = lhs;
@@ -171,6 +183,17 @@ namespace Contextual_analysis
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
             TypeContext rhs = (TypeContext)expressionNode.LeftHand?.Accept(this);
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
+            if (lhs.Type == VAR)
+            {
+                if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC));
+                } else if (IsOfTypes(opctx, OP_AND, OP_OR))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(BOOL));
+                }
+
+            }
             if (rhs == null && opctx == null)
             {
                 return expressionNode.SymbolType = lhs;
@@ -211,7 +234,7 @@ namespace Contextual_analysis
             CurrentScope = GlobalScope.FindChild($"LOOPF_{forNode.Line}");
             TypeContext fromType = (TypeContext)forNode.From.Accept(this);
             TypeContext toType = (TypeContext)forNode.To.Accept(this);
-            CurrentScope.Symbols.Add(new Symbol(forNode.CountingVariable.Id,TokenType.NUMERIC, false, forNode.CountingVariable));
+            CurrentScope.UpdateTypedef(forNode.CountingVariable, new TypeContext(TokenType.NUMERIC) { IsFloat = false });
             if (fromType.Type != toType.Type)
                 new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
             forNode.Statements.ForEach(stmnt => stmnt.Accept(this));

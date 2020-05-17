@@ -13,9 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\AbstractSyntaxTree\AbstractSyntaxTree.csproj" />
-    <ProjectReference Include="..\..\Lexer\Lexer.csproj" />
-    <ProjectReference Include="..\..\SymbolTable\SymbolTable.csproj" />
+    <ProjectReference Include="..\..\Contextual_analysis\Contextual_analysis.csproj" />
+    <ProjectReference Include="..\Lexer.Tests\Lexer.Tests.csproj" />
     <ProjectReference Include="..\..\Parser\Parser.csproj" />
   </ItemGroup>
 

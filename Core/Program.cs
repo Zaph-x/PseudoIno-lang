@@ -89,9 +89,6 @@ namespace Core
                     verbosePrinter.Error("Encountered an error state in the parser. Stopping.");
                     return 4;
                 }
-                // ASTHelper ast = new ASTHelper(tokens);
-                // PrettyPrinter pprint = new PrettyPrinter();
-                // pprint.Visit(parsenizer.Root);
                 if (options.PrettyPrinter)
                 {
                     parsenizer.Root.Accept(new PrettyPrinter());
@@ -113,6 +110,7 @@ namespace Core
                 catch (Exception e)
                 {
                     verbosePrinter.Error("Encountered an error in code generation. Stopping.");
+                    Console.Error.WriteLine(e.Message);
                     return 2;
                 }
                 if (!options.OutputFile)
