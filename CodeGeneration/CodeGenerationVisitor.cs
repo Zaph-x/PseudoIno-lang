@@ -161,6 +161,9 @@ namespace CodeGeneration
                 else if (varNode.SymbolType.Type == TokenType.BOOL)
                 {
                     varNodeId += "bool ";
+                } else if (varNode.SymbolType.Type == TokenType.STRING)
+                {
+                    varNodeId += "String ";
                 }
             }
             varNodeId += varNode.Id;

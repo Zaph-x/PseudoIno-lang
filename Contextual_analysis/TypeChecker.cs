@@ -265,7 +265,8 @@ namespace Contextual_analysis
             CurrentScope = GlobalScope.FindChild($"LOOPF_{forNode.Line}");
             TypeContext fromType = (TypeContext)forNode.From.Accept(this);
             TypeContext toType = (TypeContext)forNode.To.Accept(this);
-            CurrentScope.UpdateTypedef(forNode.CountingVariable, new TypeContext(TokenType.NUMERIC) { IsFloat = false }, CurrentScope.Name);
+            if (null == CurrentScope.FindSymbol(forNode.CountingVariable)) CurrentScope.Symbols.Add(new Symbol(forNode.CountingVariable.Id, NUMERIC, false, forNode.CountingVariable));
+            else CurrentScope.UpdateTypedef(forNode.CountingVariable, new TypeContext(TokenType.NUMERIC) { IsFloat = false }, CurrentScope.Name);
             if (fromType.Type != toType.Type)
                 new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
             forNode.Statements.ForEach(stmnt => stmnt.Accept(this));

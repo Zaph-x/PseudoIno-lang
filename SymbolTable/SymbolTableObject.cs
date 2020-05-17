@@ -58,6 +58,28 @@ namespace SymbolTable
 
         public void UpdateTypedef(VarNode leftHand, TypeContext rhs, string scopeName)
         {
+            if (IsInFunction())
+            {
+                string name = GetEnclosingFunction().Name.Substring(5);
+                if (SymbolTableBuilder.GlobalSymbolTable.FunctionDefinitions.First(fn => fn.Name.Id == name)?.FunctionParameters.Any(fnp => fnp.Id == leftHand.Id) ?? false)
+                {
+                    leftHand.Declaration = false;
+                    if (this.Name == scopeName)
+                    {
+                        foreach (SymbolTableObject child in this.Children)
+                        {
+                            child.UpdateTypedef(leftHand, rhs, scopeName);
+                        }
+                    }
+                    if (this.Symbols.Any(sym => sym.Name == leftHand.Id))
+                        foreach (Symbol sym in this.Symbols.Where(s => s.Name == leftHand.Id))
+                        {
+                            sym.AstNode.SymbolType = rhs;
+                            sym.TokenType = rhs.Type;
+                        }
+                    return;
+                }
+            }
             SymbolTableObject global = this.Parent;
             while (global?.Parent != null)
             {
@@ -112,10 +134,27 @@ namespace SymbolTable
                     sym.AstNode.SymbolType = rhs;
                     sym.TokenType = rhs.Type;
                 }
-            else
-                this.Symbols.Add(new Symbol(leftHand.Id, rhs.Type, false, leftHand));
+        }
 
-
+        public bool IsInFunction()
+        {
+            SymbolTableObject symtab = this;
+            while (this.Parent != null && (!this.Parent.Name?.StartsWith("func_") ?? false))
+            {
+                symtab = this.Parent;
+            }
+            return symtab.Parent?.Name?.StartsWith("func_") ?? false;
+        }
+        public SymbolTableObject GetEnclosingFunction()
+        {
+            SymbolTableObject symtab = this;
+            while (this.Parent != null && (!this.Parent.Name?.StartsWith("func_") ?? false))
+            {
+                symtab = this.Parent;
+            }
+            if (symtab.Parent?.Name?.StartsWith("func_") ?? false)
+                return symtab.Parent;
+            return null;
         }
 
         public SymbolTableObject FindChild(string name)
