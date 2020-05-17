@@ -13,7 +13,7 @@ namespace Parser.Tests
         public void Test_NoScopeException_ExceptionChangesErrorState()
         {
             new NoScopeException("Test Exception");
-            Assert.IsTrue(Parsenizer.HasError, "Error state was not changed by exception")
+            Assert.IsTrue(Parsenizer.HasError, "Error state was not changed by exception");
         }
     }
 }

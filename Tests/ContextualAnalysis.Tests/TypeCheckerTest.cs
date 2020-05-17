@@ -36,6 +36,12 @@ wait 3m
 wait 4h
 func loop
 end loop";
+
+        const string program4 =
+@"a is 4 less or equal 4
+b is 6 greater or equal 1
+func loop
+end loop";
         [SetUp]
         public void Setup()
         {
@@ -50,6 +56,7 @@ end loop";
         [TestCase(program1)]
         [TestCase(program2)]
         [TestCase(program3)]
+        [TestCase(program4)]
         public void Test_TypeChecker_CheckHasNoErrors(string program)
         {
             StreamReader reader = CreateFakeReader(program);
