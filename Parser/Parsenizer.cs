@@ -980,8 +980,7 @@ namespace Parser
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
                     break;
                 case 100:
-                    if (((ExpressionNode)Current).Operator != null)
-                        ((ExpressionNode)Current).Operator = GetOrEqualNode(((IExpr)Current).Operator);
+                    ((IExpr)((ExpressionNode)Current).Parent).Operator = GetOrEqualNode(((IExpr)((ExpressionNode)Current).Parent).Operator);
                     break;
                 case 126:
                     Current = new WhileNode(CurrentLine, CurrentOffset);

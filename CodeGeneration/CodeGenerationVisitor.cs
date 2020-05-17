@@ -125,7 +125,6 @@ namespace CodeGeneration
             {
                 assign += (string)assignmentNode.LeftHand.Accept(this);
                 assign += " = ";
-                // assignmentNode.Operator.Accept(this);
                 assign += (string)assignmentNode.RightHand.Accept(this);
             }
 
@@ -244,7 +243,7 @@ namespace CodeGeneration
                 {
                     if (node.Type == TokenType.ASSIGNMENT)
                     {
-                        if (((VarNode)((AssignmentNode)node).LeftHand).Declaration)
+                        if (((AstNode)((AssignmentNode)node).LeftHand).GetType().IsAssignableFrom(typeof(VarNode)) && ((VarNode)((AssignmentNode)node).LeftHand).Declaration)
                         {
                             Declarations += node.Accept(this);
                             continue;

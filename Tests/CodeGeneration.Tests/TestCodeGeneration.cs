@@ -184,6 +184,12 @@ b is 6 greater or equal 1
 func loop
 end loop";
 
+        const string program5 =
+@"a is 4 % 2 % 1
+b is 3 - 1 - 1
+func loop
+end loop";
+
         string dbg;
 
         [SetUp]
@@ -206,6 +212,7 @@ end loop";
         [TestCase(time)]
         [TestCase(stringTest)]
         [TestCase(program4)]
+        [TestCase(program5)]
         public void Test_CodeGenVisitor_content(string prog)
         {
             StreamReader FakeReader = CreateFakeReader(prog, Encoding.UTF8);

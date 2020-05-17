@@ -19,8 +19,8 @@ namespace Lexer.Tests
             a is 4
             b is 6
             c is a + b
-            func test with (numeric x, numeric y, numeric z)
-                x + y equals z?
+            func test with x, y, z
+                x + y equals z
             end test";
         private const string dummy_2 = @"
         
@@ -36,7 +36,7 @@ namespace Lexer.Tests
         a is 4
         b is ""human""
         c is ""dog""
-        if b equals c?
+        if b equals c do
             a is a + 1
         end if";
 
@@ -45,11 +45,29 @@ namespace Lexer.Tests
             y is baz
         end foo
         
-        a is 4
+        a is 4.
         b is ""human""
         c is ""dog""
-        if b equals c?
+        if b equals c do
             a is a + 1
+        end if";
+
+        
+
+        private const string dummy_6 = @"func foo
+            x is bar
+            y is baz
+        end foo
+        
+        a <- 4.
+        b := ""human""
+        c is ""dog""
+        if b == c do
+            a is a + 1
+        else if b <= c do
+            a is a - 1
+        else if b >= c do
+            a = 1
         end if";
 
         #endregion
@@ -60,7 +78,7 @@ namespace Lexer.Tests
             #< This multiline comment
             should not be accepted
             a is 4
-            b is 6
+            b is 6.2
             c is a + b
             func test with (numeric x, numeric y, numeric z)
                 x + y equals z?
@@ -82,13 +100,22 @@ namespace Lexer.Tests
             a is a + 1
         end if";
 
+        private const string reject_dummy_4 = @"
+        a is 3 | 2
+        b is 3 & 2
+        c is 2 || 1
+        d is 4 && 3
+        e is 4 < 1
+        f[a]a@";
+
         #endregion
 
-        [TestCase(dummy_1, 34)]
+        [TestCase(dummy_1, 28)]
         [TestCase(dummy_2, 3)]
         [TestCase(dummy_3, 0)]
         [TestCase(dummy_4, 39)]
         [TestCase(dummy_5, 31)]
+        [TestCase(dummy_6, 55)]
         public void Test_GenerateTokens_CanTraverseEntireFileWithNoErrorsAndCorrentAmountOfTokens(string content, int expectedAmountOfTokens)
         {
 
@@ -103,6 +130,7 @@ namespace Lexer.Tests
         [TestCase(reject_dummy_1)]
         [TestCase(reject_dummy_2)]
         [TestCase(reject_dummy_3)]
+        [TestCase(reject_dummy_4)]
         public void Test_GenerateTokens_CanTraverseEntireFileAndThrowErrors(string content)
         {
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);

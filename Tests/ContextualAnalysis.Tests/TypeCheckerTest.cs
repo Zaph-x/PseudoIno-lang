@@ -42,6 +42,12 @@ end loop";
 b is 6 greater or equal 1
 func loop
 end loop";
+
+        const string program5 =
+@"a is 4 % 2
+b is 3 - 1
+func loop
+end loop";
         [SetUp]
         public void Setup()
         {
@@ -57,6 +63,7 @@ end loop";
         [TestCase(program2)]
         [TestCase(program3)]
         [TestCase(program4)]
+        [TestCase(program5)]
         public void Test_TypeChecker_CheckHasNoErrors(string program)
         {
             StreamReader reader = CreateFakeReader(program);

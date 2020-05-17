@@ -58,13 +58,17 @@ namespace SymbolTable
 
         public void UpdateTypedef(VarNode leftHand, TypeContext rhs)
         {
-            SymbolTableObject global = SymbolTableBuilder.GlobalSymbolTable;
+            SymbolTableObject global = this.Parent;
+            while (global?.Parent != null)
+            {
+                global = global.Parent;
+            }
 
             if (global != null)
             {
                 foreach (var func in global.FunctionDefinitions)
                 {
-                    var s = func.Name.Id.Split("func_");
+                    var s = this.Name.Split("func_");
                     if (s.Length == 2)
                     {
                         if (s[1] == func.Name.Id)
