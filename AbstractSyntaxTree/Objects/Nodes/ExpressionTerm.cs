@@ -4,16 +4,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class ExpressionTerm : ExpressionNode
     {
-        ValNode Term { get; set; }
         public ExpressionTerm(ScannerToken token) : base(token)
-        {
-        }
-
-        public ExpressionTerm(TokenType type, ScannerToken token) : base(type, token)
-        {
-        }
-
-        public ExpressionTerm(int line, int offset) : base(TokenType.EXPR, line, offset)
         {
         }
         public override object Accept(Visitor visitor)

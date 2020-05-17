@@ -16,7 +16,7 @@ namespace SymbolTable
         public List<Symbol> Symbols = new List<Symbol>();
         public List<SymbolTableObject> Children { get; set; } = new List<SymbolTableObject>();
         private SymbolTableObject _parent { get; set; }
-        public List<FuncNode> FunctionDefinitions {get;set;} = new List<FuncNode>();
+        public List<FuncNode> FunctionDefinitions { get; set; } = new List<FuncNode>();
         public SymbolTableObject Parent
         {
             get
@@ -51,23 +51,20 @@ namespace SymbolTable
             }
             else
             {
+                new SymbolNotFoundException($"The symbol '{var.Id}' was not found");
                 return null;
             }
         }
 
         public void UpdateTypedef(VarNode leftHand, TypeContext rhs)
         {
-            SymbolTableObject global = this.Parent;
-            while (global?.Parent != null)
-            {
-                global = global.Parent;
-            }
+            SymbolTableObject global = SymbolTableBuilder.GlobalSymbolTable;
 
             if (global != null)
             {
                 foreach (var func in global.FunctionDefinitions)
                 {
-                    var s = this.Name.Split("func_");
+                    var s = func.Name.Id.Split("func_");
                     if (s.Length == 2)
                     {
                         if (s[1] == func.Name.Id)
@@ -96,13 +93,15 @@ namespace SymbolTable
             {
                 leftHand.Declaration = true;
             }
-            
-            foreach (Symbol sym in this.Symbols.Where(s => s.Name == leftHand.Id))
-            {
-                sym.AstNode.SymbolType = rhs;
-                sym.TokenType = rhs.Type;
-            }
-                
+            if (this.Symbols.Any(sym => sym.Name == leftHand.Id))
+                foreach (Symbol sym in this.Symbols.Where(s => s.Name == leftHand.Id))
+                {
+                    sym.AstNode.SymbolType = rhs;
+                    sym.TokenType = rhs.Type;
+                }
+            else
+                this.Symbols.Add(new Symbol(leftHand.Id, rhs.Type, false, leftHand));
+
             foreach (SymbolTableObject child in this.Children)
             {
                 // if (child.Type == TokenType.FUNCDECL)

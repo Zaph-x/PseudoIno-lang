@@ -16,64 +16,19 @@ namespace AbstractSyntaxTree.Objects
             }
             Console.WriteLine(line + input);
         }
-        public override object Visit(BeginNode beginNode)
-        {
-            Print("BeginNode");
-            
-            beginNode.LoopNode.Accept(this);
-            return null;
-        }
-        public override object Visit(TimeNode timeNode)
-        {
-            Print("TimeNode");
-            
-            return null;
-        }
-        public override object Visit(DeclParametersNode declParametersNode)
-        {
-            Print("DeclParametersNode");
-            Indent++;
-            if (declParametersNode.Parameters.Any())
-            {
-                declParametersNode.Parameters.ForEach(stmnt => stmnt.Accept(this));
-            }
-            Indent--;
-            return null;
-        }
         public override object Visit(TimesNode timesNode)
         {
             Print("TimesNode");
             Indent++;
             return null;
         }
-        public override object Visit(FunctionLoopNode loopFnNode)
-        {
-            Print("FunctionLoopNode");
-            Indent++;
-            if (loopFnNode.Statements.Any())
-            {
-                loopFnNode.Statements.ForEach(stmnt => stmnt.Accept(this));
-            }
-            Indent--;
-            return null;
-        }
         public override object Visit(AssignmentNode assignmentNode)
         {
             Print("AssignmentNode");
-            
-            //TODO der er interface med IAssginable Var { get; set; } og public IAssignment Assignment { get; set; } de har ikke accept metode.
-            return null;
-        }
-        public override object Visit(StatementNode statementNode)
-        {
-            Print("StatementNode");
-            
-            return null;
-        }
-        public override object Visit(WithNode withNode)
-        {
-            Print("WithNode");
-            
+            Indent++;
+            assignmentNode.LeftHand.Accept(this);
+            assignmentNode.RightHand.Accept(this);
+            Indent--;
             return null;
         }
         public override object Visit(WaitNode waitNode)
@@ -88,97 +43,49 @@ namespace AbstractSyntaxTree.Objects
         public override object Visit(VarNode varNode)
         {
             Print("VarNode");
-            
+
             return null;
         }
         public override object Visit(ValNode valNode)
         {
             Print("ValNode");
-            
+
             return null;
         }
         public override object Visit(TimeSecondNode timeSecondNode)
         {
             Print("TimeSecondNode");
-            
+
             return null;
         }
         public override object Visit(TimeMinuteNode timeMinuteNode)
         {
             Print("TimeMinuteNode");
-            
+
             return null;
         }
         public override object Visit(TimeMillisecondNode timeMillisecondNode)
         {
             Print("TimeMillisecondNode");
-            
+
             return null;
         }
         public override object Visit(TimeHourNode timeHourNode)
         {
             Print("TimeHourNode");
-            
-            return null;
-        }
-        public override object Visit(RightParenthesisNode rightParenthesisNode)
-        {
-            Print("TimeMillisecondNode");
-            
+
             return null;
         }
         public override object Visit(NumericNode numericNode)
         {
             Print("NumericNode");
-            
-            return null;
-        }
-        public override object Visit(NewlineNode newlineNode)
-        {
-            Print("NewlineNode");
-            
-            return null;
-        }
-        public override object Visit(LeftParenthesisNode leftParenthesisNode)
-        {
-            Print("LeftParenthesisNode");
-            
-            return null;
-        }
-        public override object Visit(InNode inNode)
-        {
-            Print("InNode");
-            
+
             return null;
         }
         public override object Visit(EqualNode equalNode)
         {
             Print("EqualNode");
-            
-            return null;
-        }
-        public override object Visit(EqualsNode equalsNode)
-        {
-            Print("EqualsNode");
-            
-            return null;
-        }
-        public override object Visit(EOFNode eOFNode)
-        {
-            Print("EOFNode");
-            
-            return null;
-        }
-        public override object Visit(EpsilonNode epsilonNode)
-        {
-            Print("EpsilonNode");
-            
-            return null;
-        }
-        public override object Visit(DoNode doNode)
-        {
-            Print("DoNode");
-            
+
             return null;
         }
         public override object Visit(ProgramNode programNode)
@@ -206,70 +113,28 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
-        public override object Visit(EndNode endNode)
-        {
-            Print("EndNode");
-            
-            return null;
-        }
         public override object Visit(AndNode andNode)
         {
             Print("AndNode");
-            
-            return null;
-        }
-        public override object Visit(PinNode pinNode)
-        {
-            Print("PinNode");
-            
+
             return null;
         }
         public override object Visit(APinNode apinNode)
         {
             Print("APinNode");
-            
+
             return null;
         }
         public override object Visit(DPinNode dpinNode)
         {
             Print("DPinNode");
-            
-            return null;
-        }
-        public override object Visit(OperatorNode operatorNode)
-        {
-            Print("OperatorNode");
-            
-            return null;
-        }
-        public override object Visit(BoolOperatorNode boolOperatorNode)
-        {
-            Print("BoolOperatorNode");
-            
-            return null;
-        }
-        public override object Visit(CallParametersNode callParametersNode)
-        {
-            Print("CallParametersNode");
-            Indent++;
-            callParametersNode.Parameters.ForEach(node => node.Accept(this));
-            Indent--;
+
             return null;
         }
         public override object Visit(DivideNode divideNode)
         {
             Print("DivideNode");
-            
-            return null;
-        }
-        public override object Visit(ExpressionNode expressionNode)
-        {
-            Print("ExpressionNode");
-            Indent++;
-            expressionNode.LeftHand.Accept(this);
-            expressionNode.Operator.Accept(this);
-            expressionNode.RightHand.Accept(this);
-            Indent--;
+
             return null;
         }
         public override object Visit(ForNode forNode)
@@ -304,9 +169,6 @@ namespace AbstractSyntaxTree.Objects
         public override object Visit(GreaterNode greaterNode)
         {
             Print("GreaterNode");
-            Indent++;
-            greaterNode.OrEqualNode.Accept(this);
-            Indent--;
             return null;
         }
         public override object Visit(IfStatementNode ifStatementNode)
@@ -324,51 +186,36 @@ namespace AbstractSyntaxTree.Objects
         public override object Visit(LessNode lessNode)
         {
             Print("LessNode");
-            Indent++;
-            lessNode.OrEqualNode.Accept(this);
-            Indent--;
-            return null;
-        }
-        public override object Visit(LoopNode loopNode)
-        {
-            Print("LoopNode");
-            
-            return null;
-        }
-        public override object Visit(MathOperatorNode mathOperatorNode)
-        {
-            Print("MathOperatorNode");
-            
             return null;
         }
         public override object Visit(PlusNode plusNode)
         {
             Print("PlusNode");
-            
+
             return null;
         }
         public override object Visit(MinusNode minusNode)
         {
             Print("MinusNode");
-            
+
             return null;
         }
         public override object Visit(ModuloNode moduloNode)
         {
             Print("ModuloNode");
-            
+
             return null;
         }
         public override object Visit(OrNode orNode)
         {
             Print("OrNode");
-            
+
             return null;
         }
         public override object Visit(StringNode stringNode)
         {
             Print("StringNode");
-            
+
             return null;
         }
         public override object Visit(WhileNode whileNode)
@@ -407,15 +254,6 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
-        public override object Visit(RangeNode rangeNode)
-        {
-            Print("RangeNode");
-            Indent++;
-            rangeNode.From.Accept(this);
-            rangeNode.To.Accept(this);
-            Indent--;
-            return null;
-        }
         public override object Visit(ReturnNode returnNode)
         {
             Print("ReturnNode");
@@ -427,12 +265,14 @@ namespace AbstractSyntaxTree.Objects
 
         public override object Visit(GreaterOrEqualNode greaterNode)
         {
-            throw new NotImplementedException();
+            Print("GreaterOrEqualNode");
+            return null;
         }
 
         public override object Visit(LessOrEqualNode lessNode)
         {
-            throw new NotImplementedException();
+            Print("LessOrEqualNode");
+            return null;
         }
 
         public override object Visit(ExpressionTerm expressionTermNode)
@@ -464,11 +304,6 @@ namespace AbstractSyntaxTree.Objects
             parenthesisExpression.RightHand?.Accept(this);
             Indent--;
             return null;
-        }
-
-        public override object Visit(FollowTermNode followTermNode)
-        {
-            throw new NotImplementedException();
         }
 
         public override object Visit(BoolNode boolNode)

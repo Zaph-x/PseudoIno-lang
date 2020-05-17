@@ -3,7 +3,7 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class WhileNode : LoopNode, IScope
+    public class WhileNode : StatementNode, IScope
     {
         public ExpressionNode Expression { get; set; }
         public List<StatementNode> Statements { get; set; }
