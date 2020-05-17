@@ -3,7 +3,7 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class ForNode : LoopNode, IScope
+    public class ForNode : StatementNode, IScope
     {
         public VarNode CountingVariable { get; set; }
         public NumericNode From { get; set; }

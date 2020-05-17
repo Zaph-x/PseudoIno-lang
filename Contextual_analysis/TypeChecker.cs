@@ -15,29 +15,11 @@ namespace Contextual_analysis
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
         private SymbolTableObject CurrentScope = SymbolTableBuilder.GlobalSymbolTable;
         public static bool HasError { get; set; } = false;
-        public override object Visit(BeginNode beginNode)
-        {
-            return null;
-        }
 
-        public override object Visit(TimeNode timeNode)
-        {
-            return null;
-        }
-
-        public override object Visit(DeclParametersNode declParametersNode)
-        {
-            return null;
-        }
 
         public override object Visit(TimesNode timesNode)
         {
             return new TypeContext(OP_TIMES);
-        }
-
-        public override object Visit(FunctionLoopNode loopFnNode)
-        {
-            return null;
         }
 
         public override object Visit(AssignmentNode assignmentNode)
@@ -59,16 +41,6 @@ namespace Contextual_analysis
                     new InvalidTypeException($"Type {rhs.Type} is not assignable toType {lhs.Type} at {assignmentNode.Line}:{assignmentNode.Offset}");
                 }
             }
-            return null;
-        }
-
-        public override object Visit(StatementNode statementNode)
-        {
-            return null;
-        }
-
-        public override object Visit(WithNode withNode)
-        {
             return null;
         }
 
@@ -106,30 +78,9 @@ namespace Contextual_analysis
         {
             return null;
         }
-
-        public override object Visit(RightParenthesisNode rightParenthesisNode)
-        {
-            return null;
-        }
-
         public override object Visit(NumericNode numericNode)
         {
             return numericNode.SymbolType;
-        }
-
-        public override object Visit(NewlineNode newlineNode)
-        {
-            return null;
-        }
-
-        public override object Visit(LeftParenthesisNode leftParenthesisNode)
-        {
-            return null;
-        }
-
-        public override object Visit(InNode inNode)
-        {
-            return null;
         }
 
         public override object Visit(EqualNode equalNode)
@@ -137,37 +88,16 @@ namespace Contextual_analysis
             return new TypeContext(OP_EQUAL);
 
         }
-
-        public override object Visit(EqualsNode equalsNode)
-        {
-            return new TypeContext(OP_EQUAL);
-
-        }
-
-        public override object Visit(EOFNode eOFNode)
-        {
-            return null;
-        }
-
-        public override object Visit(EpsilonNode epsilonNode)
-        {
-            return null;
-        }
-
-        public override object Visit(DoNode doNode)
-        {
-            return null;
-        }
-
         public override object Visit(ProgramNode programNode)
         {
-            programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             programNode.FunctionDefinitons.ForEach(func =>
             {
                 GlobalScope.FunctionDefinitions.Add(func);
                 func.Accept(this);
             });
-            if (programNode.LoopFunction == null) {
+            programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+            if (programNode.LoopFunction == null)
+            {
                 new NotDefinedException("Loop function was not defined.");
                 return null;
             }
@@ -189,21 +119,10 @@ namespace Contextual_analysis
             }
         }
 
-        public override object Visit(EndNode endNode)
-        {
-            CurrentScope = CurrentScope.Parent ?? GlobalScope;
-            return null;
-        }
-
         public override object Visit(AndNode andNode)
         {
-            return new TypeContext(BOOL);
+            return new TypeContext(OP_AND);
 
-        }
-
-        public override object Visit(PinNode pinNode)
-        {
-            return null;
         }
 
         public override object Visit(APinNode apinNode)
@@ -216,59 +135,26 @@ namespace Contextual_analysis
             return new TypeContext(DPIN);
         }
 
-        public override object Visit(OperatorNode operatorNode)
-        {
-            return new TypeContext(BOOL);
-        }
-
-        public override object Visit(BoolOperatorNode boolOperatorNode)
-        {
-            return new TypeContext(BOOL);
-        }
-
-        public override object Visit(CallParametersNode callParametersNode)
-        {
-            return null;
-        }
-
         public override object Visit(DivideNode divideNode)
         {
             return new TypeContext(OP_DIVIDE);
-        }
-
-        public override object Visit(ExpressionNode expressionNode)
-        {
-            TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
-            TypeContext rhs = (TypeContext)expressionNode.RightHand.Accept(this);
-            TypeContext opctx = (TypeContext)expressionNode.Operator.Accept(this);
-            if (rhs == null && opctx == null)
-            {
-                return expressionNode.SymbolType = lhs;
-            }
-            if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER, OP_EQUAL))
-            {
-                return expressionNode.SymbolType = new TypeContext(BOOL);
-            }
-            else if (IsOfTypes(lhs, BOOL) && IsOfTypes(rhs, BOOL) && IsOfTypes(opctx, OP_EQUAL, OP_AND, OP_OR))
-            {
-                return expressionNode.SymbolType = new TypeContext(BOOL);
-            }
-            else if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_PLUS, OP_MODULO, OP_MINUS, OP_TIMES, OP_DIVIDE))
-            {
-                return expressionNode.SymbolType = new TypeContext(NUMERIC) { IsFloat = (lhs.IsFloat || rhs.IsFloat) };
-            }
-            else if (IsOfTypes(opctx, OP_EQUAL))
-            {
-                return expressionNode.SymbolType = new TypeContext(BOOL);
-            }
-            new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
-            return null;
         }
         public override object Visit(BinaryExpression expressionNode)
         {
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
             TypeContext rhs = (TypeContext)expressionNode.RightHand?.Accept(this);
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
+            if (lhs.Type == VAR)
+            {
+                if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC));
+                } else if (IsOfTypes(opctx, OP_AND, OP_OR))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(BOOL));
+                }
+                lhs = CurrentScope.FindSymbol(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode);
+            }
             if (rhs == null && opctx == null)
             {
                 return expressionNode.SymbolType = lhs;
@@ -297,6 +183,17 @@ namespace Contextual_analysis
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
             TypeContext rhs = (TypeContext)expressionNode.LeftHand?.Accept(this);
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
+            if (lhs.Type == VAR)
+            {
+                if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC));
+                } else if (IsOfTypes(opctx, OP_AND, OP_OR))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(BOOL));
+                }
+
+            }
             if (rhs == null && opctx == null)
             {
                 return expressionNode.SymbolType = lhs;
@@ -337,7 +234,7 @@ namespace Contextual_analysis
             CurrentScope = GlobalScope.FindChild($"LOOPF_{forNode.Line}");
             TypeContext fromType = (TypeContext)forNode.From.Accept(this);
             TypeContext toType = (TypeContext)forNode.To.Accept(this);
-            CurrentScope.Symbols.Add(new Symbol(forNode.CountingVariable.Id,TokenType.NUMERIC, false, forNode.CountingVariable));
+            CurrentScope.UpdateTypedef(forNode.CountingVariable, new TypeContext(TokenType.NUMERIC) { IsFloat = false });
             if (fromType.Type != toType.Type)
                 new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
             forNode.Statements.ForEach(stmnt => stmnt.Accept(this));
@@ -394,16 +291,6 @@ namespace Contextual_analysis
         public override object Visit(LessNode lessNode)
         {
             return new TypeContext(OP_LESS);
-        }
-
-        public override object Visit(LoopNode loopNode)
-        {
-            return null;
-        }
-
-        public override object Visit(MathOperatorNode mathOperatorNode)
-        {
-            return null;
         }
 
         public override object Visit(PlusNode plusNode)
@@ -469,18 +356,6 @@ namespace Contextual_analysis
             return null;
         }
 
-        public override object Visit(RangeNode rangeNode)
-        {
-            TypeContext fromType = (TypeContext)rangeNode.From.Accept(this);
-            TypeContext toType = (TypeContext)rangeNode.To.Accept(this);
-            if (fromType != toType)
-                new InvalidTypeException($"Mismatch in range types at {rangeNode.Line}:{rangeNode.Offset}");
-            if (int.Parse(rangeNode.From.Value) > int.Parse(rangeNode.To.Value))
-                new InvalidRangeException($"Invalid range in range at {rangeNode.Line}:{rangeNode.Offset}");
-
-            return null;
-        }
-
         public override object Visit(ReturnNode returnNode)
         {
             return returnNode.ReturnValue.Accept(this);
@@ -494,11 +369,6 @@ namespace Contextual_analysis
         public override object Visit(LessOrEqualNode lessNode)
         {
             return new TypeContext(OP_LEQ);
-        }
-
-        public override object Visit(FollowTermNode followTermNode)
-        {
-            throw new System.NotImplementedException();
         }
 
         public override object Visit(BoolNode boolNode)

@@ -89,9 +89,6 @@ namespace Core
                     verbosePrinter.Error("Encountered an error state in the parser. Stopping.");
                     return 4;
                 }
-                // ASTHelper ast = new ASTHelper(tokens);
-                // PrettyPrinter pprint = new PrettyPrinter();
-                // pprint.Visit(parsenizer.Root);
                 if (options.PrettyPrinter)
                 {
                     parsenizer.Root.Accept(new PrettyPrinter());
@@ -104,15 +101,17 @@ namespace Core
                 }
 
                 string path = AppContext.BaseDirectory;
+              
                 try
                 {
                     File.Delete($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp");
                     parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp"));
                     if (options.DryRun) File.Delete($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp");
                 }
-                catch (Exception e)
+                catch (FileNotFoundException e)
                 {
                     verbosePrinter.Error("Encountered an error in code generation. Stopping.");
+                    Console.Error.WriteLine(e.Message);
                     return 2;
                 }
                 if (!options.OutputFile)
@@ -121,7 +120,7 @@ namespace Core
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                     {
                         Console.WriteLine("We're on Linux!");
-
+                        path = path.Replace(" ", "\\ ");
                         List<string> cmds = new List<string>();
 
                         cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o /dev/null");
@@ -141,15 +140,14 @@ namespace Core
                         path = path.Replace('/', '\\');
 
                         List<string> cmds = new List<string>();
-                        cmds.Add($"{path}\\PrecompiledBinaries\\win\\avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino -I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard {path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp -o nul");
-                        cmds.Add($"{path}\\PrecompiledBinaries\\win\\avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino -I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard {path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp -o {path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp");
-                        cmds.Add($"{path}\\PrecompiledBinaries\\win\\ctags.exe -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives {path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp");
-                        // cmds.Add($"{path}\\PrecompiledBinaries\\win\\avr-g++.exe -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino -I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard C:\\Users\\Mikkel\\AppData\\Local\\Temp\\arduino_build_220767\\sketch\\Blink.ino.cpp -o C:\\Users\\Mikkel\\AppData\\Local\\Temp\\arduino_build_220767\\sketch\\Blink.ino.cpp.o");
-                        cmds.Add($"{path}\\PrecompiledBinaries\\win\\avr-g++.exe -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino -I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard {path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp -o {path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o");
-                        cmds.Add($"{path}\\PrecompiledBinaries\\win\\avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o {path}\\PrecompiledBinaries\\tmp\\output.cpp.elf {path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o {path}\\PrecompiledBinaries\\randomAFile.a -L{path}\\PrecompiledBinaries\\tmp -lm"); //  \\tmp\\..\\\core_arduino_avr_pro_cpu_16MHzatmega328_db62bc5f977f010e956e85fb47a0c0b7.a 
-                        cmds.Add($"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 {path}\\PrecompiledBinaries\\tmp\\output.cpp.elf {path}\\PrecompiledBinaries\\tmp\\output.cpp.eep");
-                        cmds.Add($"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe -O ihex -R .eeprom {path}\\PrecompiledBinaries\\tmp\\output.cpp.elf {path}\\PrecompiledBinaries\\tmp\\output.cpp.hex");
-                        cmds.Add($"{path}\\PrecompiledBinaries\\win\\avrdude -C{path}\\PrecompiledBinaries\\etc\\avrdude.conf -v -patmega328p -carduino -PCOM3 -b115200 -D -Uflash:w:{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex:i");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o nul");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\ctags.exe\" -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++.exe\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\"");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-gcc.exe\" -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\" \"{path}\\PrecompiledBinaries\\randomAFile.a\" \"-L{path}\\PrecompiledBinaries\\tmp\" -lm"); //  \\tmp\\..\\\core_arduino_avr_pro_cpu_16MHzatmega328_db62bc5f977f010e956e85fb47a0c0b7.a 
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.eep\"");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -R .eeprom \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex\"");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avrdude\" \"-C{path}\\PrecompiledBinaries\\etc\\avrdude.conf\" -v -patmega328p -carduino -PCOM3 -b115200 -D \"-Uflash:w:{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex:i\"");
                         RunCommandWindows(cmds, "");
                     }
                     else

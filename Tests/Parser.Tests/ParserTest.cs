@@ -129,7 +129,7 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.VAR, 1, 3));
             list.Add(new ScannerToken(TokenType.WITH, 1, 5));
             //list.Add(new ScannerToken(TokenType.OP_LPAREN, 1, 5));
-            list.Add(new ScannerToken(TokenType.NUMERIC, 1, 7));
+            list.Add(new ScannerToken(TokenType.NUMERIC, "2", 1, 7));
             //list.Add(new ScannerToken(TokenType.OP_RPAREN, 1, 5));
             //list.Add(new ScannerToken(TokenType.NEWLINE, "", 1, 11));
             //list.Add(new ScannerToken(TokenType.EOF, "", 1, 7));

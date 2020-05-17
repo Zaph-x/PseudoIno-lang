@@ -6,7 +6,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public abstract class ExpressionNode : StatementNode, IAssignment, ITerm, IExpr
     {
         private ExpressionNode _Parent {get;set;}
-        public ExpressionNode Parent {get => _Parent;set {
+        public new ExpressionNode Parent {get => _Parent;set {
             this._Parent = value;
             this._Parent.Child = this;
         }}

@@ -1,4 +1,3 @@
-using AbstractSyntaxTree.Objects;
 using NUnit.Framework;
 using System;
 using Lexer.Objects;
@@ -10,113 +9,26 @@ namespace AbstractSyntaxTree.Tests
     public class AstNodeTest
     {
         [Test]
-        public void Test_AddChild_ChildIsNull()
+        public void Test_ToString_NumericTypeIsCorrect()
         {
-            BeginNode node = new BeginNode(new ScannerToken(TokenType.BEGIN, 1, 1));
-            //Assert.Throws<NullReferenceException>(() => node.AddChild(null), "The method accepts a null child.");
+            NumericNode node = new NumericNode("1", new ScannerToken(TokenType.NUMERIC, "", 0, 0));
+
+            Assert.AreEqual("Type=NUMERIC", node.ToString(), "Type was not assigned correctly");
         }
 
         [Test]
-        public void Test_Visitor_ProgramNodeIsVisted()
+        public void Test_Constructors_ObjectIsCreated()
         {
-            ProgramNode prog = new ProgramNode(1, 1);
-            FunctionLoopNode loop = new FunctionLoopNode(1, 1);
-            prog.LoopFunction = loop;
-            PrettyPrinter printer = new PrettyPrinter();
+            ExpressionNode node = new BinaryExpression(TokenType.BOOL, new ScannerToken(TokenType.BOOL, "true", 0, 0));
 
-            printer.Visit(prog);
-
+            Assert.IsNotNull(node);
         }
 
-        // [Test]
-        // public void Test_AddChild_ChildIsNotNull()
-        // {
-        //     AstNode node = new AstNode(new ParseToken(TokenType.BEGIN,"",3,2), "", 3,2);
-
-        //     node.AddChild(new AstNode(new ParseToken(TokenType.EXPR,"",3,2), "", 3,2));
-
-        //     Assert.IsNotEmpty(node.Children, "Child was not added to node.");
-        // }
-
-        // [Test]
-        // public void Test_AddChild_ChildIsAssignedParent()
-        // {
-        //     AstNode node = new AstNode(new ParseToken(TokenType.BEGIN,"",3,2), "", 3,2);
-
-        //     node.AddChild(new AstNode(new ParseToken(TokenType.EXPR,"",3,2), "", 3,2));
-
-        //     Assert.IsNotNull(node.Children[0].Parent, "Child was not assigned a parent.");
-        // }
-
-        // [Test]
-        // public void Test_AddChild_ChildIsAssignedCorrectParent()
-        // {
-        //     AstNode node = new AstNode(new ParseToken(TokenType.BEGIN,"",3,2), "", 3,2);
-
-        //     node.AddChild(new AstNode(new ParseToken(TokenType.EXPR,"",3,2), "", 3,2));
-
-        //     Assert.AreEqual(node, node.Children[0].Parent, "Child was not assigned correct parent.");
-        // }
-
-        // [Test]
-        // public void Test_RemoveChild_ChildIsNull()
-        // {
-        //     AstNode node = new AstNode(new ParseToken(TokenType.BEGIN,"",3,2), "", 3,2);
-        //     Assert.Throws<NullReferenceException>(() => node.RemoveChild(null), "The method accepts a null child.");
-        // }
-
-        // [Test]
-        // public void Test_RemoveChild_ChildIsRemoved()
-        // {
-        //     AstNode node = new AstNode(new ParseToken(TokenType.BEGIN,"",3,2), "", 3,2);
-        //     AstNode expr = new AstNode(new ParseToken(TokenType.EXPR,"",3,2), "", 3,2);
-        //     node.AddChild(expr);
-
-        //     Assert.IsNotEmpty(node.Children, "Child was not added to node.");
-
-        //     node.RemoveChild(expr);
-        //     Assert.IsEmpty(node.Children, "Child was not removed.");
-        // }
-
-        // [Test]
-        // public void Test_RemoveChild_ParentIsNull()
-        // {
-        //     AstNode node = new AstNode(new ParseToken(TokenType.BEGIN,"",3,2), "", 3,2);
-        //     AstNode expr = new AstNode(new ParseToken(TokenType.EXPR,"",3,2), "", 3,2);
-        //     node.AddChild(expr);
-
-        //     Assert.IsNotEmpty(node.Children, "Child was not added to node.");
-
-        //     node.RemoveChild(expr);
-
-        //     Assert.IsNull(expr.Parent);
-        // }
-
-        // [Test]
-        // public void Test_RemoveChild_ChildIsRemoved_WithIndex()
-        // {
-        //     AstNode node = new AstNode(new ParseToken(TokenType.BEGIN,"",3,2), "", 3,2);
-        //     AstNode expr = new AstNode(new ParseToken(TokenType.EXPR,"",3,2), "", 3,2);
-        //     node.AddChild(expr);
-
-        //     Assert.IsNotEmpty(node.Children, "Child was not added to node.");
-
-        //     node.RemoveChild(0);
-        //     Assert.IsEmpty(node.Children, "Child was not removed.");
-        // }
-
-        // [Test]
-        // public void Test_RemoveChild_ParentIsNull_WithIndex()
-        // {
-        //     AstNode node = new AstNode(new ParseToken(TokenType.BEGIN,"",3,2), "", 3,2);
-        //     AstNode expr = new AstNode(new ParseToken(TokenType.EXPR,"",3,2), "", 3,2);
-        //     node.AddChild(expr);
-
-        //     Assert.IsNotEmpty(node.Children, "Child was not added to node.");
-
-        //     node.RemoveChild(0);
-
-        //     Assert.IsNull(expr.Parent);
-        // }
+        [Test]
+        public void Test_ToString_ExpressionIsReturnedCorrectly()
+        {
+            BinaryExpression node = new BinaryExpression(0,0);
+            Assert.AreEqual("  ", node.ToString(), "Tostring did not return the correct string");
+        }
     }
 }

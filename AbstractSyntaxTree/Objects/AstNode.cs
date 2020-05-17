@@ -9,7 +9,6 @@ namespace AbstractSyntaxTree.Objects
 {
     public abstract class AstNode
     {
-        public static bool ShowVal {get;set;}
         public TokenType Type { get; set; }
         public string Value { get; set; }
         public TypeContext SymbolType { get; set; }
@@ -49,8 +48,6 @@ namespace AbstractSyntaxTree.Objects
             this.SymbolType = token.SymbolicType;
             this.Visited = false;
         }
-
-        public bool HasParent() => this.Parent != null;
 
         public override string ToString() => $"Type={Type}";
 

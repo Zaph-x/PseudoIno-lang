@@ -7,9 +7,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public ValNode(ScannerToken token) : base(token)
         {
         }
-        public override object Accept(Visitor visitor)
-        {
-            return visitor.Visit(this);
-        }
+        public abstract override object Accept(Visitor visitor);
     }
 }

@@ -56,7 +56,6 @@ namespace Lexer
         public static bool HasError { get; set; }
 
         private Stack<ScannerToken> ParenthesisStack { get; set; } = new Stack<ScannerToken>();
-        private ScannerToken LastVar { get; set; }
         /// <summary>
         /// The stream that the scanner is reading from
         /// </summary>
@@ -175,17 +174,6 @@ namespace Lexer
         }
 
         /// <summary>
-        /// Checks if the current character is the end of file character
-        /// </summary>
-        /// <returns>
-        /// True if the current character is end of file, otherwise false.
-        /// </returns>
-        private bool IsEOF()
-        {
-            return (int)CurrentChar == '\uffff';
-        }
-
-        /// <summary>
         /// Checks if a given character is the end of file character
         /// </summary>
         /// <param name="character">The character to check</param>
@@ -206,18 +194,6 @@ namespace Lexer
         private bool IsSpace()
         {
             return CurrentChar == ' ';
-        }
-
-        /// <summary>
-        /// Checks if a given character is a whitespace
-        /// </summary>
-        /// <param name="character">The character to check</param>
-        /// <returns>
-        /// True if the character is a whitespace, otherwise false.
-        /// </returns>
-        private bool IsSpace(char character)
-        {
-            return character == ' ';
         }
 
         /// <summary>
@@ -244,7 +220,7 @@ namespace Lexer
                 subString += CurrentChar;
             }
             // Make sure it isn't a range
-            if (Peek() == '.' && recogniser.IsDigit(Peek(2)))
+            if (Peek() == '.' && Peek(2) != '.')
             {
                 isFloat = !isFloat;
                 Pop();
@@ -401,11 +377,7 @@ namespace Lexer
             }
             if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
             {
-                if (tokenType == TokenType.TYPE)
-                {
-                    Tokens.AddLast(Token(tokenType, subString));
-                }
-                else if (tokenType == TokenType.BOOL)
+                if (tokenType == TokenType.BOOL)
                 {
                     if (subString.ToLower() == "on")
                     {
@@ -455,11 +427,6 @@ namespace Lexer
             {
                 Pop();
                 Tokens.AddLast(Token(TokenType.ARRAYINDEX));
-            }
-            else if (Peek() == '?')
-            {
-                Pop();
-                Tokens.AddLast(Token(TokenType.OP_QUESTIONMARK));
             }
             else if (Peek() == '[')
             {
