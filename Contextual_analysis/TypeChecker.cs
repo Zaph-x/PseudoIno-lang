@@ -362,8 +362,6 @@ namespace Contextual_analysis
             TypeContext toType = (TypeContext)rangeNode.To.Accept(this);
             if (fromType != toType)
                 new InvalidTypeException($"Mismatch in range types at {rangeNode.Line}:{rangeNode.Offset}");
-            if (int.Parse(rangeNode.From.Value) > int.Parse(rangeNode.To.Value))
-                new InvalidRangeException($"Invalid range in range at {rangeNode.Line}:{rangeNode.Offset}");
 
             return null;
         }
