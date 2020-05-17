@@ -492,15 +492,16 @@ namespace CodeGeneration
 
         public override object Visit(ElseStatementNode elseStatement)
         {
-            string elseString = "else{\n";
             if (elseStatement.Statements.Any())
             {
+                string elseString = "else{\n";
                 elseStatement.Statements.ForEach(node => node.Parent = elseStatement);
                 elseStatement.Statements.ForEach(node => elseString += node.Accept(this));
+                elseString += "\n}\n";
+                return elseString;
             }
 
-            elseString += "\n}\n";
-            return elseString;
+            return "";
         }
 
         public override object Visit(ElseifStatementNode elseifStatementNode)
