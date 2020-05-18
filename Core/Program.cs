@@ -27,7 +27,6 @@ namespace Core
             Stopwatch timer = new Stopwatch();
             timer.Start();
             CommandLineOptions options = ParseOptions(args);
-            return 0;
             VerbosePrinter verbosePrinter = new VerbosePrinter(options);
             if (options?.InputFile == null)
             {

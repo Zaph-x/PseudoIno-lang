@@ -46,6 +46,10 @@ namespace Core.Objects
         /// </summary>
         /// <value>UNO</value>
         public string Arduino {get;set;} = "UNO";
+        /// <summary>
+        /// A string value to specify the onboard processor.
+        /// </summary>
+        /// <value>atmega328p</value>
         public string Processor {get;set;} = "atmega328p";
 
     }
