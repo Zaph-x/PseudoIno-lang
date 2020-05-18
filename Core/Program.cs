@@ -1,4 +1,4 @@
-﻿﻿using System.Collections.Generic;
+﻿﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System;
@@ -14,6 +14,8 @@ using AbstractSyntaxTree.Objects;
 using CodeGeneration;
 using Lexer.Objects;
 using Contextual_analysis;
+using System.Collections.Generic;
+using System.IO.Ports;
 
 namespace Core
 {
@@ -21,9 +23,11 @@ namespace Core
     {
         public static int Main(string[] args)
         {
+
             Stopwatch timer = new Stopwatch();
             timer.Start();
             CommandLineOptions options = ParseOptions(args);
+            return 0;
             VerbosePrinter verbosePrinter = new VerbosePrinter(options);
             if (options?.InputFile == null)
             {
@@ -101,7 +105,7 @@ namespace Core
                 }
 
                 string path = AppContext.BaseDirectory;
-              
+
                 try
                 {
                     File.Delete($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp");
@@ -123,16 +127,16 @@ namespace Core
                         path = path.Replace(" ", "\\ ");
                         List<string> cmds = new List<string>();
 
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o /dev/null");
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o {path}/PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
+                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o /dev/null");
+                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o {path}/PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
                         cmds.Add($"{path}PrecompiledBinaries/unix/tools-builder/ctags/5.8-arduino11/ctags -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives {path}/PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
-                        
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o");
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o {path}/PrecompiledBinaries/randomAFile.a -L{path}/PrecompiledBinaries/tmp -lm");
+
+                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o");
+                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o {path}/PrecompiledBinaries/randomAFile.a -L{path}/PrecompiledBinaries/tmp -lm");
                         cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/output.cpp.eep");
                         cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -R .eeprom {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/output.cpp.hex");
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avrdude -C{path}/PrecompiledBinaries/etc/avrdude.conf -v -patmega328p -carduino -P/dev/ttyACM3 -b115200 -D -Uflash:w:{path}/PrecompiledBinaries/tmp/output.cpp.hex:i");
-                        RunCommandsUnix(cmds,"");
+                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avrdude -C{path}/PrecompiledBinaries/etc/avrdude.conf -v -p{options.Processor} -carduino -P/dev/ttyACM{options.Port} -b115200 -D -Uflash:w:{path}/PrecompiledBinaries/tmp/output.cpp.hex:i");
+                        RunCommandsUnix(cmds, "");
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
@@ -140,14 +144,14 @@ namespace Core
                         path = path.Replace('/', '\\');
 
                         List<string> cmds = new List<string>();
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o nul");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o nul");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
                         cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\ctags.exe\" -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++.exe\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\"");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-gcc.exe\" -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\" \"{path}\\PrecompiledBinaries\\randomAFile.a\" \"-L{path}\\PrecompiledBinaries\\tmp\" -lm");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++.exe\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\"");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-gcc.exe\" -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\" \"{path}\\PrecompiledBinaries\\randomAFile.a\" \"-L{path}\\PrecompiledBinaries\\tmp\" -lm");
                         cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.eep\"");
                         cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -R .eeprom \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex\"");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avrdude\" \"-C{path}\\PrecompiledBinaries\\etc\\avrdude.conf\" -v -patmega328p -carduino -PCOM3 -b115200 -D \"-Uflash:w:{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex:i\"");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avrdude\" \"-C{path}\\PrecompiledBinaries\\etc\\avrdude.conf\" -v -p{options.Processor} -carduino -PCOM{options.Port} -b115200 -D \"-Uflash:w:{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex:i\"");
                         RunCommandWindows(cmds, "");
                     }
                     else
@@ -234,7 +238,10 @@ namespace Core
             System.Console.WriteLine("    -v | --Verbose         Prints additional information when compiling.");
             System.Console.WriteLine("    -b | --boilerplate     Generates a boilerplate file for your code.");
             System.Console.WriteLine("    -l | --logfile <path>  Prints additional information when compiling.");
-            System.Console.WriteLine("    -pp| --prettyprinter    Print the abstract syntax tree.");
+            System.Console.WriteLine("    -p | --port <number>   Specifies the port to upload to.");
+            System.Console.WriteLine("    -a | --arduino <model> Specifies the arduino model you're uploading to. (Default: UNO)");
+            System.Console.WriteLine("    -pr| --proc <model>    Specifies the arduino processor you're uploading to. (Default: atmega328p)");
+            System.Console.WriteLine("    -pp| --prettyprinter   Print the abstract syntax tree.");
             System.Console.WriteLine("");
         }
 
@@ -267,7 +274,7 @@ namespace Core
                         break;
                     case "-l":
                     case "--logfile":
-                        if (args.Length >= i + 1 && !args[i + 1].StartsWith('-'))
+                        if (args.Length >= i + 2 && !args[i + 1].StartsWith('-'))
                         {
                             ++i;
                             options.LogFile = args[i];
@@ -275,6 +282,182 @@ namespace Core
                         else
                         {
                             Console.Error.WriteLineAsync($"Error: Log file not provided");
+                        }
+                        break;
+                    case "-pr":
+                    case "--proc":
+                        if (args.Length >= i + 2 && !args[i + 1].StartsWith('-'))
+                        {
+                            ++i;
+                            switch (args[i].ToLower())
+                            {
+                                case "atmega32u4":
+                                case "atmega328p":
+                                case "atmega2560":
+                                case "atmega1280":
+                                case "atmega168":
+                                case "attiny85":
+                                    options.Processor = args[i];
+                                    break;
+                                default:
+                                    {
+                                        Console.Error.WriteLine("Invalid processor specified. Attempting to determine processor.");
+                                        switch (options.Arduino.ToUpper())
+                                        {
+                                            case "YUN":
+                                            case "YUNMINI":
+                                            case "LEONARDO":
+                                            case "LEONARDO_ETH":
+                                            case "MICRO":
+                                            case "ESPLORA":
+                                            case "LILYPAD_USB":
+                                            case "ROBOT_CONTROL":
+                                            case "ROBOT_MOTOR":
+                                            case "CIRCUITPLAY":
+                                            case "INDUSTRIAL101":
+                                            case "LININO_ONE":
+                                                options.Processor = "atmega32u4";
+                                                break;
+                                            case "UNO":
+                                            case "UNO_WIFI_DEV_ED":
+                                            case "NANO":
+                                            case "DIECIMILA":
+                                            case "DUEMILANOVE":
+                                            case "MINI":
+                                            case "FIO":
+                                            case "BT":
+                                            case "ETHERNET":
+                                            case "LILYPAD":
+                                            case "PRO":
+                                                options.Processor = "atmega328p";
+                                                break;
+                                            case "ADK":
+                                            case "MEGA2560":
+                                                options.Processor = "atmega2560";
+                                                break;
+                                            case "MEGA":
+                                                options.Processor = "atmega1280";
+                                                break;
+                                            case "NG":
+                                                options.Processor = "atmega168";
+                                                break;
+                                            case "GEMMA":
+                                                options.Processor = "attiny85";
+                                                break;
+                                            default:
+                                                Console.Error.WriteLine("Could not determine model. Exiting!");
+                                                return null;
+                                        }
+                                        break;
+                                    }
+                            }
+                        }
+                        else
+                        {
+                            Console.Error.WriteLineAsync($"Error: Processor not provided. Defaulting");
+                        }
+                        break;
+                    case "-a":
+                    case "--arduino":
+                        if (args.Length >= i + 2 && !args[i + 1].StartsWith('-'))
+                        {
+                            ++i;
+                            options.Processor = args[i].ToUpper();
+                            switch (args[i].ToUpper())
+                            {
+                                case "YUN":
+                                case "YUNMINI":
+                                case "LEONARDO":
+                                case "LEONARDO_ETH":
+                                case "MICRO":
+                                case "ESPLORA":
+                                case "LILYPAD_USB":
+                                case "ROBOT_CONTROL":
+                                case "ROBOT_MOTOR":
+                                case "CIRCUITPLAY":
+                                case "INDUSTRIAL101":
+                                case "LININO_ONE":
+                                    options.Processor = "atmega32u4";
+                                    break;
+                                case "UNO":
+                                case "UNO_WIFI_DEV_ED":
+                                case "NANO":
+                                case "DIECIMILA":
+                                case "DUEMILANOVE":
+                                case "MINI":
+                                case "FIO":
+                                case "BT":
+                                case "ETHERNET":
+                                case "LILYPAD":
+                                case "PRO":
+                                    options.Processor = "atmega328p";
+                                    break;
+                                case "ADK":
+                                case "MEGA2560":
+                                    options.Processor = "atmega2560";
+                                    break;
+                                case "MEGA":
+                                    options.Processor = "atmega1280";
+                                    break;
+                                case "NG":
+                                    options.Processor = "atmega168";
+                                    break;
+                                case "GEMMA":
+                                    options.Processor = "attiny85";
+                                    break;
+                                default:
+                                    {
+                                        Console.Error.WriteLine("Model not supported. Defaulting to UNO");
+                                        options.Arduino = "UNO";
+                                        options.Processor = "atmega328p";
+                                        break;
+                                    }
+                            }
+                        }
+                        else
+                        {
+                            Console.Error.WriteLine($"Error: Model was not defined. Defaulting to UNO");
+                        }
+                        break;
+                    case "-p":
+                    case "--port":
+                        if (args.Length >= i + 2 && !args[i + 1].StartsWith('-'))
+                        {
+                            i++;
+                            if (int.TryParse(args[i], out int result))
+                            {
+                                options.Port = result;
+                            }
+                            else
+                            {
+                                Console.Error.WriteLine($"Error: Unknown parameter '{args[i]}'.");
+                                return null;
+                            }
+                        }
+                        else
+                        {
+                            Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available");
+                            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                            {
+                                ProcessStartInfo psi = new ProcessStartInfo();
+                                psi.FileName = "powershell";
+                                psi.UseShellExecute = false;
+                                psi.RedirectStandardOutput = true;
+
+                                psi.Arguments = "[System.IO.Ports.SerialPort]::getportnames()";
+                                Process p = Process.Start(psi);
+                                string[] strOutput = p.StandardOutput.ReadToEnd().Split("\n");
+                                p.WaitForExit();
+                                if (strOutput.Length > 1)
+                                {
+                                    int.TryParse(strOutput[1].Substring(3), out int result);
+                                    options.Port = result;
+                                }
+                            }
+                            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+                            {
+                                throw new NotImplementedException("This feature is currently not supported on Linux. Please specify a port yourself.");
+                            }
                         }
                         break;
                     default:
