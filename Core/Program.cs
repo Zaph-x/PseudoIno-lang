@@ -117,48 +117,45 @@ namespace Core
                     Console.Error.WriteLine(e.Message);
                     return 2;
                 }
-                if (!options.OutputFile)
+
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                 {
+                    Console.WriteLine("We're on Linux!");
+                    path = path.Replace(" ", "\\ ");
+                    List<string> cmds = new List<string>();
 
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
-                    {
-                        Console.WriteLine("We're on Linux!");
-                        path = path.Replace(" ", "\\ ");
-                        List<string> cmds = new List<string>();
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o /dev/null");
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o {path}/PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
+                    cmds.Add($"{path}PrecompiledBinaries/unix/tools-builder/ctags/5.8-arduino11/ctags -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives {path}/PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
 
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o /dev/null");
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o {path}/PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
-                        cmds.Add($"{path}PrecompiledBinaries/unix/tools-builder/ctags/5.8-arduino11/ctags -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives {path}/PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
-
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o");
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o {path}/PrecompiledBinaries/randomAFile.a -L{path}/PrecompiledBinaries/tmp -lm");
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/output.cpp.eep");
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -R .eeprom {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/output.cpp.hex");
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avrdude -C{path}/PrecompiledBinaries/etc/avrdude.conf -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D -Uflash:w:{path}/PrecompiledBinaries/tmp/output.cpp.hex:i");
-                        RunCommandsUnix(cmds, "");
-                    }
-                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                    {
-                        Console.WriteLine("We're on Windows!");
-                        path = path.Replace('/', '\\');
-
-                        List<string> cmds = new List<string>();
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o nul");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\ctags.exe\" -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++.exe\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\"");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-gcc.exe\" -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\" \"{path}\\PrecompiledBinaries\\randomAFile.a\" \"-L{path}\\PrecompiledBinaries\\tmp\" -lm");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.eep\"");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -R .eeprom \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex\"");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avrdude\" \"-C{path}\\PrecompiledBinaries\\etc\\avrdude.conf\" -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D \"-Uflash:w:{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex:i\"");
-                        RunCommandWindows(cmds, "");
-                    }
-                    else
-                    {
-                        verbosePrinter.Error("OS not supported! Stopping.");
-                    }
-
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o");
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o {path}/PrecompiledBinaries/randomAFile.a -L{path}/PrecompiledBinaries/tmp -lm");
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/output.cpp.eep");
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -R .eeprom {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/output.cpp.hex");
+                    if (!options.OutputFile) cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avrdude -C{path}/PrecompiledBinaries/etc/avrdude.conf -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D -Uflash:w:{path}/PrecompiledBinaries/tmp/output.cpp.hex:i");
+                    RunCommandsUnix(cmds, "");
                 }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    Console.WriteLine("We're on Windows!");
+                    path = path.Replace('/', '\\');
+
+                    List<string> cmds = new List<string>();
+                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o nul");
+                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
+                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\ctags.exe\" -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
+                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++.exe\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\"");
+                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-gcc.exe\" -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\" \"{path}\\PrecompiledBinaries\\randomAFile.a\" \"-L{path}\\PrecompiledBinaries\\tmp\" -lm");
+                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.eep\"");
+                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -R .eeprom \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex\"");
+                    if (!options.OutputFile) cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avrdude\" \"-C{path}\\PrecompiledBinaries\\etc\\avrdude.conf\" -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D \"-Uflash:w:{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex:i\"");
+                    RunCommandWindows(cmds, "");
+                }
+                else
+                {
+                    verbosePrinter.Error("OS not supported! Stopping.");
+                }
+
 
                 //TODO further compilation
                 //"C:\\Program Files (x86)\Arduino\hardware\tools\avr/bin/avr-g++" -c -g -Os -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR "-IC:\\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino" "-IC:\\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard" "C:\Users\bruger\Documents\aau\4semester\\P4\github\\P4-program\Tests\CodeGeneration.Tests\bin\Debug\netcoreapp3.1\Codegen_output.cpp" -o "C:\Users\bruger\Documents\aau\4semester\\P4\github\\P4-program\Tests\CodeGeneration.Tests\bin\Debug\netcoreapp3.1\Codegen_output.cpp.o"
