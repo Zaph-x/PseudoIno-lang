@@ -109,7 +109,11 @@ namespace Core
                 {
                     File.Delete($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp");
                     parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp"));
-                    if (options.DryRun) File.Delete($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp");
+                    if (options.DryRun)
+                    {
+                        File.Delete($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp");
+                        return 0;
+                    }
                 }
                 catch (FileNotFoundException e)
                 {
