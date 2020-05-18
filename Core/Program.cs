@@ -21,13 +21,15 @@ namespace Core
 {
     public class Program
     {
+        static VerbosePrinter verbosePrinter;
+        static CommandLineOptions options;
         public static int Main(string[] args)
         {
 
             Stopwatch timer = new Stopwatch();
             timer.Start();
-            CommandLineOptions options = ParseOptions(args);
-            VerbosePrinter verbosePrinter = new VerbosePrinter(options);
+            options = ParseOptions(args);
+            verbosePrinter = new VerbosePrinter(options);
             if (options?.InputFile == null)
             {
                 Help();
@@ -107,11 +109,11 @@ namespace Core
 
                 try
                 {
-                    File.Delete($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp");
-                    parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp"));
+                    File.Delete($"{path}PrecompiledBinaries/tmp/sketch/output.cpp");
+                    parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}PrecompiledBinaries/tmp/sketch/output.cpp"));
                     if (options.DryRun)
                     {
-                        File.Delete($"{path}/PrecompiledBinaries/tmp/sketch/output.cpp");
+                        File.Delete($"{path}PrecompiledBinaries/tmp/sketch/output.cpp");
                         return 0;
                     }
                 }
@@ -128,32 +130,60 @@ namespace Core
                     path = path.Replace(" ", "\\ ");
                     List<string> cmds = new List<string>();
 
-                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o /dev/null");
-                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o {path}/PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
-                    cmds.Add($"{path}PrecompiledBinaries/unix/tools-builder/ctags/5.8-arduino11/ctags -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives {path}/PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ {(options.Verbose ? "-v" : "")} -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}PrecompiledBinaries/tmp/sketch/output.cpp -o /dev/null");
 
-                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}/PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}/PrecompiledBinaries/tmp/sketch/output.cpp -o {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o");
-                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o {path}/PrecompiledBinaries/randomAFile.a -L{path}/PrecompiledBinaries/tmp -lm");
-                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/output.cpp.eep");
-                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -R .eeprom {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/output.cpp.hex");
-                    if (!options.OutputFile) cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avrdude -C{path}/PrecompiledBinaries/etc/avrdude.conf -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D -Uflash:w:{path}/PrecompiledBinaries/tmp/output.cpp.hex:i");
-                    RunCommandsUnix(cmds, "");
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ {(options.Verbose ? "-v" : "")} -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}PrecompiledBinaries/tmp/sketch/output.cpp -o {path}PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
+
+                    cmds.Add($"{path}PrecompiledBinaries/unix/tools-builder/ctags/5.8-arduino11/ctags {(options.Verbose ? "-v" : "")} -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives {path}PrecompiledBinaries/tmp/preproc/ctags_target_for_gcc_minus_e.cpp");
+
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-g++ {(options.Verbose ? "-v" : "")} -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}PrecompiledBinaries/unix/hardware/arduino/avr/cores/arduino -I{path}PrecompiledBinaries/unix/hardware/arduino/avr/variants/standard {path}PrecompiledBinaries/tmp/sketch/output.cpp -o {path}PrecompiledBinaries/tmp/sketch/output.cpp.o");
+
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc {(options.Verbose ? "-v" : "")} -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o {path}PrecompiledBinaries/tmp/output.cpp.elf {path}PrecompiledBinaries/tmp/sketch/output.cpp.o {path}PrecompiledBinaries/randomAFile.a -L{path}PrecompiledBinaries/tmp -lm");
+
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy {(options.Verbose ? "-v" : "")} -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 {path}PrecompiledBinaries/tmp/output.cpp.elf {path}PrecompiledBinaries/tmp/output.cpp.eep");
+
+                    cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy {(options.Verbose ? "-v" : "")} -O ihex -R .eeprom {path}PrecompiledBinaries/tmp/output.cpp.elf {path}PrecompiledBinaries/tmp/output.cpp.hex");
+
+                    if (!options.OutputFile) cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avrdude {(options.Verbose ? "-v" : "")} -C{path}PrecompiledBinaries/etc/avrdude.conf -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D -Uflash:w:{path}PrecompiledBinaries/tmp/output.cpp.hex:i");
+                    RunCommands(cmds, "/bin/bash");
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     Console.WriteLine("We're on Windows!");
+                    if (options.Port == "COM0")
+                    {
+                        Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available");
+                        ProcessStartInfo psi = new ProcessStartInfo();
+                        psi.FileName = "powershell";
+                        psi.UseShellExecute = false;
+                        psi.RedirectStandardOutput = true;
+
+                        psi.Arguments = "[System.IO.Ports.SerialPort]::getportnames()";
+                        Process p = Process.Start(psi);
+                        string[] strOutput = p.StandardOutput.ReadToEnd().Split("\n");
+                        p.WaitForExit();
+                        options.Port = strOutput[1];
+                    }
                     path = path.Replace('/', '\\');
 
                     List<string> cmds = new List<string>();
-                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o nul");
-                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
-                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\ctags.exe\" -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives \"{path}\\PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
-                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-g++.exe\" -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}\\PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\"");
-                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-gcc.exe\" -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\" \"{path}\\PrecompiledBinaries\\randomAFile.a\" \"-L{path}\\PrecompiledBinaries\\tmp\" -lm");
-                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.eep\"");
-                    cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -R .eeprom \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex\"");
-                    if (!options.OutputFile) cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avrdude\" \"-C{path}\\PrecompiledBinaries\\etc\\avrdude.conf\" -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D \"-Uflash:w:{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex:i\"");
-                    RunCommandWindows(cmds, "");
+
+                    cmds.Add($"\"{path}PrecompiledBinaries\\win\\avr-g++\" {(options.Verbose ? "-v" : "")} -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o nul");
+
+                    cmds.Add($"\"{path}PrecompiledBinaries\\win\\avr-g++\" {(options.Verbose ? "-v" : "")} -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
+
+                    cmds.Add($"\"{path}PrecompiledBinaries\\win\\ctags.exe\" {(options.Verbose ? "-v" : "")} -u --language-force=c++ -f - --c++-kinds=svpf --fields=KSTtzns --line-directives \"{path}PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"");
+
+                    cmds.Add($"\"{path}PrecompiledBinaries\\win\\avr-g++.exe\" {(options.Verbose ? "-v" : "")} -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\"");
+
+                    cmds.Add($"\"{path}PrecompiledBinaries\\win\\avr-gcc.exe\" {(options.Verbose ? "-v" : "")} -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o \"{path}PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\" \"{path}PrecompiledBinaries\\randomAFile.a\" \"-L{path}PrecompiledBinaries\\tmp\" -lm");
+
+                    cmds.Add($"\"{path}PrecompiledBinaries\\win\\avr-objcopy.exe\" {(options.Verbose ? "-v" : "")} -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 \"{path}PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}PrecompiledBinaries\\tmp\\output.cpp.eep\"");
+
+                    cmds.Add($"\"{path}PrecompiledBinaries\\win\\avr-objcopy.exe\" {(options.Verbose ? "-v" : "")} -O ihex -R .eeprom \"{path}PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}PrecompiledBinaries\\tmp\\output.cpp.hex\"");
+
+                    if (!options.OutputFile) cmds.Add($"\"{path}PrecompiledBinaries\\win\\avrdude\" {(options.Verbose ? "-v" : "")} \"-C{path}PrecompiledBinaries\\etc\\avrdude.conf\" -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D \"-Uflash:w:{path}PrecompiledBinaries\\tmp\\output.cpp.hex:i\"");
+                    RunCommands(cmds, "CMD.exe");
                 }
                 else
                 {
@@ -170,16 +200,16 @@ namespace Core
             return 0;
         }
 
-        static void RunCommandsUnix(List<string> cmds, string workingDirectory = "")
+        static void RunCommands(List<string> cmds, string shell)
         {
             var process = new Process();
             var psi = new ProcessStartInfo();
-            psi.FileName = "/bin/bash";
+            psi.FileName = shell;
             psi.RedirectStandardInput = true;
             psi.RedirectStandardOutput = true;
             psi.RedirectStandardError = true;
             psi.UseShellExecute = false;
-            psi.WorkingDirectory = workingDirectory;
+            psi.WorkingDirectory = "";
             process.StartInfo = psi;
             process.Start();
             // process.OutputDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
@@ -188,35 +218,9 @@ namespace Core
             process.BeginErrorReadLine();
             using (StreamWriter sw = process.StandardInput)
             {
-                foreach (var cmd in cmds)
+                for (int i = 0; i < cmds.Count; i++)
                 {
-                    sw.WriteLine(cmd);
-                }
-            }
-            process.WaitForExit();
-        }
-
-        static void RunCommandWindows(List<string> cmds, string workingDirectory = "")
-        {
-            var process = new Process();
-            var psi = new ProcessStartInfo();
-            psi.FileName = "CMD.exe";
-            psi.RedirectStandardInput = true;
-            psi.RedirectStandardOutput = true;
-            psi.RedirectStandardError = true;
-            psi.UseShellExecute = false;
-            psi.WorkingDirectory = workingDirectory;
-            process.StartInfo = psi;
-            process.Start();
-            // process.OutputDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
-            process.ErrorDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            using (StreamWriter sw = process.StandardInput)
-            {
-                foreach (var cmd in cmds)
-                {
-                    sw.WriteLine(cmd);
+                    sw.WriteLine(cmds[i]);
                 }
             }
             process.WaitForExit();
@@ -229,19 +233,19 @@ namespace Core
             System.Console.WriteLine("");
             System.Console.WriteLine("Usage:");
             System.Console.WriteLine("    pic <source code> [options]");
-            System.Console.WriteLine("    <source code>        The path to the code, that is to be compiled.");
-            System.Console.WriteLine("    [options]            See Optional Paramters");
+            System.Console.WriteLine("    <source code>           The path to the code, that is to be compiled.");
+            System.Console.WriteLine("    [options]               See Optional Paramters");
             System.Console.WriteLine("");
             System.Console.WriteLine("Optional Parameters:");
-            System.Console.WriteLine("    -d | --DryRun          Runs the compiler without producing an output.");
-            System.Console.WriteLine("    -o | --Output          Tells the compiler not to write to the Arduino, and instead produce a file.");
-            System.Console.WriteLine("    -v | --Verbose         Prints additional information when compiling.");
-            System.Console.WriteLine("    -b | --boilerplate     Generates a boilerplate file for your code.");
-            System.Console.WriteLine("    -l | --logfile <path>  Prints additional information when compiling.");
-            System.Console.WriteLine("    -p | --port <number>   Specifies the port to upload to.");
-            System.Console.WriteLine("    -a | --arduino <model> Specifies the arduino model you're uploading to. (Default: UNO)");
-            System.Console.WriteLine("    -pr| --proc <model>    Specifies the arduino processor you're uploading to. (Default: atmega328p)");
-            System.Console.WriteLine("    -pp| --prettyprinter   Print the abstract syntax tree.");
+            System.Console.WriteLine("    -d  | --DryRun          Runs the compiler without producing an output.");
+            System.Console.WriteLine("    -o  | --Output          Tells the compiler not to write to the Arduino, and instead produce a file.");
+            System.Console.WriteLine("    -v  | --Verbose         Prints additional information when compiling.");
+            System.Console.WriteLine("    -b  | --boilerplate     Generates a boilerplate file for your code.");
+            System.Console.WriteLine("    -l  | --logfile <path>  Prints additional information when compiling.");
+            System.Console.WriteLine("    -p  | --port <number>   Specifies the port to upload to.");
+            System.Console.WriteLine("    -a  | --arduino <model> Specifies the arduino model you're uploading to. (Default: UNO)");
+            System.Console.WriteLine("    -pr | --proc <model>    Specifies the arduino processor you're uploading to. (Default: atmega328p)");
+            System.Console.WriteLine("    -pp | --prettyprinter   Print the abstract syntax tree.");
             System.Console.WriteLine("");
         }
 
