@@ -1,3 +1,8 @@
+using System.Linq;
+using System;
+using System.Collections.Generic;
+using static Lexer.Objects.TokenType;
+
 namespace Lexer.Objects
 {
     /// <summary>
@@ -11,6 +16,10 @@ namespace Lexer.Objects
         /// </summary>
         ERROR = -1,
         /* Keywords */
+
+        /// <summary>
+        /// Begin token, terminal
+        /// </summary>
         BEGIN,
         ///<summary>
         /// Assignment token type
@@ -43,6 +52,8 @@ namespace Lexer.Objects
         /// Array index accessor token type
         /// </summary>
         ARRAYINDEX,
+        ARRAYACCESSING,
+        INDEXER,
         // loops
         ///<summary>
         /// For loop token type
@@ -61,7 +72,6 @@ namespace Lexer.Objects
         /// Else statement token type
         /// </summary>
         ELSE,
-        //TODO Add LEQ and GRQ
         // bool operators
         ///<summary>
         /// Bool greater than operator token type
@@ -87,6 +97,10 @@ namespace Lexer.Objects
         /// Bool not token type
         /// </summary>
         OP_NOT,
+        ///<summary>
+        /// Bool or equal token type
+        /// </summary>
+        OP_OREQUAL,
         ///<summary>
         /// Bool questionmark than token type
         /// </summary>
@@ -114,6 +128,7 @@ namespace Lexer.Objects
         /// Multiline comment token type
         /// </summary>
         MULT_COMNT,
+
         /* TYPES */
         ///<summary>
         /// Numeric integer token type
@@ -135,6 +150,7 @@ namespace Lexer.Objects
         /// Range token type
         /// </summary>
         RANGE,
+
         /* Arithmetic operators */
         ///<summary>
         /// Plus token type
@@ -194,14 +210,34 @@ namespace Lexer.Objects
         /// Hour token type
         /// </summary>
         TIME_HR,
+        /// <summary>
+        /// With token, terminal
+        /// </summary>
         WITH,
+        /// <summary>
+        /// Equals token, terminal
+        /// </summary>
         EQUALS,
+        /// <summary>
+        /// Do token, terminal
+        /// </summary>
         DO,
+        /// <summary>
+        /// In token, terminal
+        /// </summary>
         IN,
+        /// <summary>
+        /// Numeric token, terminal
+        /// </summary>
         NUMERIC,
+        /// <summary>
+        /// Newline token, terminal
+        /// </summary>
         NEWLINE,
+        /// <summary>
+        /// End of file token, terminal
+        /// </summary>
         EOF,
-        
         //Parser
         /// <summary>
         /// Program token, non terminal
@@ -248,6 +284,14 @@ namespace Lexer.Objects
         /// </summary>
         IFSTMNT,
         /// <summary>
+        /// ELSE statement token, non terminal
+        /// </summary>
+        ELSESTMNT,
+        /// <summary>
+        /// Else If statement token, non terminal
+        /// </summary>
+        ELSEIFSTMNT,
+        /// <summary>
         /// Pin token, non terminal
         /// </summary>
         PIN,
@@ -256,6 +300,10 @@ namespace Lexer.Objects
         /// </summary>
         FUNCCALL,
         /// <summary>
+        /// Function declaration token, non terminal
+        /// </summary>
+        FUNCDECL,
+        /// <summary>
         /// Argument list token, non terminal
         /// </summary>
         ARGLIST,
@@ -263,14 +311,6 @@ namespace Lexer.Objects
         /// Function token, non terminal
         /// </summary>
         FUNCTION,
-        /// <summary>
-        /// Function statement token, non terminal
-        /// </summary>
-        FUNCSTMNT,
-        /// <summary>
-        /// Function statements token, non terminal
-        /// </summary>
-        FUNCSTMNTS,
         /// <summary>
         /// Code block token, non terminal
         /// </summary>
@@ -299,10 +339,7 @@ namespace Lexer.Objects
         /// End for token, non terminal
         /// </summary>
         ENDFOR,
-        /// <summary>
-        /// Or equal token, non terminal
-        /// </summary>
-        OREQUAL,
+        ENDVAR,
         /// <summary>
         /// Assignment token, non terminal
         /// </summary>
@@ -312,13 +349,13 @@ namespace Lexer.Objects
         /// </summary>
         TYPE,
         /// <summary>
-        /// Argument token, non terminal
+        /// Declaration parameter token, terminal
         /// </summary>
-        ARG,
+        DECLPARAM,
         /// <summary>
-        /// Optional arguments token, non terminal
+        /// Optional arguments token, terminal
         /// </summary>
-        OPTNL_ARGS,
+        DECLPARAMS,
         /// <summary>
         /// Beginable token, non terminal
         /// </summary>
@@ -326,6 +363,153 @@ namespace Lexer.Objects
         /// <summary>
         /// Array token, non terminal
         /// </summary>
-        ARR
+        ARR,
+        /// <summary>
+        /// First paramter in function call, non terminal
+        /// </summary>
+        CALLPARAM,
+        /// <summary>
+        /// Additional parameters in function call, non terminal
+        /// </summary>
+        CALLPARAMS,
+        /// <summary>
+        /// Wait statement, non terminal
+        /// </summary> 
+        WAITSTMNT,
+        /// <summary>
+        /// Epsilon transition, non terminal
+        /// </summary>
+        EPSILON,
+        /// <summary>
+        /// Range operator, terminal
+        /// </summary>
+        OP_RANGE,
+        /// <summary>
+        /// Time modeifer, non terminal
+        /// </summary>
+        TIME_MOD,
+        /// <summary>
+        /// Comman seperator, terminal
+        /// </summary>
+        SEPARATOR,
+        RETURN,
+        RETSTMNT,
+        ENDIF,
+        NT_COMMENT,
+        ASSIGNSTMNT,
+        TERM, FOLLOWTERM, FACTOR, FOLLOWFACTOR, TERMOP, FACTOROP, OP_GEQ, OP_LEQ
+    }
+
+    /// <summary>
+    /// A class with static classes to operate on token types.
+    /// </summary>
+    public class TokenTypeExpressions
+    {
+        /// <summary>
+        /// This function will determine if a given token is a non-terminal
+        /// </summary>
+        /// <param name="type">The token to check</param>
+        /// <returns>True if the token is a non-terminal. Else false.</returns>
+        public static bool IsNonTerminal(TokenType type)
+        {
+            return type == PROG
+            || type == COMMENT
+            || type == STMNTS
+            || type == STMNT
+            || type == ASSIGNSTMNT
+            || type == ASSIGNMENT
+            || type == EXPR
+            || type == FOLLOWTERM
+            || type == TERM
+            || type == FOLLOWFACTOR
+            || type == FACTOR
+            || type == ARRAYACCESSING
+            || type == ARRAYINDEX
+            || type == TERMOP
+            || type == FACTOROP
+            || type == BOOL_OP
+            || type == OP_OREQUAL
+            || type == VAL
+            || type == ARR
+            || type == PIN
+            || type == IFSTMNT
+            || type == ENDIF
+            || type == ELSESTMNT
+            || type == ELSEIFSTMNT
+            || type == FUNCCALL
+            || type == FUNCDECL
+            || type == ENDFUNC
+            || type == DECLPARAMS
+            || type == DECLPARAM
+            || type == RETSTMNT
+            || type == BEGINSTMNT
+            || type == BEGINABLE
+            || type == LOOPW
+            || type == ENDWHILE
+            || type == LOOPF
+            || type == ENDFOR
+            || type == RANGE
+            || type == WAITSTMNT
+            || type == TIME_MOD
+            || type == CALLPARAMS
+            || type == CALLPARAM;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsBlock(TokenType type)
+        {
+            return type == PROG
+                   || type == IFSTMNT
+                   || type == ELSE
+                   || type == ELSEIFSTMNT
+                   || type == FUNC
+                   || type == WHILE
+                   || type == FOR
+                   || type == IF;
+
+        }
+
+        public static bool IsRef(TokenType type)
+        {
+            return type == ASSIGNMENT
+                   || type == APIN
+                   || type == DPIN
+                   || type == VAR
+                   || type == FUNCCALL;
+        }
+
+        public static bool IsDcl(TokenType type)
+        {
+            return type == ASSIGNMENT
+                   || type == FUNC
+                   || type == APIN
+                   || type == DPIN;
+        }
+        /// <summary>
+        /// Determines whether a token is an operator
+        /// </summary>
+        /// <param name="type">The token to test</param>
+        /// <returns>True if a token is an operator. Else false</returns>
+        public static bool IsOperator(TokenType type)
+        {
+            return type == OP_TIMES || type == OP_DIVIDE
+            || type == OP_PLUS || type == OP_MINUS
+            || type == OP_AND || type == OP_OR
+            || type == OP_EQUAL || type == OP_NOT
+            || type == OP_GREATER || type == OP_LESS
+            || type == OP_MODULO || type == OP_RPAREN
+            || type == OP_RPAREN || type == OP_LEQ
+            || type == OP_GEQ;
+        }
+
+        /// <summary>
+        /// This function will determine if a given token is terminal
+        /// </summary>
+        /// <param name="type">The token to test</param>
+        /// <returns>True if the token is a terminal. Else false.</returns>
+        public static bool IsTerminal(TokenType type) => !IsNonTerminal(type);
     }
 }

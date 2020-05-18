@@ -1,5 +1,8 @@
 namespace Lexer.Objects
 {
+    /// <summary>
+    /// Scanner token class. Inherits from Token class
+    /// </summary>
     public class ScannerToken : Token
     {
         /// <summary>
@@ -14,7 +17,7 @@ namespace Lexer.Objects
             this.Type = type;
             this.Value = val;
             this.Line = line;
-            this.Offset = offset;
+            this.Offset = offset - val.Length;
         }
         /// <summary>
         /// The constructor of a token with no value such as Operator tokens
@@ -28,6 +31,11 @@ namespace Lexer.Objects
             this.Value = "";
             this.Line = line;
             this.Offset = offset;
+        }
+
+        public ScannerToken Copy()
+        {
+            return new ScannerToken(this.Type, this.Value, this.Line, this.Offset);
         }
     }
 }

@@ -58,7 +58,7 @@ namespace Core.Tests
             Assert.IsTrue(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
         }
 
-        [TestCase("./test_file.pi")]
+        /*[TestCase("./test_file.pi")]
         public void Test_Main_CanFollowThrough(string path)
         {
             using (FileStream fs = File.Create(path)) {}
@@ -68,6 +68,6 @@ namespace Core.Tests
 
             using (FileStream fs = File.Open(path, FileMode.Truncate)) {}
 
-        }
+        }*/
     }
 }

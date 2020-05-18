@@ -5,6 +5,8 @@ should also be accepted >#
 a is 4
 b is 6
 c is a + b
-func test with (numeric x, numeric y, numeric z)
-    x + y equals z?
+func test
+    return (a + b) equal c
 end test
+func loop
+end loop

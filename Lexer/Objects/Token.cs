@@ -26,12 +26,18 @@ namespace Lexer.Objects
         /// <value>Set in the constructor</value>  
         public int Offset {get;protected set;}
 
+        public TypeContext SymbolicType {get;set;}
+
         /// <summary>
         /// A function to format tokens, when printed to the screen or in other ways used as a string
         /// </summary>
         /// <returns>A string representation of the token</returns>
-        public override string ToString() => $"({Line}:{Offset}) {Type} => {Value}";
+        public override string ToString() => $"({Line}:{Offset})".PadRight(8) + $" {Type} => {Value}";
 
+        /// <summary>
+        /// Overrides the GetHashCode method and returns the value of the enum
+        /// </summary>
+        /// <returns>int with value of enum</returns>
         public override int GetHashCode()
         {
             return Type.GetHashCode();

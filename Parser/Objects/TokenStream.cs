@@ -1,60 +1,58 @@
 using System.Collections.Generic;
+using System.Linq;
 using Lexer.Objects;
 
 namespace Parser.Objects
 {
-    /// <summary>
-    /// A class representing a stream of tokens to parse.
-    /// </summary>
     public class TokenStream
     {
-        /// <summary>
-        /// The current index in the stream
-        /// </summary>
-        /// <value>0 by default</value>  
         private int Index { get; set; }
-        /// <summary>
-        /// The list of tokens to parse
-        /// </summary>  
         private List<ScannerToken> Tokens;
-        /// <summary>
-        /// The constructor of the TokenStream. This takes a list of tokens as parameter and uses it as the stream.
-        /// </summary>
-        /// <param name="tokens">A list of tokens provided by the scanner</param>
-        public TokenStream(List<ScannerToken> tokens)
+
+        public int Length {get => Tokens.Count;}
+        
+        public TokenStream(IEnumerable<ScannerToken> tokens)
         {
             Tokens = new List<ScannerToken>();
-            Tokens.Add(new ScannerToken(TokenType.START,"",1,1));
             foreach (var var in tokens)
             {
-                Tokens.Add(var);
+                Tokens.Add(var as ScannerToken);
             }
         }
 
-        /// <summary>
-        /// A peek function to get the next token in the stream, without advancing.
-        /// </summary>
-        /// <returns>The next token in the stream</returns>
-        public Token Peek()
+        public ScannerToken Peek()
         {
             return Tokens[Index + 1];
         }
 
-        /// <summary>
-        /// Increments the index by one
-        /// </summary>
+        public bool AtEnd()
+        {
+            if (Index + 1 > Length - 1)
+            {
+                return true;
+            }
+            return false;
+            }
+
+        public void Prev()
+        {
+            Index--;
+        }
+        public ScannerToken Peek(int lookAhead)
+        {
+            return Tokens[Index + lookAhead];
+        }
+
         public void Advance()
         {
             Index += 1;
         }
 
-        /// <summary>
-        /// A function to get the token at the current index in the stream. This is done by accessing the list of tokens at the current index.
-        /// </summary>
-        /// <returns>The current token in the stream.</returns>
-        public Token Current()
+        public ScannerToken EOF => Tokens.First(token => token.Type == TokenType.EOF) as ScannerToken;
+        public ScannerToken PROG => Tokens[0] as ScannerToken;
+        public ScannerToken Current()
         {
-            return Tokens[Index];
+            return Tokens[Index] as ScannerToken;
         }
     }
 }

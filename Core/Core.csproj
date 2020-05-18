@@ -1,7 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\CodeGeneration\CodeGeneration.csproj" />
     <ProjectReference Include="..\Lexer\Lexer.csproj" />
+    <ProjectReference Include="..\Parser\Parser.csproj" />
+    <Content Include="boilerplate" CopyToOutputDirectory="Always" />
+    <Content Include="PrecompiledBinaries\**"> 
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory> 
+    </Content> 
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AbstractSyntaxTree\AbstractSyntaxTree.csproj" />
+    <ProjectReference Include="..\Contextual_analysis\Contextual_analysis.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

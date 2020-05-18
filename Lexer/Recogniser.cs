@@ -48,7 +48,7 @@ namespace Lexer
         /// </returns>
         public bool IsAcceptedCharacter(char character)
         {
-            return IsBetween(character, 'a', 'z') || IsBetween(character, 'A', 'Z');
+            return IsBetween(character, 'a', 'z') || IsBetween(character, 'A', 'Z') || character == '_';
         }
 
         /// <summary>

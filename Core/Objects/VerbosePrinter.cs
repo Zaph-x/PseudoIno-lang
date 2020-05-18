@@ -15,9 +15,22 @@ namespace Core.Objects
             {
                 System.Console.WriteLine("Verbosity enabled.");
             }
+            if (Options.LogFile != null)
+            {
+                if (File.Exists(Options.LogFile))
+                {
+                    File.WriteAllText(Options.LogFile, "");
+                }
+                else
+                {
+                    using (var stream = File.Create(Options.LogFile))
+                    { }
+                    File.AppendAllText(Options.LogFile, "");
+                }
+            }
         }
 
-        public void log(object obj)
+        public void Log(object obj)
         {
             if (!string.IsNullOrEmpty(Options.LogFile))
             {
@@ -25,11 +38,15 @@ namespace Core.Objects
                 {
                     File.AppendAllText(Options.LogFile, obj.ToString() + "\n");
                 }
-                else
+            }
+        }
+        public void LogInline(object obj)
+        {
+            if (!string.IsNullOrEmpty(Options.LogFile))
+            {
+                if (File.Exists(Options.LogFile))
                 {
-                    using (var stream = File.Create(Options.LogFile))
-                    { }
-                    File.AppendAllText(Options.LogFile, obj.ToString() + "\n");
+                    File.AppendAllText(Options.LogFile, obj.ToString());
                 }
             }
         }
@@ -40,8 +57,18 @@ namespace Core.Objects
             {
                 Console.WriteLine(obj);
             }
-            log(obj);
+            Log(obj);
         }
+
+        public void InfoInline(object obj)
+        {
+            if (Options.Verbose)
+            {
+                Console.Write(obj);
+            }
+            LogInline(obj);
+        }
+
 
         public void Error(object obj)
         {
@@ -51,7 +78,7 @@ namespace Core.Objects
                 Console.Error.WriteLine(obj);
                 Console.ResetColor();
             }
-            log("ERROR: " + obj);
+            Log("ERROR: " + obj);
         }
     }
 }

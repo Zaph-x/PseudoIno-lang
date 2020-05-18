@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +17,7 @@ namespace Lexer
         /// <summary>
         /// The list of tokens generated when the source language is being scanned
         /// </summary>
-        public List<Token> Tokens = new List<Token>();
+        public LinkedList<ScannerToken> Tokens = new LinkedList<ScannerToken>();
 
         /// <summary>
         /// Initialisation of the recogniser
@@ -52,8 +53,9 @@ namespace Lexer
         /// A bool value to check if the tokenizer found any illegal syntax
         /// </summary>
         /// <value>False, unless a syntax error has been found</value>
-        public static bool HasError {get; set;}
+        public static bool HasError { get; set; }
 
+        private Stack<ScannerToken> ParenthesisStack { get; set; } = new Stack<ScannerToken>();
         /// <summary>
         /// The stream that the scanner is reading from
         /// </summary>
@@ -82,7 +84,7 @@ namespace Lexer
         /// <returns>
         /// A token from the value.
         /// </returns>
-        public Token Token(TokenType type, string val)
+        public ScannerToken Token(TokenType type, string val)
         {
             return new ScannerToken(type, val, Line, Offset);
         }
@@ -95,7 +97,7 @@ namespace Lexer
         /// <returns>
         /// A token without a value.
         /// </returns>
-        public Token Token(TokenType type)
+        public ScannerToken Token(TokenType type)
         {
             return new ScannerToken(type, "", Line, Offset);
         }
@@ -172,17 +174,6 @@ namespace Lexer
         }
 
         /// <summary>
-        /// Checks if the current character is the end of file character
-        /// </summary>
-        /// <returns>
-        /// True if the current character is end of file, otherwise false.
-        /// </returns>
-        private bool IsEOF()
-        {
-            return (int)CurrentChar == '\uffff';
-        }
-
-        /// <summary>
         /// Checks if a given character is the end of file character
         /// </summary>
         /// <param name="character">The character to check</param>
@@ -206,18 +197,6 @@ namespace Lexer
         }
 
         /// <summary>
-        /// Checks if a given character is a whitespace
-        /// </summary>
-        /// <param name="character">The character to check</param>
-        /// <returns>
-        /// True if the character is a whitespace, otherwise false.
-        /// </returns>
-        private bool IsSpace(char character)
-        {
-            return character == ' ';
-        }
-
-        /// <summary>
         /// This function will scan a secquence of characters beginning with a digit.
         /// The function will traverse the stream until it sees a character that is no longer recognized as a digit.
         /// If the non-digit character is a period (.) and it is the first period in the sequence, the function will treat the following digits as floating points.
@@ -233,6 +212,7 @@ namespace Lexer
         /// </summary>
         private void ScanNumeric()
         {
+            bool isFloat = false;
             string subString = CurrentChar.ToString();
             while (recogniser.IsDigit(Peek()))
             {
@@ -240,11 +220,11 @@ namespace Lexer
                 subString += CurrentChar;
             }
             // Make sure it isn't a range
-            if (Peek() == '.' && recogniser.IsDigit(Peek(2)))
+            if (Peek() == '.' && Peek(2) != '.')
             {
+                isFloat = !isFloat;
                 Pop();
                 subString += CurrentChar;
-
                 while (recogniser.IsDigit(Peek()))
                 {
                     Pop();
@@ -254,10 +234,11 @@ namespace Lexer
                 {
                     subString += "0";
                 }
-                Tokens.Add(Token(TokenType.NUMERIC_FLOAT, subString));
-                return;
             }
-            Tokens.Add(Token(TokenType.NUMERIC_INT, subString));
+            ScannerToken token = Token(TokenType.NUMERIC, subString);
+            token.SymbolicType = new TypeContext(TokenType.NUMERIC);
+            token.SymbolicType.IsFloat = isFloat;
+            Tokens.AddLast(token);
         }
 
         /// <summary>
@@ -278,7 +259,7 @@ namespace Lexer
             {
                 new InvalidSyntaxException($"Invalid range symbol. Range symbol must be '..' but was '{subString}'. Error at line {Line}:{Offset}.");
             }
-            Tokens.Add(Token(TokenType.RANGE));
+            Tokens.AddLast(Token(TokenType.OP_RANGE));
         }
 
         /// <summary>
@@ -310,7 +291,7 @@ namespace Lexer
             {
                 new InvalidSyntaxException($"Strings must be closed. Error at line {Line}:{Offset}.");
             }
-            Tokens.Add(Token(TokenType.STRING, subString));
+            Tokens.AddLast(Token(TokenType.STRING, subString));
         }
 
         /// <summary>
@@ -325,7 +306,7 @@ namespace Lexer
                 Pop();
                 subString += CurrentChar;
             }
-            Tokens.Add(Token(TokenType.COMMENT, subString));
+            Tokens.AddLast(Token(TokenType.COMMENT, subString));
         }
 
         /// <summary>
@@ -352,7 +333,7 @@ namespace Lexer
             {
                 new InvalidSyntaxException($"Multiline comments must be closed before reaching end of file. Error at line {Line}:{Offset}.");
             }
-            Tokens.Add(Token(TokenType.MULT_COMNT, subString));
+            Tokens.AddLast(Token(TokenType.MULT_COMNT, subString));
         }
 
         /// <summary>
@@ -373,16 +354,70 @@ namespace Lexer
         private void ScanWord()
         {
             string subString = CurrentChar.ToString();
-            while (recogniser.IsAcceptedCharacter(Peek()))
+            ScannerToken token;
+            while (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))
             {
                 subString += Pop();
             }
-            if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
+            if (Regex.Match(subString.ToLower(), "(a|d)pin\\d+").Success)
             {
-                Tokens.Add(Token(tokenType));
+                if (subString.StartsWith("a"))
+                {
+                    token = Token(TokenType.APIN, "A" + subString.Substring(4));
+                    token.SymbolicType = new TypeContext(TokenType.APIN);
+                    Tokens.AddLast(token);
+                }
+                else
+                {
+                    token = Token(TokenType.DPIN, subString.Substring(4));
+                    token.SymbolicType = new TypeContext(TokenType.DPIN);
+                    Tokens.AddLast(token);
+                }
                 return;
             }
-            Tokens.Add(Token(TokenType.VAR, subString));
+            if (Keywords.Keys.TryGetValue(subString, out TokenType tokenType))
+            {
+                if (tokenType == TokenType.BOOL)
+                {
+                    if (subString.ToLower() == "on")
+                    {
+                        token = Token(tokenType, "true");
+                        token.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(token);
+                    }
+                    else if (subString.ToLower() == "off")
+                    {
+                        token = Token(tokenType, "false");
+                        token.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(token);
+                    }
+                    else
+                    {
+                        token = Token(tokenType, subString);
+                        token.SymbolicType = new TypeContext(TokenType.BOOL);
+                        Tokens.AddLast(token);
+                    }
+                }
+                else
+                {
+                    token = Token(tokenType);
+                    if (TokenTypeExpressions.IsOperator(tokenType))
+                        token.SymbolicType = new TypeContext(tokenType);
+
+                    Tokens.AddLast(token);
+                }
+                return;
+            }
+            token = Token(TokenType.VAR, subString);
+            if (Tokens.Any() && (Tokens.Last().Type == TokenType.FUNC || Tokens.Last().Type == TokenType.CALL))
+            {
+                token.SymbolicType = new TypeContext(TokenType.FUNC);
+            }
+            else
+            {
+                token.SymbolicType = new TypeContext(TokenType.VAR);
+            }
+            Tokens.AddLast(token);
             subString = "";
             if (Peek() == '\n')
             {
@@ -391,22 +426,17 @@ namespace Lexer
             if (Peek() == '@')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.ARRAYINDEX));
-            }
-            else if (Peek() == '?')
-            {
-                Pop();
-                Tokens.Add(Token(TokenType.OP_QUESTIONMARK));
+                Tokens.AddLast(Token(TokenType.ARRAYINDEX));
             }
             else if (Peek() == '[')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.ARRAYLEFT));
+                Tokens.AddLast(Token(TokenType.ARRAYLEFT));
             }
             else if (Peek() == ']')
             {
                 Pop();
-                Tokens.Add(Token(TokenType.ARRAYRIGHT));
+                Tokens.AddLast(Token(TokenType.ARRAYRIGHT));
             }
         }
 
@@ -421,28 +451,110 @@ namespace Lexer
         /// </summary>
         private void ScanOperators()
         {
+            ScannerToken token;
             switch (CurrentChar)
             {
                 case '+':
-                    Tokens.Add(Token(TokenType.OP_PLUS));
+                    token = Token(TokenType.OP_PLUS);
+                    token.SymbolicType = new TypeContext(TokenType.OP_PLUS);
+                    Tokens.AddLast(token);
                     break;
                 case '-':
-                    Tokens.Add(Token(TokenType.OP_MINUS));
+                    token = Token(TokenType.OP_MINUS);
+                    token.SymbolicType = new TypeContext(TokenType.OP_MINUS);
+                    Tokens.AddLast(token);
                     break;
                 case '*':
-                    Tokens.Add(Token(TokenType.OP_TIMES));
+                    token = Token(TokenType.OP_TIMES);
+                    token.SymbolicType = new TypeContext(TokenType.OP_TIMES);
+                    Tokens.AddLast(token);
                     break;
                 case '/':
-                    Tokens.Add(Token(TokenType.OP_DIVIDE));
+                    token = Token(TokenType.OP_DIVIDE);
+                    token.SymbolicType = new TypeContext(TokenType.OP_DIVIDE);
+                    Tokens.AddLast(token);
                     break;
                 case '%':
-                    Tokens.Add(Token(TokenType.OP_MODULO));
+                    token = Token(TokenType.OP_MODULO);
+                    token.SymbolicType = new TypeContext(TokenType.OP_MODULO);
+                    Tokens.AddLast(token);
                     break;
                 case '(':
-                    Tokens.Add(Token(TokenType.OP_LPAREN));
+                    token = Token(TokenType.OP_LPAREN);
+                    ParenthesisStack.Push(token);
+                    Tokens.AddLast(token);
                     break;
                 case ')':
-                    Tokens.Add(Token(TokenType.OP_RPAREN));
+                    ParenthesisStack.Pop();
+                    Tokens.AddLast(Token(TokenType.OP_RPAREN));
+                    break;
+                case ',':
+                    Tokens.AddLast(Token(TokenType.SEPARATOR));
+                    break;
+                case '<':
+                    if (Peek() == '=')
+                    {
+                        Tokens.AddLast(Token(TokenType.OP_LESS));
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.OP_OR));
+                        Tokens.AddLast(Token(TokenType.OP_EQUAL));
+                    }
+                    else if (Peek() == '-')
+                    {
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.ASSIGN));
+                    }
+                    else
+                    {
+                        Tokens.AddLast(Token(TokenType.OP_LESS));
+                    }
+                    break;
+                case '>':
+                    Tokens.AddLast(Token(TokenType.OP_GREATER));
+                    if (Peek() == '=')
+                    {
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.OP_OR));
+                        Tokens.AddLast(Token(TokenType.OP_EQUAL));
+                    }
+                    break;
+                case '&':
+                    if (Peek() == '&')
+                    {
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.OP_AND));
+                    }
+                    else
+                    {
+                        new InvalidSyntaxException("And operator requires two '&' symbols");
+                    }
+                    break;
+                case '|':
+                    if (Peek() == '|')
+                    {
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.OP_OR));
+                    }
+                    else
+                    {
+                        new InvalidSyntaxException("And operator requires two '|' symbols");
+                    }
+                    break;
+                case ':':
+                    if (Peek() == '=')
+                    {
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.ASSIGN));
+                    }
+                    break;
+                case '=':
+                    if (Peek() == '=')
+                    {
+                        Pop();
+                        Tokens.AddLast(Token(TokenType.OP_EQUAL));
+                    } else {
+                        Tokens.AddLast(Token(TokenType.ASSIGN));
+                    }
                     break;
                 default:
                     new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
@@ -456,6 +568,7 @@ namespace Lexer
         public void GenerateTokens()
         {
             // Ensure we are not dealing with an empty file.
+            // Tokens.AddFirst(new ScannerToken(TokenType.PROG, "", 0, 0));
             while (!IsEOF(Peek()))
             {
                 Pop();
@@ -466,11 +579,14 @@ namespace Lexer
                 else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanWord(); }
                 else if (CurrentChar == '#' && Peek() != '<') { ScanComment(); }
                 else if (CurrentChar == '#' && Peek() == '<') { ScanMultiLineComment(); }
-                else if ("+-*/%()".Contains(CurrentChar)) { ScanOperators(); }
+                else if ("+-*/%(),<>&|:=".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
-
             }
-
+            if (ParenthesisStack.Any())
+            {
+                new InvalidSyntaxException($"Unclosed parenthesis at ({ParenthesisStack.Peek().Line}:{ParenthesisStack.Peek().Offset})");
+            }
+            // Tokens.AddLast(new ScannerToken(TokenType.EOF, "", this.Line, this.Offset + 1));
         }
     }
 }

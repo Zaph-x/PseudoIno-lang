@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AbstractSyntaxTree\AbstractSyntaxTree.csproj" />
     <ProjectReference Include="..\Lexer\Lexer.csproj" />
-    <ProjectReference Include="..\Parser\Parser.csproj" />
   </ItemGroup>
 
 </Project>
