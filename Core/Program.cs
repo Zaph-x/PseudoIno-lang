@@ -445,7 +445,7 @@ namespace Core
                             }
                             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                             {
-                                throw new NotImplementedException("This feature is currently not supported on Linux. Please specify a port yourself.");
+                                throw new NotImplementedException("This feature is currently not supported on your platform. Please specify a port yourself.");
                             }
                         }
                         break;
