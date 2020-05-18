@@ -25,7 +25,6 @@ namespace Core
         static CommandLineOptions options;
         public static int Main(string[] args)
         {
-
             Stopwatch timer = new Stopwatch();
             timer.Start();
             options = ParseOptions(args);
@@ -127,6 +126,13 @@ namespace Core
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                 {
                     Console.WriteLine("We're on Linux!");
+                    if (options.Port == "COM0")
+                    {
+                        Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to guess the port.");
+                        string[] devices = "ls /dev/tty*".Bash().Split("\n");
+                        if (devices.Any(str => str.Contains("ACM")))
+                            options.Port = devices.First(str => str.Contains("ACM"));
+                    }
                     path = path.Replace(" ", "\\ ");
                     $"chmod -R a+x {path}".Bash();
                     $"{path}PrecompiledBinaries/hardware/tools/avr/bin/avr-g++ {(options.Verbose ? "-v" : "")} -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10811 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR -I{path}PrecompiledBinaries/arduino/avr/cores/arduino -I{path}PrecompiledBinaries/hardware/arduino/avr/variants/standard {path}PrecompiledBinaries/tmp/sketch/output.cpp -o /dev/null".Bash();
@@ -431,7 +437,7 @@ namespace Core
                         }
                         else
                         {
-                            Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available");
+                            Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to guess the port.");
                             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                             {
                                 ProcessStartInfo psi = new ProcessStartInfo();
@@ -443,11 +449,15 @@ namespace Core
                                 Process p = Process.Start(psi);
                                 string[] strOutput = p.StandardOutput.ReadToEnd().Split("\n");
                                 p.WaitForExit();
-                                options.Port = strOutput[1];
+                                if (strOutput.Length > 1)
+                                    options.Port = strOutput[1];
                             }
                             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                             {
-                                throw new NotImplementedException("This feature is currently not supported on your platform. Please specify a port yourself.");
+                                Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to guess the port.");
+                                string[] devices = "ls /dev/tty*".Bash().Split("\n");
+                                if (devices.Any(str => str.Contains("ACM")))
+                                    options.Port = devices.First(str => str.Contains("ACM"));
                             }
                         }
                         break;
