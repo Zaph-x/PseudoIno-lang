@@ -16,7 +16,6 @@ namespace Contextual_analysis
         private SymbolTableObject CurrentScope = SymbolTableBuilder.GlobalSymbolTable;
         public static bool HasError { get; set; } = false;
 
-
         public override object Visit(TimesNode timesNode)
         {
             return new TypeContext(OP_TIMES);
@@ -28,12 +27,17 @@ namespace Contextual_analysis
             TypeContext lhs = (TypeContext)assignmentNode.LeftHand.Accept(this);
             if (lhs.Type == VAR)
             {
-               
+                if (!CurrentScope.HasDeclaredVar((assignmentNode.LeftHand as VarNode).Id))
+                {
+                    (assignmentNode.LeftHand as VarNode).Declaration = true;
+                    CurrentScope.DeclaredVars.Add((assignmentNode.LeftHand as VarNode).Id);
+                }
                 if (CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
                 {
-                    CurrentScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs, CurrentScope.Name);
+                    CurrentScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs, CurrentScope.Name, true);
                 }
                 lhs = CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode);
+
             }
             if (lhs.Type != rhs.Type)
             {
@@ -149,27 +153,27 @@ namespace Contextual_analysis
             {
                 if (opctx == null) {} else if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
                 {
-                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name);
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
                 }
                 else if (IsOfTypes(opctx, OP_AND, OP_OR))
                 {
-                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name);
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name, true);
                 }
                 lhs = CurrentScope.FindSymbol(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode);
-                (((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode).Declaration = false;
+                
             }
             if (rhs?.Type == VAR)
             {
                 if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
                 {
-                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name);
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
                 }
                 else if (IsOfTypes(opctx, OP_AND, OP_OR))
                 {
-                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name);
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name, true);
                 }
                 rhs = CurrentScope.FindSymbol(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode);
-                (((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode).Declaration = false;
+                
             }
             if (opctx == null)
             {
@@ -203,27 +207,27 @@ namespace Contextual_analysis
             {
                 if (opctx == null) {} else if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
                 {
-                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name);
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
                 }
                 else if (IsOfTypes(opctx, OP_AND, OP_OR))
                 {
-                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name);
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name, true);
                 }
                 lhs = CurrentScope.FindSymbol(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode);
-                (((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode).Declaration = false;
+                
             }
             if (rhs?.Type == VAR)
             {
                 if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
                 {
-                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name);
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
                 }
                 else if (IsOfTypes(opctx, OP_AND, OP_OR))
                 {
-                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name);
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name, true);
                 }
                 rhs = CurrentScope.FindSymbol(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode);
-                (((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode).Declaration = false;
+                
             }
             if (rhs == null && opctx == null)
             {
@@ -266,7 +270,7 @@ namespace Contextual_analysis
             TypeContext fromType = (TypeContext)forNode.From.Accept(this);
             TypeContext toType = (TypeContext)forNode.To.Accept(this);
             if (null == CurrentScope.FindSymbol(forNode.CountingVariable)) CurrentScope.Symbols.Add(new Symbol(forNode.CountingVariable.Id, NUMERIC, false, forNode.CountingVariable));
-            else CurrentScope.UpdateTypedef(forNode.CountingVariable, new TypeContext(TokenType.NUMERIC) { IsFloat = false }, CurrentScope.Name);
+            else CurrentScope.UpdateTypedef(forNode.CountingVariable, new TypeContext(TokenType.NUMERIC) { IsFloat = false }, CurrentScope.Name, true);
             if (fromType.Type != toType.Type)
                 new InvalidTypeException($"Mismatch in range types at {forNode.Line}:{forNode.Offset}");
             forNode.Statements.ForEach(stmnt => stmnt.Accept(this));

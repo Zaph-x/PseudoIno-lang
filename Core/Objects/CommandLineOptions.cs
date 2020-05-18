@@ -36,5 +36,21 @@ namespace Core.Objects
         /// A Boolean value to specify if the compiler should print the AST.
         /// </summary>
         public bool PrettyPrinter { get; set; }
+        /// <summary>
+        /// An integer value for the given COMPort the arduino is attached to.
+        /// </summary>
+        /// <value>0 if no other value is assigned. The compiler will try to figure out what port to use if no port is defined</value>
+        public string Port {get;set;} = "COM0";
+        /// <summary>
+        /// A string value that specifies the arduino processor you're uploading to.
+        /// </summary>
+        /// <value>UNO</value>
+        public string Arduino {get;set;} = "UNO";
+        /// <summary>
+        /// A string value to specify the onboard processor.
+        /// </summary>
+        /// <value>atmega328p</value>
+        public string Processor {get;set;} = "atmega328p";
+
     }
 }
