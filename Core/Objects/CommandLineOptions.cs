@@ -36,5 +36,9 @@ namespace Core.Objects
         /// A Boolean value to specify if the compiler should print the AST.
         /// </summary>
         public bool PrettyPrinter { get; set; }
+        /// <summary>
+        /// A Boolean value to specify if the compiler should use a path from tests.
+        /// </summary>
+        public bool TestPath { get; set; }
     }
 }
