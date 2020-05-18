@@ -125,7 +125,6 @@ namespace CodeGeneration
             {
                 assign += (string)assignmentNode.LeftHand.Accept(this);
                 assign += " = ";
-                // assignmentNode.Operator.Accept(this);
                 assign += (string)assignmentNode.RightHand.Accept(this);
             }
 
@@ -162,6 +161,9 @@ namespace CodeGeneration
                 else if (varNode.SymbolType.Type == TokenType.BOOL)
                 {
                     varNodeId += "bool ";
+                } else if (varNode.SymbolType.Type == TokenType.STRING)
+                {
+                    varNodeId += "String ";
                 }
             }
             varNodeId += varNode.Id;
@@ -244,7 +246,7 @@ namespace CodeGeneration
                 {
                     if (node.Type == TokenType.ASSIGNMENT)
                     {
-                        if (((VarNode)((AssignmentNode)node).LeftHand).Declaration)
+                        if (((AstNode)((AssignmentNode)node).LeftHand).GetType().IsAssignableFrom(typeof(VarNode)) && ((VarNode)((AssignmentNode)node).LeftHand).Declaration)
                         {
                             Declarations += node.Accept(this);
                             continue;
@@ -493,15 +495,16 @@ namespace CodeGeneration
 
         public override object Visit(ElseStatementNode elseStatement)
         {
-            string elseString = "else{\n";
             if (elseStatement.Statements.Any())
             {
+                string elseString = "else{\n";
                 elseStatement.Statements.ForEach(node => node.Parent = elseStatement);
                 elseStatement.Statements.ForEach(node => elseString += node.Accept(this));
+                elseString += "\n}\n";
+                return elseString;
             }
 
-            elseString += "\n}\n";
-            return elseString;
+            return "";
         }
 
         public override object Visit(ElseifStatementNode elseifStatementNode)
