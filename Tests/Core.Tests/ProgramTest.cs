@@ -58,16 +58,17 @@ namespace Core.Tests
             Assert.IsTrue(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
         }
 
-        /*[TestCase("./test_file.pi")]
+        [TestCase("premade-programs/pass/3.pi")]
         public void Test_Main_CanFollowThrough(string path)
         {
-            using (FileStream fs = File.Create(path)) {}
-            Program.Main(new string[] { path, "-d" });
+            string dir = "../../../../../" + path;
+            //using (FileStream fs = File.Create(path)) {}
+            Program.Main(new string[] { dir, "-t", "-o" });    
 
             Assert.IsTrue(writer.ToString() == "", $"The compiler failed to compile the source code.\n\nOutput: {writer.ToString()}");
 
-            using (FileStream fs = File.Open(path, FileMode.Truncate)) {}
+            //using (FileStream fs = File.Open(dir, FileMode.Truncate)) {}
 
-        }*/
+        }
     }
 }
