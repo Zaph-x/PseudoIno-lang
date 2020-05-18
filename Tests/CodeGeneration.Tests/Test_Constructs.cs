@@ -77,9 +77,7 @@ end loop
         
 
         //Fade med If statment else else if 
-        private const string FadeIfstatment =
-        @"
-func trigger with brightness
+        private const string FadeIfstatment = @"  func trigger with brightness
     amountToAdd is 5
     if (brightness less or equal 0) or (brightness greater or equal 255) do
         amountToAdd is amountToAdd* -1
@@ -88,16 +86,38 @@ func trigger with brightness
     else 
         amountToAdd is 5
     end if
-    brightness is amountToAdd + brightness 
-    apin1 is brightness 
+    brightness is amountToAdd + brightness
+    apin1 is brightness
     wait 1s
 end trigger
 
 func loop
     brightness is 0
-    call trigger with brightness 
-end loop
-";
+    call trigger with brightness
+end loop";
+//        @"
+//func trigger with brightness
+//    amountToAdd is 5
+//    if (brightness == 0)  do
+//        amountToAdd is amountToAdd* -1
+//    else if (brightness > 0) do
+//        amountToAdd is 1
+
+        //    else 
+        //        amountToAdd is 5
+        //end if
+        //    end if
+        //    brightness is amountToAdd + brightness 
+        //    apin1 is brightness 
+        //    wait 1s
+        //end trigger
+
+        //func loop
+        //    brightness is 0
+        //    call trigger with brightness 
+        //end loop
+        //";
+
 
         //blink program med while loop til arduino
         private const string Blinkwhile = @"
@@ -117,93 +137,6 @@ end loop
 ";
 
 
-
-        //kan køre
-        private const string whilestatment =
-@"#while statement test
-func trigger with g
-g is 4
-z is on
-begin while z  do    
-g is g +1
-z is off
-end while 
-
-end trigger
-
-func loop
-g is 0
-  call trigger with g
-end loop";
-
-        private const string whilestatment2 =
-              @"#while statement test
-
-
-func trigger with g
-g is 4
-z is 8
-begin while z less 9  do    
-g is g +1
-z is 9
-end while 
-z is 10
-
-#while test 2
-begin while z greater 9  do    
-g is g +1
-z is 9
-end while  
-y is 10
-
-#test while bool
-x is on
-begin while x  do    
-x is off
-end while
-end trigger
-func loop
-g is 0
-  call trigger with g
-end loop";
-
-        //kan ikke køre 
-        private const string whilestatment3 =
-      @"#while statement test
-func trigger with g
-g is 4
-z is 8
-begin while (z less or equal 9) or (z is less 9)  do    
-g is g +1
-z is 9
-end while 
-z is 10
-begin while z greater 9  do    
-g is g +1
-z is 9
-end while 
-
-end trigger
-
-func loop
-g is 0
-  call trigger with g
-end loop";
-
-
-        private const string forstatmenttest =
-      @"#for statement test
-func trigger with g
-g is 4
-begin for x in 1..5 do
-g is x
-end for
-end trigger
-
-func loop
-g is 0
-  call trigger with g
-end loop";
         #endregion
         string nowhere;
 
@@ -286,24 +219,24 @@ end loop";
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
             parser.Root.Accept(codeGenerationVisitor);
         }
-        //[Test]
-        //public void Test_Fadeif()
-        //{
-        //    StreamReader FakeReader = CreateFakeReader(FadeIfstatment, Encoding.UTF8);
-        //    Tokenizer tokenizer = new Tokenizer(FakeReader);
-        //    tokenizer.GenerateTokens();
-        //    List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-        //    Parsenizer parser = new Parsenizer(tokens);
-        //    parser.Parse(out nowhere);
-        //    if (Parsenizer.HasError)
-        //        Assert.Fail();
-        //    /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-        //    parser.Root.Accept(symboltablevisitor);*/
-        //    //TypeChecker typeChecker = new TypeChecker();
-        //    parser.Root.Accept(new TypeChecker());
-        //    CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-        //    parser.Root.Accept(codeGenerationVisitor);
-        //}
+        [Test]
+        public void Test_Fadeif()
+        {
+            StreamReader FakeReader = CreateFakeReader(FadeIfstatment, Encoding.UTF8);
+            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parsenizer parser = new Parsenizer(tokens);
+            parser.Parse(out nowhere);
+            if (Parsenizer.HasError)
+                Assert.Fail();
+            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+            parser.Root.Accept(symboltablevisitor);*/
+            //TypeChecker typeChecker = new TypeChecker();
+            parser.Root.Accept(new TypeChecker());
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+            parser.Root.Accept(codeGenerationVisitor);
+        }
         [Test]
         public void Test_BlinkWhile()
         {
