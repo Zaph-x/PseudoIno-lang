@@ -7,6 +7,7 @@ using Contextual_analysis;
 using Lexer;
 using Lexer.Objects;
 using Parser;
+using System;
 
 namespace CodeGeneration.Tests
 {
@@ -139,18 +140,33 @@ end loop
 
         #endregion
         string nowhere;
+        public string FileName;
 
         [SetUp]
         public void TestInit()
+        { }
+     
+        [OneTimeTearDown]
+        public void TearDown()
         {
-
+            File.Delete(AppContext.BaseDirectory + "Codegen_output.cpp");
         }
 
-               #region Language constructs 
-        [Test]
-        public void Test_Bar_minimum()
+        #region Language constructs tests
+        //Bar minimum program 
+        [TestCase(BarMinimum)]
+        //blink program til arduino
+        [TestCase(Blink)]
+        //Blink2 mega med for loop til arduino uno analog pin 0 - 5
+        [TestCase(Blink2)]
+        //Fade program analog pin
+        [TestCase(Fade)]
+        //Fade med If statment else else if 
+        [TestCase(FadeIfstatment)]
+        [TestCase(Blinkwhile)]
+        public void Test_Program(string program)
         {
-            StreamReader FakeReader = CreateFakeReader(BarMinimum, Encoding.UTF8);
+            StreamReader FakeReader = CreateFakeReader(program, Encoding.UTF8);
             Tokenizer tokenizer = new Tokenizer(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
@@ -158,103 +174,100 @@ end loop
             parser.Parse(out nowhere);
             if (Parsenizer.HasError)
                 Assert.Fail();
-            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-            parser.Root.Accept(symboltablevisitor);*/
-            //TypeChecker typeChecker = new TypeChecker();
             parser.Root.Accept(new TypeChecker());
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
             parser.Root.Accept(codeGenerationVisitor);
         }
-        [Test]
-        public void Test_Blink()
-        {
-            StreamReader FakeReader = CreateFakeReader(Blink, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-            parser.Root.Accept(symboltablevisitor);*/
-            //TypeChecker typeChecker = new TypeChecker();
-            parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-            parser.Root.Accept(codeGenerationVisitor);
-        }
-        [Test]
-        public void Test_Fade()
-        {
-            StreamReader FakeReader = CreateFakeReader(Fade, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-            parser.Root.Accept(symboltablevisitor);*/
-            //TypeChecker typeChecker = new TypeChecker();
-            parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-            parser.Root.Accept(codeGenerationVisitor);
-        }
-        [Test]
-        public void Test_Blink2()
-        {
-            StreamReader FakeReader = CreateFakeReader(Blink2, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-            parser.Root.Accept(symboltablevisitor);*/
-            //TypeChecker typeChecker = new TypeChecker();
-            parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-            parser.Root.Accept(codeGenerationVisitor);
-        }
-        [Test]
-        public void Test_Fadeif()
-        {
-            StreamReader FakeReader = CreateFakeReader(FadeIfstatment, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-            parser.Root.Accept(symboltablevisitor);*/
-            //TypeChecker typeChecker = new TypeChecker();
-            parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-            parser.Root.Accept(codeGenerationVisitor);
-        }
-        [Test]
-        public void Test_BlinkWhile()
-        {
-            StreamReader FakeReader = CreateFakeReader(Blinkwhile, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
-                Assert.Fail();
-            /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
-            parser.Root.Accept(symboltablevisitor);*/
-            //TypeChecker typeChecker = new TypeChecker();
-            parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
-            parser.Root.Accept(codeGenerationVisitor);
-        }
+        //[Test]
+        //public void Test_Blink()
+        //{
+        //    StreamReader FakeReader = CreateFakeReader(Blink, Encoding.UTF8);
+        //    Tokenizer tokenizer = new Tokenizer(FakeReader);
+        //    tokenizer.GenerateTokens();
+        //    List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+        //    Parsenizer parser = new Parsenizer(tokens);
+        //    parser.Parse(out nowhere);
+        //    if (Parsenizer.HasError)
+        //        Assert.Fail();
+        //    /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+        //    parser.Root.Accept(symboltablevisitor);*/
+        //    //TypeChecker typeChecker = new TypeChecker();
+        //    parser.Root.Accept(new TypeChecker());
+        //    CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+        //    parser.Root.Accept(codeGenerationVisitor);
+        //}
+        //[Test]
+        //public void Test_Fade()
+        //{
+        //    StreamReader FakeReader = CreateFakeReader(Fade, Encoding.UTF8);
+        //    Tokenizer tokenizer = new Tokenizer(FakeReader);
+        //    tokenizer.GenerateTokens();
+        //    List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+        //    Parsenizer parser = new Parsenizer(tokens);
+        //    parser.Parse(out nowhere);
+        //    if (Parsenizer.HasError)
+        //        Assert.Fail();
+        //    /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+        //    parser.Root.Accept(symboltablevisitor);*/
+        //    //TypeChecker typeChecker = new TypeChecker();
+        //    parser.Root.Accept(new TypeChecker());
+        //    CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+        //    parser.Root.Accept(codeGenerationVisitor);
+        //}
+        //[Test]
+        //public void Test_Blink2()
+        //{
+        //    StreamReader FakeReader = CreateFakeReader(Blink2, Encoding.UTF8);
+        //    Tokenizer tokenizer = new Tokenizer(FakeReader);
+        //    tokenizer.GenerateTokens();
+        //    List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+        //    Parsenizer parser = new Parsenizer(tokens);
+        //    parser.Parse(out nowhere);
+        //    if (Parsenizer.HasError)
+        //        Assert.Fail();
+        //    /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+        //    parser.Root.Accept(symboltablevisitor);*/
+        //    //TypeChecker typeChecker = new TypeChecker();
+        //    parser.Root.Accept(new TypeChecker());
+        //    CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+        //    parser.Root.Accept(codeGenerationVisitor);
+        //}
+        //[Test]
+        //public void Test_Fadeif()
+        //{
+        //    StreamReader FakeReader = CreateFakeReader(FadeIfstatment, Encoding.UTF8);
+        //    Tokenizer tokenizer = new Tokenizer(FakeReader);
+        //    tokenizer.GenerateTokens();
+        //    List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+        //    Parsenizer parser = new Parsenizer(tokens);
+        //    parser.Parse(out nowhere);
+        //    if (Parsenizer.HasError)
+        //        Assert.Fail();
+        //    /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+        //    parser.Root.Accept(symboltablevisitor);*/
+        //    //TypeChecker typeChecker = new TypeChecker();
+        //    parser.Root.Accept(new TypeChecker());
+        //    CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+        //    parser.Root.Accept(codeGenerationVisitor);
+        //}
+        //[Test]
+        //public void Test_BlinkWhile()
+        //{
+        //    StreamReader FakeReader = CreateFakeReader(Blinkwhile, Encoding.UTF8);
+        //    Tokenizer tokenizer = new Tokenizer(FakeReader);
+        //    tokenizer.GenerateTokens();
+        //    List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+        //    Parsenizer parser = new Parsenizer(tokens);
+        //    parser.Parse(out nowhere);
+        //    if (Parsenizer.HasError)
+        //        Assert.Fail();
+        //    /*Symboltablevisitor symboltablevisitor = new Symboltablevisitor();
+        //    parser.Root.Accept(symboltablevisitor);*/
+        //    //TypeChecker typeChecker = new TypeChecker();
+        //    parser.Root.Accept(new TypeChecker());
+        //    CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+        //    parser.Root.Accept(codeGenerationVisitor);
+        //}
         public StreamReader CreateFakeReader(string content, Encoding enc)
         {
             byte[] fakeBytes = enc.GetBytes(content);
