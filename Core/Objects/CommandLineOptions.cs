@@ -40,7 +40,7 @@ namespace Core.Objects
         /// An integer value for the given COMPort the arduino is attached to.
         /// </summary>
         /// <value>0 if no other value is assigned. The compiler will try to figure out what port to use if no port is defined</value>
-        public int Port {get;set;} = 0;
+        public string Port {get;set;} = "COM0";
         /// <summary>
         /// A string value that specifies the arduino processor you're uploading to.
         /// </summary>

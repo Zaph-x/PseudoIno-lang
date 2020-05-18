@@ -134,7 +134,7 @@ namespace Core
                         cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-gcc -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/sketch/output.cpp.o {path}/PrecompiledBinaries/randomAFile.a -L{path}/PrecompiledBinaries/tmp -lm");
                         cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/output.cpp.eep");
                         cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avr-objcopy -O ihex -R .eeprom {path}/PrecompiledBinaries/tmp/output.cpp.elf {path}/PrecompiledBinaries/tmp/output.cpp.hex");
-                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avrdude -C{path}/PrecompiledBinaries/etc/avrdude.conf -v -p{options.Processor} -carduino -P/dev/ttyACM{options.Port} -b115200 -D -Uflash:w:{path}/PrecompiledBinaries/tmp/output.cpp.hex:i");
+                        cmds.Add($"{path}PrecompiledBinaries/unix/hardware/tools/avr/bin/avrdude -C{path}/PrecompiledBinaries/etc/avrdude.conf -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D -Uflash:w:{path}/PrecompiledBinaries/tmp/output.cpp.hex:i");
                         RunCommandsUnix(cmds, "");
                     }
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -150,7 +150,7 @@ namespace Core
                         cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-gcc.exe\" -w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu={options.Processor} -o \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\sketch\\output.cpp.o\" \"{path}\\PrecompiledBinaries\\randomAFile.a\" \"-L{path}\\PrecompiledBinaries\\tmp\" -lm");
                         cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.eep\"");
                         cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avr-objcopy.exe\" -O ihex -R .eeprom \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex\"");
-                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avrdude\" \"-C{path}\\PrecompiledBinaries\\etc\\avrdude.conf\" -v -p{options.Processor} -carduino -PCOM{options.Port} -b115200 -D \"-Uflash:w:{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex:i\"");
+                        cmds.Add($"\"{path}\\PrecompiledBinaries\\win\\avrdude\" \"-C{path}\\PrecompiledBinaries\\etc\\avrdude.conf\" -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D \"-Uflash:w:{path}\\PrecompiledBinaries\\tmp\\output.cpp.hex:i\"");
                         RunCommandWindows(cmds, "");
                     }
                     else
@@ -423,15 +423,9 @@ namespace Core
                         if (args.Length >= i + 2 && !args[i + 1].StartsWith('-'))
                         {
                             i++;
-                            if (int.TryParse(args[i], out int result))
-                            {
-                                options.Port = result;
-                            }
-                            else
-                            {
-                                Console.Error.WriteLine($"Error: Unknown parameter '{args[i]}'.");
-                                return null;
-                            }
+
+                            options.Port = args[i];
+
                         }
                         else
                         {
@@ -447,11 +441,7 @@ namespace Core
                                 Process p = Process.Start(psi);
                                 string[] strOutput = p.StandardOutput.ReadToEnd().Split("\n");
                                 p.WaitForExit();
-                                if (strOutput.Length > 1)
-                                {
-                                    int.TryParse(strOutput[1].Substring(3), out int result);
-                                    options.Port = result;
-                                }
+                                options.Port = strOutput[1];
                             }
                             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                             {
