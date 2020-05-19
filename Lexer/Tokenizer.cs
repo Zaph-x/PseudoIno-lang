@@ -485,8 +485,10 @@ namespace Lexer
                     Tokens.AddLast(token);
                     break;
                 case ')':
-                    ParenthesisStack.Pop();
-                    Tokens.AddLast(Token(TokenType.OP_RPAREN));
+                    if (!ParenthesisStack.TryPop(out ScannerToken unused))
+                        new InvalidSyntaxException($"Unexpected ending parenthesis at ({Line}:{Offset})");
+                    else
+                        Tokens.AddLast(Token(TokenType.OP_RPAREN));
                     break;
                 case ',':
                     Tokens.AddLast(Token(TokenType.SEPARATOR));
