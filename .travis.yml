@@ -1,19 +1,26 @@
 language: csharp
 mono: none
-dotnet: 3.1
 git:
   quiet: true
-os:
-- linux
 
-install:
-- dotnet restore
+before_install:
+- set -e
+
+matrix:
+  include:
+    - os: linux
+      name: Linux
+      dotnet: 3.1
+      addons:
+        apt:
+          packages:
+          - coreutils
+    - os: windows
+      name: Windows
+      install:
+      - choco install dotnetcore-sdk
 
 script:
-- dotnet clean
-- dotnet build
-- dotnet test Tests/*.Tests/*.csproj
+- dotnet restore
+- dotnet test
 
-global:
-- DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-- DOTNET_CLI_TELEMETRY_OPTOUT=1

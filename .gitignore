@@ -140,6 +140,7 @@ fabric.properties
 
 ### VisualStudioCode ###
 .vscode/*
+.vscode/
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -154,3 +155,10 @@ fabric.properties
 **/[Oo]bj/
 **/[Dd]ebug]/
 **/[Bb]in/
+
+/.vs/Project
+
+!/Core/PrecompiledBinaries/**
+**/tmp/**
+
+coverage*

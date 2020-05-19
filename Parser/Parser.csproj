@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Lexer\Lexer.csproj" />
+      <ProjectReference Include="..\AbstractSyntaxTree\AbstractSyntaxTree.csproj" />
+      <ProjectReference Include="..\SymbolTable\SymbolTable.csproj" />
+    </ItemGroup>
+
+</Project>
