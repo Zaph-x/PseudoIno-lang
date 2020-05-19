@@ -1,2 +1,2 @@
-.\tools\travis\CompileTest.ps1
-.\Generate-CoverageReport.ps1
+dotnet test
+[Console]::ResetColor()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Runtime.CompilerServices;
+using System;
 using System.Reflection.Metadata;
 using AbstractSyntaxTree.Objects.Nodes;
 using System.Linq;
@@ -124,7 +125,9 @@ namespace Contextual_analysis
                 {
                     TypeContext ctx = GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count).SymbolType;
                     return ctx;
-                } else {
+                }
+                else
+                {
                     new NotDefinedException($"A function '{callNode.Id.Id}' with {callNode.Parameters.Count} parameters has not been defined. Error at {callNode.Line}:{callNode.Offset} ");
                     return null;
                 }
@@ -163,7 +166,9 @@ namespace Contextual_analysis
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
             if (lhs.Type == VAR)
             {
-                if (opctx == null) { }
+                if (opctx == null)
+                {
+                }
                 else if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
                 {
                     CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
@@ -294,7 +299,7 @@ namespace Contextual_analysis
 
         public override object Visit(FuncNode funcNode)
         {
-            CurrentScope = GlobalScope.FindChild($"func_{funcNode.Name.Id}");
+            CurrentScope = GlobalScope.FindChild($"func_{funcNode.Name.Id}_{funcNode.Line}");
             funcNode.Statements.ForEach(stmnt =>
             {
                 if (stmnt is CallNode)

@@ -22,7 +22,7 @@ namespace AbstractSyntaxTree.Tests
             a is 4
             b is 6
             c is a + b
-            if b > a
+            if b > a do
                 
             end if
             func test with x, y, z
@@ -61,8 +61,9 @@ namespace AbstractSyntaxTree.Tests
             Parsenizer.HasError = false;
         }
 
-        [Test]
-        public void Test_ASTHelper_Constructor()
+        [TestCase(content)]
+        [TestCase(content2)]
+        public void Test_ASTHelper_Constructor(string content)
         {
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
             Tokenizer tokenizer = new Tokenizer(FakeReader);
@@ -70,37 +71,13 @@ namespace AbstractSyntaxTree.Tests
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);
             parser.Parse(out nowhere);
-            // ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
+            Assert.IsFalse(Parsenizer.HasError, "The parser encountered an error");
         }
 
         public StreamReader CreateFakeReader(string content, Encoding enc)
         {
             byte[] fakeBytes = enc.GetBytes(content);
             return new StreamReader(new MemoryStream(fakeBytes), enc, false);
-        }
-
-        [Test]
-        public void Test_ASTHelper_Assign()
-        {
-            StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            // ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
-        }
-        
-        [Test]
-        public void Test_ASTHelper_Assign_2()
-        {
-            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
-            parser.Parse(out nowhere);
-            // ASTHelper helper = new ASTHelper(tokenizer.Tokens.ToList());
         }
     }
 }
