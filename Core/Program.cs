@@ -457,7 +457,7 @@ namespace Core
                                 Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to guess the port.");
                                 string[] devices = "ls /dev/tty*".Bash().Split("\n");
                                 if (devices.Any(str => str.Contains("ACM")))
-                                    options.Port = devices.First(str => str.Contains("ACM"));
+                                    options.Port = devices.Last(str => str.Contains("ACM"));
                             }
                         }
                         break;
