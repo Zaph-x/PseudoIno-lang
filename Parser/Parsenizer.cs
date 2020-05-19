@@ -67,8 +67,6 @@ namespace Parser
                 CurrentLine = Tokens[Index].Line;
                 CurrentOffset = Tokens[Index].Offset;
                 verbosity += $"Token: {token} Top: {TopOfStack()}".PadRight(35, ' ');
-                if (token == RETURN)
-                    Console.WriteLine("");
                 if (TokenTypeExpressions.IsTerminal(top))
                 {
                     if (top == token)
