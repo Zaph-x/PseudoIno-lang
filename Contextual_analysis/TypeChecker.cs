@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Reflection.Metadata;
 using AbstractSyntaxTree.Objects.Nodes;
 using System.Linq;
@@ -97,8 +97,14 @@ namespace Contextual_analysis
         {
             programNode.FunctionDefinitons.ForEach(func =>
             {
-                GlobalScope.FunctionDefinitions.Add(func);
-                func.Accept(this);
+                if (!(GlobalScope.FunctionDefinitions.Where(fn => fn.Name.Id == func.Name.Id && func.FunctionParameters.Count == fn.FunctionParameters.Count).Count() > 1))
+                {
+                    func.Accept(this);
+                }
+                else
+                {
+                    new MultipleDefinedException($"A function '{func.Name.Id}' with {func.FunctionParameters.Count} parameters has already been defined. Error at {func.Line}:{func.Offset}");
+                }
             });
             programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             if (programNode.LoopFunction == null)
@@ -114,8 +120,14 @@ namespace Contextual_analysis
         {
             try
             {
-                TypeContext ctx = GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id).SymbolType;
-                return ctx;
+                if (GlobalScope.FunctionDefinitions.Any(func => func.Name.Id == callNode.Id.Id && func.FunctionParameters.Count == callNode.Parameters.Count))
+                {
+                    TypeContext ctx = GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count).SymbolType;
+                    return ctx;
+                } else {
+                    new NotDefinedException($"A function '{callNode.Id.Id}' with {callNode.Parameters.Count} parameters has not been defined. Error at {callNode.Line}:{callNode.Offset} ");
+                    return null;
+                }
             }
             catch
             {
@@ -151,7 +163,8 @@ namespace Contextual_analysis
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
             if (lhs.Type == VAR)
             {
-                if (opctx == null) {} else if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
+                if (opctx == null) { }
+                else if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
                 {
                     CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
                 }
@@ -160,7 +173,7 @@ namespace Contextual_analysis
                     CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name, true);
                 }
                 lhs = CurrentScope.FindSymbol(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode);
-                
+
             }
             if (rhs?.Type == VAR)
             {
@@ -173,7 +186,7 @@ namespace Contextual_analysis
                     CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name, true);
                 }
                 rhs = CurrentScope.FindSymbol(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode);
-                
+
             }
             if (opctx == null)
             {
@@ -205,7 +218,8 @@ namespace Contextual_analysis
             TypeContext opctx = (TypeContext)expressionNode.Operator?.Accept(this);
             if (lhs.Type == VAR)
             {
-                if (opctx == null) {} else if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
+                if (opctx == null) { }
+                else if (IsOfTypes(opctx, OP_LESS, OP_LEQ, OP_GREATER, OP_GEQ, OP_PLUS, OP_MINUS, OP_DIVIDE, OP_TIMES, OP_MODULO))
                 {
                     CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
                 }
@@ -214,7 +228,7 @@ namespace Contextual_analysis
                     CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name, true);
                 }
                 lhs = CurrentScope.FindSymbol(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode);
-                
+
             }
             if (rhs?.Type == VAR)
             {
@@ -227,7 +241,7 @@ namespace Contextual_analysis
                     CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode, new TypeContext(BOOL), CurrentScope.Name, true);
                 }
                 rhs = CurrentScope.FindSymbol(((ExpressionTerm)expressionNode.RightHand.LeftHand).LeftHand as VarNode);
-                
+
             }
             if (rhs == null && opctx == null)
             {
