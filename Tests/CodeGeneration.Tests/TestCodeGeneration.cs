@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -199,6 +200,12 @@ end loop";
             Parsenizer.HasError=false;
             TypeChecker.HasError = false;
             dbg = "";
+        }
+
+        [OneTimeTearDown]
+        public void TearDown()
+        {
+            File.Delete(AppContext.BaseDirectory + "Codegen_output.cpp");
         }
 
         [TestCase(content)]
