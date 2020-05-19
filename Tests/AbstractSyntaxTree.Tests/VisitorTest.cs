@@ -85,12 +85,7 @@ end loop
             parser.Parse(out nowhere);
             if (Parsenizer.HasError)
                 Assert.Fail();
-            // PrettyPrinter printer = new PrettyPrinter();
-            //printer.Visit(parser.Root);
             parser.Root.Accept(new PrettyPrinter());
-
-            // FIXME Denne linje giver Stack Overflow Exception
-            //base.Visit(parser.Root);
         }
 
         public StreamReader CreateFakeReader(string content, Encoding enc)

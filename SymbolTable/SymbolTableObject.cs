@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,13 +46,13 @@ namespace SymbolTable
         }
         public TypeContext FindSymbol(VarNode var)
         {
-            if (this.Symbols.Any(sym => sym.Name == var.Id))
-            {
-                return new TypeContext(this.Symbols.First(sym => sym.Name == var.Id).TokenType);
-            }
-            else if (this.Parent != null)
+            if (this.Parent != null && this.Parent.FindSymbol(var) != null)
             {
                 return this.Parent.FindSymbol(var);
+            }
+            else if (this.Symbols.Any(sym => sym.Name == var.Id))
+            {
+                return new TypeContext(this.Symbols.First(sym => sym.Name == var.Id).TokenType);
             }
             else
             {
@@ -97,6 +97,9 @@ namespace SymbolTable
         {
             SymbolTableObject symobj = SymbolTableBuilder.GlobalSymbolTable.Children.First(symtab => symtab.Name == scopeName);
 
+            FuncNode func = SymbolTableBuilder.GlobalSymbolTable.FunctionDefinitions.First(fn => this.Name.Contains(fn.Name.Id) && this.Name.Contains("_" + fn.Line));
+            if (func.FunctionParameters.Any(vn => vn.Id == node.Id))
+                node.Declaration = false;
             symobj.UpdateTypedef(node, rhs, scopeName, false);
         }
 
@@ -107,7 +110,7 @@ namespace SymbolTable
             {
                 symtab = this.Parent;
             }
-            return symtab.Parent?.Name?.StartsWith("func_") ?? false;
+            return (symtab.Parent?.Name?.StartsWith("func_") ?? false) || (this.Name?.StartsWith("func_") ?? false);
         }
         public SymbolTableObject GetEnclosingFunction()
         {
@@ -118,6 +121,8 @@ namespace SymbolTable
             }
             if (symtab.Parent?.Name?.StartsWith("func_") ?? false)
                 return symtab.Parent;
+            else if ((this.Name?.StartsWith("func_") ?? false))
+                return this;
             return null;
         }
 

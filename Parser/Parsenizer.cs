@@ -502,8 +502,10 @@ namespace Parser
                     }
                     else if (Current.Type == WHILE)
                     {
-                        expr74.Parent = ((WhileNode)Current).Expression;
-                        ((WhileNode)Current).Expression = expr74;
+                        ExpressionNode whileExpr = new BinaryExpression(token.Line, token.Offset);
+                        ((IExpr)whileExpr).LeftHand = expr74;
+                        expr74.Parent = whileExpr;
+                        ((WhileNode)Current).Expression = whileExpr;
                     }
                     Current = (AstNode)expr74;
                     break;
@@ -1005,7 +1007,7 @@ namespace Parser
                     try
                     {
                         _builder.CurrentSymbolTable.FunctionDefinitions.Add((FuncNode)Current);
-                        _builder.OpenScope(token, $"func_{Tokens[Index + 1].Value}");
+                        _builder.OpenScope(token, $"func_{Tokens[Index + 1].Value}_{CurrentLine}");
                     }
                     catch (IndexOutOfRangeException)
                     {
