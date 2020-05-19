@@ -502,20 +502,21 @@ namespace Core
         }
         public static string Cmd(this string cmd)
         {
-            var escapedArgs = cmd.Replace("\"", "\\\"");
-            
             var process = new Process()
             {
+                
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "CMD.exe",
-                    Arguments = $"/c \"{escapedArgs}\"",
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
                     CreateNoWindow = true,
+                    RedirectStandardInput = true,
                 }
             };
             process.Start();
+            using (StreamWriter sw = process.StandardInput)
+                sw.WriteLine(cmd);
             string result = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
             return result;
