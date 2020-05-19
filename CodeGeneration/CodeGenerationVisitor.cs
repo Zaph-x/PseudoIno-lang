@@ -161,7 +161,8 @@ namespace CodeGeneration
                 else if (varNode.SymbolType.Type == TokenType.BOOL)
                 {
                     varNodeId += "bool ";
-                } else if (varNode.SymbolType.Type == TokenType.STRING)
+                }
+                else if (varNode.SymbolType.Type == TokenType.STRING)
                 {
                     varNodeId += "String ";
                 }
@@ -226,14 +227,17 @@ namespace CodeGeneration
 
             if (programNode.FunctionDefinitons.Any())
             {
-                foreach (var functionDefiniton in programNode.FunctionDefinitons)
-                {
-                    //PrintToPrototypes(functionDefiniton.Name.Id + "(");
-                }
-
                 string funcs = "";
-                programNode.FunctionDefinitons.ForEach(node => node.Parent = programNode);
-                programNode.FunctionDefinitons.ForEach(node => funcs += node.Accept(this));
+                programNode.FunctionDefinitons.ForEach(node =>
+                {
+                    if (SymbolTableObject.FunctionCalls.Any(cn => cn.Id.Id == node.Name.Id && cn.Parameters.Count == node.FunctionParameters.Count))
+                        node.Parent = programNode;
+                });
+                programNode.FunctionDefinitons.ForEach(node =>
+                {
+                    if (SymbolTableObject.FunctionCalls.Any(cn => cn.Id.Id == node.Name.Id && cn.Parameters.Count == node.FunctionParameters.Count))
+                        funcs += node.Accept(this);
+                });
                 PrintToFuncs(funcs);
             }
 
