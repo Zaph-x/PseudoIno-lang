@@ -19,6 +19,7 @@ namespace SymbolTable
         private SymbolTableObject _parent { get; set; }
         public List<FuncNode> FunctionDefinitions { get; set; } = new List<FuncNode>();
         public List<string> DeclaredVars = new List<string>();
+        public static List<CallNode> FunctionCalls {get;set;} = new List<CallNode>();
         public SymbolTableObject Parent
         {
             get
@@ -37,6 +38,14 @@ namespace SymbolTable
         public SymbolTableObject()
         {
             SymbolTableBuilder.TopOfScope.Push(this);
+        }
+
+        public void AddCallReference(CallNode call)
+        {
+            if (!FunctionCalls.Any(cn => cn.Id.Id == call.Id.Id && cn.Parameters.Count == call.Parameters.Count))
+            {
+                FunctionCalls.Add(call);
+            }
         }
 
         public override string ToString() => $"{Name}";

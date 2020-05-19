@@ -100,6 +100,18 @@ namespace Contextual_analysis
             {
                 if (!(GlobalScope.FunctionDefinitions.Where(fn => fn.Name.Id == func.Name.Id && func.FunctionParameters.Count == fn.FunctionParameters.Count).Count() > 1))
                 {
+                    if (SymbolTableObject.FunctionCalls.Any(cn => cn.Id.Id == func.Name.Id && cn.Parameters.Count == func.FunctionParameters.Count))
+                    {
+                        CallNode cn = SymbolTableObject.FunctionCalls.First(cn => cn.Id.Id == func.Name.Id && cn.Parameters.Count == func.FunctionParameters.Count);
+                        FuncNode declaredFunc = GlobalScope.FunctionDefinitions.First(fn => fn.Name.Id == func.Name.Id);
+                        SymbolTableObject scope = GlobalScope.FindChild($"func_{declaredFunc.Name.Id}_{declaredFunc.Line}");
+                        for (int i = 0; i < cn.Parameters.Count; i++)
+                        {
+                            if (cn.Parameters[i].SymbolType.Type == VAR)
+                                continue;
+                            scope.UpdateTypedef(declaredFunc.FunctionParameters[i], cn.Parameters[i].SymbolType, scope.Name, true);
+                        }
+                    }
                     func.Accept(this);
                 }
                 else
