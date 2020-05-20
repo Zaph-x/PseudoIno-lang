@@ -281,7 +281,7 @@ namespace CodeGeneration
                 }
                 callString += callNode.Parameters[i].Value;
             }
-            callString += ");\n";
+            callString += $"){((callNode.Parent?.Type == TokenType.EXPR) ? "" : ";\n")}";
             return callString;
         }
 
@@ -374,7 +374,7 @@ namespace CodeGeneration
             func += "\n{\n";
             if (funcNode.Statements.Any())
             {
-                funcNode.Statements.ForEach(node => node.Parent = funcNode);
+                // funcNode.Statements.ForEach(node => node.Parent = funcNode);
                 funcNode.Statements.ForEach(node => func += node.Accept(this));
             }
             func += "\n}\n";
@@ -557,8 +557,8 @@ namespace CodeGeneration
         {
             string exp = "(";
             exp += parenthesisExpression.LeftHand.Accept(this);
-            exp += parenthesisExpression.Operator.Accept(this);
-            exp += parenthesisExpression.RightHand.Accept(this);
+            exp += parenthesisExpression.Operator?.Accept(this);
+            exp += parenthesisExpression.RightHand?.Accept(this);
             exp += ")";
             return exp;
         }

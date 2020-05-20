@@ -105,6 +105,7 @@ namespace Parser.Objects
             this[EXPR, OP_MINUS] = new ParseAction(47,TERM, FOLLOWTERM);
             this[EXPR, OP_LPAREN] = new ParseAction(48,TERM, FOLLOWTERM);
             this[EXPR, BOOL] = new ParseAction(137,TERM, FOLLOWTERM);
+            this[EXPR, CALL] = new ParseAction(200,FUNCCALL, FOLLOWTERM);
 
             this[FOLLOWTERM, EOF] = new ParseAction(9000);
             this[FOLLOWTERM, WAIT] = new ParseAction(9001);
@@ -362,7 +363,9 @@ namespace Parser.Objects
             this[CALLPARAMS, ELSE] = new ParseAction(0);
             this[CALLPARAMS, COMMENT] = new ParseAction(0);
             this[CALLPARAMS, MULT_COMNT] = new ParseAction(0);
+            this[CALLPARAMS, OP_RPAREN] = new ParseAction(0);
 
+            this[CALLPARAM, OP_RPAREN] = new ParseAction(0);
             this[CALLPARAM, EOF] = new ParseAction(0);
             this[CALLPARAM, VAR] = new ParseAction(0);
             this[CALLPARAM, WAIT] = new ParseAction(0);
