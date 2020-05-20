@@ -558,6 +558,12 @@ namespace Lexer
                         Tokens.AddLast(Token(TokenType.ASSIGN));
                     }
                     break;
+                case '[':
+                    Tokens.AddLast(Token(TokenType.ARRAYLEFT));
+                    break;
+                case ']':
+                    Tokens.AddLast(Token(TokenType.ARRAYRIGHT));
+                    break;
                 default:
                     new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
                     return;
@@ -581,7 +587,7 @@ namespace Lexer
                 else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanWord(); }
                 else if (CurrentChar == '#' && Peek() != '<') { ScanComment(); }
                 else if (CurrentChar == '#' && Peek() == '<') { ScanMultiLineComment(); }
-                else if ("+-*/%(),<>&|:=".Contains(CurrentChar)) { ScanOperators(); }
+                else if ("+-*/%(),<>&|:=[]@".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
             }
             if (ParenthesisStack.Any())

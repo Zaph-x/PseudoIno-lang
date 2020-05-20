@@ -24,7 +24,21 @@ namespace Contextual_analysis
 
         public override object Visit(AssignmentNode assignmentNode)
         {
-            TypeContext rhs = (TypeContext)assignmentNode.RightHand.Accept(this);
+            TypeContext rhs;
+            if (assignmentNode.RightHand.GetType().IsAssignableFrom(typeof(ArrayNode)))
+            {
+                ArrayNode arr = (ArrayNode)assignmentNode.RightHand;
+                if (arr.HasBeenAccessed)
+                {
+                    rhs = (TypeContext)arr.Accept(this);
+                } else {
+                    return null;
+                }
+            }
+            else
+            {
+                rhs = (TypeContext)assignmentNode.RightHand.Accept(this);
+            }
             TypeContext lhs = (TypeContext)assignmentNode.LeftHand.Accept(this);
             if (lhs.Type == VAR)
             {
@@ -47,6 +61,8 @@ namespace Contextual_analysis
                     new InvalidTypeException($"Type {rhs.Type} is not assignable toType {lhs.Type} at {assignmentNode.Line}:{assignmentNode.Offset}");
                 }
             }
+
+
             return null;
         }
 
@@ -446,6 +462,14 @@ namespace Contextual_analysis
         public bool IsOfTypes(TypeContext ctx, params TokenType[] types)
         {
             return types.Any(t => t == ctx.Type);
+        }
+
+        public override object Visit(ArrayNode arrayNode)
+        {
+            if (arrayNode.HasBeenAccessed)
+                return arrayNode.SymbolType;
+            else
+                return null;
         }
     }
 }

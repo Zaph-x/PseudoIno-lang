@@ -6,6 +6,8 @@ namespace AbstractSyntaxTree.Objects.Nodes
     {
         public string Id {get;set;}
         public bool Declaration { get; set; } = false;
+        public bool IsArray { get; set; } = false;
+
         public VarNode(string id,  ScannerToken token) : base(token)
         {
             this.Id = id;

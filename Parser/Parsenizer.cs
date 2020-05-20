@@ -160,6 +160,16 @@ namespace Parser
                         _builder.AddSymbol(symbolNode);
                         break;
                     }
+                case 30 when token.Type == ARRAYACCESSING:
+                    {
+                        VarNode currentLHS = (VarNode)((AssignmentNode)Current).LeftHand;
+                        if (currentLHS.IsArray)
+                        {
+                            ArrayAccessNode arrayAccess = new ArrayAccessNode(ParseContext.DeclaredArrays.First(arr => arr.ActualId.Id == currentLHS.Id), CurrentLine, CurrentOffset);
+                            ((AssignmentNode)Current).LeftHand = arrayAccess;
+                        }
+                    }
+                    break;
                 case 31 when token.Type == APIN:
                     {
                         symbolNode = new APinNode(token.Value, token) { SymbolType = new TypeContext(NUMERIC) };
@@ -176,6 +186,9 @@ namespace Parser
                         _builder.AddSymbol(symbolNode);
                         break;
                     }
+                case 108 when token.Type == NUMERIC:
+                    ((ArrayNode)Current).Dimensions.Add(new NumericNode(token.Value, token));
+                    break;
                 case 116 when token.Type == VAR:
                     ((FuncNode)TopScope()).Name = new VarNode(token.Value, token);
                     break;
@@ -1015,6 +1028,15 @@ namespace Parser
                     Current = new AssignmentNode(CurrentLine, CurrentOffset);
                     // ((AssignmentNode)Current).RightHand = new ExpressionTerm()
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                    break;
+                case 38:
+                    ArrayNode node = new ArrayNode(CurrentLine, CurrentOffset);
+                    ((AssignmentNode)Current).RightHand = node;
+                    ((VarNode)((AssignmentNode)Current).LeftHand).IsArray = true;
+                    node.ActualId = (VarNode)((AssignmentNode)Current).LeftHand;
+                    _builder.AddSymbol(node);
+                    Current = node;
+                    ParseContext.DeclaredArrays.Add(node);
                     break;
                 case 129:
                     Current = new WaitNode(CurrentLine, CurrentOffset);

@@ -19,6 +19,12 @@ namespace AbstractSyntaxTree.Objects
         public abstract object Visit(EqualNode equalNode);
         public abstract object Visit(ProgramNode programNode);
         public abstract object Visit(CallNode callNode);
+
+        internal object Visit(ArrayAccessNode arrayAccessNode)
+        {
+            throw new NotImplementedException();
+        }
+
         public abstract object Visit(AndNode andNode);
         public abstract object Visit(APinNode apinNode);
         public abstract object Visit(DPinNode dpinNode);
@@ -43,5 +49,6 @@ namespace AbstractSyntaxTree.Objects
         public abstract object Visit(BinaryExpression noParenExpression);
         public abstract object Visit(ParenthesisExpression parenthesisExpression);
         public abstract object Visit(BoolNode boolNode);
+        public abstract object Visit(ArrayNode arrayNode);
     }
 }

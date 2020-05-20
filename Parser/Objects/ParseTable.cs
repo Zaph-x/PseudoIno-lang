@@ -82,7 +82,7 @@ namespace Parser.Objects
             this[STMNT, APIN] = new ParseAction(28,ASSIGNSTMNT);
             this[STMNT, DPIN] = new ParseAction(29,ASSIGNSTMNT);
 
-            this[ASSIGNSTMNT, VAR] = new ParseAction(30,VAR, ASSIGN, ASSIGNMENT);
+            this[ASSIGNSTMNT, VAR] = new ParseAction(30,VAR, ARRAYACCESSING, ASSIGN, ASSIGNMENT);
             this[ASSIGNSTMNT, APIN] = new ParseAction(31,APIN, ASSIGN, ASSIGNMENT);
             this[ASSIGNSTMNT, DPIN] = new ParseAction(32,DPIN, ASSIGN, ASSIGNMENT);
 

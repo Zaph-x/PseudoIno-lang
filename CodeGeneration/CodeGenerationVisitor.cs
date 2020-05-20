@@ -167,6 +167,13 @@ namespace CodeGeneration
                     varNodeId += "String ";
                 }
             }
+            if (varNode.IsArray) {
+                ArrayNode arr = ParseContext.DeclaredArrays.First(arr => arr.ActualId.Id == varNode.Id);
+                if (arr.HasBeenAccessed)
+                    varNodeId += arr.Accept(this);
+                else
+                    new InvalidCodeException($"The provided array did not have a type. Error at {arr.Line}:{arr.Offset}");
+            }
             varNodeId += varNode.Id;
             //PrintStringToFile(varNode.Id);
             return varNodeId;
@@ -572,6 +579,16 @@ namespace CodeGeneration
                 boolVal += " 0";
 
             return boolVal;
+        }
+
+        public override object Visit(ArrayNode arrayNode)
+        {
+            string arr = "";
+            foreach (NumericNode dimension in arrayNode.Dimensions)
+            {
+                arr += $"[{dimension.Value}]";
+            }
+            return arr;
         }
     }
 }
