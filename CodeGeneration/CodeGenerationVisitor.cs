@@ -281,7 +281,7 @@ namespace CodeGeneration
                 }
                 callString += callNode.Parameters[i].Value;
             }
-            callString += $"){(callNode.Parent.Type == TokenType.EXPR ? "" : ";\n")}";
+            callString += $"){((callNode.Parent?.Type == TokenType.EXPR) ? "" : ";\n")}";
             return callString;
         }
 
