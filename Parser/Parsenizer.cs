@@ -146,7 +146,11 @@ namespace Parser
                 case 118:
                 case 119:
                     if (token.Type == VAR)
-                        ((FuncNode)Current).FunctionParameters.Add(new VarNode(token.Value, token));
+                    {
+                        VarNode node = new VarNode(token.Value, token);
+                        _builder.AddSymbol(node);
+                        ((FuncNode)Current).FunctionParameters.Add(node);
+                    }
                     break;
                 case 30 when token.Type == VAR:
                     {
@@ -204,7 +208,7 @@ namespace Parser
                             ((IExpr)Current).LeftHand = term;
                     }
                     else if (Current.Type == CALL)
-                        ((CallNode)Current).Parameters.Add(new NumericNode(token.Value, token));
+                    { ((CallNode)Current).Parameters.Add(new NumericNode(token.Value, token)); }
                     else if (Current.Type == WHILE)
                     {
 
@@ -899,6 +903,7 @@ namespace Parser
                 case 115:
                     if (token.Type == VAR)
                     {
+                        SymbolTableObject.FunctionCalls.Add((CallNode)Current);
                         ((CallNode)Current).Id = new VarNode(token.Value, token);
                         break;
                     }
