@@ -369,7 +369,7 @@ namespace Core
                         if (args.Length >= i + 2 && !args[i + 1].StartsWith('-'))
                         {
                             ++i;
-                            options.Processor = args[i].ToUpper();
+                            options.Arduino = args[i].ToUpper();
                             switch (args[i].ToUpper())
                             {
                                 case "YUN":
