@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Lexer.Objects;
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class CallNode : StatementNode, IAssignment, IExpr
+    public class CallNode : StatementNode, IAssignment, IExpr, ITerm
     {
         public VarNode Id { get; set; }
         public List<ValNode> Parameters { get; set; } = new List<ValNode>();

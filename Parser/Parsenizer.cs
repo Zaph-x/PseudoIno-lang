@@ -919,6 +919,12 @@ namespace Parser
                         ((AssignmentNode)Current).RightHand = (IExpr)node;
                         Current = node;
                     }
+                    else if (Current.Type == EXPR)
+                    {
+                        CallNode node = new CallNode(CurrentLine, CurrentOffset);
+                        node.Parent = Current;
+                        Current = node;
+                    }
                     else
                     {
                         Current = new CallNode(CurrentLine, CurrentOffset);
@@ -955,12 +961,31 @@ namespace Parser
                     break;
                 case 90037:
                 case 90014:
-                    while (!((ExpressionNode)Current).Parent.GetType().IsAssignableFrom(typeof(ParenthesisExpression)))
+                    if (Current.Type == CALL)
                     {
+                        ExpressionNode previousExpr = (ExpressionNode)Current.Parent;
+                        if (previousExpr.LeftHand == null)
+                            ((IExpr)previousExpr).LeftHand = (ITerm)Current;
+                        else
+                        {
+                            ((IExpr)previousExpr).RightHand = new ExpressionTerm(token) { LeftHand = (ITerm)Current };
+                        }
+                        while (!((AstNode)Current).Parent.GetType().IsAssignableFrom(typeof(ParenthesisExpression)))
+                        {
+                            Current = ((ExpressionNode)Current).Parent;
+                        }
+                        Current = ((AstNode)Current).Parent;
                         Current = ((ExpressionNode)Current).Parent;
                     }
-                    Current = ((ExpressionNode)Current).Parent;
-                    Current = ((ExpressionNode)Current).Parent;
+                    else
+                    {
+                        while (!((ExpressionNode)Current).Parent.GetType().IsAssignableFrom(typeof(ParenthesisExpression)))
+                        {
+                            Current = ((ExpressionNode)Current).Parent;
+                        }
+                        Current = ((ExpressionNode)Current).Parent;
+                        Current = ((ExpressionNode)Current).Parent;
+                    }
                     break;
                 default:
                     break;
