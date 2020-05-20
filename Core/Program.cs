@@ -108,13 +108,9 @@ namespace Core
 
                 try
                 {
-                    File.Delete($"{path}PrecompiledBinaries/tmp/sketch/output.cpp");
-                    parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}PrecompiledBinaries/tmp/sketch/output.cpp"));
-                    if (options.DryRun)
-                    {
+                    if (File.Exists($"{path}PrecompiledBinaries/tmp/sketch/output.cpp"))
                         File.Delete($"{path}PrecompiledBinaries/tmp/sketch/output.cpp");
-                        return 0;
-                    }
+                    parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}PrecompiledBinaries/tmp/sketch/output.cpp"));
                 }
                 catch (FileNotFoundException e)
                 {
@@ -149,7 +145,7 @@ namespace Core
 
                     $"{path}PrecompiledBinaries/hardware/tools/avr/bin/avr-objcopy {(options.Verbose ? "-v" : "")} -O ihex -R .eeprom {path}PrecompiledBinaries/tmp/output.cpp.elf {path}PrecompiledBinaries/tmp/output.cpp.hex".Bash();
 
-                    if (!options.OutputFile) $"{path}PrecompiledBinaries/unix/avrdude {(options.Verbose ? "-v" : "")} -C{path}PrecompiledBinaries/etc/avrdude.conf -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D -Uflash:w:{path}PrecompiledBinaries/tmp/output.cpp.hex:i".Bash();
+                    if (!options.OutputFile || options.DryRun) $"{path}PrecompiledBinaries/unix/avrdude {(options.Verbose ? "-v" : "")} -C{path}PrecompiledBinaries/etc/avrdude.conf -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D -Uflash:w:{path}PrecompiledBinaries/tmp/output.cpp.hex:i".Bash();
 
                 }
                 else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -171,7 +167,7 @@ namespace Core
                     }
                     path = path.Replace('/', '\\');
 
-                    
+
                     $"\"{path}PrecompiledBinaries\\win\\avr-g++\" {(options.Verbose ? "-v" : "")} -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o nul".Cmd();
 
                     $"\"{path}PrecompiledBinaries\\win\\avr-g++\" {(options.Verbose ? "-v" : "")} -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu={options.Processor} -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_{options.Arduino.ToUpper()} -DARDUINO_ARCH_AVR \"-I{path}PrecompiledBinaries\\arduino\\avr\\cores\\arduino\" \"-I{path}PrecompiledBinaries\\arduino\\avr\\variants\\standard\" \"{path}PrecompiledBinaries\\tmp\\sketch\\output.cpp\" -o \"{path}PrecompiledBinaries\\tmp\\Preproc\\ctags_target_for_gcc_minus_e.cpp\"".Cmd();
@@ -186,13 +182,26 @@ namespace Core
 
                     $"\"{path}PrecompiledBinaries\\win\\avr-objcopy.exe\" {(options.Verbose ? "-v" : "")} -O ihex -R .eeprom \"{path}PrecompiledBinaries\\tmp\\output.cpp.elf\" \"{path}PrecompiledBinaries\\tmp\\output.cpp.hex\"".Cmd();
 
-                    if (!options.OutputFile) $"\"{path}PrecompiledBinaries\\win\\avrdude\" {(options.Verbose ? "-v" : "")} \"-C{path}PrecompiledBinaries\\etc\\avrdude.conf\" -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D \"-Uflash:w:{path}PrecompiledBinaries\\tmp\\output.cpp.hex:i\"".Cmd();
+                    if (!options.OutputFile || options.DryRun) $"\"{path}PrecompiledBinaries\\win\\avrdude\" {(options.Verbose ? "-v" : "")} \"-C{path}PrecompiledBinaries\\etc\\avrdude.conf\" -v -p{options.Processor} -carduino -P{options.Port} -b115200 -D \"-Uflash:w:{path}PrecompiledBinaries\\tmp\\output.cpp.hex:i\"".Cmd();
                 }
                 else
                 {
                     verbosePrinter.Error("OS not supported! Stopping.");
                 }
-
+                if (options.DryRun)
+                {
+                    try 
+                    {
+                        File.Delete($"{path}PrecompiledBinaries/tmp/sketch/output.cpp");
+                        return 0;
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        verbosePrinter.Error("Encountered an error in code generation. Stopping.");
+                        Console.Error.WriteLine(e.Message);
+                        return 23;
+                    }
+                }
 
                 //TODO further compilation
                 //"C:\\Program Files (x86)\Arduino\hardware\tools\avr/bin/avr-g++" -c -g -Os -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10812 -DARDUINO_AVR_UNO -DARDUINO_ARCH_AVR "-IC:\\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino" "-IC:\\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard" "C:\Users\bruger\Documents\aau\4semester\\P4\github\\P4-program\Tests\CodeGeneration.Tests\bin\Debug\netcoreapp3.1\Codegen_output.cpp" -o "C:\Users\bruger\Documents\aau\4semester\\P4\github\\P4-program\Tests\CodeGeneration.Tests\bin\Debug\netcoreapp3.1\Codegen_output.cpp.o"
@@ -483,7 +492,7 @@ namespace Core
         public static string Bash(this string cmd)
         {
             var escapedArgs = cmd.Replace("\"", "\\\"");
-            
+
             var process = new Process()
             {
                 StartInfo = new ProcessStartInfo
@@ -504,7 +513,7 @@ namespace Core
         {
             var process = new Process()
             {
-                
+
                 StartInfo = new ProcessStartInfo
                 {
                     FileName = "CMD.exe",
