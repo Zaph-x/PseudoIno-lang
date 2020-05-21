@@ -467,6 +467,46 @@ namespace Parser
                             ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
                     }
                     break;
+                case 210:
+                    if (Current.Type == ASSIGNMENT)
+                    {
+                        IExpr expr = new BinaryExpression(CurrentLine, CurrentOffset);
+                        ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
+                        ExpressionTerm term = new ExpressionTerm(token) { LeftHand = new BoolNode(token.Value, token), Parent = (ExpressionNode)expr };
+                        expr.LeftHand = term;
+                        Current = (BinaryExpression)expr;
+                    }
+                    else if (Current.Type == EXPR)
+                    {
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new BoolNode(token.Value, token);
+                        term.Parent = (ExpressionNode)Current;
+                        if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
+                        {
+                            BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
+                            ((IExpr)Current).RightHand = binExpr;
+                            Current = binExpr;
+                        }
+                        else
+                            ((IExpr)Current).LeftHand = term;
+                    }
+                    else if (Current.Type == CALL)
+                        ((CallNode)Current).Parameters.Add(new BoolNode(token.Value, token));
+                    else if (Current.Type == WHILE)
+                    {
+
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new BoolNode(token.Value, token);
+                        if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
+                        {
+                            BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
+                            ((IExpr)Current).RightHand = binExpr;
+                            Current = binExpr;
+                        }
+                        else
+                            ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
+                    }
+                    break;
                 #endregion Assignables
                 #region Expressions
                 // EXPRESSIONS
@@ -970,7 +1010,14 @@ namespace Parser
                             ArrayNode arr = _builder.CurrentSymbolTable.FindArray(token.Value);
                             arr.FirstAccess = (AssignmentNode)Current;
                             ArrayAccessNode node = new ArrayAccessNode(arr, CurrentLine, CurrentOffset);
-                            ((AssignmentNode)Current).LeftHand = node;
+                            if (((AssignmentNode)Current).LeftHand == null)
+                            {
+                                ((AssignmentNode)Current).LeftHand = node;
+                            }
+                            else
+                            {
+                                ((AssignmentNode)Current).RightHand.LeftHand = new ExpressionTerm(token) {LeftHand = node};
+                            }
                         }
                     }
                     break;
@@ -978,7 +1025,17 @@ namespace Parser
                 case 206:
                     if (token.Type == NUMERIC)
                     {
-                        ((ArrayAccessNode)((AssignmentNode)Current).LeftHand).Accesses.Add(new NumericNode(token.Value, token));
+                        if (Current.Type == ASSIGNMENT)
+                        {
+                            if (((AssignmentNode)Current).LeftHand.Type == ARRAYACCESSING)
+                            {
+                                ((ArrayAccessNode)((AssignmentNode)Current).LeftHand).Accesses.Add(new NumericNode(token.Value, token));
+                            }
+                            else
+                            {
+                                ((ArrayAccessNode)((ExpressionTerm)((AssignmentNode)Current).RightHand.LeftHand).LeftHand).Accesses.Add(new NumericNode(token.Value, token));
+                            }
+                        }
                     }
                     else if (token.Type == VAR)
                     {
@@ -1048,6 +1105,7 @@ namespace Parser
                     ArrayNode node = new ArrayNode(CurrentLine, CurrentOffset);
                     ((AssignmentNode)Current).RightHand = node;
                     ((VarNode)((AssignmentNode)Current).LeftHand).IsArray = true;
+                    ((VarNode)((AssignmentNode)Current).LeftHand).Declaration = true;
                     node.ActualId = (VarNode)((AssignmentNode)Current).LeftHand;
                     _builder.AddArray(node);
                     Current = node;
