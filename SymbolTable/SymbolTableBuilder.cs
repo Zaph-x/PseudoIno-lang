@@ -36,6 +36,12 @@ namespace SymbolTable
             TopOfScope.Peek().Symbols.Add(symbol);
         }
 
+        public void AddArray(ArrayNode arrNode)
+        {
+            AddSymbol(arrNode);
+            CurrentSymbolTable.DeclaredArrays.Add(arrNode);
+        }
+
         public void AddRef(AstNode node)
         {
             Symbol symbol = new Symbol(GetNameFromRef(node), node.Type, true, node);

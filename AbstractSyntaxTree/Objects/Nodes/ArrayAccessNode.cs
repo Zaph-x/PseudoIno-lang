@@ -7,7 +7,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
     {
         public List<ValNode> Accesses {get;set;} = new List<ValNode>();
         public ArrayNode Actual {get;set;}
-        public bool HasType {get;set;} = false;
 
         #region Not implemented
         public ITerm LeftHand { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
@@ -17,6 +16,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
 
         public ArrayAccessNode(ArrayNode array, int line, int offset) : base(TokenType.ARRAYACCESSING, line, offset)
         {
+            Actual = array;
             array.HasBeenAccessed = true;
         }
 

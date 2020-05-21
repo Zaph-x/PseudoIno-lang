@@ -160,16 +160,6 @@ namespace Parser
                         _builder.AddSymbol(symbolNode);
                         break;
                     }
-                case 30 when token.Type == ARRAYACCESSING:
-                    {
-                        VarNode currentLHS = (VarNode)((AssignmentNode)Current).LeftHand;
-                        if (currentLHS.IsArray)
-                        {
-                            ArrayAccessNode arrayAccess = new ArrayAccessNode(ParseContext.DeclaredArrays.First(arr => arr.ActualId.Id == currentLHS.Id), CurrentLine, CurrentOffset);
-                            ((AssignmentNode)Current).LeftHand = arrayAccess;
-                        }
-                    }
-                    break;
                 case 31 when token.Type == APIN:
                     {
                         symbolNode = new APinNode(token.Value, token) { SymbolType = new TypeContext(NUMERIC) };
@@ -972,6 +962,29 @@ namespace Parser
                 case 133:
                     ((WaitNode)Current).TimeModifier = new TimeMillisecondNode(token);
                     break;
+                case 75:
+                    if (token.Value != "")
+                    {
+                        if (token.Type == ARRAYINDEX)
+                        {
+                            ArrayNode arr = _builder.CurrentSymbolTable.FindArray(token.Value);
+                            arr.FirstAccess = (AssignmentNode)Current;
+                            ArrayAccessNode node = new ArrayAccessNode(arr, CurrentLine, CurrentOffset);
+                            ((AssignmentNode)Current).LeftHand = node;
+                        }
+                    }
+                    break;
+                case 205:
+                case 206:
+                    if (token.Type == NUMERIC)
+                    {
+                        ((ArrayAccessNode)((AssignmentNode)Current).LeftHand).Accesses.Add(new NumericNode(token.Value, token));
+                    }
+                    else if (token.Type == VAR)
+                    {
+                        ((ArrayAccessNode)((AssignmentNode)Current).LeftHand).Accesses.Add(new VarNode(token.Value, token));
+                    }
+                    break;
                 case 90037:
                 case 90014:
                     if (Current.Type == CALL)
@@ -1025,16 +1038,18 @@ namespace Parser
                 case 30:
                 case 31:
                 case 32:
+                case 203:
                     Current = new AssignmentNode(CurrentLine, CurrentOffset);
                     // ((AssignmentNode)Current).RightHand = new ExpressionTerm()
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                    Current.Parent = TopScope();
                     break;
                 case 38:
                     ArrayNode node = new ArrayNode(CurrentLine, CurrentOffset);
                     ((AssignmentNode)Current).RightHand = node;
                     ((VarNode)((AssignmentNode)Current).LeftHand).IsArray = true;
                     node.ActualId = (VarNode)((AssignmentNode)Current).LeftHand;
-                    _builder.AddSymbol(node);
+                    _builder.AddArray(node);
                     Current = node;
                     ParseContext.DeclaredArrays.Add(node);
                     break;
@@ -1121,7 +1136,6 @@ namespace Parser
                     ((FuncNode)Current).Statements.Add(retNode);
                     Current = (ExpressionNode)expr120;
                     break;
-
                 default:
                     return;
             }

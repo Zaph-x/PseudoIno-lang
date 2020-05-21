@@ -49,6 +49,7 @@ namespace Lexer.Objects
                 case TokenType.ARR:
                 case TokenType.FUNC:
                 case TokenType.VAR:
+                case TokenType.ARRAYINDEX:
                     _tokenType = type;
                     break;
                 default:

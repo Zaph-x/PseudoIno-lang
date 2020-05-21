@@ -24,14 +24,25 @@ namespace Contextual_analysis
 
         public override object Visit(AssignmentNode assignmentNode)
         {
+            TypeContext lhs = (TypeContext)assignmentNode.LeftHand.Accept(this);
             TypeContext rhs;
             if (assignmentNode.RightHand.GetType().IsAssignableFrom(typeof(ArrayNode)))
             {
                 ArrayNode arr = (ArrayNode)assignmentNode.RightHand;
                 if (arr.HasBeenAccessed)
                 {
-                    rhs = (TypeContext)arr.Accept(this);
-                } else {
+                    if (lhs.Type == VAR)
+                    {
+                        rhs = (TypeContext)arr.FirstAccess.RightHand.Accept(this);
+                        assignmentNode.LeftHand.SymbolType = rhs;
+                        assignmentNode.LeftHand.Type = rhs.Type;
+                    }
+                    else
+                        rhs = (TypeContext)arr.FirstAccess.RightHand.Accept(this);
+                }
+                else
+                {
+                    new InvalidTypeException($"Array type never set. Error at {arr.Line}:{arr.Offset}");
                     return null;
                 }
             }
@@ -39,19 +50,56 @@ namespace Contextual_analysis
             {
                 rhs = (TypeContext)assignmentNode.RightHand.Accept(this);
             }
-            TypeContext lhs = (TypeContext)assignmentNode.LeftHand.Accept(this);
+
             if (lhs.Type == VAR)
             {
-                if (!CurrentScope.HasDeclaredVar((assignmentNode.LeftHand as VarNode).Id))
+                if (!CurrentScope.HasDeclaredVar(assignmentNode.LeftHand as AstNode))
                 {
                     (assignmentNode.LeftHand as VarNode).Declaration = true;
                     CurrentScope.DeclaredVars.Add((assignmentNode.LeftHand as VarNode).Id);
                 }
-                if (CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
+
+                if (assignmentNode.LeftHand.GetType().IsAssignableFrom(typeof(VarNode)))
                 {
-                    CurrentScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs, CurrentScope.Name, true);
+                    if (CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
+                    {
+                        CurrentScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs, CurrentScope.Name, true);
+                    }
+                    lhs = CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode);
                 }
-                lhs = CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode);
+                else if (assignmentNode.LeftHand.GetType().IsAssignableFrom(typeof(ArrayAccessNode)))
+                {
+                    if (CurrentScope.FindArray((assignmentNode.LeftHand as ArrayAccessNode).Actual.ActualId.Id).Type == ARR)
+                    {
+                        ArrayAccessNode node = (assignmentNode.LeftHand as ArrayAccessNode);
+                        ArrayNode arr = CurrentScope.FindArray(node.Actual.ActualId.Id);
+                        if (!(arr.Dimensions.Count >= node.Accesses.Count))
+                        {
+                            new OutOfRangeException($"Illegal access to {arr.Dimensions.Count} dimensional array. Error at {node.Line}:{node.Offset}");
+                            return null;
+                        }
+                        if (arr.Dimensions.Count > node.Accesses.Count && node.Accesses.Count > 1)
+                        {
+                            AssignmentNode declaringStatement = new AssignmentNode(node.Line, node.Offset);
+                            declaringStatement.LeftHand =
+                                new VarNode($"protected_declaration_{arr.ActualId.Id}_{node.Accesses.Count - 1}", new ScannerToken(node.Type, $"protected_declaration_{arr.ActualId.Id}_{node.Accesses.Count - 1}", node.Line, node.Offset))
+                                { IsArray = true, SymbolType = new TypeContext(node.Type) };
+                            ArrayNode declaringArray = new ArrayNode(node.Line, node.Offset);
+                            for (int i = 0; i < node.Accesses.Count; i++)
+                            {
+                                declaringArray.Dimensions.Add(arr.Dimensions[i]);
+                            }
+                            ((IScope)assignmentNode.Parent).Statements.Insert(((IScope)assignmentNode.Parent).Statements.IndexOf(assignmentNode), declaringStatement);
+
+
+                        }
+                        node.Actual.FirstAccess.LeftHand.SymbolType = rhs;
+                        node.Actual.FirstAccess.LeftHand.Type = rhs.Type;
+                        arr.SymbolType = rhs;
+                        arr.Type = rhs.Type;
+                        lhs = rhs;
+                    }
+                }
 
             }
             if (lhs.Type != rhs.Type)
@@ -467,9 +515,14 @@ namespace Contextual_analysis
         public override object Visit(ArrayNode arrayNode)
         {
             if (arrayNode.HasBeenAccessed)
-                return arrayNode.SymbolType;
+                return new TypeContext(VAR);
             else
                 return null;
+        }
+
+        public override object Visit(ArrayAccessNode arrayAccess)
+        {
+            return (CurrentScope ?? GlobalScope).FindArray(arrayAccess.Actual.ActualId.Id).Accept(this);
         }
     }
 }

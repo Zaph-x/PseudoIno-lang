@@ -408,6 +408,7 @@ namespace Lexer
                 }
                 return;
             }
+
             token = Token(TokenType.VAR, subString);
             if (Tokens.Any() && (Tokens.Last().Type == TokenType.FUNC || Tokens.Last().Type == TokenType.CALL))
             {
@@ -417,27 +418,14 @@ namespace Lexer
             {
                 token.SymbolicType = new TypeContext(TokenType.VAR);
             }
-            Tokens.AddLast(token);
-            subString = "";
-            if (Peek() == '\n')
-            {
-                return;
-            }
             if (Peek() == '@')
             {
                 Pop();
-                Tokens.AddLast(Token(TokenType.ARRAYINDEX));
+                token.SymbolicType = new TypeContext(TokenType.ARRAYINDEX);
+                token.Type = TokenType.ARRAYINDEX;
             }
-            else if (Peek() == '[')
-            {
-                Pop();
-                Tokens.AddLast(Token(TokenType.ARRAYLEFT));
-            }
-            else if (Peek() == ']')
-            {
-                Pop();
-                Tokens.AddLast(Token(TokenType.ARRAYRIGHT));
-            }
+            Tokens.AddLast(token);
+            subString = "";
         }
 
         /// <summary>
@@ -563,6 +551,9 @@ namespace Lexer
                     break;
                 case ']':
                     Tokens.AddLast(Token(TokenType.ARRAYRIGHT));
+                    break;
+                case '@':
+                    Tokens.AddLast(Token(TokenType.ARRAYINDEX));
                     break;
                 default:
                     new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");

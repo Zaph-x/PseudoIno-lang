@@ -3,12 +3,13 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class ArrayNode : AstNode, IAssignment, IExpr
+    public class ArrayNode : AstNode, IAssignment, IExpr, ITerm
     {
-        public List<NumericNode> Dimensions {get;set;} = new List<NumericNode>();
-        public VarNode ActualId {get;set;}
-        public bool HasType {get;set;} = false;
-        public bool HasBeenAccessed {get;set;} = false;
+        public List<NumericNode> Dimensions { get; set; } = new List<NumericNode>();
+        public VarNode ActualId { get; set; }
+        public AssignmentNode _firstAccess;
+        public AssignmentNode FirstAccess { get => this._firstAccess; set => _firstAccess = _firstAccess == null ? value : _firstAccess; }
+        public bool HasBeenAccessed { get; set; } = false;
 
         #region Not implemented
         public ITerm LeftHand { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }

@@ -5,6 +5,7 @@ using System.Linq;
 using AbstractSyntaxTree.Objects.Nodes;
 using Lexer.Objects;
 using SymbolTable.Exceptions;
+using AbstractSyntaxTree.Objects;
 
 namespace SymbolTable
 {
@@ -19,7 +20,8 @@ namespace SymbolTable
         private SymbolTableObject _parent { get; set; }
         public List<FuncNode> FunctionDefinitions { get; set; } = new List<FuncNode>();
         public List<string> DeclaredVars = new List<string>();
-        public static List<CallNode> FunctionCalls {get;set;} = new List<CallNode>();
+        public static List<CallNode> FunctionCalls { get; set; } = new List<CallNode>();
+        public List<ArrayNode> DeclaredArrays { get; set; } = new List<ArrayNode>();
         public SymbolTableObject Parent
         {
             get
@@ -49,9 +51,18 @@ namespace SymbolTable
         }
 
         public override string ToString() => $"{Name}";
-        public bool HasDeclaredVar(string name)
+        public bool HasDeclaredVar(AstNode node)
         {
-            return this.DeclaredVars.Contains(name) || (this.Parent?.HasDeclaredVar(name) ?? false);
+            if (node.GetType().IsAssignableFrom(typeof(VarNode)))
+            {
+                return this.DeclaredVars.Contains((node as VarNode).Id) || (this.Parent?.HasDeclaredVar(node) ?? false);
+            }
+            else if (node.GetType().IsAssignableFrom(typeof(ArrayAccessNode)))
+            {
+                return this.DeclaredArrays.Contains(((ArrayAccessNode)node).Actual) || (this.Parent?.HasDeclaredVar(node) ?? false);
+            }
+            new SymbolNotFoundException($"The provided symbol was never declared. Error at {node.Line}:{node.Offset}");
+            return false;
         }
         public TypeContext FindSymbol(VarNode var)
         {
@@ -146,6 +157,23 @@ namespace SymbolTable
                 if (found != null) break;
             }
             return found;
+        }
+
+        public ArrayNode FindArray(string arrName)
+        {
+            if (this.Parent != null && this.Parent.FindArray(arrName) != null)
+            {
+                return this.Parent.FindArray(arrName);
+            }
+            else if (this.DeclaredArrays.Any(sym => sym.ActualId.Id == arrName))
+            {
+                return this.DeclaredArrays.First(sym => sym.ActualId.Id == arrName);
+            }
+            else
+            {
+                new SymbolNotFoundException($"The array '{arrName}' was not found");
+                return null;
+            }
         }
     }
 }

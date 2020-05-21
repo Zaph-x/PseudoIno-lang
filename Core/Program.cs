@@ -118,7 +118,7 @@ namespace Core
                     Console.Error.WriteLine(e.Message);
                     return 2;
                 }
-
+                if (CodeGenerationVisitor.HasError) return 10;
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                 {
                     Console.WriteLine("We're on Linux!");

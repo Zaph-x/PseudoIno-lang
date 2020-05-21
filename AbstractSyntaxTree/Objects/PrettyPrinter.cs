@@ -316,5 +316,10 @@ namespace AbstractSyntaxTree.Objects
         {
             throw new NotImplementedException();
         }
+
+        public override object Visit(ArrayAccessNode arrayAccess)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
