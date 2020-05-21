@@ -293,12 +293,12 @@ namespace CodeGeneration
 
         public override object Visit(APinNode apinNode)
         {
-            return apinNode.Id;
+            return apinNode.Parent == null ? apinNode.Id : $"analogueRead({apinNode.Id})";
         }
 
         public override object Visit(DPinNode dpinNode)
         {
-            return dpinNode.Id;
+            return dpinNode.Parent == null ? dpinNode.Id : $"digitalRead({dpinNode.Id})";
         }
 
         public override object Visit(DivideNode divideNode)

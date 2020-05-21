@@ -20,6 +20,8 @@ namespace SymbolTable
         public List<FuncNode> FunctionDefinitions { get; set; } = new List<FuncNode>();
         public List<string> DeclaredVars = new List<string>();
         public static List<CallNode> FunctionCalls {get;set;} = new List<CallNode>();
+        public List<FuncNode> PredefinedFunctions { get; set; }
+
         public SymbolTableObject Parent
         {
             get
@@ -38,6 +40,24 @@ namespace SymbolTable
         public SymbolTableObject()
         {
             SymbolTableBuilder.TopOfScope.Push(this);
+            if (this.Parent == null)
+            {
+                AddPredefinedFunctions();
+            }
+        }
+
+        private void AddPredefinedFunctions()
+        {
+            this.PredefinedFunctions = new List<FuncNode>();
+            ScannerToken predefinedToken = new ScannerToken(TokenType.FUNC, "", 0,0);
+            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("min", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("a", predefinedToken),new VarNode("b", predefinedToken)}});
+            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("max", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("a", predefinedToken),new VarNode("b", predefinedToken)}});
+            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("abs", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("x", predefinedToken)}});
+            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("constrain", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("amt", predefinedToken),new VarNode("low", predefinedToken),new VarNode("high", predefinedToken)}});
+            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("round", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("x", predefinedToken)}});
+            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("radians", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("deg", predefinedToken)}});
+            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("degrees", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("rad", predefinedToken)}});
+            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("sq", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("x", predefinedToken)}});
         }
 
         public void AddCallReference(CallNode call)
