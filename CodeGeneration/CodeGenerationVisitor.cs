@@ -106,7 +106,10 @@ namespace CodeGeneration
 
                 assign += "digitalWrite(" + assignmentNode.LeftHand.Accept(this) + ", ";
                 string boolValue = assignmentNode.RightHand.Accept(this) + ")";
-                assign += boolValue == " 1)" ? "HIGH)" : "LOW)";
+                if (boolValue.StartsWith("digitalRead"))
+                    assign += boolValue;
+                else
+                    assign += boolValue == " 1)" ? "HIGH)" : "LOW)";
             }
             else if (assignmentNode.LeftHand.Type == TokenType.APIN)
             {
@@ -117,9 +120,10 @@ namespace CodeGeneration
                 string boolValue = assignmentNode.RightHand.Accept(this) + ")";
                 if (assignmentNode.RightHand.SymbolType.Type == TokenType.NUMERIC)
                     assign += boolValue;
+                else if (boolValue.StartsWith("analogRead"))
+                    assign += boolValue;
                 else
                     assign += boolValue == " 1)" ? "255)" : "0)";
-
             }
             else
             {
@@ -538,9 +542,22 @@ namespace CodeGeneration
         public override object Visit(ExpressionTerm expressionTermNode)
         {
             string exp = "";
-            exp += expressionTermNode.LeftHand?.Accept(this);
-            exp += expressionTermNode.Operator?.Accept(this);
-            exp += expressionTermNode.RightHand?.Accept(this);
+            if (expressionTermNode.LeftHand.GetType().IsAssignableFrom(typeof(APinNode))||expressionTermNode.LeftHand.GetType().IsAssignableFrom(typeof(DPinNode)))
+            {
+                string pin = ((PinNode)expressionTermNode.LeftHand).Value;
+                if (PinDefs.Any(def => def.Contains(pin) && def.Contains("OUTPUT")))
+                    new InvalidCodeException($"Pin {pin} was defined as OUTPUT but is also used as INPUT at {expressionTermNode.Line}:{expressionTermNode.Offset}");
+                if (expressionTermNode.LeftHand.Type == TokenType.APIN)
+                {
+                    PinDefs.Add($"pinMode({pin}, INPUT);");
+                    exp += $"analogRead({pin})";
+                } else {
+                    PinDefs.Add($"pinMode({pin}, INPUT);");
+                    exp += $"digitalRead({pin})";
+                }
+                return exp;
+            }
+            exp += expressionTermNode.LeftHand.Accept(this);
             return exp;
         }
 

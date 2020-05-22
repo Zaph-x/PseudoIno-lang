@@ -263,12 +263,12 @@ namespace Parser
                             ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
                     }
                     break;
-                case 103:
+                case 109:
                     if (Current.Type == ASSIGNMENT)
                     {
                         IExpr expr = new BinaryExpression(CurrentLine, CurrentOffset);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
-                        ExpressionTerm term = new ExpressionTerm(token) { LeftHand = new APinNode(token.Value, token){Parent = Current}, Parent = (ExpressionNode)expr };
+                        ExpressionTerm term = new ExpressionTerm(token) { LeftHand = new APinNode(token.Value, token){Parent = (AstNode)expr}, Parent = (ExpressionNode)expr };
                         expr.LeftHand = term;
                         Current = (BinaryExpression)expr;
                     }
@@ -303,12 +303,12 @@ namespace Parser
                             ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
                     }
                     break;
-                case 104:
+                case 110:
                     if (Current.Type == ASSIGNMENT)
                     {
                         IExpr expr = new BinaryExpression(CurrentLine, CurrentOffset);
                         ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
-                        ExpressionTerm term = new ExpressionTerm(token) { LeftHand = new DPinNode(token.Value, token) {Parent = Current}, Parent = (ExpressionNode)expr };
+                        ExpressionTerm term = new ExpressionTerm(token) { LeftHand = new DPinNode(token.Value, token) {Parent = (AstNode)expr}, Parent = (ExpressionNode)expr };
                         expr.LeftHand = term;
                         Current = (BinaryExpression)expr;
                     }
