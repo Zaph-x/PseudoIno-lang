@@ -101,6 +101,9 @@ namespace CodeGeneration
             string assign = "";
             if (assignmentNode.LeftHand.Type == TokenType.DPIN)
             {
+                string pin = (string)assignmentNode.LeftHand.Accept(this);
+                if (PinDefs.Any(def => def.Contains(pin) && def.Contains("INPUT")))
+                    new InvalidCodeException($"Pin {pin} was defined as INPUT but is also used as OUTPUT at {assignmentNode.Line}:{assignmentNode.Offset}");
                 string pinDef = "pinMode(" + assignmentNode.LeftHand.Accept(this) + ", OUTPUT);";
                 PinDefs.Add(pinDef);
 
@@ -113,6 +116,9 @@ namespace CodeGeneration
             }
             else if (assignmentNode.LeftHand.Type == TokenType.APIN)
             {
+                string pin = (string)assignmentNode.LeftHand.Accept(this);
+                if (PinDefs.Any(def => def.Contains(pin) && def.Contains("INPUT")))
+                    new InvalidCodeException($"Pin {pin} was defined as INPUT but is also used as OUTPUT at {assignmentNode.Line}:{assignmentNode.Offset}");
                 string pinDef = "pinMode(" + assignmentNode.LeftHand.Accept(this) + ", OUTPUT);";
                 PinDefs.Add(pinDef);
 
