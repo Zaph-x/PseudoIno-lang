@@ -19,7 +19,7 @@ namespace SymbolTable
         private SymbolTableObject _parent { get; set; }
         public List<FuncNode> FunctionDefinitions { get; set; } = new List<FuncNode>();
         public List<string> DeclaredVars = new List<string>();
-        public static List<CallNode> FunctionCalls {get;set;} = new List<CallNode>();
+        public static List<CallNode> FunctionCalls { get; set; } = new List<CallNode>();
         public List<FuncNode> PredefinedFunctions { get; set; }
 
         public SymbolTableObject Parent
@@ -43,23 +43,33 @@ namespace SymbolTable
             if (this.Parent == null)
             {
                 AddPredefinedFunctions();
+                AddPredefinedConstants();
             }
         }
 
         private void AddPredefinedFunctions()
         {
             this.PredefinedFunctions = new List<FuncNode>();
-            ScannerToken predefinedToken = new ScannerToken(TokenType.FUNC, "", 0,0);
-            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("min", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("a", predefinedToken),new VarNode("b", predefinedToken)}});
-            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("max", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("a", predefinedToken),new VarNode("b", predefinedToken)}});
-            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("abs", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("x", predefinedToken)}});
-            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("constrain", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("amt", predefinedToken),new VarNode("low", predefinedToken),new VarNode("high", predefinedToken)}});
-            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("round", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("x", predefinedToken)}});
-            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("radians", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("deg", predefinedToken)}});
-            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("degrees", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("rad", predefinedToken)}});
-            this.PredefinedFunctions.Add(new FuncNode(0,0) {Name = new VarNode("sq", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() {new VarNode("x", predefinedToken)}});
+            ScannerToken predefinedToken = new ScannerToken(TokenType.FUNC, "", 0, 0);
+            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("min", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("a", predefinedToken), new VarNode("b", predefinedToken) } });
+            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("max", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("a", predefinedToken), new VarNode("b", predefinedToken) } });
+            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("abs", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("x", predefinedToken) } });
+            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("constrain", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("amt", predefinedToken), new VarNode("low", predefinedToken), new VarNode("high", predefinedToken) } });
+            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("round", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("x", predefinedToken) } });
+            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("radians", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("deg", predefinedToken) } });
+            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("degrees", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("rad", predefinedToken) } });
+            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("sq", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("x", predefinedToken) } });
         }
 
+        private void AddPredefinedConstants()
+        {
+            this.Symbols.Add(new Symbol("PI", TokenType.NUMERIC, false, new NumericNode("0", new ScannerToken(TokenType.NUMERIC, "PI", 0, 0) {SymbolicType = new TypeContext(TokenType.NUMERIC){IsFloat = true}})));
+            this.Symbols.Add(new Symbol("HALF_PI", TokenType.NUMERIC, false, new NumericNode("0", new ScannerToken(TokenType.NUMERIC, "HALF_PI", 0, 0) {SymbolicType = new TypeContext(TokenType.NUMERIC){IsFloat = true}})));
+            this.Symbols.Add(new Symbol("TWO_PI", TokenType.NUMERIC, false, new NumericNode("0", new ScannerToken(TokenType.NUMERIC, "TWO_PI", 0, 0) {SymbolicType = new TypeContext(TokenType.NUMERIC){IsFloat = true}})));
+            this.Symbols.Add(new Symbol("DEG_TO_RAD", TokenType.NUMERIC, false, new NumericNode("0", new ScannerToken(TokenType.NUMERIC, "DEG_TO_RAD", 0, 0) {SymbolicType = new TypeContext(TokenType.NUMERIC){IsFloat = true}})));
+            this.Symbols.Add(new Symbol("RAD_TO_DEG", TokenType.NUMERIC, false, new NumericNode("0", new ScannerToken(TokenType.NUMERIC, "RAD_TO_DEG", 0, 0) {SymbolicType = new TypeContext(TokenType.NUMERIC){IsFloat = true}})));
+            this.Symbols.Add(new Symbol("EULER", TokenType.NUMERIC, false, new NumericNode("0", new ScannerToken(TokenType.NUMERIC, "EULER", 0, 0) {SymbolicType = new TypeContext(TokenType.NUMERIC){IsFloat = true}})));
+        }
         public void AddCallReference(CallNode call)
         {
             if (!FunctionCalls.Any(cn => cn.Id.Id == call.Id.Id && cn.Parameters.Count == call.Parameters.Count))
