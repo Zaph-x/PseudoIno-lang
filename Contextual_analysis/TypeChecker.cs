@@ -205,6 +205,11 @@ namespace Contextual_analysis
                     TypeContext ctx = GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count).SymbolType;
                     return ctx;
                 }
+                else if (GlobalScope.PredefinedFunctions.Any(func => func.Name.Id == callNode.Id.Id && func.FunctionParameters.Count == callNode.Parameters.Count))
+                {
+                    TypeContext ctx = GlobalScope.PredefinedFunctions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count).SymbolType;
+                    return ctx;
+                }
                 else
                 {
                     new NotDefinedException($"A function '{callNode.Id.Id}' with {callNode.Parameters.Count} parameters has not been defined. Error at {callNode.Line}:{callNode.Offset} ");
