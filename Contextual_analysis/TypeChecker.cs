@@ -531,6 +531,14 @@ namespace Contextual_analysis
 
         public override object Visit(ArrayAccessNode arrayAccess)
         {
+            int accessLocation = 0;
+            foreach (int access in arrayAccess.Accesses.Where(n => n.GetType().IsAssignableFrom(typeof(NumericNode))).Select(n => ((NumericNode)n).IValue))
+            {
+                if (arrayAccess.Actual.Dimensions[accessLocation++].IValue <= access)
+                {
+                    new OutOfRangeException($"Illegal access to array '{arrayAccess.Actual.ActualId.Id}'. Access out of range. Error at {arrayAccess.Line}:{arrayAccess.Offset}");
+                }
+            }
             return (CurrentScope ?? GlobalScope).FindArray(arrayAccess.Actual.ActualId.Id).Accept(this);
         }
     }

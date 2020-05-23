@@ -203,12 +203,28 @@ namespace Parser
                         term.Parent = (ExpressionNode)Current;
                         if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
                         {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
                             ((IExpr)Current).RightHand = binExpr;
                             Current = binExpr;
                         }
                         else
+                        {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             ((IExpr)Current).LeftHand = term;
+                        }
                     }
                     else if (Current.Type == CALL)
                     { ((CallNode)Current).Parameters.Add(new NumericNode(token.Value, token)); }
@@ -219,6 +235,13 @@ namespace Parser
                         term.LeftHand = new NumericNode(token.Value, token);
                         if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
                         {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { LeftHand = term };
                             ((IExpr)((WhileNode)Current).Expression).RightHand = binExpr;
                             Current = binExpr;
@@ -403,12 +426,28 @@ namespace Parser
                         term.Parent = (ExpressionNode)Current;
                         if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
                         {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
                             ((IExpr)Current).RightHand = binExpr;
                             Current = binExpr;
                         }
                         else
+                        {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             ((IExpr)Current).LeftHand = term;
+                        }
                     }
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new NumericNode(token.Value, token));
@@ -419,6 +458,13 @@ namespace Parser
                         term.LeftHand = new NumericNode(token.Value, token);
                         if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
                         {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
                             ((IExpr)Current).RightHand = binExpr;
                             Current = binExpr;
@@ -1016,7 +1062,7 @@ namespace Parser
                             }
                             else
                             {
-                                ((AssignmentNode)Current).RightHand.LeftHand = new ExpressionTerm(token) {LeftHand = node};
+                                ((AssignmentNode)Current).RightHand.LeftHand = new ExpressionTerm(token) { LeftHand = node };
                             }
                         }
                     }
