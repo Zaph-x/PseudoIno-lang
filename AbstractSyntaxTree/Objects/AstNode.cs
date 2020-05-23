@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Lexer.Objects;
+using System;
 
 namespace AbstractSyntaxTree.Objects
 {
@@ -51,6 +52,10 @@ namespace AbstractSyntaxTree.Objects
 
         public override string ToString() => $"Type={Type}";
 
+        public bool IsType(Type type)
+        {
+            return this.GetType().IsAssignableFrom(type);
+        }
         public abstract object Accept(Visitor visitor);
     }
 }

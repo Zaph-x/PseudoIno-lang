@@ -163,14 +163,16 @@ namespace Contextual_analysis
         }
         public override object Visit(ProgramNode programNode)
         {
+            
+            programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             programNode.FunctionDefinitons.ForEach(func =>
             {
-                if (!(GlobalScope.FunctionDefinitions.Where(fn => fn.Name.Id == func.Name.Id && func.FunctionParameters.Count == fn.FunctionParameters.Count).Count() > 1))
+                if (!(SymbolTableObject.FunctionDefinitions.Where(fn => fn.Name.Id == func.Name.Id && func.FunctionParameters.Count == fn.FunctionParameters.Count).Count() > 1))
                 {
                     if (SymbolTableObject.FunctionCalls.Any(cn => cn.Id.Id == func.Name.Id && cn.Parameters.Count == func.FunctionParameters.Count))
                     {
                         CallNode cn = SymbolTableObject.FunctionCalls.First(cn => cn.Id.Id == func.Name.Id && cn.Parameters.Count == func.FunctionParameters.Count);
-                        FuncNode declaredFunc = GlobalScope.FunctionDefinitions.First(fn => fn.Name.Id == func.Name.Id);
+                        FuncNode declaredFunc = SymbolTableObject.FunctionDefinitions.First(fn => fn.Name.Id == func.Name.Id);
                         SymbolTableObject scope = GlobalScope.FindChild($"func_{declaredFunc.Name.Id}_{declaredFunc.Line}");
                         for (int i = 0; i < cn.Parameters.Count; i++)
                         {
@@ -186,7 +188,7 @@ namespace Contextual_analysis
                     new MultipleDefinedException($"A function '{func.Name.Id}' with {func.FunctionParameters.Count} parameters has already been defined. Error at {func.Line}:{func.Offset}");
                 }
             });
-            programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+
             if (programNode.LoopFunction == null)
             {
                 new NotDefinedException("Loop function was not defined.");
@@ -200,14 +202,25 @@ namespace Contextual_analysis
         {
             try
             {
-                if (GlobalScope.FunctionDefinitions.Any(func => func.Name.Id == callNode.Id.Id && func.FunctionParameters.Count == callNode.Parameters.Count))
+                if (SymbolTableObject.FunctionDefinitions.Any(func => func.Name.Id == callNode.Id.Id && func.FunctionParameters.Count == callNode.Parameters.Count))
                 {
-                    TypeContext ctx = GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count).SymbolType;
+                    FuncNode n = SymbolTableObject.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count);
+                    TypeContext ctx;
+                    if (n.Statements.Any())
+                    {
+                        if (n.Statements.Last().IsType(typeof(ReturnNode)))
+                        {
+                            ctx = (TypeContext)n.Statements.Last().Accept(this);
+                        }
+                        else { ctx = new TypeContext(TokenType.FUNC); }
+                    } else {
+                        ctx = new TypeContext(TokenType.FUNC);
+                    }
                     return ctx;
                 }
-                else if (GlobalScope.PredefinedFunctions.Any(func => func.Name.Id == callNode.Id.Id && func.FunctionParameters.Count == callNode.Parameters.Count))
+                else if (SymbolTableObject.PredefinedFunctions.Any(func => func.Name.Id == callNode.Id.Id && func.FunctionParameters.Count == callNode.Parameters.Count))
                 {
-                    TypeContext ctx = GlobalScope.PredefinedFunctions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count).SymbolType;
+                    TypeContext ctx = SymbolTableObject.PredefinedFunctions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count).SymbolType;
                     return ctx;
                 }
                 else

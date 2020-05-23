@@ -43,12 +43,12 @@ func foo with c, d
 end foo
 a is on
 b is 4
-
+c is 4
 dpin4 is b less (4 + (3 + 5))
 
 if a equal b do
     if b equal c do
-        a is 4
+        a is false
     end if
 else if b equal c do
     b is 4
@@ -56,13 +56,13 @@ else
     c is 4
 end if
 d is c less 4
-call foo
-f is call foo with 23
+call foo with 23, 2
+f is call foo with 23, 2
 func loop
-    a is a + 1
+    a is on
     call foo with 3
     wait 4s
-    a is a + 1
+    a is off
 end loop
 ";
 

@@ -216,7 +216,7 @@ namespace Parser
                         }
                         else
                         {
-                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            if (((IExpr)((ExpressionNode)Current).Parent)?.Operator?.Type == OP_DIVIDE)
                             {
                                 if (((NumericNode)term.LeftHand).FValue == 0f)
                                 {
@@ -1181,7 +1181,7 @@ namespace Parser
                     ((ProgramNode)TopScope()).FunctionDefinitons.Add((FuncNode)Current);
                     try
                     {
-                        _builder.CurrentSymbolTable.FunctionDefinitions.Add((FuncNode)Current);
+                        SymbolTableObject.FunctionDefinitions.Add((FuncNode)Current);
                         _builder.OpenScope(token, $"func_{Tokens[Index + 1].Value}_{CurrentLine}");
                     }
                     catch (IndexOutOfRangeException)

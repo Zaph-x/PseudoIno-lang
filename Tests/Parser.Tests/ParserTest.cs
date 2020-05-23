@@ -65,19 +65,6 @@ namespace Parser.Tests
         }
 
         [Test]
-        public void Test_ParseTable_Assignment_Double_Array() // - done
-        {
-            List<ScannerToken> list = CreateList(VAR, ASSIGN, ARRAYLEFT, NUMERIC, ARRAYRIGHT, ARRAYLEFT, NUMERIC, ARRAYRIGHT);
-
-            Parser parsenizer = new Parser(list);
-
-            parsenizer.Parse(out nowhere);
-
-
-            Assert.False(Parser.HasError);
-        }
-
-        [Test]
         public void Test_ParseTable_While() // - done
         {
             List<ScannerToken> list = CreateList(BEGIN, WHILE, NUMERIC, OP_GREATER, NUMERIC, DO, VAR, ASSIGN, NUMERIC, END, WHILE);

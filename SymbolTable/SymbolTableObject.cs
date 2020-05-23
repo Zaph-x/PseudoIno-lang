@@ -18,11 +18,11 @@ namespace SymbolTable
         public List<Symbol> Symbols = new List<Symbol>();
         public List<SymbolTableObject> Children { get; set; } = new List<SymbolTableObject>();
         private SymbolTableObject _parent { get; set; }
-        public List<FuncNode> FunctionDefinitions { get; set; } = new List<FuncNode>();
+        public static List<FuncNode> FunctionDefinitions { get; set; } = new List<FuncNode>();
         public List<string> DeclaredVars = new List<string>();
         public static List<CallNode> FunctionCalls { get; set; } = new List<CallNode>();
         public List<ArrayNode> DeclaredArrays { get; set; } = new List<ArrayNode>();
-        public List<FuncNode> PredefinedFunctions { get; set; }
+        public static List<FuncNode> PredefinedFunctions { get; set; }
 
         public SymbolTableObject Parent
         {
@@ -51,16 +51,16 @@ namespace SymbolTable
 
         private void AddPredefinedFunctions()
         {
-            this.PredefinedFunctions = new List<FuncNode>();
+            PredefinedFunctions = new List<FuncNode>();
             ScannerToken predefinedToken = new ScannerToken(TokenType.FUNC, "", 0, 0);
-            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("min", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("a", predefinedToken), new VarNode("b", predefinedToken) } });
-            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("max", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("a", predefinedToken), new VarNode("b", predefinedToken) } });
-            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("abs", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("x", predefinedToken) } });
-            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("constrain", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("amt", predefinedToken), new VarNode("low", predefinedToken), new VarNode("high", predefinedToken) } });
-            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("round", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("x", predefinedToken) } });
-            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("radians", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("deg", predefinedToken) } });
-            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("degrees", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("rad", predefinedToken) } });
-            this.PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("sq", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("x", predefinedToken) } });
+            PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("min", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("a", predefinedToken), new VarNode("b", predefinedToken) } });
+            PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("max", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("a", predefinedToken), new VarNode("b", predefinedToken) } });
+            PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("abs", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("x", predefinedToken) } });
+            PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("constrain", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("amt", predefinedToken), new VarNode("low", predefinedToken), new VarNode("high", predefinedToken) } });
+            PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("round", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("x", predefinedToken) } });
+            PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("radians", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("deg", predefinedToken) } });
+            PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("degrees", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("rad", predefinedToken) } });
+            PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("sq", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("x", predefinedToken) } });
         }
 
         private void AddPredefinedConstants()
@@ -147,7 +147,7 @@ namespace SymbolTable
         {
             SymbolTableObject symobj = SymbolTableBuilder.GlobalSymbolTable.Children.First(symtab => symtab.Name == scopeName);
 
-            FuncNode func = SymbolTableBuilder.GlobalSymbolTable.FunctionDefinitions.First(fn => this.Name.Contains(fn.Name.Id) && this.Name.Contains("_" + fn.Line));
+            FuncNode func = SymbolTableObject.FunctionDefinitions.First(fn => this.Name.Contains(fn.Name.Id) && this.Name.Contains("_" + fn.Line));
             if (func.FunctionParameters.Any(vn => vn.Id == node.Id))
                 node.Declaration = false;
             symobj.UpdateTypedef(node, rhs, scopeName, false);

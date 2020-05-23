@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using AbstractSyntaxTree.Objects.Nodes;
 using Contextual_analysis;
 using Lexer;
 using Lexer.Objects;
@@ -197,30 +198,41 @@ end loop";
         public void TestInit()
         {
             CodeGenerationVisitor.HasError = false;
-            Parser.Parser.HasError=false;
+            Parser.Parser.HasError = false;
             TypeChecker.HasError = false;
+            SymbolTableObject.FunctionCalls = new List<CallNode>();
+            SymbolTableObject.FunctionDefinitions = new List<FuncNode>();
+            SymbolTableObject.PredefinedFunctions = new List<FuncNode>();
             dbg = "";
         }
 
-        [OneTimeTearDown]
+        [TearDown]
         public void TearDown()
+        {
+            CodeGenerationVisitor.HasError = false;
+            Parser.Parser.HasError = false;
+            TypeChecker.HasError = false;
+        }
+
+        [OneTimeTearDown]
+        public void TearDownOneTime()
         {
             File.Delete(AppContext.BaseDirectory + "Codegen_output.cpp");
         }
 
-        [TestCase(content)]
-        [TestCase(content2)]
-        [TestCase(blink)]
-        [TestCase(forstatmenttest)]
-        [TestCase(Ifstatment)]
-        [TestCase(whilestatment)]
-        [TestCase(whilestatment2)]
-        [TestCase(whilestatment3)]
-        [TestCase(time)]
-        [TestCase(stringTest)]
-        [TestCase(program4)]
-        [TestCase(program5)]
-        public void Test_CodeGenVisitor_content(string prog)
+        [TestCase(0,content)]
+        [TestCase(1,content2)]
+        [TestCase(2,blink)]
+        [TestCase(3,forstatmenttest)]
+        [TestCase(4,Ifstatment)]
+        [TestCase(5,whilestatment)]
+        [TestCase(6,whilestatment2)]
+        [TestCase(7,whilestatment3)]
+        [TestCase(8,time)]
+        [TestCase(9,stringTest)]
+        [TestCase(10,program4)]
+        [TestCase(11,program5)]
+        public void Test_CodeGenVisitor_content(int n, string prog)
         {
             StreamReader FakeReader = CreateFakeReader(prog, Encoding.UTF8);
             Tokeniser tokenizer = new Tokeniser(FakeReader);
@@ -229,7 +241,7 @@ end loop";
             Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out dbg);
             if (Parser.Parser.HasError)
-                Assert.Fail("The parser encountered an error\n\n"+ dbg);
+                Assert.Fail("The parser encountered an error\n\n" + dbg);
             parser.Root.Accept(new TypeChecker());
             Assert.IsFalse(TypeChecker.HasError, "Typechecker visitor encountered an error");
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
