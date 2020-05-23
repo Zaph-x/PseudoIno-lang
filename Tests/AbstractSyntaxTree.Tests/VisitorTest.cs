@@ -78,7 +78,7 @@ end loop
         public void Test_ASTHelper_Assign_2()
         {
             StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);

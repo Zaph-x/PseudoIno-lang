@@ -12,7 +12,7 @@ namespace Lexer
     /// <summary>
     /// The class responsible for generating the tokens from the source language
     /// </summary>
-    public class Tokenizer
+    public class Tokeniser
     {
         /// <summary>
         /// The list of tokens generated when the source language is being scanned
@@ -66,7 +66,7 @@ namespace Lexer
         /// The constructor for the Tokenizer class. This will set the iniitiate a reader and a recogniser.
         /// </summary>
         /// <param name="stream">The StreamReader responsible for reading a class</param>
-        public Tokenizer(StreamReader stream)
+        public Tokeniser(StreamReader stream)
         {
             recogniser = new Recogniser();
             reader = stream;

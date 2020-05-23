@@ -51,7 +51,7 @@ end loop";
         [SetUp]
         public void Setup()
         {
-            Tokenizer.HasError = false;
+            Tokeniser.HasError = false;
             Parsenizer.HasError = false;
             TypeChecker.HasError = false;
         }
@@ -67,7 +67,7 @@ end loop";
         public void Test_TypeChecker_CheckHasNoErrors(string program)
         {
             StreamReader reader = CreateFakeReader(program);
-            Tokenizer tokenizer = new Tokenizer(reader);
+            Tokeniser tokenizer = new Tokeniser(reader);
             tokenizer.GenerateTokens();
             Parsenizer parser = new Parsenizer(tokenizer.Tokens.ToList());
             parser.Parse(out nowhere);
@@ -80,7 +80,7 @@ end loop";
         public void Test_AssignmentNode_NodeHasNoOperator()
         {
             StreamReader reader = CreateFakeReader(program2);
-            Tokenizer tokenizer = new Tokenizer(reader);
+            Tokeniser tokenizer = new Tokeniser(reader);
             tokenizer.GenerateTokens();
             Parsenizer parser = new Parsenizer(tokenizer.Tokens.ToList());
             parser.Parse(out nowhere);
@@ -100,7 +100,7 @@ end loop";
         public void Test_TypeChecker_CanThrowExceptions(string program)
         {
             StreamReader reader = CreateFakeReader(program);
-            Tokenizer tokenizer = new Tokenizer(reader);
+            Tokeniser tokenizer = new Tokeniser(reader);
             tokenizer.GenerateTokens();
             Parsenizer parser = new Parsenizer(tokenizer.Tokens.ToList());
             parser.Parse(out nowhere);

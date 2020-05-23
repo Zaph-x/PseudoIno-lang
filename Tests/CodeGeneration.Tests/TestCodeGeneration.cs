@@ -223,7 +223,7 @@ end loop";
         public void Test_CodeGenVisitor_content(string prog)
         {
             StreamReader FakeReader = CreateFakeReader(prog, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);

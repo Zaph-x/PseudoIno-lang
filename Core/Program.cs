@@ -66,10 +66,10 @@ namespace Core
                     Console.Error.WriteLine(e.Message);
                     return 20;
                 }
-                Tokenizer tokenizer = new Tokenizer(reader);
+                Tokeniser tokenizer = new Tokeniser(reader);
                 verbosePrinter.Info("Generating tokens...");
                 tokenizer.GenerateTokens();
-                if (Tokenizer.HasError)
+                if (Tokeniser.HasError)
                 {
                     verbosePrinter.Error("Encountered syntax errors. Stopping.");
                     return 5;

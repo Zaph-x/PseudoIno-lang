@@ -66,7 +66,7 @@ namespace AbstractSyntaxTree.Tests
         public void Test_ASTHelper_Constructor(string content)
         {
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
             Parsenizer parser = new Parsenizer(tokens);
