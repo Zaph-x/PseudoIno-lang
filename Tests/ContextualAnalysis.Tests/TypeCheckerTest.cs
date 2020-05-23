@@ -52,7 +52,7 @@ end loop";
         public void Setup()
         {
             Tokeniser.HasError = false;
-            Parsenizer.HasError = false;
+            Parser.Parser.HasError = false;
             TypeChecker.HasError = false;
         }
 
@@ -69,9 +69,9 @@ end loop";
             StreamReader reader = CreateFakeReader(program);
             Tokeniser tokenizer = new Tokeniser(reader);
             tokenizer.GenerateTokens();
-            Parsenizer parser = new Parsenizer(tokenizer.Tokens.ToList());
+            Parser.Parser parser = new Parser.Parser(tokenizer.Tokens.ToList());
             parser.Parse(out nowhere);
-            Assert.IsFalse(Parsenizer.HasError, "Parser encountered an error state:\n\n"+nowhere);
+            Assert.IsFalse(Parser.Parser.HasError, "Parser encountered an error state:\n\n"+ nowhere);
             parser.Root.Accept(new TypeChecker());
             Assert.IsFalse(TypeChecker.HasError, "Typechecker encountered an error.");
         }
@@ -82,9 +82,9 @@ end loop";
             StreamReader reader = CreateFakeReader(program2);
             Tokeniser tokenizer = new Tokeniser(reader);
             tokenizer.GenerateTokens();
-            Parsenizer parser = new Parsenizer(tokenizer.Tokens.ToList());
+            Parser.Parser parser = new Parser.Parser(tokenizer.Tokens.ToList());
             parser.Parse(out nowhere);
-            Assert.IsFalse(Parsenizer.HasError, "Parser encountered an error state:\n\n"+nowhere);
+            Assert.IsFalse(Parser.Parser.HasError, "Parser encountered an error state:\n\n"+ nowhere);
             parser.Root.Accept(new TypeChecker());
             Assert.IsNull(((AssignmentNode)parser.Root.Statements[0]).Operator, "Operator was not null for assignment node");
         }
@@ -102,9 +102,9 @@ end loop";
             StreamReader reader = CreateFakeReader(program);
             Tokeniser tokenizer = new Tokeniser(reader);
             tokenizer.GenerateTokens();
-            Parsenizer parser = new Parsenizer(tokenizer.Tokens.ToList());
+            Parser.Parser parser = new Parser.Parser(tokenizer.Tokens.ToList());
             parser.Parse(out nowhere);
-            Assert.IsFalse(Parsenizer.HasError, "Parser encountered an error state:\n\n"+nowhere);
+            Assert.IsFalse(Parser.Parser.HasError, "Parser encountered an error state:\n\n"+ nowhere);
             parser.Root.Accept(new TypeChecker());
             Assert.IsTrue(TypeChecker.HasError, "The error was not caught");
         }

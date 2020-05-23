@@ -6,6 +6,6 @@ public class NoScopeException : Exception
             public NoScopeException(string message)
         {
             Console.Error.WriteLine(message);
-            Parsenizer.HasError = true;
+        Parser.Parser.HasError = true;
         }
 }

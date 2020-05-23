@@ -197,7 +197,7 @@ end loop";
         public void TestInit()
         {
             CodeGenerationVisitor.HasError = false;
-            Parsenizer.HasError=false;
+            Parser.Parser.HasError=false;
             TypeChecker.HasError = false;
             dbg = "";
         }
@@ -226,10 +226,10 @@ end loop";
             Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
+            Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out dbg);
-            if (Parsenizer.HasError)
-                Assert.Fail("The parser encountered an error\n\n"+dbg);
+            if (Parser.Parser.HasError)
+                Assert.Fail("The parser encountered an error\n\n"+ dbg);
             parser.Root.Accept(new TypeChecker());
             Assert.IsFalse(TypeChecker.HasError, "Typechecker visitor encountered an error");
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");

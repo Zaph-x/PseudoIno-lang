@@ -6,6 +6,6 @@ public class DivisionByZeroException : Exception
     public DivisionByZeroException(string message)
     {
         Console.Error.WriteLine(message);
-        Parsenizer.HasError = true;
+        Parser.Parser.HasError = true;
     }
 }

@@ -14,7 +14,7 @@ using Lexer.Exceptions;
 
 namespace Parser
 {
-    public class Parsenizer
+    public class Parser
     {
         int Index = 1;
         private Stack<TokenType> Stack = new Stack<TokenType>();
@@ -30,7 +30,7 @@ namespace Parser
         private ParseAction CurrentAction { get; set; }
         private SymbolTableObject _symbolTabelGlobal = new SymbolTableObject();
         private SymbolTableBuilder _builder { get; }
-        public Parsenizer(List<ScannerToken> tokens)
+        public Parser(List<ScannerToken> tokens)
         {
             Tokens = tokens.Where(tok => tok.Type != TokenType.COMMENT && tok.Type != TokenType.MULT_COMNT).ToList();
             ParseTable = new ParseTable();
