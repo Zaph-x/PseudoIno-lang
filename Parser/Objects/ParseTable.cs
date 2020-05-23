@@ -208,7 +208,7 @@ namespace Parser.Objects
             this[ARRAYACCESSING, OP_DIVIDE] = new ParseAction(0);
             this[ARRAYACCESSING, OP_TIMES] = new ParseAction(0);
             this[ARRAYACCESSING, OP_PLUS] = new ParseAction(0);
-            this[ARRAYACCESSING, ARRAYINDEX] = new ParseAction(75,ARRAYINDEX, ARRAYACCESSOR, ARRAYACCESSING);
+            this[ARRAYACCESSING, ARRAYINDEX] = new ParseAction(75,ARRAYINDEX, ARRAYACCESSOR);
             this[ARRAYACCESSING, ASSIGN] = new ParseAction(0);
             this[ARRAYACCESSING, OP_RPAREN] = new ParseAction(0);
             this[ARRAYACCESSING, COMMENT] = new ParseAction(0);
@@ -278,7 +278,7 @@ namespace Parser.Objects
             this[ARR, ELSE] = new ParseAction(0);
             this[ARR, APIN] = new ParseAction(0);
             this[ARR, DPIN] = new ParseAction(0);
-            this[ARR, ARRAYLEFT] = new ParseAction(108,ARRAYLEFT, NUMERIC, ARRAYRIGHT, ARR);
+            this[ARR, ARRAYLEFT] = new ParseAction(108,ARRAYLEFT, NUMERIC, ARRAYRIGHT);
             this[ARR, COMMENT] = new ParseAction(0);
             this[ARR, MULT_COMNT] = new ParseAction(0);
             this[ARR, ARRAYINDEX] = new ParseAction(0);
