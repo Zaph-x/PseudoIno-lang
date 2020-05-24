@@ -15,7 +15,7 @@ dotnet test --no-build | out-null
 minicover uninstrument | out-null
 "Generating HTML report"
 # Create html reports inside folder coverage-html
-minicover htmlreport --threshold 90 | out-null
+minicover htmlreport --threshold 80 | out-null
 
 # Console report
-minicover report --threshold 90
+minicover report --threshold 80
