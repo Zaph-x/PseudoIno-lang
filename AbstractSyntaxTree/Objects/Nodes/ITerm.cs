@@ -6,5 +6,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
     public interface ITerm : ITyped
     {
         object Accept(Visitor visitor);
+        bool IsType(Type type);
     }
 }

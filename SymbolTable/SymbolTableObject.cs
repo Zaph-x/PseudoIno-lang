@@ -83,11 +83,11 @@ namespace SymbolTable
         public override string ToString() => $"{Name}";
         public bool HasDeclaredVar(AstNode node)
         {
-            if (node.GetType().IsAssignableFrom(typeof(VarNode)))
+            if (node.IsType(typeof(VarNode)))
             {
                 return this.DeclaredVars.Contains((node as VarNode).Id) || (this.Parent?.HasDeclaredVar(node) ?? false);
             }
-            else if (node.GetType().IsAssignableFrom(typeof(ArrayAccessNode)))
+            else if (node.IsType(typeof(ArrayAccessNode)))
             {
                 return this.DeclaredArrays.Contains(((ArrayAccessNode)node).Actual) || (this.Parent?.HasDeclaredVar(node) ?? false);
             }

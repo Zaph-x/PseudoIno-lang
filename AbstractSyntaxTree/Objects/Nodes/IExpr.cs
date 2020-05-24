@@ -1,3 +1,4 @@
+using System;
 using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
@@ -9,5 +10,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
         IExpr RightHand { get; set; }
 
         object Accept(Visitor visitor);
+        bool IsType(Type type);
     }
 }

@@ -12,7 +12,6 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public AssignmentNode(int line, int offset) : base(TokenType.ASSIGNMENT, line, offset)
         {
         }
-
         public override object Accept(Visitor visitor)
         {
             return visitor.Visit(this);

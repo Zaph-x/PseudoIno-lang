@@ -26,7 +26,7 @@ namespace Contextual_analysis
         {
             TypeContext lhs = (TypeContext)assignmentNode.LeftHand.Accept(this);
             TypeContext rhs;
-            if (assignmentNode.RightHand.GetType().IsAssignableFrom(typeof(ArrayNode)))
+            if (assignmentNode.RightHand.IsType(typeof(ArrayNode)))
             {
                 ArrayNode arr = (ArrayNode)assignmentNode.RightHand;
                 if (arr.HasBeenAccessed)
@@ -50,7 +50,7 @@ namespace Contextual_analysis
             {
                 rhs = (TypeContext)assignmentNode.RightHand.Accept(this);
             }
-            if (assignmentNode.RightHand.GetType().IsAssignableFrom(typeof(ArrayAccessNode)))
+            if (assignmentNode.RightHand.IsType(typeof(ArrayAccessNode)))
             {
                 if (CurrentScope.FindArray((assignmentNode.LeftHand as ArrayAccessNode).Actual.ActualId.Id).Type == ARR)
                 {
@@ -91,7 +91,7 @@ namespace Contextual_analysis
                     CurrentScope.DeclaredVars.Add((assignmentNode.LeftHand as VarNode).Id);
                 }
 
-                if (assignmentNode.LeftHand.GetType().IsAssignableFrom(typeof(VarNode)))
+                if (assignmentNode.LeftHand.IsType(typeof(VarNode)))
                 {
                     if (CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
                     {
@@ -99,7 +99,7 @@ namespace Contextual_analysis
                     }
                     lhs = CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode);
                 }
-                else if (assignmentNode.LeftHand.GetType().IsAssignableFrom(typeof(ArrayAccessNode)))
+                else if (assignmentNode.LeftHand.IsType(typeof(ArrayAccessNode)))
                 {
 
                 }
@@ -372,7 +372,7 @@ namespace Contextual_analysis
         public override object Visit(ExpressionTerm expressionNode)
         {
             TypeContext lhs;
-            if (expressionNode.LeftHand.GetType().IsAssignableFrom(typeof(ArrayAccessNode)))
+            if (expressionNode.LeftHand.IsType(typeof(ArrayAccessNode)))
             {
                 lhs = (TypeContext)CurrentScope.FindArray(((ArrayAccessNode)expressionNode.LeftHand).Actual.ActualId.Id).Accept(this);
                 return expressionNode.SymbolType = lhs;
@@ -550,7 +550,7 @@ namespace Contextual_analysis
         public override object Visit(ArrayAccessNode arrayAccess)
         {
             int accessLocation = 0;
-            foreach (int access in arrayAccess.Accesses.Where(n => n.GetType().IsAssignableFrom(typeof(NumericNode))).Select(n => ((NumericNode)n).IValue))
+            foreach (int access in arrayAccess.Accesses.Where(n => n.IsType(typeof(NumericNode))).Select(n => ((NumericNode)n).IValue))
             {
                 if (arrayAccess.Actual.Dimensions[accessLocation++].IValue <= access)
                 {

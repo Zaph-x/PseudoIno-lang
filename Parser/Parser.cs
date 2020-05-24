@@ -1099,7 +1099,7 @@ namespace Parser
                         {
                             ((IExpr)previousExpr).RightHand = new ExpressionTerm(token) { LeftHand = (ITerm)Current };
                         }
-                        while (!((AstNode)Current).Parent.GetType().IsAssignableFrom(typeof(ParenthesisExpression)))
+                        while (!((AstNode)Current).Parent.IsType(typeof(ParenthesisExpression)))
                         {
                             Current = ((ExpressionNode)Current).Parent;
                         }
@@ -1108,7 +1108,7 @@ namespace Parser
                     }
                     else
                     {
-                        while (!((ExpressionNode)Current).Parent.GetType().IsAssignableFrom(typeof(ParenthesisExpression)))
+                        while (!((ExpressionNode)Current).Parent.IsType(typeof(ParenthesisExpression)))
                         {
                             Current = ((ExpressionNode)Current).Parent;
                         }

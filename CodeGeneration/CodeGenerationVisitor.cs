@@ -134,7 +134,7 @@ namespace CodeGeneration
             else
             {
                 assign += (string)assignmentNode.LeftHand.Accept(this);
-                if (assignmentNode.RightHand.GetType().IsAssignableFrom(typeof(ArrayNode)))
+                if (assignmentNode.RightHand.IsType(typeof(ArrayNode)))
                 {
                     assign += (string)assignmentNode.RightHand.Accept(this);
                     assign += ";";
@@ -266,7 +266,7 @@ namespace CodeGeneration
                 {
                     if (node.Type == TokenType.ASSIGNMENT)
                     {
-                        if (((AstNode)((AssignmentNode)node).LeftHand).GetType().IsAssignableFrom(typeof(VarNode)) && ((VarNode)((AssignmentNode)node).LeftHand).Declaration)
+                        if (((AstNode)((AssignmentNode)node).LeftHand).IsType(typeof(VarNode)) && ((VarNode)((AssignmentNode)node).LeftHand).Declaration)
                         {
                             Declarations += node.Accept(this);
                             continue;
@@ -554,7 +554,7 @@ namespace CodeGeneration
         public override object Visit(ExpressionTerm expressionTermNode)
         {
             string exp = "";
-            if (expressionTermNode.LeftHand.GetType().IsAssignableFrom(typeof(APinNode))||expressionTermNode.LeftHand.GetType().IsAssignableFrom(typeof(DPinNode)))
+            if (expressionTermNode.LeftHand.IsType(typeof(APinNode))||expressionTermNode.LeftHand.IsType(typeof(DPinNode)))
             {
                 string pin = ((PinNode)expressionTermNode.LeftHand).Value;
                 if (PinDefs.Any(def => def.Contains(pin) && def.Contains("OUTPUT")))
@@ -617,7 +617,7 @@ namespace CodeGeneration
         {
             string arrAccess = "";
             arrAccess += arrayAccess.Actual.ActualId.Id;
-            foreach (string access in arrayAccess.Accesses.Select(node => node.GetType().IsAssignableFrom(typeof(VarNode)) ? ((VarNode)node).Id : ((NumericNode)node).Value))
+            foreach (string access in arrayAccess.Accesses.Select(node => node.IsType(typeof(VarNode)) ? ((VarNode)node).Id : ((NumericNode)node).Value))
                 arrAccess += $"[{access}]";
             return arrAccess;
         }
