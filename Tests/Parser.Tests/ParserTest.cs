@@ -465,6 +465,42 @@ namespace Parser.Tests
 
             Assert.False(Parser.HasError);
         }
+        
+        [Test]
+        public void Test_ParseTable_Apin_Assign()
+        {
+            List<ScannerToken> list = CreateList(APIN,ASSIGN,NUMERIC);
+            
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_Apin_109_1()
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,APIN);
+            
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_Apin_109_2()
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,APIN,OP_PLUS,NUMERIC);
+            
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
 
         private List<ScannerToken> CreateList(params TokenType[] tokens)
         {
