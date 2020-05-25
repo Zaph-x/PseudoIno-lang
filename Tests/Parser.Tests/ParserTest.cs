@@ -441,6 +441,30 @@ namespace Parser.Tests
             ArrayAccessNode node = new ArrayAccessNode(new ArrayNode(1,1), 1,1);
             Assert.Throws<NotImplementedException>(() =>  Console.WriteLine(node.RightHand));
         }
+        
+        [Test]
+        public void Test_ParseTable_Array()
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC,OP_PLUS,NUMERIC);
+            
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_Array_210()
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC,OP_PLUS,NUMERIC,VAR,ASSIGN,ARRAYINDEX,NUMERIC,OP_PLUS,NUMERIC);
+            
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
 
         private List<ScannerToken> CreateList(params TokenType[] tokens)
         {
