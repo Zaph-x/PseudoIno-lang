@@ -123,9 +123,9 @@ end loop
         public void Test_TypeChecker_CheckHasNoErrors(string program)
         {
             StreamReader reader = CreateFakeReader(program);
-            Tokeniser tokenizer = new Tokeniser(reader);
-            tokenizer.GenerateTokens();
-            Parser.Parser parser = new Parser.Parser(tokenizer.Tokens.ToList());
+            Tokeniser tokeniser = new Tokeniser(reader);
+            tokeniser.GenerateTokens();
+            Parser.Parser parser = new Parser.Parser(tokeniser.Tokens.ToList());
             parser.Parse(out nowhere);
             Assert.IsFalse(Parser.Parser.HasError, "Parser encountered an error state:\n\n"+ nowhere);
             parser.Root.Accept(new TypeChecker());
@@ -136,9 +136,9 @@ end loop
         public void Test_AssignmentNode_NodeHasNoOperator()
         {
             StreamReader reader = CreateFakeReader(program2);
-            Tokeniser tokenizer = new Tokeniser(reader);
-            tokenizer.GenerateTokens();
-            Parser.Parser parser = new Parser.Parser(tokenizer.Tokens.ToList());
+            Tokeniser tokeniser = new Tokeniser(reader);
+            tokeniser.GenerateTokens();
+            Parser.Parser parser = new Parser.Parser(tokeniser.Tokens.ToList());
             parser.Parse(out nowhere);
             Assert.IsFalse(Parser.Parser.HasError, "Parser encountered an error state:\n\n"+ nowhere);
             parser.Root.Accept(new TypeChecker());
@@ -167,9 +167,9 @@ end loop
         public void Test_TypeChecker_CanThrowExceptions(string program)
         {
             StreamReader reader = CreateFakeReader(program);
-            Tokeniser tokenizer = new Tokeniser(reader);
-            tokenizer.GenerateTokens();
-            Parser.Parser parser = new Parser.Parser(tokenizer.Tokens.ToList());
+            Tokeniser tokeniser = new Tokeniser(reader);
+            tokeniser.GenerateTokens();
+            Parser.Parser parser = new Parser.Parser(tokeniser.Tokens.ToList());
             parser.Parse(out nowhere);
             Assert.IsFalse(Parser.Parser.HasError, "Parser encountered an error state:\n\n"+ nowhere);
             parser.Root.Accept(new TypeChecker());
