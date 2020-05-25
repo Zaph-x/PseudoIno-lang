@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using AbstractSyntaxTree.Objects.Nodes;
 using Lexer.Objects;
 using static Lexer.Objects.TokenType;
 using NUnit.Framework;
@@ -326,6 +328,66 @@ namespace Parser.Tests
 
 
             Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_Array_NotImplementedException_LeftHand_Set() // - 
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
+
+            ArrayNode node = new ArrayNode(1,1);
+            
+            Assert.Throws<NotImplementedException>(() => node.LeftHand = new ExpressionTerm(new ScannerToken(NUMERIC,1,1)));
+        }
+        
+        [Test]
+        public void Test_ParseTable_Array_NotImplementedException_LeftHand_Get() // - 
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
+
+            ArrayNode node = new ArrayNode(1,1);
+            
+            Assert.Throws<NotImplementedException>(() =>  Console.WriteLine(node.LeftHand));
+        }
+        
+        [Test]
+        public void Test_ParseTable_Array_NotImplementedException_Operator_Set() // - 
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
+
+            ArrayNode node = new ArrayNode(1,1);
+            
+            Assert.Throws<NotImplementedException>(() => node.Operator = new PlusNode(new ScannerToken(OP_PLUS,1,1)));
+        }
+        
+        [Test]
+        public void Test_ParseTable_Array_NotImplementedException_Operator_Get() // - 
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
+
+            ArrayNode node = new ArrayNode(1,1);
+            
+            Assert.Throws<NotImplementedException>(() =>  Console.WriteLine(node.Operator));
+        }
+        
+        [Test]
+        public void Test_ParseTable_Array_NotImplementedException_RightHand_Set() // - 
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
+
+            ArrayNode node = new ArrayNode(1,1);
+            
+            Assert.Throws<NotImplementedException>(() => node.RightHand = new ExpressionTerm(new ScannerToken(NUMERIC,1,1)));
+        }
+        
+        [Test]
+        public void Test_ParseTable_Array_NotImplementedException_RightHand_Get() // - 
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
+
+            ArrayNode node = new ArrayNode(1,1);
+            
+            Assert.Throws<NotImplementedException>(() =>  Console.WriteLine(node.RightHand));
         }
 
         private List<ScannerToken> CreateList(params TokenType[] tokens)
