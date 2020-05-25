@@ -213,6 +213,33 @@ func loop
 end loop
 ";
 
+private const string func_float =
+    @"
+func foo
+  b is 4.2
+  return b
+end foo
+
+func loop
+  a is 5.1
+  a is call foo
+end loop";
+
+private const string func_string =
+    "\n func foo \n b is \"HelloWorld\" \n return b \n end foo \n func loop \n a is call foo \n end loop";
+
+private const string func_bool =
+    @"
+func foo
+  b is true
+  return b
+end foo
+
+func loop
+  a is false
+  a is call foo
+end loop";
+
         string dbg;
 
         [SetUp]
@@ -256,6 +283,9 @@ end loop
         //[TestCase(12,Array_Declaration)]
         [TestCase(13,Array_Assignment)]
         [TestCase(14,Array_Access)]
+        [TestCase(15,func_float)]
+        [TestCase(16,func_string)]
+        [TestCase(17,func_bool)]
         public void Test_CodeGenVisitor_content(int n, string prog)
         {
             StreamReader FakeReader = CreateFakeReader(prog, Encoding.UTF8);
