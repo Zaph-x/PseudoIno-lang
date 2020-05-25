@@ -244,7 +244,7 @@ end loop";
                 Assert.Fail("The parser encountered an error\n\n" + dbg);
             parser.Root.Accept(new TypeChecker());
             Assert.IsFalse(TypeChecker.HasError, "Typechecker visitor encountered an error");
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
             parser.Root.Accept(codeGenerationVisitor);
             Assert.IsFalse(CodeGenerationVisitor.HasError, "Code gen visitor encountered an error");
         }
