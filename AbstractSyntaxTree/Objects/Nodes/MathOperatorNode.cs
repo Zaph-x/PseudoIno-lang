@@ -7,7 +7,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public MathOperatorNode(ScannerToken token) : base(token)
         {
         }
-
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public abstract override object Accept(Visitor visitor);
     }
 }

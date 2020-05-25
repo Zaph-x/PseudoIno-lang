@@ -1,5 +1,8 @@
 namespace Core.Objects
 {
+    /// <summary>
+    /// The base class for the command line options that will be checked on compiler invokation.
+    /// </summary>
     public class CommandLineOptions
     {
         /// <summary>

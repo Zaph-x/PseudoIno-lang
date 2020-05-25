@@ -167,11 +167,6 @@ namespace CodeGeneration
             return varNodeId;
         }
 
-        public override object Visit(ValNode valNode)
-        {
-            return valNode.Value;
-        }
-
         public override object Visit(TimeSecondNode timeSecondNode)
         {
             return "*1000";

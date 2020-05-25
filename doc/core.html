@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>core.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="coredll-v1000-api-documentation">Core.dll v.1.0.0.0 API documentation</h1>
+<h1 id="all-types">All types</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#program-class">Program Class</a></td>
+<td><a href="#encodingnotsupportedexception-class">EncodingNotSupportedException Class</a></td>
+<td><a href="#filechecker-class">FileChecker Class</a></td>
+</tr>
+<tr>
+<td><a href="#shellhelper-class">ShellHelper Class</a></td>
+<td><a href="#commandlineoptions-class">CommandLineOptions Class</a></td>
+<td><a href="#verboseprinter-class">VerbosePrinter Class</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="program-class">Program Class</h1>
+<p>Namespace: Core</p>
+<p>The core of the compiler.
+This is where every step of the compiler is called from.</p>
+<h2 id="methods">Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Returns</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GetPWMSet()</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1">List</a>&lt;string&gt;</td>
+<td>Gets the set of PWM pins on an arduino, based on the model provided, when invoking the compiler.</td>
+</tr>
+<tr>
+<td><strong>Help()</strong></td>
+<td>void</td>
+<td>Prints the help list to the terminal.<br>This is automatically called, if no file path is provided when the compiler is invoked.</td>
+</tr>
+<tr>
+<td><strong>Main(<a href="https://docs.microsoft.com/en-us/dotnet/api/system.string%5B%5D">string[]</a> args)</strong></td>
+<td>int</td>
+<td>The entry point of the compiler.<br>Here the user must provide a set of compiler flags, in order for the compiler to produce a satisfying product.<br>The user must provide a filepath to the file they wish to compile. Otherwise the compiler will halt and exit with an exit code of 1.<br>Compiler flags can be provided to activate additional functionality.<br><strong>Compiler flags</strong><br><code>-d</code> or <code>--dryrun</code> Runs the compiler without producing an output.<br><code>-o</code> or <code>--output</code> Tells the compiler not to write to the Arduino, and instead produce a file.<br><code>-v</code> or <code>--verbose</code> Prints additional information when compiling.<br><code>-b</code> or <code>--boilerplate</code> Generates a boilerplate file for your code.<br><code>-l</code> or <code>--logfile</code> (Must be followed by a file path) Prints additional information when compiling.<br><code>-p</code> or <code>--port</code> (Must be followed by a port number) Specifies the port to upload to.<br><code>-a</code> or <code>--arduino</code> (Must be followed by an Arduino model) Specifies the arduino model you're uploading to. (Default: UNO)<br><code>-pr</code> or <code>--proc</code> (Must be followed by a valid processor) Specifies the arduino processor you're uploading to. (Default: atmega328p)<br><code>-pp</code> or <code>--prettyprinter</code> Print the abstract syntax tree.<br><strong>Compiler exit code</strong><br><code>0</code> Compilation finished with no errors.<br><code>1</code> A file path was not provided to the compiler for compilation.<br><code>20</code> The file provided was not encoded as a UTF-8 file.<br><code>5</code> An error was encountered while scanning the input program. This is usually caused by an unclosed string, comment, or parenthesis.<br><code>4</code> An error was encountered in the parser. This is usually due to an invalidly structured program.<br><code>3</code> An error was encountered in the type checker. This happens when two types are mismatched, either on assignment or within an expression. Furthermore, this can be caused by not defining a called function, or a function being defined multiple times.<br><code>2</code> This error is encountered when the code generator can not find the output file for the intermediate representation code.<br><code>23</code> This error is encountered when the dryrun flag is invoked, but the compiler can not find the output file for the intermediate representation code.</td>
+</tr>
+<tr>
+<td><strong>ParseOptions(<a href="https://docs.microsoft.com/en-us/dotnet/api/system.string%5B%5D">string[]</a> args)</strong></td>
+<td><a href="#commandlineoptions-class">CommandLineOptions</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="shellhelper-class">ShellHelper Class</h1>
+<p>Namespace: Core</p>
+<p>An extension class to extend the functionality of strings.
+This class is used to add better shell integration, when calling commands in the shell, from the compiler.</p>
+<h2 id="methods">Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Returns</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bash(string cmd)</strong></td>
+<td>string</td>
+<td>Calls a command in /bin/bash on linux.</td>
+</tr>
+<tr>
+<td><strong>Cmd(string cmd)</strong></td>
+<td>string</td>
+<td>Calls a command in CMD.exe on windows.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="encodingnotsupportedexception-class">EncodingNotSupportedException Class</h1>
+<p>Namespace: Core.Exceptions</p>
+<p>Base class: <a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></p>
+<p>An exception thrown when a file is wrongly encoded.</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TargetSite</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase">MethodBase</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>StackTrace</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Message</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary">IDictionary</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>InnerException</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HelpLink</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Source</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HResult</strong></td>
+<td>int</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="constructors">Constructors</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EncodingNotSupportedException(string message)</strong></td>
+<td>An exception which will be thrown when a file encoding is not supported in the compiler.</td>
+</tr>
+<tr>
+<td><strong>EncodingNotSupportedException(string message, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a> innerException)</strong></td>
+<td>An exception which will be thrown when a file encoding is not supported in the compiler.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="commandlineoptions-class">CommandLineOptions Class</h1>
+<p>Namespace: Core.Objects</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OutputFile</strong></td>
+<td>bool</td>
+<td>The file to write to. This will produce an output without uploading it to the Arduino.</td>
+</tr>
+<tr>
+<td><strong>InputFile</strong></td>
+<td>string</td>
+<td>The source code for the compiler.</td>
+</tr>
+<tr>
+<td><strong>DryRun</strong></td>
+<td>bool</td>
+<td>If this is set to true, the compiler will not produce a file.</td>
+</tr>
+<tr>
+<td><strong>Verbose</strong></td>
+<td>bool</td>
+<td>If this is set to true, the compiler will print additional information</td>
+</tr>
+<tr>
+<td><strong>LogFile</strong></td>
+<td>string</td>
+<td>A file to write tokens and other log things to.</td>
+</tr>
+<tr>
+<td><strong>Boilerpate</strong></td>
+<td>bool</td>
+<td>A boolean value to specify if the compiler should generate a boilerplate file for the PseudoIno language</td>
+</tr>
+<tr>
+<td><strong>PrettyPrinter</strong></td>
+<td>bool</td>
+<td>A Boolean value to specify if the compiler should print the AST.</td>
+</tr>
+<tr>
+<td><strong>Port</strong></td>
+<td>string</td>
+<td>An integer value for the given COMPort the arduino is attached to.</td>
+</tr>
+<tr>
+<td><strong>Arduino</strong></td>
+<td>string</td>
+<td>A string value that specifies the arduino processor you're uploading to.</td>
+</tr>
+<tr>
+<td><strong>Processor</strong></td>
+<td>string</td>
+<td>A string value to specify the onboard processor.</td>
+</tr>
+</tbody>
+</table>
+<h1 id="filechecker-class">FileChecker Class</h1>
+<p>Namespace: Core.Objects</p>
+<p>The class responsible for checking if a given file is correctly encoded.</p>
+<h2 id="methods">Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Returns</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CheckEncoding(<a href="https://docs.microsoft.com/en-us/dotnet/api/system.io.streamreader">StreamReader</a> stream)</strong></td>
+<td>bool</td>
+<td>The method for checking if a file is ecoded as either UTF8 or ASCII</td>
+</tr>
+</tbody>
+</table>
+<h1 id="verboseprinter-class">VerbosePrinter Class</h1>
+<p>Namespace: Core.Objects</p>
+<p>The verbose printer invoked when the compiler is called with the -v</p>
+<h2 id="properties">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Options</strong></td>
+<td><a href="#commandlineoptions-class">CommandLineOptions</a></td>
+<td>The options passed to the compiler.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="constructors">Constructors</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VerbosePrinter(<a href="#commandlineoptions-class">CommandLineOptions</a> options)</strong></td>
+<td>The constructor of the VerbosePrinter.<br>This constructor determines whether we're in verbose mode or not.<br>If the &lt;c&gt;-v&lt;/c&gt; flag is present, verbose mode will be enabled.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="methods">Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Returns</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Error(<a href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a> obj)</strong></td>
+<td>void</td>
+<td>This method will log an error to the console, as well as writes it to the logfile</td>
+</tr>
+<tr>
+<td><strong>Info(<a href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a> obj)</strong></td>
+<td>void</td>
+<td>This method will log an info message to the console.</td>
+</tr>
+<tr>
+<td><strong>InfoInline(<a href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a> obj)</strong></td>
+<td>void</td>
+<td>This method will log an info message to the console, without appending newline at the end</td>
+</tr>
+<tr>
+<td><strong>Log(<a href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a> obj)</strong></td>
+<td>void</td>
+<td>The method reponsible for logging. If a logfile is provided, the object passed to the method will be logged to the logfile.</td>
+</tr>
+<tr>
+<td><strong>LogInline(<a href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a> obj)</strong></td>
+<td>void</td>
+<td>This method will log an object to a file without appending a newline character at the end of the string. If a logfile is provided, the object passed to the method will be logged to the logfile.</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

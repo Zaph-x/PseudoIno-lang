@@ -5,10 +5,21 @@ using static Lexer.Objects.TokenType;
 
 namespace Parser.Objects
 {
+    /// <summary>
+    /// The parse table of the parser. This is where the parse rules are set.
+    /// </summary>
     public class ParseTable
     {
+        /// <summary>
+        /// This is the table of the parser. This is where all transition rules are stored.
+        /// </summary>
+        /// <value></value>
         public Dictionary<TokenType, Dictionary<TokenType, ParseAction>> Table { get; private set; }
 
+        /// <summary>
+        /// Access of table using scanner tokens
+        /// </summary>
+        /// <value>A transition rule. <see cref="ParseAction"/></value>
         public ParseAction this[ScannerToken key1, ScannerToken key2]
         {
             get => Table[key1.Type][key2.Type];

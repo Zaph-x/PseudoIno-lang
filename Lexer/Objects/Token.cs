@@ -25,7 +25,10 @@ namespace Lexer.Objects
         /// </summary>
         /// <value>Set in the constructor</value>  
         public int Offset {get;protected set;}
-
+        /// <summary>
+        /// The type of the token that is later used in the typechecker.
+        /// </summary>
+        /// <value><see cref="Token.Type"/>. This is updated in the typechecker</value>
         public TypeContext SymbolicType {get;set;}
 
         /// <summary>

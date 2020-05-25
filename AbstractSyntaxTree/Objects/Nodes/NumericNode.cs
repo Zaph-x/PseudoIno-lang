@@ -1,5 +1,6 @@
 using Lexer.Objects;
 using System.Globalization;
+using System.Threading;
 namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class NumericNode : ValNode
@@ -9,9 +10,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public int IValue {get;set;}
         public NumericNode(string value , ScannerToken token) : base(token)
         {
-            System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+                CultureInfo customCulture = (CultureInfo)Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
-            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+            Thread.CurrentThread.CurrentCulture = customCulture;
             float _f;
             int _i;
            // float.TryParse(value, CultureInfo.InvariantCulture.,, out _f);
@@ -21,7 +22,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
             FValue = _f;
             IValue = _i;
         }
-
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public override object Accept(Visitor visitor) {
             return visitor.Visit(this);
         }

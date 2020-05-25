@@ -9,7 +9,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public ReturnNode(int line, int offset) : base(TokenType.RETURN, line, offset)
         {
         }
-
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public override object Accept(Visitor visitor)
         {
             return visitor.Visit(this);

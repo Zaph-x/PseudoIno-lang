@@ -28,6 +28,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public new OperatorNode Operator { get; set; }
         public IExpr RightHand { get; set; }
 
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public abstract override object Accept(Visitor visitor);
     }
 }
