@@ -230,60 +230,42 @@ namespace Parser.Tests
         [Test]
         public void Test_ParseTable_Call_NotImplementedException_LeftHand_Set() // - 
         {
-            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
-
-            ArrayAccessNode node = new ArrayAccessNode(new ArrayNode(1,1), 1,1);
-            
+            CallNode node = new CallNode(1,1);
             Assert.Throws<NotImplementedException>(() => node.LeftHand = new ExpressionTerm(new ScannerToken(NUMERIC,1,1)));
         }
         
         [Test]
         public void Test_ParseTable_Call_NotImplementedException_LeftHand_Get() // - 
         {
-            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
-
-            ArrayAccessNode node = new ArrayAccessNode(new ArrayNode(1,1), 1,1);
-            
+            CallNode node = new CallNode(1,1);
             Assert.Throws<NotImplementedException>(() =>  Console.WriteLine(node.LeftHand));
         }
         
         [Test]
         public void Test_ParseTable_Call_NotImplementedException_Operator_Set() // - 
         {
-            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
-
-            ArrayAccessNode node = new ArrayAccessNode(new ArrayNode(1,1), 1,1);
-            
+            CallNode node = new CallNode(1,1);
             Assert.Throws<NotImplementedException>(() => node.Operator = new PlusNode(new ScannerToken(OP_PLUS,1,1)));
         }
         
         [Test]
         public void Test_ParseTable_Call_NotImplementedException_Operator_Get() // - 
         {
-            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
-
-            ArrayAccessNode node = new ArrayAccessNode(new ArrayNode(1,1), 1,1);
-            
+            CallNode node = new CallNode(1,1);
             Assert.Throws<NotImplementedException>(() =>  Console.WriteLine(node.Operator));
         }
         
         [Test]
         public void Test_ParseTable_Call_NotImplementedException_RightHand_Set() // - 
         {
-            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
-
-            ArrayAccessNode node = new ArrayAccessNode(new ArrayNode(1,1), 1,1);
-            
+            CallNode node = new CallNode(1,1);
             Assert.Throws<NotImplementedException>(() => node.RightHand = new ExpressionTerm(new ScannerToken(NUMERIC,1,1)));
         }
         
         [Test]
         public void Test_ParseTable_Call_NotImplementedException_RightHand_Get() // - 
         {
-            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
-
-            ArrayAccessNode node = new ArrayAccessNode(new ArrayNode(1,1), 1,1);
-            
+            CallNode node = new CallNode(1,1);
             Assert.Throws<NotImplementedException>(() =>  Console.WriteLine(node.RightHand));
         }
 
