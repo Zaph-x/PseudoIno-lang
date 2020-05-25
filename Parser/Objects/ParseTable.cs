@@ -391,6 +391,8 @@ namespace Parser.Objects
             this[CALLPARAM, COMMENT] = new ParseAction(0);
             this[CALLPARAM, MULT_COMNT] = new ParseAction(0);
             this[CALLPARAM, SEPARATOR] = new ParseAction(135,SEPARATOR, VAL, CALLPARAM);
+            
+            this[PROG, ARRAYINDEX] = new ParseAction(210,STMNTS);
         }
     }
 }
