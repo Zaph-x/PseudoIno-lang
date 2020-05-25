@@ -4,6 +4,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
 {
     public class AndNode : MathOperatorNode
     {
+        /// <summary>
+        /// The constructor for the And node
+        /// </summary>
         public AndNode (ScannerToken token) : base(token)
         {
         }

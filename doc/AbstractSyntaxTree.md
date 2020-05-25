@@ -138,44 +138,44 @@ It inherits the visitor class to implement the visit method for each node
 
 | Name | Returns | Summary |
 |---|---|---|
-| **Visit([TimesNode](#timesnode-class) timesNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | jvguv |
-| **Visit([AssignmentNode](#assignmentnode-class) assignmentNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([WaitNode](#waitnode-class) waitNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([VarNode](#varnode-class) varNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([TimeSecondNode](#timesecondnode-class) timeSecondNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([TimeMinuteNode](#timeminutenode-class) timeMinuteNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([TimeMillisecondNode](#timemillisecondnode-class) timeMillisecondNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([TimeHourNode](#timehournode-class) timeHourNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([NumericNode](#numericnode-class) numericNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([EqualNode](#equalnode-class) equalNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([ProgramNode](#programnode-class) programNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([CallNode](#callnode-class) callNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([AndNode](#andnode-class) andNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([APinNode](#apinnode-class) apinNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([DPinNode](#dpinnode-class) dpinNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([DivideNode](#dividenode-class) divideNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([ForNode](#fornode-class) forNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([FuncNode](#funcnode-class) funcNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([GreaterNode](#greaternode-class) greaterNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([IfStatementNode](#ifstatementnode-class) ifStatementNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([LessNode](#lessnode-class) lessNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([PlusNode](#plusnode-class) plusNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([MinusNode](#minusnode-class) minusNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([ModuloNode](#modulonode-class) moduloNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([OrNode](#ornode-class) orNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([StringNode](#stringnode-class) stringNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([WhileNode](#whilenode-class) whileNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([ElseStatementNode](#elsestatementnode-class) elseStatement)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([ElseifStatementNode](#elseifstatementnode-class) elseifStatementNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([ReturnNode](#returnnode-class) returnNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([GreaterOrEqualNode](#greaterorequalnode-class) greaterNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([LessOrEqualNode](#lessorequalnode-class) lessNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([ExpressionTerm](#expressionterm-class) expressionTermNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([BinaryExpression](#binaryexpression-class) binaryExpression)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([ParenthesisExpression](#parenthesisexpression-class) parenthesisExpression)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([BoolNode](#boolnode-class) boolNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([ArrayNode](#arraynode-class) arrayNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **Visit([ArrayAccessNode](#arrayaccessnode-class) arrayAccess)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
+| **Visit([TimesNode](#timesnode-class) timesNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the time node and make an indentation |
+| **Visit([AssignmentNode](#assignmentnode-class) assignmentNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the assignmentNode and make an indentation<br>It accepts the lefthand side and righthands side of the assignment<br>Then outdent |
+| **Visit([WaitNode](#waitnode-class) waitNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the waitNode and make an indentation<br>It accepts a visit of TimeAmount and Timemodifier<br>Then outdent |
+| **Visit([VarNode](#varnode-class) varNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the varNode  |
+| **Visit([TimeSecondNode](#timesecondnode-class) timeSecondNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the timeSecondNode  |
+| **Visit([TimeMinuteNode](#timeminutenode-class) timeMinuteNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the timeMinueNode  |
+| **Visit([TimeMillisecondNode](#timemillisecondnode-class) timeMillisecondNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the timeMillisecondNode  |
+| **Visit([TimeHourNode](#timehournode-class) timeHourNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the timeHourNode  |
+| **Visit([NumericNode](#numericnode-class) numericNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the numericNode  |
+| **Visit([EqualNode](#equalnode-class) equalNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the equalNode  |
+| **Visit([ProgramNode](#programnode-class) programNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the programNode and make an indentation<br>Then if there exist any function definitions or statements in the program, they will be accepted<br>Then it make outdent |
+| **Visit([CallNode](#callnode-class) callNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the callNode and make an indentation<br>It accepts the ID number of the node and all the parameters of the call node<br>Then outdent |
+| **Visit([AndNode](#andnode-class) andNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the andNode  |
+| **Visit([APinNode](#apinnode-class) apinNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the apinNode  |
+| **Visit([DPinNode](#dpinnode-class) dpinNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the dpinNode  |
+| **Visit([DivideNode](#dividenode-class) divideNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the divideNode  |
+| **Visit([ForNode](#fornode-class) forNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the forNode and make an indentation<br>It accepts the counting variable, the value which it count from and the variable it counts to<br>Then it accepts all the statements in the for loop node<br>Last it outdent |
+| **Visit([FuncNode](#funcnode-class) funcNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the funcNode and make an indentation<br>It accepts the statements, the name of the function and the parameters |
+| **Visit([GreaterNode](#greaternode-class) greaterNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the greaterNode  |
+| **Visit([IfStatementNode](#ifstatementnode-class) ifStatementNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the ifStatementNode and make an indentation<br>It accepts Expresstion if there is any and also accepts all ifStatement nodes<br>Then outdent |
+| **Visit([LessNode](#lessnode-class) lessNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the lessNode  |
+| **Visit([PlusNode](#plusnode-class) plusNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the plusNode  |
+| **Visit([MinusNode](#minusnode-class) minusNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the minusNode  |
+| **Visit([ModuloNode](#modulonode-class) moduloNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the moduloNode  |
+| **Visit([OrNode](#ornode-class) orNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the orNode  |
+| **Visit([StringNode](#stringnode-class) stringNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the stringNode  |
+| **Visit([WhileNode](#whilenode-class) whileNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the whileNode and make an indentation<br>It accepts expressions and all statements in the while node<br>Then outdent |
+| **Visit([ElseStatementNode](#elsestatementnode-class) elseStatement)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the elseStatement and make an indentation<br>It then accepts all the statement and then outdent |
+| **Visit([ElseifStatementNode](#elseifstatementnode-class) elseifStatementNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the elseifStatementNode and make an indentation<br>It accepts the Val and Expressions if there exist any<br>Then it accepts all the statements and then lastly outdent |
+| **Visit([ReturnNode](#returnnode-class) returnNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the returnNode and make an indentation<br>Then accepts the value of the return<br>Then it outdent |
+| **Visit([GreaterOrEqualNode](#greaterorequalnode-class) greaterNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the greaterNode  |
+| **Visit([LessOrEqualNode](#lessorequalnode-class) lessNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the lessNode  |
+| **Visit([ExpressionTerm](#expressionterm-class) expressionTermNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the expressionTermNode and make an indentation<br>Then accepts the lefthand of the expression and then outdent |
+| **Visit([BinaryExpression](#binaryexpression-class) binaryExpression)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the binaryExpresstion and make an indentation<br>It accepts the lef-and righthandside of the expresstion<br>It accepts the operator if there exist any<br>Then it outdent |
+| **Visit([ParenthesisExpression](#parenthesisexpression-class) parenthesisExpression)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the paraenthesisExpression and then make an indentation<br>It accepts the lef-and righthandside of the expresstion<br>It accepts the operator if there exist any<br>Then it outdent |
+| **Visit([BoolNode](#boolnode-class) boolNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the boolNode  |
+| **Visit([ArrayNode](#arraynode-class) arrayNode)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the arrayNode and make an indentation<br>Then it accepts all dimensions of the array<br>Then it outdent |
+| **Visit([ArrayAccessNode](#arrayaccessnode-class) arrayAccess)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method prints the arrayAccess and make an indentation<br>Then it accepts all the array accesses <br>Then outdent |
 # Visitor Class
 
 Namespace: AbstractSyntaxTree.Objects
@@ -245,7 +245,7 @@ Base class: [MathOperatorNode](#mathoperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **AndNode(ScannerToken token)** |  |
+| **AndNode(ScannerToken token)** | The constructor for the And node |
 ## Methods
 
 | Name | Returns | Summary |
