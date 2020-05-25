@@ -48,6 +48,28 @@ end loop";
 b is 3 - 1
 func loop
 end loop";
+        const string program6 =
+@"
+func loop
+a is [5]
+a@1 is 1
+b is a@1
+c is 3
+a@2 is c
+end loop";
+        const string program7 =
+@"
+func dafunc with a,b
+b is 3
+a is b
+return a
+func loop
+a is 0
+b is 0
+call dafunc with a,b
+end loop";
+
+
         [SetUp]
         public void Setup()
         {
@@ -64,6 +86,8 @@ end loop";
         [TestCase(program3)]
         [TestCase(program4)]
         [TestCase(program5)]
+        //[TestCase(program6)]
+        [TestCase(program7)]
         public void Test_TypeChecker_CheckHasNoErrors(string program)
         {
             StreamReader reader = CreateFakeReader(program);
