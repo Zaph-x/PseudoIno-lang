@@ -43,12 +43,12 @@ func foo with c, d
 end foo
 a is on
 b is 4
-
+c is 4
 dpin4 is b less (4 + (3 + 5))
 
 if a equal b do
     if b equal c do
-        a is 4
+        a is false
     end if
 else if b equal c do
     b is 4
@@ -56,13 +56,13 @@ else
     c is 4
 end if
 d is c less 4
-call foo
-f is call foo with 23
+call foo with 23, 2
+f is call foo with 23, 2
 func loop
-    a is a + 1
+    a is on
     call foo with 3
     wait 4s
-    a is a + 1
+    a is off
 end loop
 ";
 
@@ -71,19 +71,19 @@ end loop
         [SetUp]
         public void TestInit()
         {
-            Parsenizer.HasError = false;
+            Parser.Parser.HasError = false;
         }
 
         [Test]
         public void Test_ASTHelper_Assign_2()
         {
             StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
+            Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
+            if (Parser.Parser.HasError)
                 Assert.Fail();
             parser.Root.Accept(new PrettyPrinter());
         }

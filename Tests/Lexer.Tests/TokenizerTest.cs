@@ -121,7 +121,7 @@ namespace Lexer.Tests
 
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
             
             Assert.AreEqual(expectedAmountOfTokens, tokenizer.Tokens.Count, "Tokenizer did not generate the correct amount of tokens.");
@@ -135,9 +135,9 @@ namespace Lexer.Tests
         {
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
-            Assert.IsTrue(Tokenizer.HasError);
+            Assert.IsTrue(Tokeniser.HasError);
         }
 
         [Test]
@@ -146,7 +146,7 @@ namespace Lexer.Tests
             string content = "";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
 
             Assert.AreEqual(0, tokenizer.Tokens.Count, "TokenList had the wrong amount of tokens");
@@ -158,7 +158,7 @@ namespace Lexer.Tests
             string content = "a is 4";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
 
             Assert.AreEqual(3, tokenizer.Tokens.Count, "TokenList generated the wrong amound of tokens. Should contain elements more than just PROG and EOF");
@@ -170,7 +170,7 @@ namespace Lexer.Tests
             string content = "# This is a comment in the language";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
 
             Assert.AreEqual(1,tokenizer.Tokens.Count, "The tokenizer did not recognise a comment");
@@ -182,7 +182,7 @@ namespace Lexer.Tests
             string content = "# comment";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
 
             Assert.AreEqual(TokenType.COMMENT, tokenizer.Tokens.First.Value.Type, "The tokenizer did not recognise the comment as a comment");
@@ -195,7 +195,7 @@ namespace Lexer.Tests
             string content = "#< comment >#";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
 
             Assert.AreEqual(1, tokenizer.Tokens.Count, "The tokenizer did not recognise a comment");
@@ -207,7 +207,7 @@ namespace Lexer.Tests
             string content = "#< comment >#";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
 
             Assert.AreEqual(TokenType.MULT_COMNT, tokenizer.Tokens.First.Value.Type, "The tokenizer did not recognise the comment as a comment");
@@ -219,9 +219,9 @@ namespace Lexer.Tests
             string content = "#< comment";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
-            Assert.IsTrue(Tokenizer.HasError);
+            Assert.IsTrue(Tokeniser.HasError);
         }
 
         [Test]
@@ -230,7 +230,7 @@ namespace Lexer.Tests
             string content = "a is 0..5";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
 
 
@@ -243,10 +243,10 @@ namespace Lexer.Tests
             string content = "a is 0...5";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
 
             tokenizer.GenerateTokens();
-            Assert.IsTrue(Tokenizer.HasError);
+            Assert.IsTrue(Tokeniser.HasError);
         }
 
         [Test]
@@ -255,7 +255,7 @@ namespace Lexer.Tests
             string content = @"a is 4";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
 
             Assert.AreEqual('a', tokenizer.Pop(), "Pop did not set the correct character");
         }
@@ -266,7 +266,7 @@ namespace Lexer.Tests
             string content = @"a is 4";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
 
             Assert.AreNotEqual('W', tokenizer.Pop(), "Pop got the correct character when it should not");
         }
@@ -277,7 +277,7 @@ namespace Lexer.Tests
             string content = @"a is 4";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.Pop();
 
             Assert.AreEqual(' ', tokenizer.Peek(), "Peek did not get the correct character");
@@ -289,7 +289,7 @@ namespace Lexer.Tests
             string content = @"a is 4";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.Pop();
 
             Assert.AreNotEqual('W', tokenizer.Peek(), "Peek got the correct character when it should not");
@@ -301,7 +301,7 @@ namespace Lexer.Tests
             string content = @"a is 4";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.Pop();
 
             Assert.AreEqual(' ', tokenizer.Peek(), "Tokenizer did not find the correct character");
@@ -315,7 +315,7 @@ namespace Lexer.Tests
             string content = "a is 4\nb is 5\nc is a + b";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             while (tokenizer.Pop() != '\n')
             {/* Intentional blank */}
 
@@ -330,7 +330,7 @@ namespace Lexer.Tests
             string content = "abcdefghijklmnopqrstuvxyz";
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
 
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.Pop();
             char lookAheadChar = tokenizer.Peek(2);
             tokenizer.Pop();

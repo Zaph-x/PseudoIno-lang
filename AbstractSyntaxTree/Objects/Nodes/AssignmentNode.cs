@@ -9,11 +9,9 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public IExpr RightHand { get; set; }
         public ITerm LeftHand { get; set; }
         public OperatorNode Operator { get; set; }
-
         public AssignmentNode(int line, int offset) : base(TokenType.ASSIGNMENT, line, offset)
         {
         }
-
         public override object Accept(Visitor visitor)
         {
             return visitor.Visit(this);

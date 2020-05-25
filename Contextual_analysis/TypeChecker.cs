@@ -24,20 +24,85 @@ namespace Contextual_analysis
 
         public override object Visit(AssignmentNode assignmentNode)
         {
-            TypeContext rhs = (TypeContext)assignmentNode.RightHand.Accept(this);
             TypeContext lhs = (TypeContext)assignmentNode.LeftHand.Accept(this);
+            TypeContext rhs;
+            if (assignmentNode.RightHand.IsType(typeof(ArrayNode)))
+            {
+                ArrayNode arr = (ArrayNode)assignmentNode.RightHand;
+                if (arr.HasBeenAccessed)
+                {
+                    if (lhs.Type == VAR)
+                    {
+                        arr.SymbolType = lhs = rhs = (TypeContext)arr.FirstAccess.RightHand.Accept(this);
+                        assignmentNode.LeftHand.SymbolType = rhs;
+                        assignmentNode.LeftHand.Type = rhs.Type;
+                    }
+                    else
+                        rhs = (TypeContext)arr.FirstAccess.RightHand.Accept(this);
+                }
+                else
+                {
+                    new InvalidTypeException($"Array type never set. Error at {arr.Line}:{arr.Offset}");
+                    return null;
+                }
+            }
+            else
+            {
+                rhs = (TypeContext)assignmentNode.RightHand.Accept(this);
+            }
+            if (assignmentNode.RightHand.IsType(typeof(ArrayAccessNode)))
+            {
+                if (CurrentScope.FindArray((assignmentNode.LeftHand as ArrayAccessNode).Actual.ActualId.Id).Type == ARR)
+                {
+                    ArrayAccessNode node = (assignmentNode.LeftHand as ArrayAccessNode);
+                    ArrayNode arr = CurrentScope.FindArray(node.Actual.ActualId.Id);
+                    if (!(arr.Dimensions.Count >= node.Accesses.Count))
+                    {
+                        new OutOfRangeException($"Illegal access to {arr.Dimensions.Count} dimensional array. Error at {node.Line}:{node.Offset}");
+                        return null;
+                    }
+                    if (arr.Dimensions.Count > node.Accesses.Count && node.Accesses.Count > 1)
+                    {
+                        AssignmentNode declaringStatement = new AssignmentNode(node.Line, node.Offset);
+                        declaringStatement.LeftHand =
+                            new VarNode($"protected_declaration_{arr.ActualId.Id}_{node.Accesses.Count - 1}", new ScannerToken(node.Type, $"protected_declaration_{arr.ActualId.Id}_{node.Accesses.Count - 1}", node.Line, node.Offset))
+                            { IsArray = true, SymbolType = new TypeContext(node.Type) };
+                        ArrayNode declaringArray = new ArrayNode(node.Line, node.Offset);
+                        for (int i = 0; i < node.Accesses.Count; i++)
+                        {
+                            declaringArray.Dimensions.Add(arr.Dimensions[i]);
+                        }
+                        ((IScope)assignmentNode.Parent).Statements.Insert(((IScope)assignmentNode.Parent).Statements.IndexOf(assignmentNode), declaringStatement);
+
+
+                    }
+                    node.Actual.FirstAccess.LeftHand.SymbolType = rhs;
+                    node.Actual.FirstAccess.LeftHand.Type = rhs.Type;
+                    arr.SymbolType = rhs;
+                    arr.Type = rhs.Type;
+                    lhs = rhs;
+                }
+            }
             if (lhs.Type == VAR)
             {
-                if (!CurrentScope.HasDeclaredVar((assignmentNode.LeftHand as VarNode).Id))
+                if (!CurrentScope.HasDeclaredVar(assignmentNode.LeftHand as AstNode))
                 {
                     (assignmentNode.LeftHand as VarNode).Declaration = true;
                     CurrentScope.DeclaredVars.Add((assignmentNode.LeftHand as VarNode).Id);
                 }
-                if (CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
+
+                if (assignmentNode.LeftHand.IsType(typeof(VarNode)))
                 {
-                    CurrentScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs, CurrentScope.Name, true);
+                    if (CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode).Type == VAR)
+                    {
+                        CurrentScope.UpdateTypedef(assignmentNode.LeftHand as VarNode, rhs, CurrentScope.Name, true);
+                    }
+                    lhs = CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode);
                 }
-                lhs = CurrentScope.FindSymbol(assignmentNode.LeftHand as VarNode);
+                else if (assignmentNode.LeftHand.IsType(typeof(ArrayAccessNode)))
+                {
+
+                }
 
             }
             if (lhs.Type != rhs.Type)
@@ -47,6 +112,8 @@ namespace Contextual_analysis
                     new InvalidTypeException($"Type {rhs.Type} is not assignable toType {lhs.Type} at {assignmentNode.Line}:{assignmentNode.Offset}");
                 }
             }
+
+
             return null;
         }
 
@@ -96,14 +163,16 @@ namespace Contextual_analysis
         }
         public override object Visit(ProgramNode programNode)
         {
+            
+            programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             programNode.FunctionDefinitons.ForEach(func =>
             {
-                if (!(GlobalScope.FunctionDefinitions.Where(fn => fn.Name.Id == func.Name.Id && func.FunctionParameters.Count == fn.FunctionParameters.Count).Count() > 1))
+                if (!(SymbolTableObject.FunctionDefinitions.Where(fn => fn.Name.Id == func.Name.Id && func.FunctionParameters.Count == fn.FunctionParameters.Count).Count() > 1))
                 {
                     if (SymbolTableObject.FunctionCalls.Any(cn => cn.Id.Id == func.Name.Id && cn.Parameters.Count == func.FunctionParameters.Count))
                     {
                         CallNode cn = SymbolTableObject.FunctionCalls.First(cn => cn.Id.Id == func.Name.Id && cn.Parameters.Count == func.FunctionParameters.Count);
-                        FuncNode declaredFunc = GlobalScope.FunctionDefinitions.First(fn => fn.Name.Id == func.Name.Id);
+                        FuncNode declaredFunc = SymbolTableObject.FunctionDefinitions.First(fn => fn.Name.Id == func.Name.Id);
                         SymbolTableObject scope = GlobalScope.FindChild($"func_{declaredFunc.Name.Id}_{declaredFunc.Line}");
                         for (int i = 0; i < cn.Parameters.Count; i++)
                         {
@@ -119,7 +188,7 @@ namespace Contextual_analysis
                     new MultipleDefinedException($"A function '{func.Name.Id}' with {func.FunctionParameters.Count} parameters has already been defined. Error at {func.Line}:{func.Offset}");
                 }
             });
-            programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
+
             if (programNode.LoopFunction == null)
             {
                 new NotDefinedException("Loop function was not defined.");
@@ -133,14 +202,25 @@ namespace Contextual_analysis
         {
             try
             {
-                if (GlobalScope.FunctionDefinitions.Any(func => func.Name.Id == callNode.Id.Id && func.FunctionParameters.Count == callNode.Parameters.Count))
+                if (SymbolTableObject.FunctionDefinitions.Any(func => func.Name.Id == callNode.Id.Id && func.FunctionParameters.Count == callNode.Parameters.Count))
                 {
-                    TypeContext ctx = GlobalScope.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count).SymbolType;
+                    FuncNode n = SymbolTableObject.FunctionDefinitions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count);
+                    TypeContext ctx;
+                    if (n.Statements.Any())
+                    {
+                        if (n.Statements.Last().IsType(typeof(ReturnNode)))
+                        {
+                            ctx = (TypeContext)n.Statements.Last().Accept(this);
+                        }
+                        else { ctx = new TypeContext(TokenType.FUNC); }
+                    } else {
+                        ctx = new TypeContext(TokenType.FUNC);
+                    }
                     return ctx;
                 }
-                else if (GlobalScope.PredefinedFunctions.Any(func => func.Name.Id == callNode.Id.Id && func.FunctionParameters.Count == callNode.Parameters.Count))
+                else if (SymbolTableObject.PredefinedFunctions.Any(func => func.Name.Id == callNode.Id.Id && func.FunctionParameters.Count == callNode.Parameters.Count))
                 {
-                    TypeContext ctx = GlobalScope.PredefinedFunctions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count).SymbolType;
+                    TypeContext ctx = SymbolTableObject.PredefinedFunctions.First(node => node.Name.Id == callNode.Id.Id && node.FunctionParameters.Count == callNode.Parameters.Count).SymbolType;
                     return ctx;
                 }
                 else
@@ -291,7 +371,13 @@ namespace Contextual_analysis
 
         public override object Visit(ExpressionTerm expressionNode)
         {
-            TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
+            TypeContext lhs;
+            if (expressionNode.LeftHand.IsType(typeof(ArrayAccessNode)))
+            {
+                lhs = (TypeContext)CurrentScope.FindArray(((ArrayAccessNode)expressionNode.LeftHand).Actual.ActualId.Id).Accept(this);
+                return expressionNode.SymbolType = lhs;
+            }
+            lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
             if (lhs.Type == VAR)
             {
                 lhs = CurrentScope.FindSymbol(expressionNode.LeftHand as VarNode);
@@ -451,6 +537,27 @@ namespace Contextual_analysis
         public bool IsOfTypes(TypeContext ctx, params TokenType[] types)
         {
             return types.Any(t => t == ctx.Type);
+        }
+
+        public override object Visit(ArrayNode arrayNode)
+        {
+            if (arrayNode.HasBeenAccessed)
+                return arrayNode.SymbolType;
+            else
+                return null;
+        }
+
+        public override object Visit(ArrayAccessNode arrayAccess)
+        {
+            int accessLocation = 0;
+            foreach (int access in arrayAccess.Accesses.Where(n => n.IsType(typeof(NumericNode))).Select(n => ((NumericNode)n).IValue))
+            {
+                if (arrayAccess.Actual.Dimensions[accessLocation++].IValue <= access)
+                {
+                    new OutOfRangeException($"Illegal access to array '{arrayAccess.Actual.ActualId.Id}'. Access out of range. Error at {arrayAccess.Line}:{arrayAccess.Offset}");
+                }
+            }
+            return (CurrentScope ?? GlobalScope).FindArray(arrayAccess.Actual.ActualId.Id).Accept(this);
         }
     }
 }

@@ -339,7 +339,10 @@ namespace Lexer.Objects
         /// End for token, non terminal
         /// </summary>
         ENDFOR,
-        ENDVAR,
+        /// <summary>
+        /// Accessor Value for Arrays
+        /// </summary>
+        ARRAYACCESSOR,
         /// <summary>
         /// Assignment token, non terminal
         /// </summary>
@@ -424,7 +427,6 @@ namespace Lexer.Objects
             || type == FOLLOWFACTOR
             || type == FACTOR
             || type == ARRAYACCESSING
-            || type == ARRAYINDEX
             || type == TERMOP
             || type == FACTOROP
             || type == BOOL_OP
@@ -451,6 +453,7 @@ namespace Lexer.Objects
             || type == RANGE
             || type == WAITSTMNT
             || type == TIME_MOD
+            || type == ARRAYACCESSOR
             || type == CALLPARAMS
             || type == CALLPARAM;
         }

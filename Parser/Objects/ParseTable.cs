@@ -63,6 +63,7 @@ namespace Parser.Objects
             this[STMNTS, WAIT] = new ParseAction(13,STMNT, STMNTS);
             this[STMNTS, END] = new ParseAction(0);
             this[STMNTS, VAR] = new ParseAction(14,STMNT, STMNTS);
+            this[STMNTS, ARRAYINDEX] = new ParseAction(201,STMNT, STMNTS);
             this[STMNTS, BEGIN] = new ParseAction(15,STMNT, STMNTS);
             this[STMNTS, RETURN] = new ParseAction(0);
             this[STMNTS, FUNC] = new ParseAction(16,FUNCDECL, STMNTS);
@@ -76,6 +77,7 @@ namespace Parser.Objects
 
             this[STMNT, WAIT] = new ParseAction(23,WAITSTMNT);
             this[STMNT, VAR] = new ParseAction(24,ASSIGNSTMNT);
+            this[STMNT, ARRAYINDEX] = new ParseAction(202,ASSIGNSTMNT);
             this[STMNT, BEGIN] = new ParseAction(25,BEGINSTMNT);
             this[STMNT, CALL] = new ParseAction(26,FUNCCALL);
             this[STMNT, IF] = new ParseAction(27,IFSTMNT);
@@ -83,6 +85,7 @@ namespace Parser.Objects
             this[STMNT, DPIN] = new ParseAction(29,ASSIGNSTMNT);
 
             this[ASSIGNSTMNT, VAR] = new ParseAction(30,VAR, ASSIGN, ASSIGNMENT);
+            this[ASSIGNSTMNT, ARRAYINDEX] = new ParseAction(203,ARRAYACCESSING, ASSIGN, ASSIGNMENT);
             this[ASSIGNSTMNT, APIN] = new ParseAction(31,APIN, ASSIGN, ASSIGNMENT);
             this[ASSIGNSTMNT, DPIN] = new ParseAction(32,DPIN, ASSIGN, ASSIGNMENT);
 
@@ -96,9 +99,11 @@ namespace Parser.Objects
             this[ASSIGNMENT, OP_MINUS] = new ParseAction(40,EXPR);
             this[ASSIGNMENT, OP_LPAREN] = new ParseAction(41,EXPR);
             this[ASSIGNMENT, BOOL] = new ParseAction(136,EXPR);
+            this[ASSIGNMENT, ARRAYINDEX] = new ParseAction(211,EXPR);
 
             this[EXPR, NUMERIC] = new ParseAction(42,TERM, FOLLOWTERM);
             this[EXPR, VAR] = new ParseAction(43,TERM, FOLLOWTERM);
+            this[EXPR, ARRAYINDEX] = new ParseAction(212,TERM, FOLLOWTERM);
             this[EXPR, APIN] = new ParseAction(44,TERM, FOLLOWTERM);
             this[EXPR, DPIN] = new ParseAction(45,TERM, FOLLOWTERM);
             this[EXPR, STRING] = new ParseAction(46,TERM, FOLLOWTERM);
@@ -140,6 +145,7 @@ namespace Parser.Objects
             this[TERM, STRING] = new ParseAction(61,FACTOR, FOLLOWFACTOR);
             this[TERM, BOOL] = new ParseAction(62,FACTOR, FOLLOWFACTOR);
             this[TERM, OP_MINUS] = new ParseAction(63,FACTOR, FOLLOWFACTOR);
+            this[TERM, ARRAYINDEX] = new ParseAction(213,FACTOR, FOLLOWFACTOR);
             this[TERM, OP_LPAREN] = new ParseAction(64,FACTOR, FOLLOWFACTOR);
 
             this[FOLLOWFACTOR, EOF] = new ParseAction(90017);
@@ -177,6 +183,7 @@ namespace Parser.Objects
             this[FACTOR, STRING] = new ParseAction(72,VAL);
             this[FACTOR, OP_MINUS] = new ParseAction(73,VAL);
             this[FACTOR, BOOL] = new ParseAction(138,VAL);
+            this[FACTOR, ARRAYINDEX] = new ParseAction(214,VAL);
             this[FACTOR, OP_LPAREN] = new ParseAction(74,OP_LPAREN, EXPR, OP_RPAREN);
 
             this[ARRAYACCESSING, EOF] = new ParseAction(0);
@@ -201,13 +208,16 @@ namespace Parser.Objects
             this[ARRAYACCESSING, OP_DIVIDE] = new ParseAction(0);
             this[ARRAYACCESSING, OP_TIMES] = new ParseAction(0);
             this[ARRAYACCESSING, OP_PLUS] = new ParseAction(0);
-            this[ARRAYACCESSING, ARRAYINDEX] = new ParseAction(75,ARRAYINDEX, INDEXER, ARRAYACCESSING);
+            this[ARRAYACCESSING, ARRAYINDEX] = new ParseAction(75,ARRAYINDEX, ARRAYACCESSOR);
             this[ARRAYACCESSING, ASSIGN] = new ParseAction(0);
             this[ARRAYACCESSING, OP_RPAREN] = new ParseAction(0);
             this[ARRAYACCESSING, COMMENT] = new ParseAction(0);
             this[ARRAYACCESSING, MULT_COMNT] = new ParseAction(0);
             this[ARRAYACCESSING, APIN] = new ParseAction(0);
             this[ARRAYACCESSING, DPIN] = new ParseAction(0);
+
+            this[ARRAYACCESSOR, NUMERIC] = new ParseAction(205, NUMERIC);
+            this[ARRAYACCESSOR, VAR] = new ParseAction(206, VAR);
 
             this[INDEXER, VAR] = new ParseAction(76,VAR);
             this[INDEXER, NUMERIC] = new ParseAction(77,NUMERIC);
@@ -248,7 +258,8 @@ namespace Parser.Objects
             this[OP_OREQUAL, OP_LPAREN] = new ParseAction(0);
 
             this[VAL, NUMERIC] = new ParseAction(101,NUMERIC);
-            this[VAL, VAR] = new ParseAction(102,VAR, ARRAYACCESSING);
+            this[VAL, VAR] = new ParseAction(102,VAR);
+            this[VAL, ARRAYINDEX] = new ParseAction(210,ARRAYACCESSING);
             this[VAL, APIN] = new ParseAction(103,PIN);
             this[VAL, DPIN] = new ParseAction(104,PIN);
             this[VAL, BOOL] = new ParseAction(105,BOOL);
@@ -267,9 +278,10 @@ namespace Parser.Objects
             this[ARR, ELSE] = new ParseAction(0);
             this[ARR, APIN] = new ParseAction(0);
             this[ARR, DPIN] = new ParseAction(0);
-            this[ARR, ARRAYLEFT] = new ParseAction(108,ARRAYLEFT, NUMERIC, ARRAYRIGHT, ARR);
+            this[ARR, ARRAYLEFT] = new ParseAction(108,ARRAYLEFT, NUMERIC, ARRAYRIGHT);
             this[ARR, COMMENT] = new ParseAction(0);
             this[ARR, MULT_COMNT] = new ParseAction(0);
+            this[ARR, ARRAYINDEX] = new ParseAction(0);
 
             this[PIN, APIN] = new ParseAction(109,APIN);
             this[PIN, DPIN] = new ParseAction(110,DPIN);

@@ -166,12 +166,12 @@ end loop
         public void Test_Program(string program)
         {
             StreamReader FakeReader = CreateFakeReader(program, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
             tokenizer.GenerateTokens();
             List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
+            Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
+            if (Parser.Parser.HasError)
                 Assert.Fail();
             parser.Root.Accept(new TypeChecker());
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");

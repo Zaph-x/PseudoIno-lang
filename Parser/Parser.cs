@@ -14,7 +14,7 @@ using Lexer.Exceptions;
 
 namespace Parser
 {
-    public class Parsenizer
+    public class Parser
     {
         int Index = 1;
         private Stack<TokenType> Stack = new Stack<TokenType>();
@@ -30,7 +30,7 @@ namespace Parser
         private ParseAction CurrentAction { get; set; }
         private SymbolTableObject _symbolTabelGlobal = new SymbolTableObject();
         private SymbolTableBuilder _builder { get; }
-        public Parsenizer(List<ScannerToken> tokens)
+        public Parser(List<ScannerToken> tokens)
         {
             Tokens = tokens.Where(tok => tok.Type != TokenType.COMMENT && tok.Type != TokenType.MULT_COMNT).ToList();
             ParseTable = new ParseTable();
@@ -176,6 +176,9 @@ namespace Parser
                         _builder.AddSymbol(symbolNode);
                         break;
                     }
+                case 108 when token.Type == NUMERIC:
+                    ((ArrayNode)Current).Dimensions.Add(new NumericNode(token.Value, token));
+                    break;
                 case 116 when token.Type == VAR:
                     ((FuncNode)TopScope()).Name = new VarNode(token.Value, token);
                     break;
@@ -200,12 +203,28 @@ namespace Parser
                         term.Parent = (ExpressionNode)Current;
                         if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
                         {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
                             ((IExpr)Current).RightHand = binExpr;
                             Current = binExpr;
                         }
                         else
+                        {
+                            if (((IExpr)((ExpressionNode)Current).Parent)?.Operator?.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             ((IExpr)Current).LeftHand = term;
+                        }
                     }
                     else if (Current.Type == CALL)
                     { ((CallNode)Current).Parameters.Add(new NumericNode(token.Value, token)); }
@@ -216,6 +235,13 @@ namespace Parser
                         term.LeftHand = new NumericNode(token.Value, token);
                         if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
                         {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { LeftHand = term };
                             ((IExpr)((WhileNode)Current).Expression).RightHand = binExpr;
                             Current = binExpr;
@@ -400,12 +426,28 @@ namespace Parser
                         term.Parent = (ExpressionNode)Current;
                         if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
                         {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
                             ((IExpr)Current).RightHand = binExpr;
                             Current = binExpr;
                         }
                         else
+                        {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             ((IExpr)Current).LeftHand = term;
+                        }
                     }
                     else if (Current.Type == CALL)
                         ((CallNode)Current).Parameters.Add(new NumericNode(token.Value, token));
@@ -416,6 +458,13 @@ namespace Parser
                         term.LeftHand = new NumericNode(token.Value, token);
                         if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
                         {
+                            if (((IExpr)((ExpressionNode)Current).Parent).Operator.Type == OP_DIVIDE)
+                            {
+                                if (((NumericNode)term.LeftHand).FValue == 0f)
+                                {
+                                    new DivisionByZeroException($"Division by zero is not possible. Error at {CurrentLine}:{CurrentOffset}");
+                                }
+                            }
                             BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
                             ((IExpr)Current).RightHand = binExpr;
                             Current = binExpr;
@@ -425,6 +474,46 @@ namespace Parser
                     }
                     break;
                 case 105:
+                    if (Current.Type == ASSIGNMENT)
+                    {
+                        IExpr expr = new BinaryExpression(CurrentLine, CurrentOffset);
+                        ((AssignmentNode)Current).RightHand = (ExpressionNode)expr;
+                        ExpressionTerm term = new ExpressionTerm(token) { LeftHand = new BoolNode(token.Value, token), Parent = (ExpressionNode)expr };
+                        expr.LeftHand = term;
+                        Current = (BinaryExpression)expr;
+                    }
+                    else if (Current.Type == EXPR)
+                    {
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new BoolNode(token.Value, token);
+                        term.Parent = (ExpressionNode)Current;
+                        if (((IExpr)Current).LeftHand != null && ((IExpr)Current).Operator != null)
+                        {
+                            BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
+                            ((IExpr)Current).RightHand = binExpr;
+                            Current = binExpr;
+                        }
+                        else
+                            ((IExpr)Current).LeftHand = term;
+                    }
+                    else if (Current.Type == CALL)
+                        ((CallNode)Current).Parameters.Add(new BoolNode(token.Value, token));
+                    else if (Current.Type == WHILE)
+                    {
+
+                        ExpressionNode term = new ExpressionTerm(token);
+                        term.LeftHand = new BoolNode(token.Value, token);
+                        if (((IExpr)((WhileNode)Current).Expression).LeftHand != null && ((IExpr)((WhileNode)Current).Expression).Operator != null)
+                        {
+                            BinaryExpression binExpr = new BinaryExpression(term.Line, term.Offset) { Parent = (ExpressionNode)Current, LeftHand = term };
+                            ((IExpr)Current).RightHand = binExpr;
+                            Current = binExpr;
+                        }
+                        else
+                            ((IExpr)((WhileNode)Current).Expression).LeftHand = term;
+                    }
+                    break;
+                case 210:
                     if (Current.Type == ASSIGNMENT)
                     {
                         IExpr expr = new BinaryExpression(CurrentLine, CurrentOffset);
@@ -959,6 +1048,46 @@ namespace Parser
                 case 133:
                     ((WaitNode)Current).TimeModifier = new TimeMillisecondNode(token);
                     break;
+                case 75:
+                    if (token.Value != "")
+                    {
+                        if (token.Type == ARRAYINDEX)
+                        {
+                            ArrayNode arr = _builder.CurrentSymbolTable.FindArray(token.Value);
+                            arr.FirstAccess = (AssignmentNode)Current;
+                            ArrayAccessNode node = new ArrayAccessNode(arr, CurrentLine, CurrentOffset);
+                            if (((AssignmentNode)Current).LeftHand == null)
+                            {
+                                ((AssignmentNode)Current).LeftHand = node;
+                            }
+                            else
+                            {
+                                ((AssignmentNode)Current).RightHand.LeftHand = new ExpressionTerm(token) { LeftHand = node };
+                            }
+                        }
+                    }
+                    break;
+                case 205:
+                case 206:
+                    if (token.Type == NUMERIC)
+                    {
+                        if (Current.Type == ASSIGNMENT)
+                        {
+                            if (((AssignmentNode)Current).LeftHand.Type == ARRAYACCESSING)
+                            {
+                                ((ArrayAccessNode)((AssignmentNode)Current).LeftHand).Accesses.Add(new NumericNode(token.Value, token));
+                            }
+                            else
+                            {
+                                ((ArrayAccessNode)((ExpressionTerm)((AssignmentNode)Current).RightHand.LeftHand).LeftHand).Accesses.Add(new NumericNode(token.Value, token));
+                            }
+                        }
+                    }
+                    else if (token.Type == VAR)
+                    {
+                        ((ArrayAccessNode)((AssignmentNode)Current).LeftHand).Accesses.Add(new VarNode(token.Value, token));
+                    }
+                    break;
                 case 90037:
                 case 90014:
                     if (Current.Type == CALL)
@@ -970,7 +1099,7 @@ namespace Parser
                         {
                             ((IExpr)previousExpr).RightHand = new ExpressionTerm(token) { LeftHand = (ITerm)Current };
                         }
-                        while (!((AstNode)Current).Parent.GetType().IsAssignableFrom(typeof(ParenthesisExpression)))
+                        while (!((AstNode)Current).Parent.IsType(typeof(ParenthesisExpression)))
                         {
                             Current = ((ExpressionNode)Current).Parent;
                         }
@@ -979,7 +1108,7 @@ namespace Parser
                     }
                     else
                     {
-                        while (!((ExpressionNode)Current).Parent.GetType().IsAssignableFrom(typeof(ParenthesisExpression)))
+                        while (!((ExpressionNode)Current).Parent.IsType(typeof(ParenthesisExpression)))
                         {
                             Current = ((ExpressionNode)Current).Parent;
                         }
@@ -1012,9 +1141,21 @@ namespace Parser
                 case 30:
                 case 31:
                 case 32:
+                case 203:
                     Current = new AssignmentNode(CurrentLine, CurrentOffset);
                     // ((AssignmentNode)Current).RightHand = new ExpressionTerm()
                     ((IScope)TopScope()).Statements.Add((StatementNode)Current);
+                    Current.Parent = TopScope();
+                    break;
+                case 38:
+                    ArrayNode node = new ArrayNode(CurrentLine, CurrentOffset);
+                    ((AssignmentNode)Current).RightHand = node;
+                    ((VarNode)((AssignmentNode)Current).LeftHand).IsArray = true;
+                    ((VarNode)((AssignmentNode)Current).LeftHand).Declaration = true;
+                    node.ActualId = (VarNode)((AssignmentNode)Current).LeftHand;
+                    _builder.AddArray(node);
+                    Current = node;
+                    ParseContext.DeclaredArrays.Add(node);
                     break;
                 case 129:
                     Current = new WaitNode(CurrentLine, CurrentOffset);
@@ -1040,7 +1181,7 @@ namespace Parser
                     ((ProgramNode)TopScope()).FunctionDefinitons.Add((FuncNode)Current);
                     try
                     {
-                        _builder.CurrentSymbolTable.FunctionDefinitions.Add((FuncNode)Current);
+                        SymbolTableObject.FunctionDefinitions.Add((FuncNode)Current);
                         _builder.OpenScope(token, $"func_{Tokens[Index + 1].Value}_{CurrentLine}");
                     }
                     catch (IndexOutOfRangeException)
@@ -1099,7 +1240,6 @@ namespace Parser
                     ((FuncNode)Current).Statements.Add(retNode);
                     Current = (ExpressionNode)expr120;
                     break;
-
                 default:
                     return;
             }

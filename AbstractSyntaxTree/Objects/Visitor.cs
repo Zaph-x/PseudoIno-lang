@@ -43,5 +43,7 @@ namespace AbstractSyntaxTree.Objects
         public abstract object Visit(BinaryExpression noParenExpression);
         public abstract object Visit(ParenthesisExpression parenthesisExpression);
         public abstract object Visit(BoolNode boolNode);
+        public abstract object Visit(ArrayNode arrayNode);
+        public abstract object Visit(ArrayAccessNode arrayAccess);
     }
 }

@@ -311,5 +311,15 @@ namespace AbstractSyntaxTree.Objects
             Print("Bool");
             return null;
         }
+
+        public override object Visit(ArrayNode arrayNode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override object Visit(ArrayAccessNode arrayAccess)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

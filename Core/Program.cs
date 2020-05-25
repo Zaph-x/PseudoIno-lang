@@ -66,10 +66,10 @@ namespace Core
                     Console.Error.WriteLine(e.Message);
                     return 20;
                 }
-                Tokenizer tokenizer = new Tokenizer(reader);
+                Tokeniser tokenizer = new Tokeniser(reader);
                 verbosePrinter.Info("Generating tokens...");
                 tokenizer.GenerateTokens();
-                if (Tokenizer.HasError)
+                if (Tokeniser.HasError)
                 {
                     verbosePrinter.Error("Encountered syntax errors. Stopping.");
                     return 5;
@@ -84,11 +84,11 @@ namespace Core
                 }
                 verbosePrinter.Info("Generating parse table");
                 List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-                Parsenizer parsenizer = new Parsenizer(tokens);
+                Parser.Parser parsenizer = new Parser.Parser(tokens);
                 string debugMessage = "";
                 parsenizer.Parse(out debugMessage);
                 verbosePrinter.Info(debugMessage);
-                if (Parsenizer.HasError)
+                if (Parser.Parser.HasError)
                 {
                     verbosePrinter.Error("Encountered an error state in the parser. Stopping.");
                     return 4;
@@ -118,7 +118,7 @@ namespace Core
                     Console.Error.WriteLine(e.Message);
                     return 2;
                 }
-
+                if (CodeGenerationVisitor.HasError) return 10;
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                 {
                     Console.WriteLine("We're on Linux!");

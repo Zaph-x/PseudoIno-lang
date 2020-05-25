@@ -3,13 +3,10 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
-    public class ArrayNode : AstNode, IAssignment, IExpr, ITerm
+    public class ArrayAccessNode : AstNode, IAssignment, IExpr, ITerm
     {
-        public List<NumericNode> Dimensions { get; set; } = new List<NumericNode>();
-        public VarNode ActualId { get; set; }
-        public AssignmentNode _firstAccess;
-        public AssignmentNode FirstAccess { get => this._firstAccess; set => _firstAccess = _firstAccess == null ? value : _firstAccess; }
-        public bool HasBeenAccessed { get; set; } = false;
+        public List<ValNode> Accesses {get;set;} = new List<ValNode>();
+        public ArrayNode Actual {get;set;}
 
         #region Not implemented
         public ITerm LeftHand { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
@@ -17,8 +14,10 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public IExpr RightHand { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         #endregion
 
-        public ArrayNode(int line, int offset) : base(TokenType.ARR, line, offset)
+        public ArrayAccessNode(ArrayNode array, int line, int offset) : base(TokenType.ARRAYACCESSING, line, offset)
         {
+            Actual = array;
+            array.HasBeenAccessed = true;
         }
 
         public override object Accept(Visitor visitor)
