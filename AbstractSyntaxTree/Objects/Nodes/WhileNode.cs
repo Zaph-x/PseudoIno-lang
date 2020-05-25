@@ -12,7 +12,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         {
             Statements = new List<StatementNode>();
         }
-
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public override object Accept(Visitor visitor)
         {
             return visitor.Visit(this);

@@ -14,7 +14,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public CallNode(int line, int offset) : base(TokenType.CALL, line, offset)
         {
         }
-
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public override object Accept(Visitor visitor)
         {
             return visitor.Visit(this);

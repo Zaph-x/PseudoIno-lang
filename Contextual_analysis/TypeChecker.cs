@@ -15,6 +15,7 @@ namespace Contextual_analysis
     {
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
         private SymbolTableObject CurrentScope = SymbolTableBuilder.GlobalSymbolTable;
+        private SymbolTableObject _temp;
         public static bool HasError { get; set; } = false;
 
         public override object Visit(TimesNode timesNode)
@@ -127,10 +128,6 @@ namespace Contextual_analysis
             return (CurrentScope ?? GlobalScope).FindSymbol(varNode);
         }
 
-        //public override object Visit(ValNode valNode)
-        //{
-        //    return null;
-        //}
 
         public override object Visit(TimeSecondNode timeSecondNode)
         {
@@ -210,7 +207,10 @@ namespace Contextual_analysis
                     {
                         if (n.Statements.Last().IsType(typeof(ReturnNode)))
                         {
+                            _temp = CurrentScope;
+                            CurrentScope = GlobalScope.FindChild($"func_{n.Name.Id}_{n.Line}");
                             ctx = (TypeContext)n.Statements.Last().Accept(this);
+                            CurrentScope = _temp;
                         }
                         else { ctx = new TypeContext(TokenType.FUNC); }
                     } else {

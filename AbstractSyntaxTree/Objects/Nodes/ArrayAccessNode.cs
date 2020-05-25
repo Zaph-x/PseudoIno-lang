@@ -20,6 +20,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
             array.HasBeenAccessed = true;
         }
 
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public override object Accept(Visitor visitor)
         {
             return visitor.Visit(this);

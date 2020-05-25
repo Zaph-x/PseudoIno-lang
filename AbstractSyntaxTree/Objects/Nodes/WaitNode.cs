@@ -9,6 +9,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public WaitNode(int line, int offset) : base(TokenType.WAIT, line, offset)
         {
         }
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public override object Accept(Visitor visitor)
         {
             return visitor.Visit(this);

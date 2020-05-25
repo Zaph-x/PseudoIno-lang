@@ -2,28 +2,54 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System;
-using System.Reflection;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Lexer;
 using Core.Objects;
 using Core.Exceptions;
-using Lexer.Exceptions;
-using Parser;
 using AbstractSyntaxTree.Objects;
 using CodeGeneration;
 using Lexer.Objects;
 using Contextual_analysis;
-using System.Collections.Generic;
-using System.IO.Ports;
 
 namespace Core
 {
+    /// <summary>
+    /// The core of the compiler.
+    /// This is where every step of the compiler is called from.
+    /// </summary>
     public class Program
     {
         static VerbosePrinter verbosePrinter;
         static CommandLineOptions options;
+
+        /// <summary>
+        /// The entry point of the compiler.
+        /// Here the user must provide a set of compiler flags, in order for the compiler to produce a satisfying product.
+        /// The user must provide a filepath to the file they wish to compile. Otherwise the compiler will halt and exit with an exit code of 1.
+        /// Compiler flags can be provided to activate additional functionality.
+        /// **Compiler flags**
+        /// `-d` or `--dryrun` Runs the compiler without producing an output.
+        /// `-o` or `--output` Tells the compiler not to write to the Arduino, and instead produce a file.
+        /// `-v` or `--verbose` Prints additional information when compiling.
+        /// `-b` or `--boilerplate` Generates a boilerplate file for your code.
+        /// `-l` or `--logfile` (Must be followed by a file path) Prints additional information when compiling.
+        /// `-p` or `--port` (Must be followed by a port number) Specifies the port to upload to.
+        /// `-a` or `--arduino` (Must be followed by an Arduino model) Specifies the arduino model you're uploading to. (Default: UNO)
+        /// `-pr` or `--proc` (Must be followed by a valid processor) Specifies the arduino processor you're uploading to. (Default: atmega328p)
+        /// `-pp` or `--prettyprinter` Print the abstract syntax tree.
+        /// **Compiler exit code**
+        /// `0` Compilation finished with no errors.
+        /// `1` A file path was not provided to the compiler for compilation.
+        /// `20` The file provided was not encoded as a UTF-8 file.
+        /// `5` An error was encountered while scanning the input program. This is usually caused by an unclosed string, comment, or parenthesis.
+        /// `4` An error was encountered in the parser. This is usually due to an invalidly structured program.
+        /// `3` An error was encountered in the type checker. This happens when two types are mismatched, either on assignment or within an expression. Furthermore, this can be caused by not defining a called function, or a function being defined multiple times.
+        /// `2` This error is encountered when the code generator can not find the output file for the intermediate representation code.
+        /// `23` This error is encountered when the dryrun flag is invoked, but the compiler can not find the output file for the intermediate representation code.
+        /// </summary>
+        /// <param name="args">The arguments passed to the compiler from the terminal.</param>
+        /// <returns>An exit code representing the state the compiler exited in.</returns>
         public static int Main(string[] args)
         {
             Stopwatch timer = new Stopwatch();
@@ -212,33 +238,10 @@ namespace Core
             verbosePrinter.Info($"\nCompilation took {timer.Elapsed.TotalSeconds} seconds.");
             return 0;
         }
-
-        static void RunCommands(List<string> cmds, string shell)
-        {
-            var process = new Process();
-            var psi = new ProcessStartInfo();
-            psi.FileName = shell;
-            psi.RedirectStandardInput = true;
-            psi.RedirectStandardOutput = true;
-            psi.RedirectStandardError = true;
-            psi.UseShellExecute = false;
-            psi.WorkingDirectory = "";
-            process.StartInfo = psi;
-            process.Start();
-            // process.OutputDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
-            process.ErrorDataReceived += (sender, e) => { Console.WriteLine(e.Data); };
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-            using (StreamWriter sw = process.StandardInput)
-            {
-                for (int i = 0; i < cmds.Count; i++)
-                {
-                    sw.WriteLine(cmds[i]);
-                }
-            }
-            process.WaitForExit();
-        }
-
+        /// <summary>
+        /// Prints the help list to the terminal.
+        /// This is automatically called, if no file path is provided when the compiler is invoked.
+        /// </summary>
         public static void Help()
         {
             System.Console.WriteLine("---===### PIC, PseudoIno Compiler ###===---");
@@ -262,6 +265,12 @@ namespace Core
             System.Console.WriteLine("");
         }
 
+        /// <summary>
+        /// This function will parse the flags passed to the compiler.
+        /// This is done using a switch case, which will then set the correct flags and values in the compiler options.
+        /// </summary>
+        /// <param name="args">The arguments provided to the compiler on invokation</param>
+        /// <returns>A CommandLineOptions object, containing the options specified by the user.</returns>
         public static CommandLineOptions ParseOptions(string[] args)
         {
             CommandLineOptions options = new CommandLineOptions();
@@ -487,6 +496,10 @@ namespace Core
             return options;
         }
         
+        /// <summary>
+        /// Gets the set of PWM pins on an arduino, based on the model provided, when invoking the compiler.
+        /// </summary>
+        /// <returns>A list of PWM pin IDs</returns>
         public static List<string> GetPWMSet()
         {
             switch (options.Arduino.ToLower())
@@ -509,8 +522,17 @@ namespace Core
         }
     }
 
+    /// <summary>
+    /// An extension class to extend the functionality of strings. 
+    /// This class is used to add better shell integration, when calling commands in the shell, from the compiler.
+    /// </summary>
     public static class ShellHelper
     {
+        /// <summary>
+        /// Calls a command in /bin/bash on linux.
+        /// </summary>
+        /// <param name="cmd">The command to execute</param>
+        /// <returns>The result of the command</returns>
         public static string Bash(this string cmd)
         {
             var escapedArgs = cmd.Replace("\"", "\\\"");
@@ -531,6 +553,11 @@ namespace Core
             process.WaitForExit();
             return result;
         }
+        /// <summary>
+        /// Calls a command in CMD.exe on windows.
+        /// </summary>
+        /// <param name="cmd">The command to execute</param>
+        /// <returns>The result of the command</returns>
         public static string Cmd(this string cmd)
         {
             var process = new Process()

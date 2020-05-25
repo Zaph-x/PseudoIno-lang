@@ -63,10 +63,11 @@ func dafunc with a,b
 b is 3
 a is b
 return a
+end dafunc
 func loop
 a is 0
 b is 0
-call dafunc with a,b
+d is call dafunc with a,b
 end loop";
 
 
@@ -86,7 +87,7 @@ end loop";
         [TestCase(program3)]
         [TestCase(program4)]
         [TestCase(program5)]
-        //[TestCase(program6)]
+        [TestCase(program6)]
         [TestCase(program7)]
         public void Test_TypeChecker_CheckHasNoErrors(string program)
         {

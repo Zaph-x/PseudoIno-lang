@@ -9,7 +9,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         {
             
         }
-
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public abstract override object Accept(Visitor visitor);
     }
 }
