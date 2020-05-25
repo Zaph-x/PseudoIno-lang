@@ -253,6 +253,9 @@ end loop
         [TestCase(9,stringTest)]
         [TestCase(10,program4)]
         [TestCase(11,program5)]
+        //[TestCase(12,Array_Declaration)]
+        [TestCase(13,Array_Assignment)]
+        [TestCase(14,Array_Access)]
         public void Test_CodeGenVisitor_content(int n, string prog)
         {
             StreamReader FakeReader = CreateFakeReader(prog, Encoding.UTF8);
@@ -269,6 +272,25 @@ end loop
             parser.Root.Accept(codeGenerationVisitor);
             Assert.IsFalse(CodeGenerationVisitor.HasError, "Code gen visitor encountered an error");
         }
+        
+        [Test]
+        public void Test_CodeGenVisitor_content_fail()
+        {
+            StreamReader FakeReader = CreateFakeReader(Array_Declaration, Encoding.UTF8);
+            Tokeniser tokenizer = new Tokeniser(FakeReader);
+            tokenizer.GenerateTokens();
+            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Parser.Parser parser = new Parser.Parser(tokens);
+            parser.Parse(out dbg);
+            if (Parser.Parser.HasError)
+                Assert.Fail("The parser encountered an error\n\n" + dbg);
+            parser.Root.Accept(new TypeChecker());
+            Assert.IsTrue(TypeChecker.HasError, "Typechecker visitor encountered an error");
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
+            parser.Root.Accept(codeGenerationVisitor);
+            Assert.IsFalse(CodeGenerationVisitor.HasError, "Code gen visitor encountered an error");
+        }
+        
         public StreamReader CreateFakeReader(string content, Encoding enc)
         {
             byte[] fakeBytes = enc.GetBytes(content);
