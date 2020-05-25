@@ -2,6 +2,9 @@ using System;
 using System.Linq;
 using AbstractSyntaxTree.Objects;
 using AbstractSyntaxTree.Objects.Nodes;
+/// <summary>
+/// The namespace means that objects of the Abstract syntax tree is used
+/// </summary>
 namespace AbstractSyntaxTree.Objects
 {
     public abstract class Visitor

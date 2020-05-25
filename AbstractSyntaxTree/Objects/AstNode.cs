@@ -5,9 +5,14 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Lexer.Objects;
 using System;
-
+/// <summary>
+/// The namespace means that objects of the Abstract syntax tree is used
+/// </summary>
 namespace AbstractSyntaxTree.Objects
 {
+    /// <summary>
+    /// The AST node class containin the information about the construction of an AST node
+    /// </summary>
     public abstract class AstNode
     {
         /// <summary>
