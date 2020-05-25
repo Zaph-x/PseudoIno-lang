@@ -147,7 +147,7 @@ namespace CodeGeneration
                 else if (boolValue.StartsWith("analogRead"))
                     assign += boolValue;
                 else
-                    assign += boolValue == " 1)" ? "255)" : "0)";
+                    assign += boolValue == " true)" ? "HIGH)" : "LOW)";
             }
             else
             {
