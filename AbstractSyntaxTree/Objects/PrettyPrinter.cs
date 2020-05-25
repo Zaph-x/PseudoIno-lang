@@ -5,7 +5,10 @@ using AbstractSyntaxTree.Objects;
 namespace AbstractSyntaxTree.Objects
 {
     public class PrettyPrinter : Visitor
+
     {
+
+
         private int Indent { get; set; } = 0;
         private void Print(string input)
         {
@@ -314,12 +317,15 @@ namespace AbstractSyntaxTree.Objects
 
         public override object Visit(ArrayNode arrayNode)
         {
-            throw new NotImplementedException();
+            Print("Array");
+            return null;
         }
 
         public override object Visit(ArrayAccessNode arrayAccess)
         {
-            throw new NotImplementedException();
+            Print("Array Access");
+
+            return null;
         }
     }
 }
