@@ -191,6 +191,27 @@ end loop";
 b is 3 - 1 - 1
 func loop
 end loop";
+        
+private const string Array_Declaration = @"
+a is [2]
+func loop
+	b is true
+end loop
+";
+private const string Array_Assignment = @"
+a is [2]
+a@0 is -10
+func loop
+	b is true
+end loop
+";
+private const string Array_Access = @"
+a is [2]
+a@0 is -10
+func loop
+	b is a@0
+end loop
+";
 
         string dbg;
 
