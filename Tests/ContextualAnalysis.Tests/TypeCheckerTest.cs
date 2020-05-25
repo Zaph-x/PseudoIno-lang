@@ -64,13 +64,43 @@ b is 3
 a is b
 return a
 end dafunc
+func blink
+    dpin13 is on
+    wait 1s
+    dpin13 is off
+    wait 1s
+end blink
+func blink2
+end blink
 func loop
 a is 0
 b is 0
 d is call dafunc with a,b
+call blink
+call blink2
+call sq with 2
+wait 4s
+wait 4m
+wait 4h
+wait 4ms
+
 end loop";
-
-
+        const string program8 = @"
+func loop
+a is true
+b is false
+if (a == b) do
+end if
+if (a or b) do
+b is false
+end if
+d is 2
+c is 1
+if (d < c) do
+xx is 12
+end if
+end loop
+";
         [SetUp]
         public void Setup()
         {
@@ -89,6 +119,7 @@ end loop";
         [TestCase(program5)]
         [TestCase(program6)]
         [TestCase(program7)]
+        [TestCase(program8)] 
         public void Test_TypeChecker_CheckHasNoErrors(string program)
         {
             StreamReader reader = CreateFakeReader(program);
