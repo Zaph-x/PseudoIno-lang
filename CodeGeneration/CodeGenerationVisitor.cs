@@ -619,9 +619,9 @@ namespace CodeGeneration
         {
             string boolVal = "";
             if (boolNode.Value)
-                boolVal += " 1";
+                boolVal += " true";
             else
-                boolVal += " 0";
+                boolVal += " false";
 
             return boolVal;
         }
