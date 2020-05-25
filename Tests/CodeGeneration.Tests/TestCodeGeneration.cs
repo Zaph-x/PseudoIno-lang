@@ -240,6 +240,42 @@ func loop
   a is call foo
 end loop";
 
+private const string call_2_param =
+    @"
+func foo with c, f
+  b is c + f
+  return b
+end foo
+
+func loop
+  a is call foo with 2.1, 5.8
+end loop";
+
+private const string call_2_param_string =
+    "func foo with c, f \n b is c \n return b \n end foo \n func loop \n a is call foo with \"hello\", \"world\" \n end loop";
+
+private const string call_2_param_divide =
+    @"
+func foo with c, f
+  b is c / f
+  return b
+end foo
+
+func loop
+  a is call foo with 2.1, 5.8
+end loop";
+
+private const string call_2_param_and =
+    @"
+func foo with c, f
+  b is c && f
+  return b
+end foo
+
+func loop
+  a is call foo with true, false
+end loop";
+
         string dbg;
 
         [SetUp]
@@ -286,6 +322,10 @@ end loop";
         [TestCase(15,func_float)]
         [TestCase(16,func_string)]
         [TestCase(17,func_bool)]
+        [TestCase(18,call_2_param)]
+        [TestCase(19,call_2_param_divide)]
+        [TestCase(20,call_2_param_and)]
+        //[TestCase(21,call_2_param_string)]
         public void Test_CodeGenVisitor_content(int n, string prog)
         {
             StreamReader FakeReader = CreateFakeReader(prog, Encoding.UTF8);
