@@ -174,7 +174,7 @@ end loop
             if (Parser.Parser.HasError)
                 Assert.Fail();
             parser.Root.Accept(new TypeChecker());
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
             parser.Root.Accept(codeGenerationVisitor);
         }
         public StreamReader CreateFakeReader(string content, Encoding enc)

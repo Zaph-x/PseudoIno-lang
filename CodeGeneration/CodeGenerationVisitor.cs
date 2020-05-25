@@ -23,7 +23,6 @@ namespace CodeGeneration
         private string Setup { get; set; }
         private string Funcs { get; set; }
         private string Loop { get; set; }
-        private List<string> PWM { get; set; }
 
         private string FileName { get; set; }
 
@@ -32,10 +31,9 @@ namespace CodeGeneration
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
         private SymbolTableObject CurrentScope = SymbolTableBuilder.GlobalSymbolTable;
 
-        public CodeGenerationVisitor(string fileName, List<string> pwm)
+        public CodeGenerationVisitor(string fileName)
         {
             FileName = fileName;
-            PWM = pwm;
         }
         public void PrintStringToFile(string content)
         {
@@ -108,29 +106,13 @@ namespace CodeGeneration
                     new InvalidCodeException($"Pin {pin} was defined as INPUT but is also used as OUTPUT at {assignmentNode.Line}:{assignmentNode.Offset}");
                 string pinDef = "pinMode(" + assignmentNode.LeftHand.Accept(this) + ", OUTPUT);";
                 PinDefs.Add(pinDef);
-                if (PWM.Contains(pin))
-                {
 
-                    assign += "analogWrite(" + assignmentNode.LeftHand.Accept(this) + ", ";
-                    string value = assignmentNode.RightHand.Accept(this) + ")";
-                    if (assignmentNode.RightHand.SymbolType.Type == TokenType.NUMERIC)
-                        assign += value;
-                    else if (value.StartsWith("digitalRead"))
-                        assign += value;
-                    else
-                        assign += value == " true)" ? "HIGH)" : "LOW)";
-
-                }
+                assign += "digitalWrite(" + assignmentNode.LeftHand.Accept(this) + ", ";
+                string boolValue = assignmentNode.RightHand.Accept(this) + ")";
+                if (boolValue.StartsWith("digitalRead"))
+                    assign += boolValue;
                 else
-                {
-
-                    assign += "digitalWrite(" + assignmentNode.LeftHand.Accept(this) + ", ";
-                    string boolValue = assignmentNode.RightHand.Accept(this) + ")";
-                    if (boolValue.StartsWith("digitalRead"))
-                        assign += boolValue;
-                    else
-                        assign += boolValue == " true)" ? "HIGH)" : "LOW)";
-                }
+                    assign += boolValue == " 1)" ? "HIGH)" : "LOW)";
             }
             else if (assignmentNode.LeftHand.Type == TokenType.APIN)
             {
@@ -572,7 +554,7 @@ namespace CodeGeneration
         public override object Visit(ExpressionTerm expressionTermNode)
         {
             string exp = "";
-            if (expressionTermNode.LeftHand.IsType(typeof(APinNode)) || expressionTermNode.LeftHand.IsType(typeof(DPinNode)))
+            if (expressionTermNode.LeftHand.IsType(typeof(APinNode))||expressionTermNode.LeftHand.IsType(typeof(DPinNode)))
             {
                 string pin = ((PinNode)expressionTermNode.LeftHand).Value;
                 if (PinDefs.Any(def => def.Contains(pin) && def.Contains("OUTPUT")))
@@ -581,14 +563,9 @@ namespace CodeGeneration
                 {
                     PinDefs.Add($"pinMode({pin}, INPUT);");
                     exp += $"analogRead({pin})";
-                }
-                else
-                {
+                } else {
                     PinDefs.Add($"pinMode({pin}, INPUT);");
-                    if (PWM.Contains(pin))
-                        exp += $"analogRead({pin})";
-                    else
-                        exp += $"digitalRead({pin})";
+                    exp += $"digitalRead({pin})";
                 }
                 return exp;
             }
@@ -619,9 +596,9 @@ namespace CodeGeneration
         {
             string boolVal = "";
             if (boolNode.Value)
-                boolVal += " true";
+                boolVal += " 1";
             else
-                boolVal += " false";
+                boolVal += " 0";
 
             return boolVal;
         }

@@ -1,5 +1,4 @@
-﻿﻿using System.Collections.Generic;
-using System;
+﻿﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System;
@@ -111,7 +110,7 @@ namespace Core
                 {
                     if (File.Exists($"{path}PrecompiledBinaries/tmp/sketch/output.cpp"))
                         File.Delete($"{path}PrecompiledBinaries/tmp/sketch/output.cpp");
-                    parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}PrecompiledBinaries/tmp/sketch/output.cpp", GetPWMSet()));
+                    parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}PrecompiledBinaries/tmp/sketch/output.cpp"));
                 }
                 catch (FileNotFoundException e)
                 {
@@ -191,7 +190,7 @@ namespace Core
                 }
                 if (options.DryRun)
                 {
-                    try
+                    try 
                     {
                         File.Delete($"{path}PrecompiledBinaries/tmp/sketch/output.cpp");
                         return 0;
@@ -486,27 +485,6 @@ namespace Core
             }
             return options;
         }
-        
-        public static List<string> GetPWMSet()
-        {
-            switch (options.Arduino.ToLower())
-            {
-                case "uno":
-                case "nano":
-                case "mini":
-                    return new List<string>() {"3","5","6","9","10","11"};
-                case "mega":
-                    return new List<string>() {"2","3","4","5","6","7","8","9","10","11","12","13","44","45","46"};
-                case "yun":
-                case "micro":
-                case "leonardo":
-                    return new List<string>() {"3","5","6","9","10","11","13"};
-                case "uno_wifi_dev_ed":
-                    return new List<string>() {"3","5","6","9","10"};
-                default:
-                    return new List<string>();
-            }
-        }
     }
 
     public static class ShellHelper
@@ -553,5 +531,4 @@ namespace Core
             return result;
         }
     }
-
 }
