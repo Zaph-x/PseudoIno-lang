@@ -11,18 +11,43 @@ using Contextual_analysis.Exceptions;
 
 namespace Contextual_analysis
 {
+    /// <summary>
+    /// The type checker of the PseudoIno compiler. Here types are checked and held against eachother.
+    /// </summary>
     public class TypeChecker : Visitor
     {
+        /// <summary>
+        /// The global symbol table. This will never change
+        /// </summary>
         private SymbolTableObject GlobalScope = SymbolTableBuilder.GlobalSymbolTable;
+        /// <summary>
+        /// The current symbol table. This will change when the scope is changed.
+        /// </summary>
         private SymbolTableObject CurrentScope = SymbolTableBuilder.GlobalSymbolTable;
+        /// <summary>
+        /// A temporary scope, used when returning from a function.
+        /// </summary>
         private SymbolTableObject _temp;
+        /// <summary>
+        /// A static bool value signifying an error has been encountered
+        /// </summary>
+        /// <value>True if an error has been encountered. Else false.</value>
         public static bool HasError { get; set; } = false;
 
+        /// <summary>
+        /// This method type checks the TimesNode node in the AST.
+        /// </summary>
+        /// <param name="timesNode">The node to check.</param>
+        /// <returns>Returns OP_TIMES typecontext</returns>
         public override object Visit(TimesNode timesNode)
         {
             return new TypeContext(OP_TIMES);
         }
-
+        /// <summary>
+        /// This method type checks the AssignmentNode node in the AST.
+        /// </summary>
+        /// <param name="assignmentNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(AssignmentNode assignmentNode)
         {
             TypeContext lhs = (TypeContext)assignmentNode.LeftHand.Accept(this);
@@ -117,49 +142,90 @@ namespace Contextual_analysis
 
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the WaitNode node in the AST.
+        /// </summary>
+        /// <param name="waitNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(WaitNode waitNode)
         {
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the VarNode node in the AST.
+        /// </summary>
+        /// <param name="varNode">The node to check.</param>
+        /// <returns>The type of the symbol in the current or global scope</returns>
         public override object Visit(VarNode varNode)
         {
             return (CurrentScope ?? GlobalScope).FindSymbol(varNode);
         }
-
+        /// <summary>
+        /// This method type checks the TimeSecondNode node in the AST.
+        /// </summary>
+        /// <param name="timeSecondNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(TimeSecondNode timeSecondNode)
         {
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the TimeMinutesNode node in the AST.
+        /// </summary>
+        /// <param name="timeMinuteNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(TimeMinuteNode timeMinuteNode)
         {
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the TimeMillisecondNode node in the AST.
+        /// </summary>
+        /// <param name="timeMillisecondNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(TimeMillisecondNode timeMillisecondNode)
         {
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the TimeHourNode node in the AST.
+        /// </summary>
+        /// <param name="timeHourNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(TimeHourNode timeHourNode)
         {
             return null;
         }
+        /// <summary>
+        /// This method type checks the NumericNode node in the AST.
+        /// </summary>
+        /// <param name="numericNode">The node to check.</param>
+        /// <returns>Numeric type context</returns>
         public override object Visit(NumericNode numericNode)
         {
             return numericNode.SymbolType;
         }
 
+        /// <summary>
+        /// This method type checks the EqualNode node in the AST.
+        /// </summary>
+        /// <param name="equalNode">The node to check.</param>
+        /// <returns>Equal operator type context</returns>
         public override object Visit(EqualNode equalNode)
         {
             return new TypeContext(OP_EQUAL);
 
         }
+
+        /// <summary>
+        /// This method type checks the ProgramNode node in the AST.
+        /// This is the entry point for the type checker
+        /// </summary>
+        /// <param name="programNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ProgramNode programNode)
         {
-            
+
             programNode.Statements.ForEach(stmnt => stmnt.Accept(this));
             programNode.FunctionDefinitons.ForEach(func =>
             {
@@ -193,7 +259,11 @@ namespace Contextual_analysis
             programNode.LoopFunction.Accept(this);
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the CallNode node in the AST.
+        /// </summary>
+        /// <param name="callNode">The node to check.</param>
+        /// <returns>Type context of the function called</returns>
         public override object Visit(CallNode callNode)
         {
             try
@@ -212,7 +282,9 @@ namespace Contextual_analysis
                             CurrentScope = _temp;
                         }
                         else { ctx = new TypeContext(TokenType.FUNC); }
-                    } else {
+                    }
+                    else
+                    {
                         ctx = new TypeContext(TokenType.FUNC);
                     }
                     return ctx;
@@ -234,27 +306,48 @@ namespace Contextual_analysis
                 return null;
             }
         }
-
+        /// <summary>
+        /// This method type checks the AndNode node in the AST.
+        /// </summary>
+        /// <param name="andNode">The node to check.</param>
+        /// <returns>And operator type context</returns>
         public override object Visit(AndNode andNode)
         {
             return new TypeContext(OP_AND);
 
         }
-
+        /// <summary>
+        /// This method type checks the APinNode node in the AST.
+        /// </summary>
+        /// <param name="apinNode">The node to check.</param>
+        /// <returns>APin type context</returns>
         public override object Visit(APinNode apinNode)
         {
             return new TypeContext(APIN);
         }
-
+        /// <summary>
+        /// This method type checks the DPinNode node in the AST.
+        /// </summary>
+        /// <param name="dpinNode">The node to check.</param>
+        /// <returns>DPin type context</returns>
         public override object Visit(DPinNode dpinNode)
         {
             return new TypeContext(DPIN);
         }
-
+        /// <summary>
+        /// This method type checks the DivideNode node in the AST.
+        /// </summary>
+        /// <param name="divideNode">The node to check.</param>
+        /// <returns>Divide operator type context</returns>
         public override object Visit(DivideNode divideNode)
         {
             return new TypeContext(OP_DIVIDE);
         }
+        /// <summary>
+        /// This method type checks the BinaryExpression node in the AST.
+        /// </summary>
+        /// <param name="expressionNode">The node to check.</param>
+        /// <returns>The type context of the evaluated expression</returns>
         public override object Visit(BinaryExpression expressionNode)
         {
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
@@ -312,6 +405,11 @@ namespace Contextual_analysis
             new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
             return null;
         }
+        /// <summary>
+        /// This method type checks the ParenthesisExpression node in the AST.
+        /// </summary>
+        /// <param name="expressionNode">The node to check.</param>
+        /// <returns>The type context of the evaluated expression</returns>
         public override object Visit(ParenthesisExpression expressionNode)
         {
             TypeContext lhs = (TypeContext)expressionNode.LeftHand.Accept(this);
@@ -367,7 +465,11 @@ namespace Contextual_analysis
             new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the ExpressionTerm node in the AST.
+        /// </summary>
+        /// <param name="expressionNode">The node to check.</param>
+        /// <returns>The type context of the term</returns>
         public override object Visit(ExpressionTerm expressionNode)
         {
             TypeContext lhs;
@@ -383,7 +485,11 @@ namespace Contextual_analysis
             }
             return expressionNode.SymbolType = lhs;
         }
-
+        /// <summary>
+        /// This method type checks the ForNode node in the AST.
+        /// </summary>
+        /// <param name="forNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ForNode forNode)
         {
 
@@ -398,7 +504,11 @@ namespace Contextual_analysis
             CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the FuncNode node in the AST.
+        /// </summary>
+        /// <param name="funcNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(FuncNode funcNode)
         {
             CurrentScope = GlobalScope.FindChild($"func_{funcNode.Name.Id}_{funcNode.Line}");
@@ -424,12 +534,20 @@ namespace Contextual_analysis
             CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the GreaterNode node in the AST.
+        /// </summary>
+        /// <param name="greaterNode">The node to check.</param>
+        /// <returns>Greater operator type context</returns>
         public override object Visit(GreaterNode greaterNode)
         {
             return new TypeContext(OP_GREATER);
         }
-
+        /// <summary>
+        /// This method type checks the IfStatementNode node in the AST.
+        /// </summary>
+        /// <param name="ifStatementNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(IfStatementNode ifStatementNode)
         {
             CurrentScope = GlobalScope.FindChild($"{ifStatementNode.Type}_{ifStatementNode.Line}");
@@ -444,37 +562,65 @@ namespace Contextual_analysis
             CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the LessNode node in the AST.
+        /// </summary>
+        /// <param name="lessNode">The node to check.</param>
+        /// <returns>Less operator type context</returns>
         public override object Visit(LessNode lessNode)
         {
             return new TypeContext(OP_LESS);
         }
-
+        /// <summary>
+        /// This method type checks the PlusNode node in the AST.
+        /// </summary>
+        /// <param name="plusNode">The node to check.</param>
+        /// <returns>Plus operator type context</returns>
         public override object Visit(PlusNode plusNode)
         {
             return new TypeContext(OP_PLUS);
         }
-
+        /// <summary>
+        /// This method type checks the MinusNode node in the AST.
+        /// </summary>
+        /// <param name="minusNode">The node to check.</param>
+        /// <returns>Minus operator type context</returns>
         public override object Visit(MinusNode minusNode)
         {
             return new TypeContext(OP_MINUS);
         }
-
+        /// <summary>
+        /// This method type checks the ModuloNode node in the AST.
+        /// </summary>
+        /// <param name="moduloNode">The node to check.</param>
+        /// <returns>Modulo operator type context</returns>
         public override object Visit(ModuloNode moduloNode)
         {
             return new TypeContext(OP_MODULO);
         }
-
+        /// <summary>
+        /// This method type checks the OrNode node in the AST.
+        /// </summary>
+        /// <param name="orNode">The node to check.</param>
+        /// <returns>Or operator type context</returns>
         public override object Visit(OrNode orNode)
         {
             return new TypeContext(OP_OR);
         }
-
+        /// <summary>
+        /// This method type checks the StringNode node in the AST.
+        /// </summary>
+        /// <param name="stringNode">The node to check.</param>
+        /// <returns>String type context</returns>
         public override object Visit(StringNode stringNode)
         {
             return new TypeContext(STRING);
         }
-
+        /// <summary>
+        /// This method type checks the WhileNode node in the AST.
+        /// </summary>
+        /// <param name="whileNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(WhileNode whileNode)
         {
             CurrentScope = GlobalScope.FindChild($"LOOPW_{whileNode.Line}");
@@ -489,7 +635,11 @@ namespace Contextual_analysis
             CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the ElseStatementNode node in the AST.
+        /// </summary>
+        /// <param name="elseStatement">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ElseStatementNode elseStatement)
         {
             CurrentScope = GlobalScope.FindChild($"ELSESTMNT_{elseStatement.Line}");
@@ -497,7 +647,11 @@ namespace Contextual_analysis
             CurrentScope = CurrentScope?.Parent ?? GlobalScope;
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the ElseIfStatementNode node in the AST.
+        /// </summary>
+        /// <param name="elseifStatementNode">The node to check.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ElseifStatementNode elseifStatementNode)
         {
             CurrentScope = GlobalScope.FindChild($"{elseifStatementNode.Type}_{elseifStatementNode.Line}");
@@ -512,32 +666,57 @@ namespace Contextual_analysis
             CurrentScope = CurrentScope.Parent ?? GlobalScope;
             return null;
         }
-
+        /// <summary>
+        /// This method type checks the ReturnNode node in the AST.
+        /// </summary>
+        /// <param name="returnNode">The node to check.</param>
+        /// <returns>The type of the evaluated return expression</returns>
         public override object Visit(ReturnNode returnNode)
         {
             return returnNode.ReturnValue.Accept(this);
         }
-
+        /// <summary>
+        /// This method type checks the GreaterOrEqualNode node in the AST.
+        /// </summary>
+        /// <param name="greaterNOde">The node to check.</param>
+        /// <returns>Greater or Equal operator type context</returns>
         public override object Visit(GreaterOrEqualNode greaterNode)
         {
             return new TypeContext(OP_GEQ);
         }
-
+        /// <summary>
+        /// This method type checks the LessOrEqualNode node in the AST.
+        /// </summary>
+        /// <param name="lessNode">The node to check.</param>
+        /// <returns>Less or Equal operator type context</returns>
         public override object Visit(LessOrEqualNode lessNode)
         {
             return new TypeContext(OP_LEQ);
         }
-
+        /// <summary>
+        /// This method type checks the BoolNode node in the AST.
+        /// </summary>
+        /// <param name="boolNode">The node to check.</param>
+        /// <returns>Bool type context</returns>
         public override object Visit(BoolNode boolNode)
         {
             return new TypeContext(BOOL);
         }
-
+        /// <summary>
+        /// This method compares a type context to a list of tokentypes
+        /// </summary>
+        /// <param name="ctx">The context to compare</param>
+        /// <param name="types">An array of types to compare to</param>
+        /// <returns></returns>
         public bool IsOfTypes(TypeContext ctx, params TokenType[] types)
         {
             return types.Any(t => t == ctx.Type);
         }
-
+        /// <summary>
+        /// This method type checks the ArrayNode node in the AST.
+        /// </summary>
+        /// <param name="arrayNode">The node to check.</param>
+        /// <returns>Typecontext of the array if it has been access. Else null</returns>
         public override object Visit(ArrayNode arrayNode)
         {
             if (arrayNode.HasBeenAccessed)
@@ -545,7 +724,11 @@ namespace Contextual_analysis
             else
                 return null;
         }
-
+        /// <summary>
+        /// This method type checks the ArrayAccessNode node in the AST.
+        /// </summary>
+        /// <param name="arrayAccess">The node to check.</param>
+        /// <returns>The type of the accessed array</returns>
         public override object Visit(ArrayAccessNode arrayAccess)
         {
             int accessLocation = 0;
