@@ -3,9 +3,6 @@ using System.Drawing;
 using System;
 using System.IO;
 
-/// <summary>
-/// The namespace of all core objectss
-/// </summary>
 namespace Core.Objects
 {
     /// <summary>

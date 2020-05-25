@@ -28,7 +28,7 @@ namespace AbstractSyntaxTree.Objects
         /// <summary>
         /// Symboltype helps the typechecker set the type of symbols
         /// </summary>
-        /// <value> The symboltype is set in the typechecker</value>
+        /// <value> The symboltype is set in the scanner constructor and updated in the typechecker</value>
         public TypeContext SymbolType { get; set; }
         /// <summary>
         /// The line of the token

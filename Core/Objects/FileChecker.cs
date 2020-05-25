@@ -1,9 +1,7 @@
 using System.Text;
 using System.IO;
 using Core.Exceptions;
-/// <summary>
-/// The namespace of all core objectss
-/// </summary>
+
 namespace Core.Objects
 {
     /// <summary>
