@@ -25,19 +25,28 @@ namespace Parser.Objects
             get => Table[key1.Type][key2.Type];
             set => Table[key1.Type][key2.Type] = value;
         }
-
+        /// <summary>
+        /// Access of table using tokentypes
+        /// </summary>
+        /// <value>A transition rule. <see cref="ParseAction"/></value>
         public ParseAction this[TokenType key1, TokenType key2]
         {
             get => Table[key1][key2];
             set => Table[key1][key2] = value;
         }
 
+        /// <summary>
+        /// The constructor for the parse table. Here the table is initialised and created.
+        /// </summary>
         public ParseTable()
         {
             Init();
             InitTable();
         }
 
+        /// <summary>
+        /// This method will initialise all locations as errors
+        /// </summary>
         private void Init()
         {
 
@@ -52,7 +61,10 @@ namespace Parser.Objects
                 }
             }
         }
-
+        
+        /// <summary>
+        /// This method fills in all the transition rules in the table.
+        /// </summary>
         public void InitTable()
         {
             this[PROG, EOF] = new ParseAction(0,STMNTS);
@@ -124,6 +136,7 @@ namespace Parser.Objects
             this[EXPR, CALL] = new ParseAction(200,FUNCCALL, FOLLOWTERM);
 
             this[FOLLOWTERM, EOF] = new ParseAction(9000);
+            this[FOLLOWTERM, ARRAYINDEX] = new ParseAction(0);
             this[FOLLOWTERM, WAIT] = new ParseAction(9001);
             this[FOLLOWTERM, END] = new ParseAction(9002);
             this[FOLLOWTERM, DO] = new ParseAction(9003);
@@ -177,6 +190,7 @@ namespace Parser.Objects
             this[FOLLOWFACTOR, OP_NOT] = new ParseAction(90032);
             this[FOLLOWFACTOR, OP_GREATER] = new ParseAction(90033);
             this[FOLLOWFACTOR, OP_LESS] = new ParseAction(90034);
+            this[FOLLOWFACTOR, ARRAYINDEX] = new ParseAction(0);
             this[FOLLOWFACTOR, OP_AND] = new ParseAction(90035);
             this[FOLLOWFACTOR, OP_DIVIDE] = new ParseAction(65,FACTOROP, TERM);
             this[FOLLOWFACTOR, OP_MODULO] = new ParseAction(66,FACTOROP, TERM);

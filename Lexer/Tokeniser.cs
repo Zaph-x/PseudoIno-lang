@@ -50,7 +50,7 @@ namespace Lexer
         public long BufferOffset { get; private set; }
 
         /// <summary>
-        /// A bool value to check if the tokenizer found any illegal syntax
+        /// A bool value to check if the tokeniser found any illegal syntax
         /// </summary>
         /// <value>False, unless a syntax error has been found</value>
         public static bool HasError { get; set; }
@@ -63,7 +63,7 @@ namespace Lexer
 
 
         /// <summary>
-        /// The constructor for the Tokenizer class. This will set the iniitiate a reader and a recogniser.
+        /// The constructor for the tokeniser class. This will set the iniitiate a reader and a recogniser.
         /// </summary>
         /// <param name="stream">The StreamReader responsible for reading a class</param>
         public Tokeniser(StreamReader stream)

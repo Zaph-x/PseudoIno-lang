@@ -12,9 +12,6 @@ using CodeGeneration;
 using Lexer.Objects;
 using Contextual_analysis;
 
-/// <summary>
-/// The Core namespace signifies that you are using a core part of the compiler.
-/// </summary>
 namespace Core
 {
     /// <summary>
@@ -96,27 +93,27 @@ namespace Core
                     Console.Error.WriteLine(e.Message);
                     return 20;
                 }
-                Tokeniser tokenizer = new Tokeniser(reader);
+                Tokeniser tokeniser = new Tokeniser(reader);
                 verbosePrinter.Info("Generating tokens...");
-                tokenizer.GenerateTokens();
+                tokeniser.GenerateTokens();
                 if (Tokeniser.HasError)
                 {
                     verbosePrinter.Error("Encountered syntax errors. Stopping.");
                     return 5;
                 }
-                verbosePrinter.Info($" Generated {tokenizer.Tokens.Count} tokens.");
+                verbosePrinter.Info($" Generated {tokeniser.Tokens.Count} tokens.");
                 if (options.Verbose)
                 {
-                    foreach (var token in tokenizer.Tokens)
+                    foreach (var token in tokeniser.Tokens)
                     {
                         verbosePrinter.Info(token);
                     }
                 }
                 verbosePrinter.Info("Generating parse table");
-                List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-                Parser.Parser parsenizer = new Parser.Parser(tokens);
+                List<ScannerToken> tokens = tokeniser.Tokens.ToList();
+                Parser.Parser parser = new Parser.Parser(tokens);
                 string debugMessage = "";
-                parsenizer.Parse(out debugMessage);
+                parser.Parse(out debugMessage);
                 verbosePrinter.Info(debugMessage);
                 if (Parser.Parser.HasError)
                 {
@@ -125,9 +122,9 @@ namespace Core
                 }
                 if (options.PrettyPrinter)
                 {
-                    parsenizer.Root.Accept(new PrettyPrinter());
+                    parser.Root.Accept(new PrettyPrinter());
                 }
-                parsenizer.Root.Accept(new TypeChecker());
+                parser.Root.Accept(new TypeChecker());
                 if (TypeChecker.HasError)
                 {
                     verbosePrinter.Error("Encountered an error in the type checker. Stopping.");
@@ -140,7 +137,7 @@ namespace Core
                 {
                     if (File.Exists($"{path}PrecompiledBinaries/tmp/sketch/output.cpp"))
                         File.Delete($"{path}PrecompiledBinaries/tmp/sketch/output.cpp");
-                    parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}PrecompiledBinaries/tmp/sketch/output.cpp", GetPWMSet()));
+                    parser.Root.Accept(new CodeGenerationVisitor($"{path}PrecompiledBinaries/tmp/sketch/output.cpp", GetPWMSet()));
                 }
                 catch (FileNotFoundException e)
                 {
@@ -270,10 +267,10 @@ namespace Core
 
         /// <summary>
         /// This function will parse the flags passed to the compiler.
-        /// This is done using a switch case, which will then set the correct flags and values in the compiler options. <see cref="Core.Objects.CommandLineOptions">
+        /// This is done using a switch case, which will then set the correct flags and values in the compiler options.
         /// </summary>
         /// <param name="args">The arguments provided to the compiler on invokation</param>
-        /// <returns>A CommandLineOptions object, containing the options specified by the user. <see cref="Core.Objects.CommandLineOptions"></returns>
+        /// <returns>A CommandLineOptions object, containing the options specified by the user.</returns>
         public static CommandLineOptions ParseOptions(string[] args)
         {
             CommandLineOptions options = new CommandLineOptions();

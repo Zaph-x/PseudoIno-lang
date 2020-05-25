@@ -6,7 +6,7 @@
 |---|---|---|
 | [Program Class](#program-class) | [InvalidSyntaxException Class](#invalidsyntaxexception-class) | [TokenType Enum](#tokentype-enum) |
 | [Recogniser Class](#recogniser-class) | [Keywords Class](#keywords-class) |   |
-| [Tokenizer Class](#tokenizer-class) | [Token Class](#token-class) |   |
+| [tokeniser Class](#tokeniser-class) | [Token Class](#token-class) |   |
 # Program Class
 
 Namespace: Lexer
@@ -25,7 +25,7 @@ The class responsible for recognising characters in the language
 | **IsAcceptedCharacter(char character)** | bool | A function that checks if a char is a character in the alphabet. |
 | **IsDigit(char character)** | bool | A function to check if a char is a digit. This is done by calling IsBetween. |
 | **IsKeyword(string input)** | bool | A function that checks if a given string is a keyword. |
-# Tokenizer Class
+# tokeniser Class
 
 Namespace: Lexer
 
@@ -44,7 +44,7 @@ The class responsible for generating the tokens from the source language
 
 | Name | Summary |
 |---|---|
-| **Tokenizer([StreamReader](https://docs.microsoft.com/en-us/dotnet/api/system.io.streamreader) stream)** | The constructor for the Tokenizer class. This will set the iniitiate a reader and a recogniser. |
+| **tokeniser([StreamReader](https://docs.microsoft.com/en-us/dotnet/api/system.io.streamreader) stream)** | The constructor for the tokeniser class. This will set the iniitiate a reader and a recogniser. |
 ## Methods
 
 | Name | Returns | Summary |
