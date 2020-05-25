@@ -275,6 +275,58 @@ namespace Parser.Tests
 
             Assert.False(Parser.HasError);
         }
+        
+        [Test]
+        public void Test_ParseTable_Array_Assignment() // - 
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT);
+            
+            Parser parsenizer = new Parser(list);
+
+            parsenizer.Parse(out nowhere);
+
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_DoubleArray_Assignment() // - 
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYLEFT,NUMERIC,ARRAYRIGHT);
+            
+            Parser parsenizer = new Parser(list);
+
+            parsenizer.Parse(out nowhere);
+
+
+            Assert.True(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_Assign_To_Array() // - 
+        {
+            List<ScannerToken> list = CreateList(ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
+            
+            Parser parsenizer = new Parser(list);
+
+            parsenizer.Parse(out nowhere);
+
+
+            Assert.True(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_Assign_To_Array_2() // - 
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
+            
+            Parser parsenizer = new Parser(list);
+
+            parsenizer.Parse(out nowhere);
+
+
+            Assert.False(Parser.HasError);
+        }
 
         private List<ScannerToken> CreateList(params TokenType[] tokens)
         {
