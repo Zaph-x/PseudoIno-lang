@@ -23,7 +23,7 @@ namespace Parser.Tests
         {
             List<ScannerToken> list = CreateList(CALL, VAR, WITH, VAR);
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
             Assert.False(Parser.HasError);
         }
 
@@ -32,9 +32,9 @@ namespace Parser.Tests
         {
             List<ScannerToken> list = CreateList(VAR, ASSIGN, NUMERIC);
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
 
             Assert.False(Parser.HasError);
@@ -45,9 +45,9 @@ namespace Parser.Tests
         {
             List<ScannerToken> list = CreateList(VAR, ASSIGN, NUMERIC, OP_PLUS, NUMERIC);
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
 
             Assert.False(Parser.HasError);
@@ -58,9 +58,9 @@ namespace Parser.Tests
         {
             List<ScannerToken> list = CreateList(VAR, ASSIGN, ARRAYLEFT, NUMERIC, ARRAYRIGHT);
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
 
             Assert.False(Parser.HasError);
@@ -71,9 +71,9 @@ namespace Parser.Tests
         {
             List<ScannerToken> list = CreateList(BEGIN, WHILE, NUMERIC, OP_GREATER, NUMERIC, DO, VAR, ASSIGN, NUMERIC, END, WHILE);
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
 
             Assert.False(Parser.HasError);
@@ -84,9 +84,9 @@ namespace Parser.Tests
         {
             List<ScannerToken> list = CreateList(BEGIN, FOR, VAR, IN, NUMERIC, OP_RANGE, NUMERIC, DO, VAR, ASSIGN, NUMERIC, END, FOR);
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
             Assert.False(Parser.HasError);
         }
@@ -101,9 +101,9 @@ namespace Parser.Tests
             //list.Add(new ScannerToken(TokenType.NEWLINE, "", 1, 7));
             //list.Add(new ScannerToken(TokenType.EOF, "", 1, 7));
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
 
             Assert.False(Parser.HasError);
@@ -123,9 +123,9 @@ namespace Parser.Tests
             //list.Add(new ScannerToken(TokenType.NEWLINE, "", 1, 11));
             //list.Add(new ScannerToken(TokenType.EOF, "", 1, 7));
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
 
             Assert.False(Parser.HasError);
@@ -145,9 +145,9 @@ namespace Parser.Tests
             //list.Add(new ScannerToken(TokenType.NEWLINE, "", 1, 11));
             //list.Add(new ScannerToken(TokenType.EOF, "", 1, 7));
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
 
             Assert.False(Parser.HasError);
@@ -167,9 +167,9 @@ namespace Parser.Tests
             //list.Add(new ScannerToken(TokenType.NEWLINE, "", 1, 11));
             //list.Add(new ScannerToken(TokenType.EOF, "", 1, 7));
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
 
             Assert.False(Parser.HasError);
@@ -185,9 +185,9 @@ namespace Parser.Tests
             //list.Add(new ScannerToken(TokenType.NEWLINE, "", 1, 7));
             //list.Add(new ScannerToken(TokenType.EOF, "", 1, 7));
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
 
             Assert.False(Parser.HasError);
@@ -219,9 +219,9 @@ namespace Parser.Tests
             //list.Add(new ScannerToken(TokenType.NEWLINE, "", 1, 7));
             //list.Add(new ScannerToken(TokenType.EOF, "", 1, 7));
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
 
             Assert.False(Parser.HasError);
@@ -281,9 +281,9 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.END, "5", 2, 5));
             list.Add(new ScannerToken(TokenType.IF, "5", 2, 5));
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
             Assert.False(Parser.HasError);
         }
@@ -303,9 +303,9 @@ namespace Parser.Tests
             list.Add(new ScannerToken(TokenType.END, "5", 3, 5));
             list.Add(new ScannerToken(TokenType.IF, "5", 3, 5));
 
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
             Assert.False(Parser.HasError);
         }
@@ -315,9 +315,9 @@ namespace Parser.Tests
         {
             List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT);
             
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
             Assert.False(Parser.HasError);
         }
@@ -327,9 +327,9 @@ namespace Parser.Tests
         {
             List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYLEFT,NUMERIC,ARRAYRIGHT);
             
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
             Assert.True(Parser.HasError);
         }
@@ -339,9 +339,9 @@ namespace Parser.Tests
         {
             List<ScannerToken> list = CreateList(ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
             
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
             Assert.True(Parser.HasError);
         }
@@ -351,9 +351,9 @@ namespace Parser.Tests
         {
             List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
             
-            Parser parsenizer = new Parser(list);
+            Parser parser = new Parser(list);
 
-            parsenizer.Parse(out nowhere);
+            parser.Parse(out nowhere);
 
             Assert.False(Parser.HasError);
         }

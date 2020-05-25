@@ -3,6 +3,7 @@ using Lexer.Exceptions;
 
 namespace Lexer.Objects
 {
+    
     public class TypeContext
     {
         private TokenType _tokenType { get; set; }

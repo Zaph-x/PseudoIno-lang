@@ -93,27 +93,27 @@ namespace Core
                     Console.Error.WriteLine(e.Message);
                     return 20;
                 }
-                Tokeniser tokenizer = new Tokeniser(reader);
+                Tokeniser tokeniser = new Tokeniser(reader);
                 verbosePrinter.Info("Generating tokens...");
-                tokenizer.GenerateTokens();
+                tokeniser.GenerateTokens();
                 if (Tokeniser.HasError)
                 {
                     verbosePrinter.Error("Encountered syntax errors. Stopping.");
                     return 5;
                 }
-                verbosePrinter.Info($" Generated {tokenizer.Tokens.Count} tokens.");
+                verbosePrinter.Info($" Generated {tokeniser.Tokens.Count} tokens.");
                 if (options.Verbose)
                 {
-                    foreach (var token in tokenizer.Tokens)
+                    foreach (var token in tokeniser.Tokens)
                     {
                         verbosePrinter.Info(token);
                     }
                 }
                 verbosePrinter.Info("Generating parse table");
-                List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-                Parser.Parser parsenizer = new Parser.Parser(tokens);
+                List<ScannerToken> tokens = tokeniser.Tokens.ToList();
+                Parser.Parser parser = new Parser.Parser(tokens);
                 string debugMessage = "";
-                parsenizer.Parse(out debugMessage);
+                parser.Parse(out debugMessage);
                 verbosePrinter.Info(debugMessage);
                 if (Parser.Parser.HasError)
                 {
@@ -122,9 +122,9 @@ namespace Core
                 }
                 if (options.PrettyPrinter)
                 {
-                    parsenizer.Root.Accept(new PrettyPrinter());
+                    parser.Root.Accept(new PrettyPrinter());
                 }
-                parsenizer.Root.Accept(new TypeChecker());
+                parser.Root.Accept(new TypeChecker());
                 if (TypeChecker.HasError)
                 {
                     verbosePrinter.Error("Encountered an error in the type checker. Stopping.");
@@ -137,7 +137,7 @@ namespace Core
                 {
                     if (File.Exists($"{path}PrecompiledBinaries/tmp/sketch/output.cpp"))
                         File.Delete($"{path}PrecompiledBinaries/tmp/sketch/output.cpp");
-                    parsenizer.Root.Accept(new CodeGenerationVisitor($"{path}PrecompiledBinaries/tmp/sketch/output.cpp", GetPWMSet()));
+                    parser.Root.Accept(new CodeGenerationVisitor($"{path}PrecompiledBinaries/tmp/sketch/output.cpp", GetPWMSet()));
                 }
                 catch (FileNotFoundException e)
                 {

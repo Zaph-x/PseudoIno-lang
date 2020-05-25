@@ -166,9 +166,9 @@ end loop
         public void Test_Program(string program)
         {
             StreamReader FakeReader = CreateFakeReader(program, Encoding.UTF8);
-            Tokeniser tokenizer = new Tokeniser(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Tokeniser tokeniser = new Tokeniser(FakeReader);
+            tokeniser.GenerateTokens();
+            List<ScannerToken> tokens = tokeniser.Tokens.ToList();
             Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out nowhere);
             if (Parser.Parser.HasError)

@@ -529,6 +529,15 @@ namespace AbstractSyntaxTree.Objects
         public override object Visit(ArrayNode arrayNode)
         {
             Print("Array");
+            indent++;
+            arrayNode.ActualId.Accept(this);
+            arrayNode.FirstAccess.Accept(this);
+            arrayNode.HasBeenAccessed.ToString.
+             if (arrayNode.Dimensions.Any())
+            {
+                arrayNode.Dimensions.ForEach(node => node.Accept(this));
+            }
+
             return null;
         }
 

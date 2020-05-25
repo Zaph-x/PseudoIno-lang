@@ -289,9 +289,9 @@ end loop";
         public void Test_CodeGenVisitor_content(int n, string prog)
         {
             StreamReader FakeReader = CreateFakeReader(prog, Encoding.UTF8);
-            Tokeniser tokenizer = new Tokeniser(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Tokeniser tokeniser = new Tokeniser(FakeReader);
+            tokeniser.GenerateTokens();
+            List<ScannerToken> tokens = tokeniser.Tokens.ToList();
             Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out dbg);
             if (Parser.Parser.HasError)
@@ -307,9 +307,9 @@ end loop";
         public void Test_CodeGenVisitor_content_fail()
         {
             StreamReader FakeReader = CreateFakeReader(Array_Declaration, Encoding.UTF8);
-            Tokeniser tokenizer = new Tokeniser(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            Tokeniser tokeniser = new Tokeniser(FakeReader);
+            tokeniser.GenerateTokens();
+            List<ScannerToken> tokens = tokeniser.Tokens.ToList();
             Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out dbg);
             if (Parser.Parser.HasError)
