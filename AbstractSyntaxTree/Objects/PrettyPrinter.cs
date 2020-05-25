@@ -292,7 +292,9 @@ namespace AbstractSyntaxTree.Objects
             return null;
         }
         /// <summary>
-        /// This method prints the ifStatementNode 
+        /// This method prints the ifStatementNode and make an indentation
+        /// It accepts Expresstion if there is any and also accepts all ifStatement nodes
+        /// Then outdent
         /// </summary>
         /// <param name="ifStatementNode">The node to print.</param>
         /// <returns>Returns null</returns>
@@ -308,41 +310,78 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
+        /// <summary>
+        /// This method prints the lessNode 
+        /// </summary>
+        /// <param name="lessNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(LessNode lessNode)
         {
             Print("LessNode");
             return null;
         }
+        /// <summary>
+        /// This method prints the plusNode 
+        /// </summary>
+        /// <param name="plusNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(PlusNode plusNode)
         {
             Print("PlusNode");
 
             return null;
         }
+        /// <summary>
+        /// This method prints the minusNode 
+        /// </summary>
+        /// <param name="minusNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(MinusNode minusNode)
         {
             Print("MinusNode");
 
             return null;
         }
+        /// <summary>
+        /// This method prints the moduloNode 
+        /// </summary>
+        /// <param name="moduloNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ModuloNode moduloNode)
         {
             Print("ModuloNode");
 
             return null;
         }
+        /// <summary>
+        /// This method prints the orNode 
+        /// </summary>
+        /// <param name="orNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(OrNode orNode)
         {
             Print("OrNode");
 
             return null;
         }
+        /// <summary>
+        /// This method prints the stringNode 
+        /// </summary>
+        /// <param name="stringNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(StringNode stringNode)
         {
             Print("StringNode");
 
             return null;
         }
+        /// <summary>
+        /// This method prints the whileNode and make an indentation
+        /// It accepts expressions and all statements in the while node
+        /// Then outdent
+        /// </summary>
+        /// <param name="whileNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(WhileNode whileNode)
         {
             Print("WhileNode");
@@ -355,6 +394,12 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
+        /// <summary>
+        /// This method prints the elseStatement and make an indentation
+        /// It then accepts all the statement and then outdent
+        /// </summary>
+        /// <param name="elseStatement">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ElseStatementNode elseStatement)
         {
             Print("ElseStatementNode");
@@ -366,6 +411,13 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
+        /// <summary>
+        /// This method prints the elseifStatementNode and make an indentation
+        /// It accepts the Val and Expressions if there exist any
+        /// Then it accepts all the statements and then lastly outdent
+        /// </summary>
+        /// <param name="elseifStatementNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ElseifStatementNode elseifStatementNode)
         {
             Print("ElseifStatementNode");
@@ -379,6 +431,7 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
+        
         public override object Visit(ReturnNode returnNode)
         {
             Print("ReturnNode");

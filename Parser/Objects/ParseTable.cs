@@ -124,6 +124,7 @@ namespace Parser.Objects
             this[EXPR, CALL] = new ParseAction(200,FUNCCALL, FOLLOWTERM);
 
             this[FOLLOWTERM, EOF] = new ParseAction(9000);
+            this[FOLLOWTERM, ARRAYINDEX] = new ParseAction(0);
             this[FOLLOWTERM, WAIT] = new ParseAction(9001);
             this[FOLLOWTERM, END] = new ParseAction(9002);
             this[FOLLOWTERM, DO] = new ParseAction(9003);
@@ -177,6 +178,7 @@ namespace Parser.Objects
             this[FOLLOWFACTOR, OP_NOT] = new ParseAction(90032);
             this[FOLLOWFACTOR, OP_GREATER] = new ParseAction(90033);
             this[FOLLOWFACTOR, OP_LESS] = new ParseAction(90034);
+            this[FOLLOWFACTOR, ARRAYINDEX] = new ParseAction(0);
             this[FOLLOWFACTOR, OP_AND] = new ParseAction(90035);
             this[FOLLOWFACTOR, OP_DIVIDE] = new ParseAction(65,FACTOROP, TERM);
             this[FOLLOWFACTOR, OP_MODULO] = new ParseAction(66,FACTOROP, TERM);

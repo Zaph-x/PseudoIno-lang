@@ -12,9 +12,6 @@ using CodeGeneration;
 using Lexer.Objects;
 using Contextual_analysis;
 
-/// <summary>
-/// The Core namespace signifies that you are using a core part of the compiler.
-/// </summary>
 namespace Core
 {
     /// <summary>
@@ -270,10 +267,10 @@ namespace Core
 
         /// <summary>
         /// This function will parse the flags passed to the compiler.
-        /// This is done using a switch case, which will then set the correct flags and values in the compiler options. <see cref="Core.Objects.CommandLineOptions">
+        /// This is done using a switch case, which will then set the correct flags and values in the compiler options.
         /// </summary>
         /// <param name="args">The arguments provided to the compiler on invokation</param>
-        /// <returns>A CommandLineOptions object, containing the options specified by the user. <see cref="Core.Objects.CommandLineOptions"></returns>
+        /// <returns>A CommandLineOptions object, containing the options specified by the user.</returns>
         public static CommandLineOptions ParseOptions(string[] args)
         {
             CommandLineOptions options = new CommandLineOptions();
