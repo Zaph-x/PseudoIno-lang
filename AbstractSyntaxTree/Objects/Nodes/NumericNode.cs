@@ -21,7 +21,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
             FValue = _f;
             IValue = _i;
         }
-
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public override object Accept(Visitor visitor) {
             return visitor.Visit(this);
         }

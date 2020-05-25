@@ -8,6 +8,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         {
         }
 
+        /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public override object Accept(Visitor visitor)
         {
             return visitor.Visit(this);
