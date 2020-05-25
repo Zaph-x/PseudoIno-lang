@@ -31,25 +31,25 @@ namespace Core
         /// Here the user must provide a set of compiler flags, in order for the compiler to produce a satisfying product.
         /// The user must provide a filepath to the file they wish to compile. Otherwise the compiler will halt and exit with an exit code of 1.
         /// Compiler flags can be provided to activate additional functionality.
-        /// <b>Compiler flags</b>
-        /// <c>-d</c> or <c>--dryrun</c> Runs the compiler without producing an output.
-        /// <c>-o</c> or <c>--output</c> Tells the compiler not to write to the Arduino, and instead produce a file.
-        /// <c>-v</c> or <c>--verbose</c> Prints additional information when compiling.
-        /// <c>-b</c> or <c>--boilerplate</c> Generates a boilerplate file for your code.
-        /// <c>-l</c> or <c>--logfile</c> (Must be followed by a file path) Prints additional information when compiling.
-        /// <c>-p</c> or <c>--port</c> (Must be followed by a port number) Specifies the port to upload to.
-        /// <c>-a</c> or <c>--arduino</c> (Must be followed by an Arduino model) Specifies the arduino model you're uploading to. (Default: UNO)
-        /// <c>-pr</c> or <c>--proc</c> (Must be followed by a valid processor) Specifies the arduino processor you're uploading to. (Default: atmega328p)
-        /// <c>-pp</c> or <c>--prettyprinter</c> Print the abstract syntax tree.
-        /// <b>Compiler exit code</b>
-        /// <c>0</c> Compilation finished with no errors.
-        /// <c>1</c> A file path was not provided to the compiler for compilation.
-        /// <c>20</c> The file provided was not encoded as a UTF-8 file.
-        /// <c>5</c> An error was encountered while scanning the input program. This is usually caused by an unclosed string, comment, or parenthesis.
-        /// <c>4</c> An error was encountered in the parser. This is usually due to an invalidly structured program.
-        /// <c>3</c> An error was encountered in the type checker. This happens when two types are mismatched, either on assignment or within an expression. Furthermore, this can be caused by not defining a called function, or a function being defined multiple times.
-        /// <c>2</c> This error is encountered when the code generator can not find the output file for the intermediate representation code.
-        /// <c>23</c> This error is encountered when the dryrun flag is invoked, but the compiler can not find the output file for the intermediate representation code.
+        /// **Compiler flags**
+        /// `-d` or `--dryrun` Runs the compiler without producing an output.
+        /// `-o` or `--output` Tells the compiler not to write to the Arduino, and instead produce a file.
+        /// `-v` or `--verbose` Prints additional information when compiling.
+        /// `-b` or `--boilerplate` Generates a boilerplate file for your code.
+        /// `-l` or `--logfile` (Must be followed by a file path) Prints additional information when compiling.
+        /// `-p` or `--port` (Must be followed by a port number) Specifies the port to upload to.
+        /// `-a` or `--arduino` (Must be followed by an Arduino model) Specifies the arduino model you're uploading to. (Default: UNO)
+        /// `-pr` or `--proc` (Must be followed by a valid processor) Specifies the arduino processor you're uploading to. (Default: atmega328p)
+        /// `-pp` or `--prettyprinter` Print the abstract syntax tree.
+        /// **Compiler exit code**
+        /// `0` Compilation finished with no errors.
+        /// `1` A file path was not provided to the compiler for compilation.
+        /// `20` The file provided was not encoded as a UTF-8 file.
+        /// `5` An error was encountered while scanning the input program. This is usually caused by an unclosed string, comment, or parenthesis.
+        /// `4` An error was encountered in the parser. This is usually due to an invalidly structured program.
+        /// `3` An error was encountered in the type checker. This happens when two types are mismatched, either on assignment or within an expression. Furthermore, this can be caused by not defining a called function, or a function being defined multiple times.
+        /// `2` This error is encountered when the code generator can not find the output file for the intermediate representation code.
+        /// `23` This error is encountered when the dryrun flag is invoked, but the compiler can not find the output file for the intermediate representation code.
         /// </summary>
         /// <param name="args">The arguments passed to the compiler from the terminal.</param>
         /// <returns>An exit code representing the state the compiler exited in.</returns>
