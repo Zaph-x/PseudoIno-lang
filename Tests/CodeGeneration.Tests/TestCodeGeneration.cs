@@ -276,7 +276,23 @@ func loop
   a is call foo with true, false
 end loop";
 
-        string dbg;
+private const string pwm =
+    @"
+apin9 is 0
+apin9 is 128
+func loop
+
+end loop";
+
+private const string pin_fail =
+    @"
+dpin9 is 0
+a is dpin9
+func loop
+
+end loop";
+
+string dbg;
 
         [SetUp]
         public void TestInit()
@@ -326,6 +342,7 @@ end loop";
         [TestCase(19,call_2_param_divide)]
         [TestCase(20,call_2_param_and)]
         //[TestCase(21,call_2_param_string)]
+        [TestCase(22,pwm)]
         public void Test_CodeGenVisitor_content(int n, string prog)
         {
             StreamReader FakeReader = CreateFakeReader(prog, Encoding.UTF8);
@@ -359,6 +376,24 @@ end loop";
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
             parser.Root.Accept(codeGenerationVisitor);
             Assert.IsFalse(CodeGenerationVisitor.HasError, "Code gen visitor encountered an error");
+        }
+        
+        [Test]
+        public void Test_CodeGenVisitor_pin_fail()
+        {
+            StreamReader FakeReader = CreateFakeReader(pin_fail, Encoding.UTF8);
+            Tokeniser tokeniser = new Tokeniser(FakeReader);
+            tokeniser.GenerateTokens();
+            List<ScannerToken> tokens = tokeniser.Tokens.ToList();
+            Parser.Parser parser = new Parser.Parser(tokens);
+            parser.Parse(out dbg);
+            if (Parser.Parser.HasError)
+                Assert.Fail("The parser encountered an error\n\n" + dbg);
+            parser.Root.Accept(new TypeChecker());
+            Assert.IsFalse(TypeChecker.HasError, "Typechecker visitor encountered an error");
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
+            parser.Root.Accept(codeGenerationVisitor);
+            Assert.IsTrue(CodeGenerationVisitor.HasError, "Code gen visitor encountered an error");
         }
         
         public StreamReader CreateFakeReader(string content, Encoding enc)
