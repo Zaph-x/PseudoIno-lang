@@ -90,8 +90,8 @@ if( a > b and b >=a or b<=a) do
 #do nothing
 apin1 is on
 end if  
-a is [2]
-f is a@1
+#a is [2]
+#f is a@1
 end loop
  ";
 
