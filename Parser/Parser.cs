@@ -1127,17 +1127,31 @@ namespace Parser
                     {
                         if (token.Type == ARRAYINDEX)
                         {
-                            ArrayNode arr = _builder.CurrentSymbolTable.FindArray(token.Value);
-                            arr.FirstAccess = (AssignmentNode)Current;
-                            ArrayAccessNode node = new ArrayAccessNode(arr, CurrentLine, CurrentOffset);
-                            if (((AssignmentNode)Current).LeftHand == null)
+                            if (Current == null)
                             {
-                                ((AssignmentNode)Current).LeftHand = node;
+                                Current = new AssignmentNode(CurrentLine, CurrentOffset);
+                                ((IScope)TopScope()).Statements.Add((StatementNode)Current);
                             }
-                            else
+
+                            try
                             {
-                                ((AssignmentNode)Current).RightHand.LeftHand = new ExpressionTerm(token) { LeftHand = node };
+                                ArrayNode arr = _builder.CurrentSymbolTable.FindArray(token.Value);
+                                arr.FirstAccess = (AssignmentNode)Current;
+                                ArrayAccessNode node = new ArrayAccessNode(arr, CurrentLine, CurrentOffset);
+                                if (((AssignmentNode)Current).LeftHand == null)
+                                {
+                                    ((AssignmentNode)Current).LeftHand = node;
+                                }
+                                else
+                                {
+                                    ((AssignmentNode)Current).RightHand.LeftHand = new ExpressionTerm(token) { LeftHand = node };
+                                }
                             }
+                            catch (NullReferenceException)
+                            {
+                                new InvalidTokenException($"Array {token.Value} not declared before use at {token.Line}:{token.Offset}");
+                            }
+                            
                         }
                     }
                     break;
@@ -1147,13 +1161,20 @@ namespace Parser
                     {
                         if (Current.Type == ASSIGNMENT)
                         {
-                            if (((AssignmentNode)Current).LeftHand.Type == ARRAYACCESSING)
+                            try
                             {
-                                ((ArrayAccessNode)((AssignmentNode)Current).LeftHand).Accesses.Add(new NumericNode(token.Value, token));
+                                if (((AssignmentNode)Current).LeftHand.Type == ARRAYACCESSING)
+                                {
+                                    ((ArrayAccessNode)((AssignmentNode)Current).LeftHand).Accesses.Add(new NumericNode(token.Value, token));
+                                }
+                                else
+                                {
+                                    ((ArrayAccessNode)((ExpressionTerm)((AssignmentNode)Current).RightHand.LeftHand).LeftHand).Accesses.Add(new NumericNode(token.Value, token));
+                                }
                             }
-                            else
+                            catch (NullReferenceException)
                             {
-                                ((ArrayAccessNode)((ExpressionTerm)((AssignmentNode)Current).RightHand.LeftHand).LeftHand).Accesses.Add(new NumericNode(token.Value, token));
+                                new InvalidTokenException($"Array {token.Value} not declared before use at {token.Line}:{token.Offset}");
                             }
                         }
                     }

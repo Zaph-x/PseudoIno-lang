@@ -95,8 +95,19 @@ func loop
 end loop";
         const string exceptionProgram2 =
 @"wait 1s";
+        const string exceptionProgram3 =
+@"func foo with a
+    a is on;
+end foo
+func foo with a
+    a is on
+end foo
+func loop
+end loop
+";
         [TestCase(exceptionProgram1)]
         [TestCase(exceptionProgram2)]
+        [TestCase(exceptionProgram3)]
         public void Test_TypeChecker_CanThrowExceptions(string program)
         {
             StreamReader reader = CreateFakeReader(program);
@@ -114,5 +125,6 @@ end loop";
             byte[] fakeBytes = Encoding.UTF8.GetBytes(content);
             return new StreamReader(new MemoryStream(fakeBytes), Encoding.UTF8, false);
         }
+       
     }
 }
