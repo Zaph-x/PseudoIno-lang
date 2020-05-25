@@ -431,7 +431,13 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
-        
+        /// <summary>
+        /// This method prints the returnNode and make an indentation
+        /// Then accepts the value of the return
+        /// Then it outdent
+        /// </summary>
+        /// <param name="returnNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ReturnNode returnNode)
         {
             Print("ReturnNode");
@@ -440,19 +446,32 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
-
+        /// <summary>
+        /// This method prints the greaterNode 
+        /// </summary>
+        /// <param name="greaterNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(GreaterOrEqualNode greaterNode)
         {
             Print("GreaterOrEqualNode");
             return null;
         }
-
+        /// <summary>
+        /// This method prints the lessNode 
+        /// </summary>
+        /// <param name="lessNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(LessOrEqualNode lessNode)
         {
             Print("LessOrEqualNode");
             return null;
         }
-
+        /// <summary>
+        /// This method prints the expressionTermNode and make an indentation
+        /// Then accepts the lefthand of the expression and then outdent
+        /// </summary>
+        /// <param name="expressionTermNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ExpressionTerm expressionTermNode)
         {
             Print("ExpressionTerm");
@@ -461,7 +480,14 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
-
+        /// <summary>
+        /// This method prints the binaryExpresstion and make an indentation
+        /// It accepts the lef-and righthandside of the expresstion
+        /// It accepts the operator if there exist any
+        /// Then it outdent
+        /// </summary>
+        /// <param name="binaryExpression">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(BinaryExpression binaryExpression)
         {
             Print("BinaryExpression");
@@ -472,7 +498,14 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
-
+        /// <summary>
+        /// This method prints the paraenthesisExpression and then make an indentation
+        /// It accepts the lef-and righthandside of the expresstion
+        /// It accepts the operator if there exist any
+        /// Then it outdent
+        /// </summary>
+        /// <param name="paraenthesisExpression">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ParenthesisExpression parenthesisExpression)
         {
             Print("ParenthesisExpression");
@@ -483,21 +516,26 @@ namespace AbstractSyntaxTree.Objects
             Indent--;
             return null;
         }
-
+        /// <summary>
+        /// This method prints the boolNode 
+        /// </summary>
+        /// <param name="boolNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(BoolNode boolNode)
         {
             Print("Bool");
             return null;
         }
-
         public override object Visit(ArrayNode arrayNode)
         {
-            throw new NotImplementedException();
+            Print("Array");
+            return null;
         }
 
         public override object Visit(ArrayAccessNode arrayAccess)
         {
-            throw new NotImplementedException();
+            Print("ArrayAccess");
+            return null;
         }
     }
 }

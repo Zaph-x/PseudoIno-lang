@@ -25,19 +25,28 @@ namespace Parser.Objects
             get => Table[key1.Type][key2.Type];
             set => Table[key1.Type][key2.Type] = value;
         }
-
+        /// <summary>
+        /// Access of table using tokentypes
+        /// </summary>
+        /// <value>A transition rule. <see cref="ParseAction"/></value>
         public ParseAction this[TokenType key1, TokenType key2]
         {
             get => Table[key1][key2];
             set => Table[key1][key2] = value;
         }
 
+        /// <summary>
+        /// The constructor for the parse table. Here the table is initialised and created.
+        /// </summary>
         public ParseTable()
         {
             Init();
             InitTable();
         }
 
+        /// <summary>
+        /// This method will initialise all locations as errors
+        /// </summary>
         private void Init()
         {
 
@@ -52,7 +61,10 @@ namespace Parser.Objects
                 }
             }
         }
-
+        
+        /// <summary>
+        /// This method fills in all the transition rules in the table.
+        /// </summary>
         public void InitTable()
         {
             this[PROG, EOF] = new ParseAction(0,STMNTS);
