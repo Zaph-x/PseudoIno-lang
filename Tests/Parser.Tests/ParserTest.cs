@@ -588,6 +588,70 @@ namespace Parser.Tests
         }
         
         [Test]
+        public void Test_ParseTable_116()
+        {
+            List<ScannerToken> list = CreateList(FUNC,VAR,END,VAR,BEGIN,WHILE,BOOL,DO,END,WHILE);
+            list[1].Value = " ";
+            list[6].Value = "true";
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_BOOL_not_fail()
+        {
+            List<ScannerToken> list = CreateList(BEGIN,WHILE,BOOL,DO,END,WHILE);
+            Parser parser = new Parser(list);
+
+            Assert.Throws<FormatException>(() => parser.Parse(out nowhere)) ;
+
+            //Assert.True(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_BOOL_expr()
+        {
+            List<ScannerToken> list = CreateList(BEGIN,WHILE,OP_LPAREN,BOOL,OP_AND,BOOL,OP_RPAREN,DO,END,WHILE);
+            list[3].Value = "true";
+            list[5].Value = "false";
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_BOOL_expr_long()
+        {
+            List<ScannerToken> list = CreateList(BEGIN,WHILE,OP_LPAREN,OP_LPAREN,BOOL,OP_AND,BOOL,OP_RPAREN,OP_OR,BOOL,OP_RPAREN,DO,END,WHILE);
+            list[4].Value = "true";
+            list[6].Value = "false";
+            list[9].Value = "false";
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_array_outofrange()
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,ARRAYLEFT,NUMERIC,ARRAYRIGHT,ARRAYINDEX,NUMERIC,ASSIGN,NUMERIC);
+            list[3].Value = "2";
+            list[6].Value = "5";
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
         public void Test_ParseTable_devision_by_zero_fail()
         {
             List<ScannerToken> list = CreateList(BEGIN,WHILE,VAR,OP_LESS,OP_LPAREN,NUMERIC,OP_DIVIDE,NUMERIC,OP_RPAREN,DO,END, WHILE);
