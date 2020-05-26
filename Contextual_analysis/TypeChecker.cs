@@ -128,6 +128,7 @@ namespace Contextual_analysis
             return (CurrentScope ?? GlobalScope).FindSymbol(varNode);
         }
 
+
         public override object Visit(TimeSecondNode timeSecondNode)
         {
             return null;
