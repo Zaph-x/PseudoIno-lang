@@ -501,6 +501,54 @@ namespace Parser.Tests
 
             Assert.False(Parser.HasError);
         }
+        
+        [Test]
+        public void Test_ParseTable_Apin_109_3()
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,OP_LPAREN,APIN,OP_PLUS,NUMERIC,OP_RPAREN);
+            
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_Apin_109_4()
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,APIN,OP_PLUS,OP_LPAREN,NUMERIC,OP_PLUS,NUMERIC,OP_RPAREN);
+            
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_Call_Paren()
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,OP_LPAREN,OP_LPAREN,CALL,VAR,OP_RPAREN,OP_PLUS,NUMERIC,OP_RPAREN);
+            
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
+        
+        [Test]
+        public void Test_ParseTable_90037()
+        {
+            List<ScannerToken> list = CreateList(VAR,ASSIGN,OP_LPAREN,OP_LPAREN,NUMERIC,OP_MODULO,NUMERIC,OP_RPAREN,OP_PLUS,NUMERIC,OP_RPAREN);
+            
+            Parser parser = new Parser(list);
+
+            parser.Parse(out nowhere);
+
+            Assert.False(Parser.HasError);
+        }
 
         private List<ScannerToken> CreateList(params TokenType[] tokens)
         {
