@@ -1,9 +1,19 @@
 using Lexer.Objects;
-
+/// <summary>
+/// This namespace gives access to node objects in the AST
+/// </summary>
 namespace AbstractSyntaxTree.Objects.Nodes
 {
+    /// <summary>
+    /// This is the time second node class
+    /// It inherits from the time node class
+    /// </summary>
     public class TimeSecondNode : TimeNode
     {
+        /// <summary>
+        /// This is the constructor for time second node
+        /// </summary>
+        /// <param name="token">This is the token</param>
         public TimeSecondNode( ScannerToken token) : base(token)
         {
         }

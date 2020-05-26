@@ -1,9 +1,19 @@
 using Lexer.Objects;
-
+/// <summary>
+/// This namespace gives access to node objects in the AST
+/// </summary>
 namespace AbstractSyntaxTree.Objects.Nodes
 {
+    /// <summary>
+    /// This is the class for less node
+    /// It inherits the math operator node
+    /// </summary>
     public class LessNode : MathOperatorNode
     {
+        /// <summary>
+        /// This is the construcor for less node
+        /// </summary>
+        /// <param name="token">This is the token</param>
         public LessNode( ScannerToken token) : base(token)
         {
         }
