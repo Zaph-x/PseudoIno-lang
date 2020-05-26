@@ -403,7 +403,7 @@ namespace Contextual_analysis
             {
                 return expressionNode.SymbolType = new TypeContext(BOOL);
             }
-            if (IsOfTypes(rhs, BOOL) && lhs.Type == NUMERIC && expressionNode.RightHand.LeftHand.SymbolType.Type == NUMERIC)
+            if (IsOfTypes(rhs, BOOL) && (lhs.Type == NUMERIC && expressionNode.RightHand.LeftHand.SymbolType.Type == NUMERIC))
             {
                 return expressionNode.SymbolType = rhs;
             }
@@ -467,7 +467,7 @@ namespace Contextual_analysis
             {
                 return expressionNode.SymbolType = new TypeContext(BOOL);
             }
-            if (IsOfTypes(rhs, BOOL) && lhs.Type == NUMERIC && expressionNode.RightHand.LeftHand.SymbolType.Type == NUMERIC)
+            if (IsOfTypes(rhs, BOOL) && (lhs.Type == NUMERIC && expressionNode.RightHand.LeftHand.SymbolType.Type == NUMERIC))
             {
                 return expressionNode.SymbolType = rhs;
             }
