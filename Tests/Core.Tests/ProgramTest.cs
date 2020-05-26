@@ -66,8 +66,8 @@ namespace Core.Tests
         [TestCase("--Output")]
         [TestCase("-v")]
         [TestCase("--verbose")]
-        [TestCase("-b")]
-        [TestCase("--boilerplate")]
+        [TestCase("-l")]
+        [TestCase("--logfile")]
         [TestCase("-pp")]
         [TestCase("--prettyprinter")]
         public void Test_Main_ShouldErrorOnNoFile(string option)
@@ -76,12 +76,22 @@ namespace Core.Tests
 
             Assert.IsTrue(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
         }
+
         [Test]
         public void Test_Main_LogFile()
         {
             Program.Main(new string[] { "./input.pi", "--logfile", "./logfiletest", "-d", "-pr", "atmega32u4" });
 
             Assert.IsTrue(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
+        }
+      
+        [TestCase("-b")]
+        [TestCase("--boilerplate")]
+        public void Test_Main_ShouldPassOnNoFile(string option)
+        {
+            Program.Main(new string[] { "./input.pi",option });
+
+            Assert.IsFalse(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
         }
     }
 }
