@@ -1,8 +1,6 @@
 using Lexer.Objects;
 using System.Runtime.CompilerServices;
-/// <summary>
-/// This namespace gives access to node objects in the AST
-/// </summary>
+
 namespace AbstractSyntaxTree.Objects.Nodes
 {
     /// <summary>

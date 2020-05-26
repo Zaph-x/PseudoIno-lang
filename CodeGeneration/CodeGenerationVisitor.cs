@@ -10,9 +10,7 @@ using Contextual_analysis.Exceptions;
 using Lexer.Objects;
 using SymbolTable;
 
-/// <summary>
-/// This name space indicated that the codegeneration is being used
-/// </summary>
+
 namespace CodeGeneration
 {
     /// <summary>
@@ -393,7 +391,7 @@ namespace CodeGeneration
         /// This method visits an and node
         /// </summary>
         /// <param name="andNode">The name of the node</param>
-        /// <returns>Returns "&&"</returns>
+        /// <returns>Returns &amp;&amp;</returns>
         public override object Visit(AndNode andNode)
         {
             return " && ";
@@ -551,7 +549,7 @@ namespace CodeGeneration
         /// This method visits a greater node
         /// </summary>
         /// <param name="greaterNode">The name of the node</param>
-        /// <returns>It returns ">"</returns>
+        /// <returns>It returns &gt;</returns>
         public override object Visit(GreaterNode greaterNode)
         {
             return " > ";
@@ -560,7 +558,7 @@ namespace CodeGeneration
         /// This method visits a greater or equal node
         /// </summary>
         /// <param name="greaterNode">The name of the node</param>
-        /// <returns>It returns ">="</returns>
+        /// <returns>It returns &gt;=;</returns>
         public override object Visit(GreaterOrEqualNode greaterNode)
         {
             return " >= ";
@@ -593,7 +591,7 @@ namespace CodeGeneration
         /// This method visits a less node
         /// </summary>
         /// <param name="lessNode">The name of the node</param>
-        /// <returns>It returns "<"</returns>
+        /// <returns>It returns &lt;</returns>
         public override object Visit(LessNode lessNode)
         {
             return " < ";
@@ -602,7 +600,7 @@ namespace CodeGeneration
         /// This method visits a less or equal node
         /// </summary>
         /// <param name="lessNode">The name of the node</param>
-        /// <returns>It returns "<=" </returns>
+        /// <returns>It returns &lt;= </returns>
         public override object Visit(LessOrEqualNode lessNode)
         {
             return " <= ";
@@ -629,7 +627,7 @@ namespace CodeGeneration
         /// This method visits a modulo node
         /// </summary>
         /// <param name="moduloNode">The name of the node</param>
-        /// <returns>It returns the "&" </returns>
+        /// <returns>It returns the "&amp;" </returns>
         public override object Visit(ModuloNode moduloNode)
         {
             return " % ";
@@ -823,7 +821,7 @@ namespace CodeGeneration
         }
         /// <summary>
         /// This method visits an array access node
-        /// 
+        /// It checks what array is being accessed, and accesses it with the according dimensional access.
         /// </summary>
         /// <param name="arrayAccess"></param>
         /// <returns></returns>

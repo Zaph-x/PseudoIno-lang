@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System;
 using Lexer.Objects;
-/// <summary>
-/// This namespace gives access to node objects in the AST
-/// </summary>
+
 namespace AbstractSyntaxTree.Objects.Nodes
 {
     /// <summary>
