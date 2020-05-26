@@ -83,5 +83,12 @@ namespace Core.Tests
 
             Assert.IsTrue(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
         }
+        [Test]
+        public void Test_Main_Fileencoding()
+        {
+            Program.Main(new string[] { "./input23.pi", "--logfile", "./logfiletest", "-d", "-pr", "atmega32u4" });
+
+            Assert.IsTrue(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
+        }
     }
 }
