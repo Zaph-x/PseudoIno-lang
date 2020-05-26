@@ -65,6 +65,35 @@ func loop
     a is off
 end loop
 ";
+        private const string content3 =
+@"
+func loop
+    wait 4s
+    wait 4m
+    wait 4h
+    wait 4ms
+end loop
+";
+        private const string content4 =
+@"
+func loop
+  a is 2
+  b is 3
+ a is  a + b
+  a is a-b
+if( a or b) do
+ d is b%a
+c is ""test1222!""
+e is a/d
+end if 
+if( a > b and b >=a or b<=a) do
+#do nothing
+apin1 is on
+end if  
+a is [2]
+f is a@1
+end loop
+ ";
 
         string nowhere;
 
@@ -74,13 +103,15 @@ end loop
             Parser.Parser.HasError = false;
         }
 
-        [Test]
-        public void Test_ASTHelper_Assign_2()
+        [TestCase(content2)]
+        [TestCase(content3)]
+        [TestCase(content4)]
+        public void Test_ASTHelper_Assign_2(string test)
         {
-            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
-            Tokeniser tokenizer = new Tokeniser(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
+            StreamReader FakeReader = CreateFakeReader(test, Encoding.UTF8);
+            Tokeniser tokeniser = new Tokeniser(FakeReader);
+            tokeniser.GenerateTokens();
+            List<ScannerToken> tokens = tokeniser.Tokens.ToList();
             Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out nowhere);
             if (Parser.Parser.HasError)
