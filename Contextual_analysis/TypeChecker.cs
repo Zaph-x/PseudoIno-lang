@@ -160,6 +160,7 @@ namespace Contextual_analysis
         {
             return (CurrentScope ?? GlobalScope).FindSymbol(varNode);
         }
+
         /// <summary>
         /// This method type checks the TimeSecondNode node in the AST.
         /// </summary>

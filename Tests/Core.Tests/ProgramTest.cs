@@ -29,6 +29,13 @@ namespace Core.Tests
         [TestCase("--DryRun")]
         [TestCase("-o")]
         [TestCase("--Output")]
+        [TestCase("-v")]
+        [TestCase("-b")]
+        [TestCase("--boilerplate")]
+        [TestCase("-l")]
+        [TestCase("--logfile")]
+        [TestCase("-pp")]
+        [TestCase("--prettyprinter")]
         public void Test_Help_ShouldContainOption(string option)
         {
             Program.Help();
@@ -40,6 +47,12 @@ namespace Core.Tests
         [TestCase("--DryRun")]
         [TestCase("-o")]
         [TestCase("--Output")]
+        [TestCase("-v")]
+        [TestCase("--Verbose")]
+        [TestCase("-b")]
+        [TestCase("--boilerplate")]
+        [TestCase("-pp")]
+        [TestCase("--prettyprinter")]
         public void Test_Parse_ShouldAcceptValidOptions(string option)
         {
             Program.ParseOptions(new string[] { "test.pi", option });
@@ -51,9 +64,24 @@ namespace Core.Tests
         [TestCase("--DryRun")]
         [TestCase("-o")]
         [TestCase("--Output")]
+        [TestCase("-v")]
+        [TestCase("--verbose")]
+        [TestCase("-b")]
+        [TestCase("--boilerplate")]
+        [TestCase("-l")]
+        [TestCase("--logfile")]
+        [TestCase("-pp")]
+        [TestCase("--prettyprinter")]
         public void Test_Main_ShouldErrorOnNoFile(string option)
         {
             Program.Main(new string[] { option });
+
+            Assert.IsTrue(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
+        }
+        [Test]
+        public void Test_Main_LogFile()
+        {
+            Program.Main(new string[] { "./input.pi", "--logfile", "./logfiletest", "-d" });
 
             Assert.IsTrue(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
         }
