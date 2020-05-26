@@ -160,6 +160,7 @@ namespace Contextual_analysis
         {
             return (CurrentScope ?? GlobalScope).FindSymbol(varNode);
         }
+
         /// <summary>
         /// This method type checks the TimeSecondNode node in the AST.
         /// </summary>
@@ -678,7 +679,7 @@ namespace Contextual_analysis
         /// <summary>
         /// This method type checks the GreaterOrEqualNode node in the AST.
         /// </summary>
-        /// <param name="greaterNOde">The node to check.</param>
+        /// <param name="greaterNode">The node to check.</param>
         /// <returns>Greater or Equal operator type context</returns>
         public override object Visit(GreaterOrEqualNode greaterNode)
         {

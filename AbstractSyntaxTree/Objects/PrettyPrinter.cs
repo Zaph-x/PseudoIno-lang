@@ -13,12 +13,15 @@ namespace AbstractSyntaxTree.Objects
     /// It inherits the visitor class to implement the visit method for each node
     /// </summary>
     public class PrettyPrinter : Visitor
+
     {
+
         /// <summary>
         /// This creat indentation on the outprinted AST
         /// When a new scope is created, the an indentation is made 
         /// </summary>
         /// <value></value>
+
         private int Indent { get; set; } = 0;
         /// <summary>
         /// This method prints the tree structure of the pretty printed AST with indentation and newline
