@@ -190,7 +190,15 @@ namespace Core
                         Process p = Process.Start(psi);
                         string[] strOutput = p.StandardOutput.ReadToEnd().Split("\n");
                         p.WaitForExit();
-                        options.Port = strOutput[1];
+                        if (strOutput==null || strOutput.Length<1|| String.IsNullOrEmpty(strOutput[0]))
+                        {
+                            Console.Error.WriteLine("No COM port Found.");
+
+                        }
+                        else
+                        {
+                            options.Port = strOutput[1];
+                        }
                     }
                     path = path.Replace('/', '\\');
 
