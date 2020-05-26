@@ -1,5 +1,6 @@
 using System.Text;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using Core;
@@ -89,9 +90,63 @@ namespace Core.Tests
         [TestCase("--boilerplate")]
         public void Test_Main_ShouldPassOnNoFile(string option)
         {
-            Program.Main(new string[] { "./input.pi",option });
+            List<string> argsList = new List<string>();
+            argsList.Add("./input.pi");
+            argsList.Add(option);
+            argsList.Add("-o");
+            string[] args = argsList.ToArray();
+            
+            Program.Main(args);
 
-            Assert.IsFalse(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
+            Assert.IsFalse(writer.ToString() != "", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+        }
+        
+        [TestCase("-pr")]
+        [TestCase("--proc")]
+        public void Test_Main_ShouldPassOnNoFile_2(string option)
+        {
+            List<string> argsList = new List<string>();
+            argsList.Add("./input.pi");
+            argsList.Add(option);
+            argsList.Add("atmega328p");
+            argsList.Add("-o");
+            string[] args = argsList.ToArray();
+            
+            Program.Main(args);
+
+            Assert.IsFalse(writer.ToString() != "We're on Linux!\nError: No Port Provided. The compiler will try to guess the port.\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+        }
+        
+        [TestCase("-a")]
+        [TestCase("--arduino")]
+        public void Test_Main_ShouldPassOnNoFile_3(string option)
+        {
+            List<string> argsList = new List<string>();
+            argsList.Add("./input.pi");
+            argsList.Add(option);
+            argsList.Add("uno");
+            argsList.Add("-o");
+            string[] args = argsList.ToArray();
+            
+            Program.Main(args);
+
+            Assert.IsFalse(writer.ToString() != "We're on Linux!\nError: No Port Provided. The compiler will try to guess the port.\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+        }
+        
+        [TestCase("-p")]
+        [TestCase("--port")]
+        public void Test_Main_ShouldPassOnNoFile_4(string option)
+        {
+            List<string> argsList = new List<string>();
+            argsList.Add("./input.pi");
+            argsList.Add(option);
+            argsList.Add("COM3");
+            argsList.Add("-o");
+            string[] args = argsList.ToArray();
+            
+            Program.Main(args);
+
+            Assert.IsFalse(writer.ToString() != "We're on Linux!\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
         }
     }
 }
