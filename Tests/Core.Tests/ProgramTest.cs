@@ -11,6 +11,15 @@ namespace Core.Tests
 
         StringWriter writer;
 
+        [OneTimeSetUp]
+        public void OTSU()
+        {
+            using (StreamWriter stream = new StreamWriter("./input.pi"))
+            {
+                stream.Write("func foo end foo func loop end loop");
+            }
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -23,6 +32,12 @@ namespace Core.Tests
         public void TearDown()
         {
             writer.Dispose();
+        }
+
+        [OneTimeTearDown]
+        public void OTTD()
+        {
+            File.Delete("./input.pi");
         }
 
         [TestCase("-d")]
@@ -81,9 +96,11 @@ namespace Core.Tests
         [Test]
         public void Test_Main_LogFile()
         {
+            
             Program.Main(new string[] { "./input.pi", "--logfile", "./logfiletest", "-d" });
 
             Assert.IsTrue(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
+
         }
     }
 }

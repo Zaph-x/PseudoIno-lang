@@ -467,6 +467,10 @@ namespace Contextual_analysis
             {
                 return expressionNode.SymbolType = new TypeContext(BOOL);
             }
+            if (IsOfTypes(rhs, BOOL) && lhs.Type == expressionNode.RightHand.LeftHand.SymbolType.Type)
+            {
+                return expressionNode.SymbolType = rhs;
+            }
             new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
             return null;
         }
