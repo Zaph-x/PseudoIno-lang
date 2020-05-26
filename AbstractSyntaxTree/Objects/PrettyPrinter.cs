@@ -507,7 +507,7 @@ namespace AbstractSyntaxTree.Objects
         /// It accepts the operator if there exist any
         /// Then it outdent
         /// </summary>
-        /// <param name="paraenthesisExpression">The node to print.</param>
+        /// <param name="parenthesisExpression">The node to print.</param>
         /// <returns>Returns null</returns>
         public override object Visit(ParenthesisExpression parenthesisExpression)
         {
@@ -529,28 +529,40 @@ namespace AbstractSyntaxTree.Objects
             Print("Bool");
             return null;
         }
+        /// <summary>
+        /// This method prints the arrayNode and make an indentation
+        /// Then it accepts all dimensions of the array
+        /// Then it outdent
+        /// </summary>
+        /// <param name="arrayNode">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ArrayNode arrayNode)
         {
             Print("Array");
-            Indent++;
-            arrayNode.ActualId.Accept(this);
-            arrayNode.FirstAccess.Accept(this);
-            arrayNode.HasBeenAccessed.ToString();
-             if (arrayNode.Dimensions.Any())
+            Indent++;  
+            if (arrayNode.Dimensions.Any())
             {
                 arrayNode.Dimensions.ForEach(node => node.Accept(this));
             }
-
+            Indent--;
             return null;
         }
-
+        /// <summary>
+        /// This method prints the arrayAccess and make an indentation
+        /// Then it accepts all the array accesses 
+        /// Then outdent
+        /// </summary>
+        /// <param name="arrayAccess">The node to print.</param>
+        /// <returns>Returns null</returns>
         public override object Visit(ArrayAccessNode arrayAccess)
         {
-
-
-
             Print("ArrayAccess");
-
+            Indent++;
+            if (arrayAccess.Accesses.Any())
+            {
+                arrayAccess.Accesses.ForEach(node => node.Accept(this));
+            }
+            Indent--;
             return null;
         }
     }

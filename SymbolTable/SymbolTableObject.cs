@@ -10,20 +10,48 @@ using AbstractSyntaxTree.Objects;
 namespace SymbolTable
 {
     /// <summary>
-    /// Symbol table node
+    /// The symbol table class object
     /// </summary>
     public class SymbolTableObject
     {
-
+        /// <summary>
+        /// The list of symbols in the symboltable
+        /// </summary>
         public List<Symbol> Symbols = new List<Symbol>();
+        /// <summary>
+        /// The child scopes of the symbol table
+        /// </summary>
         public List<SymbolTableObject> Children { get; set; } = new List<SymbolTableObject>();
+        /// <summary>
+        /// The parent scope of the current scope
+        /// </summary>
         private SymbolTableObject _parent { get; set; }
+        /// <summary>
+        /// A static list of function definitions
+        /// </summary>
         public static List<FuncNode> FunctionDefinitions { get; set; } = new List<FuncNode>();
+        /// <summary>
+        /// The declared variables in the current scope
+        /// </summary>
         public List<string> DeclaredVars = new List<string>();
+        /// <summary>
+        /// A static list of function calls to remove unused functions
+        /// </summary>
+        /// <value>Defined functions</value>
         public static List<CallNode> FunctionCalls { get; set; } = new List<CallNode>();
+        /// <summary>
+        /// A list of declared arrays in a given scope
+        /// </summary>
         public List<ArrayNode> DeclaredArrays { get; set; } = new List<ArrayNode>();
+        /// <summary>
+        /// A static list of predefined functions
+        /// </summary>
+        /// <value>Predefined functions</value>
         public static List<FuncNode> PredefinedFunctions { get; set; }
-
+        /// <summary>
+        /// The parent scope of the current scope
+        /// </summary>
+        /// <value>Null if current scope is global scope. Else the parent</value>
         public SymbolTableObject Parent
         {
             get
@@ -36,9 +64,19 @@ namespace SymbolTable
                 this._parent.Children.Add(this);
             }
         }
+        /// <summary>
+        /// The type of the scope. This is set on creation
+        /// </summary>
+        /// <value>The type of the scope</value>
         public TokenType Type { get; set; } = TokenType.PROG;
+        /// <summary>
+        /// The name of the scope to search for, when looking for a child scope
+        /// </summary>
+        /// <value>A string representation of the scope</value>
         public string Name { get; set; }
-
+        /// <summary>
+        /// The constructor for a symboltable. This will set predefined functions and constants
+        /// </summary>
         public SymbolTableObject()
         {
             SymbolTableBuilder.TopOfScope.Push(this);
@@ -48,7 +86,9 @@ namespace SymbolTable
                 AddPredefinedConstants();
             }
         }
-
+        /// <summary>
+        /// Adds most predefined functions to the program
+        /// </summary>
         private void AddPredefinedFunctions()
         {
             PredefinedFunctions = new List<FuncNode>();
@@ -62,7 +102,9 @@ namespace SymbolTable
             PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("degrees", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("rad", predefinedToken) } });
             PredefinedFunctions.Add(new FuncNode(0, 0) { Name = new VarNode("sq", predefinedToken), SymbolType = new TypeContext(TokenType.NUMERIC), FunctionParameters = new List<VarNode>() { new VarNode("x", predefinedToken) } });
         }
-
+        /// <summary>
+        /// Adds most predefined constants to the program
+        /// </summary>
         private void AddPredefinedConstants()
         {
             this.Symbols.Add(new Symbol("PI", TokenType.NUMERIC, false, new NumericNode("0", new ScannerToken(TokenType.NUMERIC, "PI", 0, 0) {SymbolicType = new TypeContext(TokenType.NUMERIC){IsFloat = true}})));
@@ -72,15 +114,13 @@ namespace SymbolTable
             this.Symbols.Add(new Symbol("RAD_TO_DEG", TokenType.NUMERIC, false, new NumericNode("0", new ScannerToken(TokenType.NUMERIC, "RAD_TO_DEG", 0, 0) {SymbolicType = new TypeContext(TokenType.NUMERIC){IsFloat = true}})));
             this.Symbols.Add(new Symbol("EULER", TokenType.NUMERIC, false, new NumericNode("0", new ScannerToken(TokenType.NUMERIC, "EULER", 0, 0) {SymbolicType = new TypeContext(TokenType.NUMERIC){IsFloat = true}})));
         }
-        public void AddCallReference(CallNode call)
-        {
-            if (!FunctionCalls.Any(cn => cn.Id.Id == call.Id.Id && cn.Parameters.Count == call.Parameters.Count))
-            {
-                FunctionCalls.Add(call);
-            }
-        }
-
+        /// <inheritdoc cref="System.Object.ToString()"/>
         public override string ToString() => $"{Name}";
+        /// <summary>
+        /// This method will check if a given scope has declared a variable.
+        /// </summary>
+        /// <param name="node">The node to look for</param>
+        /// <returns></returns>
         public bool HasDeclaredVar(AstNode node)
         {
             if (node.IsType(typeof(VarNode)))
@@ -94,6 +134,12 @@ namespace SymbolTable
             new SymbolNotFoundException($"The provided symbol was never declared. Error at {node.Line}:{node.Offset}");
             return false;
         }
+
+        /// <summary>
+        /// This method try to find a variable recursively, in the current scope and its parents
+        /// </summary>
+        /// <param name="var">the variable to look for</param>
+        /// <returns>Null if the variable is not found. Else the variable</returns>
         public TypeContext FindSymbol(VarNode var)
         {
             if (this.Parent != null && this.Parent.FindSymbol(var) != null)
@@ -110,7 +156,13 @@ namespace SymbolTable
                 return null;
             }
         }
-
+        /// <summary>
+        /// This method will update a type definition for a variable in all scopes
+        /// </summary>
+        /// <param name="leftHand">The variable to update</param>
+        /// <param name="rhs">The typecontext to assign it</param>
+        /// <param name="scopeName">The name of the calling scope</param>
+        /// <param name="goback">A bool value checking if the child scopes should be updated</param>
         public void UpdateTypedef(VarNode leftHand, TypeContext rhs, string scopeName, bool goback)
         {
             if (!goback)
@@ -140,9 +192,12 @@ namespace SymbolTable
                 leftHand.Type = rhs.Type;
             }
         }
-
-
-
+        /// <summary>
+        /// This method will update function parameters of an enclosing function
+        /// </summary>
+        /// <param name="node">The node to look for</param>
+        /// <param name="rhs">The typecontext to assign the variable</param>
+        /// <param name="scopeName">The name of the calling scope</param>
         public void UpdateFuncVar(VarNode node, TypeContext rhs, string scopeName)
         {
             SymbolTableObject symobj = SymbolTableBuilder.GlobalSymbolTable.Children.First(symtab => symtab.Name == scopeName);
@@ -152,7 +207,10 @@ namespace SymbolTable
                 node.Declaration = false;
             symobj.UpdateTypedef(node, rhs, scopeName, false);
         }
-
+        /// <summary>
+        /// Check if a given scope is a child of a function.
+        /// </summary>
+        /// <returns>True if the scope is a child of a function. Else false</returns>
         public bool IsInFunction()
         {
             SymbolTableObject symtab = this;
@@ -162,6 +220,10 @@ namespace SymbolTable
             }
             return (symtab.Parent?.Name?.StartsWith("func_") ?? false) || (this.Name?.StartsWith("func_") ?? false);
         }
+        /// <summary>
+        /// Gets the enclosing function scope, of the current scope
+        /// </summary>
+        /// <returns>The enclosing function of the current scope. Else null</returns>
         public SymbolTableObject GetEnclosingFunction()
         {
             SymbolTableObject symtab = this;
@@ -175,7 +237,11 @@ namespace SymbolTable
                 return this;
             return null;
         }
-
+        /// <summary>
+        /// This method will find a child scope given the name of it
+        /// </summary>
+        /// <param name="name">The name of the scope</param>
+        /// <returns>The scope found, if found. Else null</returns>
         public SymbolTableObject FindChild(string name)
         {
             SymbolTableObject found = null;
@@ -188,7 +254,11 @@ namespace SymbolTable
             }
             return found;
         }
-
+        /// <summary>
+        /// This method finds an array in the declared array of the current scope.
+        /// </summary>
+        /// <param name="arrName">The name of the array to look for</param>
+        /// <returns>The found array, if found. Else null with an error</returns>
         public ArrayNode FindArray(string arrName)
         {
             if (this.Parent != null && this.Parent.FindArray(arrName) != null)

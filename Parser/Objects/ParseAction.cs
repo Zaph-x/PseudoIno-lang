@@ -35,7 +35,7 @@ namespace Parser.Objects
         /// <returns>An error transition.</returns>
         public static ParseAction Error() => new ParseAction(-1) {Product = new List<TokenType>() { TokenType.ERROR } };
 
-        /// <inheritdocs cref="System.Object"/>
+        /// <inheritdocs cref="System.Object.ToString()"/>
         public override string ToString()
         {
             string returnString = "Type=";

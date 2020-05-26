@@ -1,5 +1,8 @@
 # Core.dll v.1.0.0.0 API documentation
 
+Created by 
+[mddox](https://github.com/loxsmoke/mddox) on 25/05/2020
+
 # All types
 
 |   |   |   |
@@ -20,7 +23,7 @@ This is where every step of the compiler is called from.
 | **GetPWMSet()** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<string\> | Gets the set of PWM pins on an arduino, based on the model provided, when invoking the compiler. |
 | **Help()** | void | Prints the help list to the terminal.<br>This is automatically called, if no file path is provided when the compiler is invoked. |
 | **Main([string[]](https://docs.microsoft.com/en-us/dotnet/api/system.string[]) args)** | int | The entry point of the compiler.<br>Here the user must provide a set of compiler flags, in order for the compiler to produce a satisfying product.<br>The user must provide a filepath to the file they wish to compile. Otherwise the compiler will halt and exit with an exit code of 1.<br>Compiler flags can be provided to activate additional functionality.<br>**Compiler flags**<br>`-d` or `--dryrun` Runs the compiler without producing an output.<br>`-o` or `--output` Tells the compiler not to write to the Arduino, and instead produce a file.<br>`-v` or `--verbose` Prints additional information when compiling.<br>`-b` or `--boilerplate` Generates a boilerplate file for your code.<br>`-l` or `--logfile` (Must be followed by a file path) Prints additional information when compiling.<br>`-p` or `--port` (Must be followed by a port number) Specifies the port to upload to.<br>`-a` or `--arduino` (Must be followed by an Arduino model) Specifies the arduino model you're uploading to. (Default: UNO)<br>`-pr` or `--proc` (Must be followed by a valid processor) Specifies the arduino processor you're uploading to. (Default: atmega328p)<br>`-pp` or `--prettyprinter` Print the abstract syntax tree.<br>**Compiler exit code**<br>`0` Compilation finished with no errors.<br>`1` A file path was not provided to the compiler for compilation.<br>`20` The file provided was not encoded as a UTF-8 file.<br>`5` An error was encountered while scanning the input program. This is usually caused by an unclosed string, comment, or parenthesis.<br>`4` An error was encountered in the parser. This is usually due to an invalidly structured program.<br>`3` An error was encountered in the type checker. This happens when two types are mismatched, either on assignment or within an expression. Furthermore, this can be caused by not defining a called function, or a function being defined multiple times.<br>`2` This error is encountered when the code generator can not find the output file for the intermediate representation code.<br>`23` This error is encountered when the dryrun flag is invoked, but the compiler can not find the output file for the intermediate representation code. |
-| **ParseOptions([string[]](https://docs.microsoft.com/en-us/dotnet/api/system.string[]) args)** | [CommandLineOptions](#commandlineoptions-class) |  |
+| **ParseOptions([string[]](https://docs.microsoft.com/en-us/dotnet/api/system.string[]) args)** | [CommandLineOptions](#commandlineoptions-class) | This function will parse the flags passed to the compiler.<br>This is done using a switch case, which will then set the correct flags and values in the compiler options. |
 # ShellHelper Class
 
 Namespace: Core
@@ -59,11 +62,11 @@ An exception thrown when a file is wrongly encoded.
 | Name | Summary |
 |---|---|
 | **EncodingNotSupportedException(string message)** | An exception which will be thrown when a file encoding is not supported in the compiler. |
-| **EncodingNotSupportedException(string message, [Exception](https://docs.microsoft.com/en-us/dotnet/api/system.exception) innerException)** | An exception which will be thrown when a file encoding is not supported in the compiler. |
 # CommandLineOptions Class
 
 Namespace: Core.Objects
 
+The base class for the command line options that will be checked on compiler invokation.
 
 ## Properties
 
