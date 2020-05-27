@@ -131,9 +131,9 @@ namespace Core.Tests
 
             Program.Main(args);
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
-                Assert.AreEqual(writer.ToString(), "We're on Linux!\nError: No Port Provided. The compiler will try to find one available.\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+                Assert.AreEqual( "We're on Linux!\nError: No Port Provided. The compiler will try to find one available.\n",writer.ToString(), $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                Assert.AreEqual(writer.ToString(), "We're on Windows!\r\nError: No Port Provided. The compiler will try to find one available.\r\n", $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
+                Assert.AreEqual("We're on Windows!\r\nError: No Port Provided. The compiler will try to find one available.\r\n",writer.ToString(),  $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
         }
 
         [TestCase("-a")]
@@ -150,9 +150,9 @@ namespace Core.Tests
             Program.Main(args);
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
-                Assert.AreEqual(writer.ToString(), "We're on Linux!\nError: No Port Provided. The compiler will try to find one available.\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+                Assert.AreEqual( "We're on Linux!\nError: No Port Provided. The compiler will try to find one available.\n",writer.ToString(), $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                Assert.AreEqual(writer.ToString(), "We're on Windows!\r\nError: No Port Provided. The compiler will try to find one available.\r\n", $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
+                Assert.AreEqual( "We're on Windows!\r\nError: No Port Provided. The compiler will try to find one available.\r\n", writer.ToString(),$"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
         }
 
         [TestCase("-p")]
@@ -169,9 +169,9 @@ namespace Core.Tests
             Program.Main(args);
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
-                Assert.AreEqual(writer.ToString(), "We're on Linux!\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+                Assert.AreEqual("We're on Linux!\n",writer.ToString(),  $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                Assert.AreEqual(writer.ToString(), "We're on Windows!\r\n", $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
+                Assert.AreEqual( "We're on Windows!\r\n",writer.ToString(), $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
 
         }
 
@@ -188,9 +188,9 @@ namespace Core.Tests
             Program.Main(args);
 
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
-                Assert.AreEqual(writer.ToString(), "Error: No Port Provided. The compiler will try to find one available.\nWe're on Linux!\nError: No Port Provided. The compiler will try to find one available.\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+                Assert.AreEqual("Error: No Port Provided. The compiler will try to find one available.\nWe're on Linux!\nError: No Port Provided. The compiler will try to find one available.\n",writer.ToString(),  $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                Assert.AreEqual(writer.ToString(), "Error: No Port Provided. The compiler will try to find one available.\r\n", $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
+                Assert.AreEqual("Error: No Port Provided. The compiler will try to find one available.\r\nWe're on Windows!\r\n",writer.ToString(),  $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
 
         }
     }
