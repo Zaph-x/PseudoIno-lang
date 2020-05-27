@@ -15,10 +15,14 @@ matrix:
         apt:
           packages:
           - coreutils
+      scipt:
+      - sh ./generatecoverage.sh
     - os: windows
       name: Windows
       install:
       - choco install dotnetcore-sdk
+      script:
+      - powershell ./Generate-CoverageReport.ps1
 
 script:
 - dotnet restore
