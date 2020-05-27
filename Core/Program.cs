@@ -124,7 +124,12 @@ namespace Core
                 {
                     parser.Root.Accept(new PrettyPrinter());
                 }
-                parser.Root.Accept(new TypeChecker());
+                try {
+                    parser.Root.Accept(new TypeChecker());
+                } catch {
+                    verbosePrinter.Error("Encountered an error in the type checker. Stopping.");
+                    return 3;
+                }
                 if (TypeChecker.HasError)
                 {
                     verbosePrinter.Error("Encountered an error in the type checker. Stopping.");

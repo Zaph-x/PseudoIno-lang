@@ -403,6 +403,10 @@ namespace Contextual_analysis
             {
                 return expressionNode.SymbolType = new TypeContext(BOOL);
             }
+            if (IsOfTypes(rhs, BOOL) && (lhs.Type == NUMERIC && expressionNode.RightHand.LeftHand.SymbolType.Type == NUMERIC))
+            {
+                return expressionNode.SymbolType = rhs;
+            }
             new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
             return null;
         }
@@ -462,6 +466,10 @@ namespace Contextual_analysis
             else if (IsOfTypes(opctx, OP_EQUAL))
             {
                 return expressionNode.SymbolType = new TypeContext(BOOL);
+            }
+            if (IsOfTypes(rhs, BOOL) && (lhs.Type == NUMERIC && expressionNode.RightHand.LeftHand.SymbolType.Type == NUMERIC))
+            {
+                return expressionNode.SymbolType = rhs;
             }
             new InvalidTypeException($"Expression {lhs} {opctx} {rhs} is invalid (types) at {expressionNode.Line}:{expressionNode.Offset}");
             return null;

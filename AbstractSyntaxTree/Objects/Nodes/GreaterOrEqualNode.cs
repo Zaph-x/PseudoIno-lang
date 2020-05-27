@@ -2,8 +2,16 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
+    /// <summary>
+    /// This is the class for greater or equal node class
+    /// It inherits the bool operator node class
+    /// </summary>
     public class GreaterOrEqualNode : BoolOperatorNode
     {
+        /// <summary>
+        /// This is the constructor for greater or equal node
+        /// </summary>
+        /// <param name="node">This is the node</param>
         public GreaterOrEqualNode(OperatorNode node) : base(TokenType.OP_GEQ, node.Line, node.Offset)
         {
         }

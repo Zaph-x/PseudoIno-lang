@@ -101,6 +101,30 @@ xx is 12
 end if
 end loop
 ";
+        const string program9 = @"
+func loop
+    a is (6 + (7 / 6) < 4)
+end loop
+";
+
+
+        const string program10 = @"
+func loop
+    a is (6 + 7 / 6 < 4)
+end loop
+";
+
+        const string program11 = @"
+func loop
+    a is 6 + (7 / 6) < 4
+end loop
+";
+
+        const string program12 = @"
+func loop
+    a is 6 + 7 / 6 < 4
+end loop
+";
         [SetUp]
         public void Setup()
         {
@@ -120,6 +144,10 @@ end loop
         [TestCase(program6)]
         [TestCase(program7)]
         [TestCase(program8)] 
+        [TestCase(program9)] 
+        [TestCase(program10)] 
+        [TestCase(program11)] 
+        [TestCase(program12)] 
         public void Test_TypeChecker_CheckHasNoErrors(string program)
         {
             StreamReader reader = CreateFakeReader(program);
@@ -161,9 +189,27 @@ end foo
 func loop
 end loop
 ";
+        const string exceptionProgram4 = @"
+func loop
+    a is 4 + (6 + (7 / 6) < 4)
+end loop
+";
+        const string exceptionProgram5 = @"
+func loop
+    a is (6 + (7 / 6) < 4) + 8
+end loop
+";
+        const string exceptionProgram6 = @"
+func loop
+    a is 6 + 7 / (6 < 4) + 8
+end loop
+";
         [TestCase(exceptionProgram1)]
         [TestCase(exceptionProgram2)]
         [TestCase(exceptionProgram3)]
+        [TestCase(exceptionProgram4)]
+        [TestCase(exceptionProgram5)]
+        [TestCase(exceptionProgram6)]
         public void Test_TypeChecker_CanThrowExceptions(string program)
         {
             StreamReader reader = CreateFakeReader(program);
@@ -172,7 +218,11 @@ end loop
             Parser.Parser parser = new Parser.Parser(tokeniser.Tokens.ToList());
             parser.Parse(out nowhere);
             Assert.IsFalse(Parser.Parser.HasError, "Parser encountered an error state:\n\n"+ nowhere);
-            parser.Root.Accept(new TypeChecker());
+            try {
+                parser.Root.Accept(new TypeChecker());
+            } catch {
+
+            }
             Assert.IsTrue(TypeChecker.HasError, "The error was not caught");
         }
 
