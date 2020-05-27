@@ -11,6 +11,8 @@ matrix:
     - os: linux
       name: Linux
       dotnet: 3.1
+      install:
+      - dotnet restore
       scipt:
       - dotnet test
       - sh ./generatecoverage.sh
@@ -19,6 +21,7 @@ matrix:
       install:
       - choco install dotnetcore-sdk
       - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
+      - dotnet restore
       script:
       - dotnet test
       - powershell ./Generate-CoverageReport.ps1
