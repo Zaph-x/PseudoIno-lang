@@ -193,17 +193,10 @@ namespace Core
 
                         psi.Arguments = "[System.IO.Ports.SerialPort]::getportnames()";
                         Process p = Process.Start(psi);
-                        string[] strOutput = p.StandardOutput.ReadToEnd().Split("\n");
+                        string[] devices = p.StandardOutput.ReadToEnd().Split("\n");
                         p.WaitForExit();
-                        if (strOutput==null || strOutput.Length<1|| String.IsNullOrEmpty(strOutput[0]))
-                        {
-                            Console.Error.WriteLine("No COM port Found.");
-
-                        }
-                        else
-                        {
-                            options.Port = strOutput[1];
-                        }
+                        if (devices.Any(str => str.Contains("COM")))
+                            options.Port = devices.Last(str => str.Contains("COM"));
                     }
                     path = path.Replace('/', '\\');
 
@@ -469,9 +462,9 @@ namespace Core
                         }
                         else
                         {
-                            Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available.");
                             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                             {
+                                Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available.");
                                 ProcessStartInfo psi = new ProcessStartInfo();
                                 psi.FileName = "powershell";
                                 psi.UseShellExecute = false;
@@ -479,10 +472,10 @@ namespace Core
 
                                 psi.Arguments = "[System.IO.Ports.SerialPort]::getportnames()";
                                 Process p = Process.Start(psi);
-                                string[] strOutput = p.StandardOutput.ReadToEnd().Split("\n");
+                                string[] devices = p.StandardOutput.ReadToEnd().Split("\n");
                                 p.WaitForExit();
-                                if (strOutput.Length > 1)
-                                    options.Port = strOutput[1];
+                                if (devices.Any(str => str.Contains("COM")))
+                                    options.Port = devices.Last(str => str.Contains("COM"));
                             }
                             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                             {

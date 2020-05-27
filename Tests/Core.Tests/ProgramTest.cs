@@ -174,5 +174,24 @@ namespace Core.Tests
                 Assert.AreEqual(writer.ToString(), "We're on Windows!\r\n", $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
 
         }
+
+        [TestCase("-p")]
+        [TestCase("--port")]
+        public void Test_Main_ShouldPassOnNoFile_5(string option)
+        {
+            List<string> argsList = new List<string>();
+            argsList.Add("./input.pi");
+            argsList.Add(option);
+            argsList.Add("-o");
+            string[] args = argsList.ToArray();
+
+            Program.Main(args);
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+                Assert.AreEqual(writer.ToString(), "Error: No Port Provided. The compiler will try to find one available.\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                Assert.AreEqual(writer.ToString(), "Error: No Port Provided. The compiler will try to find one available.\r\n", $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
+
+        }
     }
 }

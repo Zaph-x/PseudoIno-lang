@@ -20,8 +20,20 @@ namespace AbstractSyntaxTree.Objects.Nodes
         public ArrayNode Actual {get;set;}
 
         #region Not implemented
+        /// <summary>
+        /// Inerited property not used
+        /// </summary>
+        /// <returns>Nothing</returns>
         public ITerm LeftHand { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        /// <summary>
+        /// Inerited property not used
+        /// </summary>
+        /// <returns>Nothing</returns>
         public OperatorNode Operator { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        /// <summary>
+        /// Inerited property not used
+        /// </summary>
+        /// <returns>Nothing</returns>
         public IExpr RightHand { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         #endregion
         /// <summary>
