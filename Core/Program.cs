@@ -156,7 +156,7 @@ namespace Core
                     Console.WriteLine("We're on Linux!");
                     if (options.Port == "COM0")
                     {
-                        Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to guess the port.");
+                        Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available.");
                         string[] devices = "ls /dev/tty*".Bash().Split("\n");
                         if (devices.Any(str => str.Contains("ACM")))
                             options.Port = devices.First(str => str.Contains("ACM"));
@@ -185,7 +185,7 @@ namespace Core
                     Console.WriteLine("We're on Windows!");
                     if (options.Port == "COM0")
                     {
-                        Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available");
+                        Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available.");
                         ProcessStartInfo psi = new ProcessStartInfo();
                         psi.FileName = "powershell";
                         psi.UseShellExecute = false;
@@ -193,9 +193,10 @@ namespace Core
 
                         psi.Arguments = "[System.IO.Ports.SerialPort]::getportnames()";
                         Process p = Process.Start(psi);
-                        string[] strOutput = p.StandardOutput.ReadToEnd().Split("\n");
+                        string[] devices = p.StandardOutput.ReadToEnd().Split("\n");
                         p.WaitForExit();
-                        options.Port = strOutput[1];
+                        if (devices.Any(str => str.Contains("COM")))
+                            options.Port = devices.Last(str => str.Contains("COM"));
                     }
                     path = path.Replace('/', '\\');
 
@@ -461,9 +462,9 @@ namespace Core
                         }
                         else
                         {
-                            Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to guess the port.");
                             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                             {
+                                Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available.");
                                 ProcessStartInfo psi = new ProcessStartInfo();
                                 psi.FileName = "powershell";
                                 psi.UseShellExecute = false;
@@ -471,14 +472,14 @@ namespace Core
 
                                 psi.Arguments = "[System.IO.Ports.SerialPort]::getportnames()";
                                 Process p = Process.Start(psi);
-                                string[] strOutput = p.StandardOutput.ReadToEnd().Split("\n");
+                                string[] devices = p.StandardOutput.ReadToEnd().Split("\n");
                                 p.WaitForExit();
-                                if (strOutput.Length > 1)
-                                    options.Port = strOutput[1];
+                                if (devices.Any(str => str.Contains("COM")))
+                                    options.Port = devices.Last(str => str.Contains("COM"));
                             }
                             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                             {
-                                Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to guess the port.");
+                                Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available.");
                                 string[] devices = "ls /dev/tty*".Bash().Split("\n");
                                 if (devices.Any(str => str.Contains("ACM")))
                                     options.Port = devices.Last(str => str.Contains("ACM"));
