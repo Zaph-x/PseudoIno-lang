@@ -156,7 +156,7 @@ namespace Core
                     Console.WriteLine("We're on Linux!");
                     if (options.Port == "COM0")
                     {
-                        Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to guess the port.");
+                        Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available.");
                         string[] devices = "ls /dev/tty*".Bash().Split("\n");
                         if (devices.Any(str => str.Contains("ACM")))
                             options.Port = devices.First(str => str.Contains("ACM"));
@@ -185,7 +185,7 @@ namespace Core
                     Console.WriteLine("We're on Windows!");
                     if (options.Port == "COM0")
                     {
-                        Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available");
+                        Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available.");
                         ProcessStartInfo psi = new ProcessStartInfo();
                         psi.FileName = "powershell";
                         psi.UseShellExecute = false;
@@ -469,7 +469,7 @@ namespace Core
                         }
                         else
                         {
-                            Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to guess the port.");
+                            Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available.");
                             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                             {
                                 ProcessStartInfo psi = new ProcessStartInfo();
@@ -486,7 +486,7 @@ namespace Core
                             }
                             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
                             {
-                                Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to guess the port.");
+                                Console.Error.WriteLine($"Error: No Port Provided. The compiler will try to find one available.");
                                 string[] devices = "ls /dev/tty*".Bash().Split("\n");
                                 if (devices.Any(str => str.Contains("ACM")))
                                     options.Port = devices.Last(str => str.Contains("ACM"));

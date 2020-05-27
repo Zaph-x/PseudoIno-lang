@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using Core;
+using System.Runtime.InteropServices;
 
 namespace Core.Tests
 {
@@ -100,7 +101,7 @@ namespace Core.Tests
 
             Assert.IsTrue(writer.ToString() != "", $"The compiler did not fail to compile when it should\n\nOutput: {writer.ToString()}");
         }
-      
+
         [TestCase("-b")]
         [TestCase("--boilerplate")]
         public void Test_Main_ShouldPassOnNoFile(string option)
@@ -110,12 +111,12 @@ namespace Core.Tests
             argsList.Add(option);
             argsList.Add("-o");
             string[] args = argsList.ToArray();
-            
+
             Program.Main(args);
 
             Assert.IsFalse(writer.ToString() != "", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
         }
-        
+
         [TestCase("-pr")]
         [TestCase("--proc")]
         public void Test_Main_ShouldPassOnNoFile_2(string option)
@@ -126,12 +127,14 @@ namespace Core.Tests
             argsList.Add("atmega328p");
             argsList.Add("-o");
             string[] args = argsList.ToArray();
-            
-            Program.Main(args);
 
-            Assert.IsFalse(writer.ToString() != "We're on Linux!\nError: No Port Provided. The compiler will try to guess the port.\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+            Program.Main(args);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+                Assert.AreEqual(writer.ToString(), "We're on Linux!\nError: No Port Provided. The compiler will try to find one available.\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                Assert.AreEqual(writer.ToString(), "We're on Windows!\r\nError: No Port Provided. The compiler will try to find one available.\r\n", $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
         }
-        
+
         [TestCase("-a")]
         [TestCase("--arduino")]
         public void Test_Main_ShouldPassOnNoFile_3(string option)
@@ -142,12 +145,15 @@ namespace Core.Tests
             argsList.Add("uno");
             argsList.Add("-o");
             string[] args = argsList.ToArray();
-            
+
             Program.Main(args);
 
-            Assert.IsFalse(writer.ToString() != "We're on Linux!\nError: No Port Provided. The compiler will try to guess the port.\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+                Assert.AreEqual(writer.ToString(), "We're on Linux!\nError: No Port Provided. The compiler will try to find one available.\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                Assert.AreEqual(writer.ToString(), "We're on Windows!\r\nError: No Port Provided. The compiler will try to find one available.\r\n", $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
         }
-        
+
         [TestCase("-p")]
         [TestCase("--port")]
         public void Test_Main_ShouldPassOnNoFile_4(string option)
@@ -158,10 +164,14 @@ namespace Core.Tests
             argsList.Add("COM3");
             argsList.Add("-o");
             string[] args = argsList.ToArray();
-            
+
             Program.Main(args);
 
-            Assert.IsFalse(writer.ToString() != "We're on Linux!\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD))
+                Assert.AreEqual(writer.ToString(), "We're on Linux!\n", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                Assert.AreEqual(writer.ToString(), "We're on Windows!\r\n", $"The compiler fail to compile\r\n\r\nOutput: {writer.ToString()}");
+
         }
     }
 }
