@@ -11,20 +11,13 @@ matrix:
     - os: linux
       name: Linux
       dotnet: 3.1
-      addons:
-        apt:
-          packages:
-          - coreutils
       scipt:
       - sh ./generatecoverage.sh
     - os: windows
       name: Windows
       install:
       - choco install dotnetcore-sdk
+      - powershell -c "Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine"
       script:
       - powershell ./Generate-CoverageReport.ps1
-
-script:
-- dotnet restore
-- dotnet test
 
