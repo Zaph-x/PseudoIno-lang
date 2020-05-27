@@ -29,6 +29,7 @@ namespace AbstractSyntaxTree.Objects.Nodes
         {
         }
 
+        /// <inheritdoc cref="System.Object.ToString()"/>
         public override string ToString() => $"({LeftHand} {Operator} {RightHand})";
         /// <inheritdoc cref="AbstractSyntaxTree.Objects.AstNode.Accept(Visitor)"/>
         public override object Accept(Visitor visitor)

@@ -1,7 +1,7 @@
 # Lexer.dll v.1.0.0.0 API documentation
 
 Created by 
-[mddox](https://github.com/loxsmoke/mddox) on 25/05/2020
+[mddox](https://github.com/loxsmoke/mddox) on 27/05/2020
 
 # All types
 
@@ -309,7 +309,7 @@ The type context used in the program to check types in the typechecker
 | **_tokenType** | [TokenType](#tokentype-enum) | The tokentype of the |
 | **Type** | [TokenType](#tokentype-enum) | A getter for the private type property |
 | **_float** | bool | A boolean value signifying if a numeric is a float |
-| **IsFloat** | bool |  |
+| **IsFloat** | bool | Getter setter property specifying if a value is a float. |
 ## Constructors
 
 | Name | Summary |

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Contextual_analysis.md</title>
+
+<!-- official styles start -->
+<!-- markdown.css -->
+<link rel="stylesheet" type="text/css" href="data:text/css;base64,LyotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KICogIENvcHlyaWdodCAoYykgTWljcm9zb2Z0IENvcnBvcmF0aW9uLiBBbGwgcmlnaHRzIHJlc2VydmVkLgogKiAgTGljZW5zZWQgdW5kZXIgdGhlIE1JVCBMaWNlbnNlLiBTZWUgTGljZW5zZS50eHQgaW4gdGhlIHByb2plY3Qgcm9vdCBmb3IgbGljZW5zZSBpbmZvcm1hdGlvbi4KICotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSovCgpodG1sLCBib2R5IHsKCWZvbnQtZmFtaWx5OiB2YXIoLS12c2NvZGUtbWFya2Rvd24tZm9udC1mYW1pbHksIC1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgIlNlZ29lIFdQQyIsICJTZWdvZSBVSSIsICJVYnVudHUiLCAiRHJvaWQgU2FucyIsIHNhbnMtc2VyaWYpOwoJZm9udC1zaXplOiB2YXIoLS12c2NvZGUtbWFya2Rvd24tZm9udC1zaXplLCAxNHB4KTsKCXBhZGRpbmc6IDAgMjZweDsKCWxpbmUtaGVpZ2h0OiB2YXIoLS12c2NvZGUtbWFya2Rvd24tbGluZS1oZWlnaHQsIDIycHgpOwoJd29yZC13cmFwOiBicmVhay13b3JkOwp9CgojY29kZS1jc3Atd2FybmluZyB7Cglwb3NpdGlvbjogZml4ZWQ7Cgl0b3A6IDA7CglyaWdodDogMDsKCWNvbG9yOiB3aGl0ZTsKCW1hcmdpbjogMTZweDsKCXRleHQtYWxpZ246IGNlbnRlcjsKCWZvbnQtc2l6ZTogMTJweDsKCWZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOwoJYmFja2dyb3VuZC1jb2xvcjojNDQ0NDQ0OwoJY3Vyc29yOiBwb2ludGVyOwoJcGFkZGluZzogNnB4OwoJYm94LXNoYWRvdzogMXB4IDFweCAxcHggcmdiYSgwLDAsMCwuMjUpOwp9CgojY29kZS1jc3Atd2FybmluZzpob3ZlciB7Cgl0ZXh0LWRlY29yYXRpb246IG5vbmU7CgliYWNrZ3JvdW5kLWNvbG9yOiMwMDdhY2M7Cglib3gtc2hhZG93OiAycHggMnB4IDJweCByZ2JhKDAsMCwwLC4yNSk7Cn0KCmJvZHkuc2Nyb2xsQmV5b25kTGFzdExpbmUgewoJbWFyZ2luLWJvdHRvbTogY2FsYygxMDB2aCAtIDIycHgpOwp9Cgpib2R5LnNob3dFZGl0b3JTZWxlY3Rpb24gLmNvZGUtbGluZSB7Cglwb3NpdGlvbjogcmVsYXRpdmU7Cn0KCmJvZHkuc2hvd0VkaXRvclNlbGVjdGlvbiAuY29kZS1hY3RpdmUtbGluZTpiZWZvcmUsCmJvZHkuc2hvd0VkaXRvclNlbGVjdGlvbiAuY29kZS1saW5lOmhvdmVyOmJlZm9yZSB7Cgljb250ZW50OiAiIjsKCWRpc3BsYXk6IGJsb2NrOwoJcG9zaXRpb246IGFic29sdXRlOwoJdG9wOiAwOwoJbGVmdDogLTEycHg7CgloZWlnaHQ6IDEwMCU7Cn0KCmJvZHkuc2hvd0VkaXRvclNlbGVjdGlvbiBsaS5jb2RlLWFjdGl2ZS1saW5lOmJlZm9yZSwKYm9keS5zaG93RWRpdG9yU2VsZWN0aW9uIGxpLmNvZGUtbGluZTpob3ZlcjpiZWZvcmUgewoJbGVmdDogLTMwcHg7Cn0KCi52c2NvZGUtbGlnaHQuc2hvd0VkaXRvclNlbGVjdGlvbiAuY29kZS1hY3RpdmUtbGluZTpiZWZvcmUgewoJYm9yZGVyLWxlZnQ6IDNweCBzb2xpZCByZ2JhKDAsIDAsIDAsIDAuMTUpOwp9CgoudnNjb2RlLWxpZ2h0LnNob3dFZGl0b3JTZWxlY3Rpb24gLmNvZGUtbGluZTpob3ZlcjpiZWZvcmUgewoJYm9yZGVyLWxlZnQ6IDNweCBzb2xpZCByZ2JhKDAsIDAsIDAsIDAuNDApOwp9CgoudnNjb2RlLWxpZ2h0LnNob3dFZGl0b3JTZWxlY3Rpb24gLmNvZGUtbGluZSAuY29kZS1saW5lOmhvdmVyOmJlZm9yZSB7Cglib3JkZXItbGVmdDogbm9uZTsKfQoKLnZzY29kZS1kYXJrLnNob3dFZGl0b3JTZWxlY3Rpb24gLmNvZGUtYWN0aXZlLWxpbmU6YmVmb3JlIHsKCWJvcmRlci1sZWZ0OiAzcHggc29saWQgcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjQpOwp9CgoudnNjb2RlLWRhcmsuc2hvd0VkaXRvclNlbGVjdGlvbiAuY29kZS1saW5lOmhvdmVyOmJlZm9yZSB7Cglib3JkZXItbGVmdDogM3B4IHNvbGlkIHJnYmEoMjU1LCAyNTUsIDI1NSwgMC42MCk7Cn0KCi52c2NvZGUtZGFyay5zaG93RWRpdG9yU2VsZWN0aW9uIC5jb2RlLWxpbmUgLmNvZGUtbGluZTpob3ZlcjpiZWZvcmUgewoJYm9yZGVyLWxlZnQ6IG5vbmU7Cn0KCi52c2NvZGUtaGlnaC1jb250cmFzdC5zaG93RWRpdG9yU2VsZWN0aW9uIC5jb2RlLWFjdGl2ZS1saW5lOmJlZm9yZSB7Cglib3JkZXItbGVmdDogM3B4IHNvbGlkIHJnYmEoMjU1LCAxNjAsIDAsIDAuNyk7Cn0KCi52c2NvZGUtaGlnaC1jb250cmFzdC5zaG93RWRpdG9yU2VsZWN0aW9uIC5jb2RlLWxpbmU6aG92ZXI6YmVmb3JlIHsKCWJvcmRlci1sZWZ0OiAzcHggc29saWQgcmdiYSgyNTUsIDE2MCwgMCwgMSk7Cn0KCi52c2NvZGUtaGlnaC1jb250cmFzdC5zaG93RWRpdG9yU2VsZWN0aW9uIC5jb2RlLWxpbmUgLmNvZGUtbGluZTpob3ZlcjpiZWZvcmUgewoJYm9yZGVyLWxlZnQ6IG5vbmU7Cn0KCmltZyB7CgltYXgtd2lkdGg6IDEwMCU7CgltYXgtaGVpZ2h0OiAxMDAlOwp9CgphIHsKCXRleHQtZGVjb3JhdGlvbjogbm9uZTsKfQoKYTpob3ZlciB7Cgl0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTsKfQoKYTpmb2N1cywKaW5wdXQ6Zm9jdXMsCnNlbGVjdDpmb2N1cywKdGV4dGFyZWE6Zm9jdXMgewoJb3V0bGluZTogMXB4IHNvbGlkIC13ZWJraXQtZm9jdXMtcmluZy1jb2xvcjsKCW91dGxpbmUtb2Zmc2V0OiAtMXB4Owp9CgpociB7Cglib3JkZXI6IDA7CgloZWlnaHQ6IDJweDsKCWJvcmRlci1ib3R0b206IDJweCBzb2xpZDsKfQoKaDEgewoJcGFkZGluZy1ib3R0b206IDAuM2VtOwoJbGluZS1oZWlnaHQ6IDEuMjsKCWJvcmRlci1ib3R0b20td2lkdGg6IDFweDsKCWJvcmRlci1ib3R0b20tc3R5bGU6IHNvbGlkOwp9CgpoMSwgaDIsIGgzIHsKCWZvbnQtd2VpZ2h0OiBub3JtYWw7Cn0KCnRhYmxlIHsKCWJvcmRlci1jb2xsYXBzZTogY29sbGFwc2U7Cn0KCnRhYmxlID4gdGhlYWQgPiB0ciA+IHRoIHsKCXRleHQtYWxpZ246IGxlZnQ7Cglib3JkZXItYm90dG9tOiAxcHggc29saWQ7Cn0KCnRhYmxlID4gdGhlYWQgPiB0ciA+IHRoLAp0YWJsZSA+IHRoZWFkID4gdHIgPiB0ZCwKdGFibGUgPiB0Ym9keSA+IHRyID4gdGgsCnRhYmxlID4gdGJvZHkgPiB0ciA+IHRkIHsKCXBhZGRpbmc6IDVweCAxMHB4Owp9Cgp0YWJsZSA+IHRib2R5ID4gdHIgKyB0ciA+IHRkIHsKCWJvcmRlci10b3A6IDFweCBzb2xpZDsKfQoKYmxvY2txdW90ZSB7CgltYXJnaW46IDAgN3B4IDAgNXB4OwoJcGFkZGluZzogMCAxNnB4IDAgMTBweDsKCWJvcmRlci1sZWZ0LXdpZHRoOiA1cHg7Cglib3JkZXItbGVmdC1zdHlsZTogc29saWQ7Cn0KCmNvZGUgewoJZm9udC1mYW1pbHk6IE1lbmxvLCBNb25hY28sIENvbnNvbGFzLCAiRHJvaWQgU2FucyBNb25vIiwgIkNvdXJpZXIgTmV3IiwgbW9ub3NwYWNlLCAiRHJvaWQgU2FucyBGYWxsYmFjayI7Cglmb250LXNpemU6IDFlbTsKCWxpbmUtaGVpZ2h0OiAxLjM1N2VtOwp9Cgpib2R5LndvcmRXcmFwIHByZSB7Cgl3aGl0ZS1zcGFjZTogcHJlLXdyYXA7Cn0KCnByZTpub3QoLmhsanMpLApwcmUuaGxqcyBjb2RlID4gZGl2IHsKCXBhZGRpbmc6IDE2cHg7Cglib3JkZXItcmFkaXVzOiAzcHg7CglvdmVyZmxvdzogYXV0bzsKfQoKcHJlIGNvZGUgewoJY29sb3I6IHZhcigtLXZzY29kZS1lZGl0b3ItZm9yZWdyb3VuZCk7Cgl0YWItc2l6ZTogNDsKfQoKLyoqIFRoZW1pbmcgKi8KCi52c2NvZGUtbGlnaHQgcHJlIHsKCWJhY2tncm91bmQtY29sb3I6IHJnYmEoMjIwLCAyMjAsIDIyMCwgMC40KTsKfQoKLnZzY29kZS1kYXJrIHByZSB7CgliYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDEwLCAxMCwgMTAsIDAuNCk7Cn0KCi52c2NvZGUtaGlnaC1jb250cmFzdCBwcmUgewoJYmFja2dyb3VuZC1jb2xvcjogcmdiKDAsIDAsIDApOwp9CgoudnNjb2RlLWhpZ2gtY29udHJhc3QgaDEgewoJYm9yZGVyLWNvbG9yOiByZ2IoMCwgMCwgMCk7Cn0KCi52c2NvZGUtbGlnaHQgdGFibGUgPiB0aGVhZCA+IHRyID4gdGggewoJYm9yZGVyLWNvbG9yOiByZ2JhKDAsIDAsIDAsIDAuNjkpOwp9CgoudnNjb2RlLWRhcmsgdGFibGUgPiB0aGVhZCA+IHRyID4gdGggewoJYm9yZGVyLWNvbG9yOiByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuNjkpOwp9CgoudnNjb2RlLWxpZ2h0IGgxLAoudnNjb2RlLWxpZ2h0IGhyLAoudnNjb2RlLWxpZ2h0IHRhYmxlID4gdGJvZHkgPiB0ciArIHRyID4gdGQgewoJYm9yZGVyLWNvbG9yOiByZ2JhKDAsIDAsIDAsIDAuMTgpOwp9CgoudnNjb2RlLWRhcmsgaDEsCi52c2NvZGUtZGFyayBociwKLnZzY29kZS1kYXJrIHRhYmxlID4gdGJvZHkgPiB0ciArIHRyID4gdGQgewoJYm9yZGVyLWNvbG9yOiByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMTgpOwp9Cg=="/>
+<!-- highlight.css -->
+<link rel="stylesheet" type="text/css" href="data:text/css;base64,LyoKaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2lzYWdhbGFldi9oaWdobGlnaHQuanMvbWFzdGVyL3NyYy9zdHlsZXMvdnMyMDE1LmNzcwoqLwovKgogKiBWaXN1YWwgU3R1ZGlvIDIwMTUgZGFyayBzdHlsZQogKiBBdXRob3I6IE5pY29sYXMgTExPQkVSQSA8bmxsb2JlcmFAZ21haWwuY29tPgogKi8KCgouaGxqcy1rZXl3b3JkLAouaGxqcy1saXRlcmFsLAouaGxqcy1zeW1ib2wsCi5obGpzLW5hbWUgewoJY29sb3I6ICM1NjlDRDY7Cn0KLmhsanMtbGluayB7Cgljb2xvcjogIzU2OUNENjsKCXRleHQtZGVjb3JhdGlvbjogdW5kZXJsaW5lOwp9CgouaGxqcy1idWlsdF9pbiwKLmhsanMtdHlwZSB7Cgljb2xvcjogIzRFQzlCMDsKfQoKLmhsanMtbnVtYmVyLAouaGxqcy1jbGFzcyB7Cgljb2xvcjogI0I4RDdBMzsKfQoKLmhsanMtc3RyaW5nLAouaGxqcy1tZXRhLXN0cmluZyB7Cgljb2xvcjogI0Q2OUQ4NTsKfQoKLmhsanMtcmVnZXhwLAouaGxqcy10ZW1wbGF0ZS10YWcgewoJY29sb3I6ICM5QTUzMzQ7Cn0KCi5obGpzLXN1YnN0LAouaGxqcy1mdW5jdGlvbiwKLmhsanMtdGl0bGUsCi5obGpzLXBhcmFtcywKLmhsanMtZm9ybXVsYSB7Cgljb2xvcjogI0RDRENEQzsKfQoKLmhsanMtY29tbWVudCwKLmhsanMtcXVvdGUgewoJY29sb3I6ICM1N0E2NEE7Cglmb250LXN0eWxlOiBpdGFsaWM7Cn0KCi5obGpzLWRvY3RhZyB7Cgljb2xvcjogIzYwOEI0RTsKfQoKLmhsanMtbWV0YSwKLmhsanMtbWV0YS1rZXl3b3JkLAouaGxqcy10YWcgewoJY29sb3I6ICM5QjlCOUI7Cn0KCi5obGpzLXZhcmlhYmxlLAouaGxqcy10ZW1wbGF0ZS12YXJpYWJsZSB7Cgljb2xvcjogI0JENjNDNTsKfQoKLmhsanMtYXR0ciwKLmhsanMtYXR0cmlidXRlLAouaGxqcy1idWlsdGluLW5hbWUgewoJY29sb3I6ICM5Q0RDRkU7Cn0KCi5obGpzLXNlY3Rpb24gewoJY29sb3I6IGdvbGQ7Cn0KCi5obGpzLWVtcGhhc2lzIHsKCWZvbnQtc3R5bGU6IGl0YWxpYzsKfQoKLmhsanMtc3Ryb25nIHsKCWZvbnQtd2VpZ2h0OiBib2xkOwp9CgovKi5obGpzLWNvZGUgewoJZm9udC1mYW1pbHk6J01vbm9zcGFjZSc7Cn0qLwoKLmhsanMtYnVsbGV0LAouaGxqcy1zZWxlY3Rvci10YWcsCi5obGpzLXNlbGVjdG9yLWlkLAouaGxqcy1zZWxlY3Rvci1jbGFzcywKLmhsanMtc2VsZWN0b3ItYXR0ciwKLmhsanMtc2VsZWN0b3ItcHNldWRvIHsKCWNvbG9yOiAjRDdCQTdEOwp9CgouaGxqcy1hZGRpdGlvbiB7CgliYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS12c2NvZGUtZGlmZkVkaXRvci1pbnNlcnRlZFRleHRCYWNrZ3JvdW5kLCByZ2JhKDE1NSwgMTg1LCA4NSwgMC4yKSk7Cgljb2xvcjogcmdiKDE1NSwgMTg1LCA4NSk7CglkaXNwbGF5OiBpbmxpbmUtYmxvY2s7Cgl3aWR0aDogMTAwJTsKfQoKLmhsanMtZGVsZXRpb24gewoJYmFja2dyb3VuZDogdmFyKC0tdnNjb2RlLWRpZmZFZGl0b3ItcmVtb3ZlZFRleHRCYWNrZ3JvdW5kLCByZ2JhKDI1NSwgMCwgMCwgMC4yKSk7Cgljb2xvcjogcmdiKDI1NSwgMCwgMCk7CglkaXNwbGF5OiBpbmxpbmUtYmxvY2s7Cgl3aWR0aDogMTAwJTsKfQoKCi8qCkZyb20gaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2lzYWdhbGFldi9oaWdobGlnaHQuanMvbWFzdGVyL3NyYy9zdHlsZXMvdnMuY3NzCiovCi8qCgpWaXN1YWwgU3R1ZGlvLWxpa2Ugc3R5bGUgYmFzZWQgb24gb3JpZ2luYWwgQyMgY29sb3JpbmcgYnkgSmFzb24gRGlhbW9uZCA8amFzb25AZGlhbW9uZC5uYW1lPgoKKi8KCi52c2NvZGUtbGlnaHQgLmhsanMtZnVuY3Rpb24sCi52c2NvZGUtbGlnaHQgLmhsanMtcGFyYW1zLAoudnNjb2RlLWxpZ2h0IC5obGpzLW51bWJlciwKLnZzY29kZS1saWdodCAuaGxqcy1jbGFzcyAgewoJY29sb3I6IGluaGVyaXQ7Cn0KCi52c2NvZGUtbGlnaHQgLmhsanMtY29tbWVudCwKLnZzY29kZS1saWdodCAuaGxqcy1xdW90ZSwKLnZzY29kZS1saWdodCAuaGxqcy1udW1iZXIsCi52c2NvZGUtbGlnaHQgLmhsanMtY2xhc3MsCi52c2NvZGUtbGlnaHQgLmhsanMtdmFyaWFibGUgewoJY29sb3I6ICMwMDgwMDA7Cn0KCi52c2NvZGUtbGlnaHQgLmhsanMta2V5d29yZCwKLnZzY29kZS1saWdodCAuaGxqcy1zZWxlY3Rvci10YWcsCi52c2NvZGUtbGlnaHQgLmhsanMtbmFtZSwKLnZzY29kZS1saWdodCAuaGxqcy10YWcgewoJY29sb3I6ICMwMGY7Cn0KCi52c2NvZGUtbGlnaHQgLmhsanMtYnVpbHRfaW4sCi52c2NvZGUtbGlnaHQgLmhsanMtYnVpbHRpbi1uYW1lIHsKCWNvbG9yOiAjMDA3YWNjOwp9CgoudnNjb2RlLWxpZ2h0IC5obGpzLXN0cmluZywKLnZzY29kZS1saWdodCAuaGxqcy1zZWN0aW9uLAoudnNjb2RlLWxpZ2h0IC5obGpzLWF0dHJpYnV0ZSwKLnZzY29kZS1saWdodCAuaGxqcy1saXRlcmFsLAoudnNjb2RlLWxpZ2h0IC5obGpzLXRlbXBsYXRlLXRhZywKLnZzY29kZS1saWdodCAuaGxqcy10ZW1wbGF0ZS12YXJpYWJsZSwKLnZzY29kZS1saWdodCAuaGxqcy10eXBlIHsKCWNvbG9yOiAjYTMxNTE1Owp9CgoudnNjb2RlLWxpZ2h0IC5obGpzLXNlbGVjdG9yLWF0dHIsCi52c2NvZGUtbGlnaHQgLmhsanMtc2VsZWN0b3ItcHNldWRvLAoudnNjb2RlLWxpZ2h0IC5obGpzLW1ldGEsCi52c2NvZGUtbGlnaHQgLmhsanMtbWV0YS1rZXl3b3JkIHsKCWNvbG9yOiAjMmI5MWFmOwp9CgoudnNjb2RlLWxpZ2h0IC5obGpzLXRpdGxlLAoudnNjb2RlLWxpZ2h0IC5obGpzLWRvY3RhZyB7Cgljb2xvcjogIzgwODA4MDsKfQoKLnZzY29kZS1saWdodCAuaGxqcy1hdHRyIHsKCWNvbG9yOiAjZjAwOwp9CgoudnNjb2RlLWxpZ2h0IC5obGpzLXN5bWJvbCwKLnZzY29kZS1saWdodCAuaGxqcy1idWxsZXQsCi52c2NvZGUtbGlnaHQgLmhsanMtbGluayB7Cgljb2xvcjogIzAwYjBlODsKfQoKCi52c2NvZGUtbGlnaHQgLmhsanMtZW1waGFzaXMgewoJZm9udC1zdHlsZTogaXRhbGljOwp9CgoudnNjb2RlLWxpZ2h0IC5obGpzLXN0cm9uZyB7Cglmb250LXdlaWdodDogYm9sZDsKfQo="/>
+<!-- official styles end -->
+
+<!-- third party styles start -->
+<!-- markdown-it-admonition.css -->
+<link rel="stylesheet" type="text/css" href="data:text/css;base64,QGZvbnQtZmFjZSB7CiAgZm9udC1mYW1pbHk6ICJNYXRlcmlhbCBJY29ucyI7CiAgZm9udC1zdHlsZTogbm9ybWFsOwogIGZvbnQtd2VpZ2h0OiA0MDA7CiAgc3JjOiBsb2NhbCgiTWF0ZXJpYWwgSWNvbnMiKSwgbG9jYWwoIk1hdGVyaWFsSWNvbnMtUmVndWxhciIpLCB1cmwoImRhdGE6YXBwbGljYXRpb24veC1mb250LXdvZmY7Y2hhcnNldD11dGYtODtiYXNlNjQsZDA5R1JnQUJBQUFBQUFmSUFBc0FBQUFBRERBQUFRQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUJIVTFWQ0FBQUJDQUFBQURNQUFBQkNzUDZ6N1U5VEx6SUFBQUU4QUFBQVJBQUFBRlpXN2tvc1kyMWhjQUFBQVlBQUFBRFRBQUFDanRQNnl0Qm5iSGxtQUFBQ1ZBQUFBeGdBQUFRNHpSdHZsR2hsWVdRQUFBVnNBQUFBTHdBQUFEWVJ3WnNuYUdobFlRQUFCWndBQUFBY0FBQUFKQWVLQXp4b2JYUjRBQUFGdUFBQUFCSUFBQUE4T0dRQUFHeHZZMkVBQUFYTUFBQUFJQUFBQUNBRzVBZndiV0Y0Y0FBQUJld0FBQUFmQUFBQUlBRWZBRVJ1WVcxbEFBQUdEQUFBQVZjQUFBS0ZrQWhvQzNCdmMzUUFBQWRrQUFBQVlnQUFBSzJ2ejd3a2VKeGpZR1JnWU9CaWtHUFFZV0IwY2ZNSlllQmdZR0dBQUpBTVkwNW1laUpRRE1vRHlyR0FhUTRnWm9PSUFnQ0tJd05QQUhpY1kyQmtQc1E0Z1lHVmdZT3BrK2tNQXdORFA0Um1mTTFneE1qQndNREV3TXJNZ0JVRXBMbW1NRGd3Vkx5NHhLenpYNGNoaHJtSzRRcFFtQkVrQndBWnlneXdlSnpGa3IwTndqQVFoWitURVA2Q1JVZkhCRXdSVVdhUVRJQ3lRYnBNd1JDc2tBNVJVSU9OeEcwUm5uTnBLQUlWNHF6UGt1LzhjMzUzQUNZQVlySWpDV0N1TUFoMnB0ZjAvaGlMM3AvZ3lQVVdhM29zcWx0MEwxenU5cjcxejhkR3JKUnlrRm9hdVhRZDkzMkxqNXZoRytNanhHZVlJOE1LRVRPYk1wc2xmNUV5UDh0Zyt2SHVuNXI1MzlQdmx2WHphVmhSRlZRRFRQRVdLVlFSOTBLaG5uQzVFazY3dlVLTjRWdUZhc00vbGRBUmo0M0NDa0NzRWpwSlNvVlZnUnlVMEdWU0s2d1VwRkZDeDhsRmdYMEJpWHBSUFFCNG5FMlRUV2pjUmhUSDN4dHRwRGh4Tjd1eFBscDN1L0ZLN21vUlBpeGFmUmlqTm9zeFN3L0xVc0l3TmNhRUhQWmdnby9GbUVLTUNLV1U0a05PT2Z0UVNsaEU4YWxuSDBJeDlCcVduSG9vUFJyVFEwK21udTJiWFR1MnBQZEdNOUxNLzZjM2Z3RUNUTTRnQkJNWVFOcXh6THJaQWpxWVNscXUyVEFIWlFBMC9EUUpINkZ0enFHRG52YnQ0R2d3dnp3L25MOEVmSDhrVzBmc3VScWhnV1hablk3TTFwaWNhVUw3RHU1QkhlRHpNSWw4M2RBdDAxNndIMXFtdnRTTW81UjZZUkpIVFIvL0ZYc2ZmL25qL3RjLzVLOVA1ZCtuUDIyK2ZGSzV1N3YzSzM5U1czeStPdERLTzNMODV2RDA5UEQ5ejVYMTdhMk4xZzR0cWswMVJscVg3Z3lvRW1uc1dRdFZyNHJ0Wk1tdWtFYUZCWnh6ZWZrQ24xMWN5S01MWmdzaFJ3Z1RZTm9MTlhDQnoyamE3SHZaRzdoRHBQU05mb281dnMwa25LLzloYityTnB1KzhrSFBnay9BbzRrSzN0V3RUcFNFdHZrQTljK3dFNlVhVWR3aWVOa2FIZzU1dEJFdFJpRVB3MXMwK0Z0cnRUY2M5dHdvMmxoTWtuVjdQWkYvY3M2K3VVRlRtcFRHYkV4N3NRQ1BTTE90dEhTM0dSbHRxcDdTTnpWU0t6bDZhV25aVC9DWDVrNi92OU4zSGg4ZkhCd2ZmSlZqaHJDNk9nSDVka0l0L3RQc3ErZC9QRDVRejdHN2VmenExVEhGamRaVlBlL042dWxRM0puRFdTRTVqdW5zRnNWSWlGd0wvaHRmMVM1Z0ozQmZPY1V4ZkhLTG56cXBGcHlmWjljWCsvNVdCNmErWTBwSHB6a05yWU5WRHdNc2lrSyt5N1d1TENSZy9vRkhrQThWVDNyRGc1Wm5VNmt0enpJTnltVjBtNzRYZDVwZklHWHlGZVZFUVNTaGt6cUc3VEJCYTJPeFZSS2l0TFh2N2gzdXVmdFhuWHE3bHoydFovV25XYTlkeDlkQ2pEaEh6bXVWUUFUbG1sanI5ZFpFclV5ZFNvMkhiaS9iMXZYdHJPZUdDazIvOHMzWmxPOCt1ZUpUOEJWbHc1cEd3Mm9ZY2NkU2lISHF4MFJsYWJIcWROUjlqQUVUbDZQcmVKY1BCbm5mcFRMbk9ROEMzT1Y4QW1RR3pvdVYxaVpkZWI1U1NJb1ZjOFc4L2tjRHRrc1VINUZyVTYvYXFCcU5XY01FenhHNERBUTE0cVJRaGk5bVdVMHJ6ZXBLZXpiamZnQ3dRS3hWWXE1YWpSZ3BScXk0NUNxd2tKeWRjRWtiVGt2Uno4UDUvMlpwRFRONG5HTmdaR0JnQU9LYjZ2Ky94dlBiZkdYZ1ptRUFnZXVCMmtrSSt2OGJGZ2JtS2lDWGc0RUpKQW9BUHlBS2hRQjRuR05nWkdCZzF2bXZ3eEREd2dBQ1FKS1JBUlh3QXdBelpRSFFlSnhqWVFDQ0ZBWUdGZ2JTTVFBY1dBQ2RBQUFBQUFBQUFBd0FMZ0JnQUlRQW1BRFNBUWdCSWdFOEFWQUJvQUhlQWZ3Q0hIaWNZMkJrWUdEZ1o3QmdZR01BQVNZZzVnSkNCb2IvWUQ0REFBL2hBV1FBZUp4bGtidHV3a0FVUk1jODhnQXBRb21VSm9xMFRkSVF6RU9wVURva0tDTlIwQnV6QmlPL3RGNlFTSmNQeUhmbEU5S2x5eWVrejJDdUc4Y3I3NTQ3TTNkOUpRTzR4amNjbko1N3ZpZDJjTUhxeERXYzQwRzRUdjFKdUVGK0ZtNmlqUmZoTStvejRSYTZlQlZ1NHdadnZNRnBYTElhNDBQWVFRZWZ3alZjNFV1NFR2MUh1RUgrRlc3aTFta0tuNkhqM0FtM3NIQzZ3bTA4T3U4dHBTWkdlMWF2MVBLZ2dqU3hQZDh6SnRTR1R1aW55VkdhNi9VdThreFpsdWRDbXp4TUV6VjBCNlUwMDRrMjVXMzVmajJ5TmxDQlNXTTFwYXVqS0ZXWlNiZmF0KzdHMm16Yzd3ZWl1MzRhY3p6Rk5ZR0JoZ2ZMZmNWNmlRUDNBQ2tTYWozNDlBeFhTTjlJVDBqMTZKZXBPYjAxZG9pS2JOV3Qxb3ZpcHB6NnNWWVl3c1hnWDJyR1ZGSWtxN1BsMlBOckk2cVc2ZU9zaGoweGFTcTltcE5FWklXczhMWlVmT291TmtWWHhwL2Q1d29xZWJlWUlmNEQySjF5d1FCNG5HM0xPdzZBSUJBRTBCMzg0QitQQWtnRWErUXdOblltSHQrRXBYU2FsNWxrU0JCbm9QOG9DRlNvMGFDRlJJY2VBMFpNbUxGQVlTVzg4cm12dE1VakczUmlROUh2cGZ1c002eldObXRjNUgvaVBld2hhNTB0T3Q1UFMvUUJ4MkllU3dBQSIpIGZvcm1hdCgid29mZiIpOwp9CgouYWRtb25pdGlvbiB7CiAgYm94LXNoYWRvdzogMCAycHggMnB4IDAgcmdiYSgwLCAwLCAwLCAuMTQpLCAwIDFweCA1cHggMCByZ2JhKDAsIDAsIDAsIC4xMiksIDAgM3B4IDFweCAtMnB4IHJnYmEoMCwgMCwgMCwgLjIpOwogIHBvc2l0aW9uOiByZWxhdGl2ZTsKICBtYXJnaW46IDEuNTYyNWVtIDA7CiAgcGFkZGluZzogMCAxLjJyZW07CiAgYm9yZGVyLWxlZnQ6IC40cmVtIHNvbGlkIHJnYmEoNjgsIDEzOCwgMjU1LCAuOCk7CiAgYm9yZGVyLXJhZGl1czogLjJyZW07CiAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjA1KTsKICBvdmVyZmxvdzogYXV0bzsKfQoKLmFkbW9uaXRpb24+LmFkbW9uaXRpb24tdGl0bGUgewogIG1hcmdpbjogMCAtMS4ycmVtOwogIHBhZGRpbmc6IC44cmVtIDEuMnJlbSAuOHJlbSAzLjZyZW07CiAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkIHJnYmEoNjgsIDEzOCwgMjU1LCAuMik7CiAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSg2OCwgMTM4LCAyNTUsIC4xKTsKICBmb250LXdlaWdodDogNzAwOwp9CgouYWRtb25pdGlvbj4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUgewogIHBvc2l0aW9uOiBhYnNvbHV0ZTsKICBsZWZ0OiAxLjJyZW07CiAgZm9udC1zaXplOiAxLjVyZW07CiAgY29sb3I6IHJnYmEoNjgsIDEzOCwgMjU1LCAuOCk7CiAgY29udGVudDogIlxFM0M5IjsKfQoKLmFkbW9uaXRpb24+LmFkbW9uaXRpb24tdGl0bGU6YmVmb3JlIHsKICBmb250LWZhbWlseTogTWF0ZXJpYWwgSWNvbnM7CiAgZm9udC1zdHlsZTogbm9ybWFsOwogIGZvbnQtdmFyaWFudDogbm9ybWFsOwogIGZvbnQtd2VpZ2h0OiA0MDA7CiAgbGluZS1oZWlnaHQ6IDJyZW07CiAgdGV4dC10cmFuc2Zvcm06IG5vbmU7CiAgd2hpdGUtc3BhY2U6IG5vd3JhcDsKICBzcGVhazogbm9uZTsKICB3b3JkLXdyYXA6IG5vcm1hbDsKICBkaXJlY3Rpb246IGx0cjsKfQoKLmFkbW9uaXRpb24uc3VtbWFyeSwKLmFkbW9uaXRpb24uYWJzdHJhY3QsCi5hZG1vbml0aW9uLnRsZHIgewogIGJvcmRlci1sZWZ0LWNvbG9yOiByZ2JhKDAsIDE3NiwgMjU1LCAuOCk7Cn0KCi5hZG1vbml0aW9uLnN1bW1hcnk+LmFkbW9uaXRpb24tdGl0bGUsCi5hZG1vbml0aW9uLmFic3RyYWN0Pi5hZG1vbml0aW9uLXRpdGxlLAouYWRtb25pdGlvbi50bGRyPi5hZG1vbml0aW9uLXRpdGxlIHsKICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDAsIDE3NiwgMjU1LCAuMSk7CiAgYm9yZGVyLWJvdHRvbS1jb2xvcjogcmdiYSgwLCAxNzYsIDI1NSwgLjIpOwp9CgouYWRtb25pdGlvbi5zdW1tYXJ5Pi5hZG1vbml0aW9uLXRpdGxlOmJlZm9yZSwKLmFkbW9uaXRpb24uYWJzdHJhY3Q+LmFkbW9uaXRpb24tdGl0bGU6YmVmb3JlLAouYWRtb25pdGlvbi50bGRyPi5hZG1vbml0aW9uLXRpdGxlOmJlZm9yZSB7CiAgY29sb3I6IHJnYmEoMCwgMTc2LCAyNTUsIDEpOwogIDsKICBjb250ZW50OiAiXEU4RDIiOwp9CgouYWRtb25pdGlvbi5oaW50LAouYWRtb25pdGlvbi50aXAgewogIGJvcmRlci1sZWZ0LWNvbG9yOiByZ2JhKDAsIDE5MSwgMTY1LCAuOCk7Cn0KCi5hZG1vbml0aW9uLmhpbnQ+LmFkbW9uaXRpb24tdGl0bGUsCi5hZG1vbml0aW9uLnRpcD4uYWRtb25pdGlvbi10aXRsZSB7CiAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgwLCAxOTEsIDE2NSwgLjEpOwogIGJvcmRlci1ib3R0b20tY29sb3I6IHJnYmEoMCwgMTkxLCAxNjUsIC4yKTsKfQoKLmFkbW9uaXRpb24uaGludD4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUsCi5hZG1vbml0aW9uLnRpcD4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUgewogIGNvbG9yOiByZ2JhKDAsIDE5MSwgMTY1LCAxKTsKICBjb250ZW50OiAiXEU4MEUiOwp9CgouYWRtb25pdGlvbi5pbmZvLAouYWRtb25pdGlvbi50b2RvIHsKICBib3JkZXItbGVmdC1jb2xvcjogcmdiYSgwLCAxODQsIDIxMiwgLjgpOwp9CgouYWRtb25pdGlvbi5pbmZvPi5hZG1vbml0aW9uLXRpdGxlLAouYWRtb25pdGlvbi50b2RvPi5hZG1vbml0aW9uLXRpdGxlIHsKICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDAsIDE4NCwgMjEyLCAuMSk7CiAgYm9yZGVyLWJvdHRvbS1jb2xvcjogcmdiYSgwLCAxODQsIDIxMiwgLjIpOwp9CgouYWRtb25pdGlvbi5pbmZvPi5hZG1vbml0aW9uLXRpdGxlOmJlZm9yZSwKLmFkbW9uaXRpb24udG9kbz4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUgewogIGNvbG9yOiByZ2JhKDAsIDE4NCwgMjEyLCAxKTsKICA7CiAgY29udGVudDogIlxFODhFIjsKfQoKLmFkbW9uaXRpb24uc3VjY2VzcywKLmFkbW9uaXRpb24uY2hlY2ssCi5hZG1vbml0aW9uLmRvbmUgewogIGJvcmRlci1sZWZ0LWNvbG9yOiByZ2JhKDAsIDIwMCwgODMsIC44KTsKfQoKLmFkbW9uaXRpb24uc3VjY2Vzcz4uYWRtb25pdGlvbi10aXRsZSwKLmFkbW9uaXRpb24uY2hlY2s+LmFkbW9uaXRpb24tdGl0bGUsCi5hZG1vbml0aW9uLmRvbmU+LmFkbW9uaXRpb24tdGl0bGUgewogIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMCwgMjAwLCA4MywgLjEpOwogIGJvcmRlci1ib3R0b20tY29sb3I6IHJnYmEoMCwgMjAwLCA4MywgLjIpOwp9CgouYWRtb25pdGlvbi5zdWNjZXNzPi5hZG1vbml0aW9uLXRpdGxlOmJlZm9yZSwKLmFkbW9uaXRpb24uY2hlY2s+LmFkbW9uaXRpb24tdGl0bGU6YmVmb3JlLAouYWRtb25pdGlvbi5kb25lPi5hZG1vbml0aW9uLXRpdGxlOmJlZm9yZSB7CiAgY29sb3I6IHJnYmEoMCwgMjAwLCA4MywgMSk7CiAgOwogIGNvbnRlbnQ6ICJcRTg3NiI7Cn0KCi5hZG1vbml0aW9uLnF1ZXN0aW9uLAouYWRtb25pdGlvbi5oZWxwLAouYWRtb25pdGlvbi5mYXEgewogIGJvcmRlci1sZWZ0LWNvbG9yOiByZ2JhKDEwMCwgMjIxLCAyMywgLjgpOwp9CgouYWRtb25pdGlvbi5xdWVzdGlvbj4uYWRtb25pdGlvbi10aXRsZSwKLmFkbW9uaXRpb24uaGVscD4uYWRtb25pdGlvbi10aXRsZSwKLmFkbW9uaXRpb24uZmFxPi5hZG1vbml0aW9uLXRpdGxlIHsKICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDEwMCwgMjIxLCAyMywgLjEpOwogIGJvcmRlci1ib3R0b20tY29sb3I6IHJnYmEoMTAwLCAyMjEsIDIzLCAuMik7Cn0KCi5hZG1vbml0aW9uLnF1ZXN0aW9uPi5hZG1vbml0aW9uLXRpdGxlOmJlZm9yZSwKLmFkbW9uaXRpb24uaGVscD4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUsCi5hZG1vbml0aW9uLmZhcT4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUgewogIGNvbG9yOiByZ2JhKDEwMCwgMjIxLCAyMywgMSk7CiAgOwogIGNvbnRlbnQ6ICJcRTg4NyI7Cn0KCi5hZG1vbml0aW9uLndhcm5pbmcsCi5hZG1vbml0aW9uLmF0dGVudGlvbiwKLmFkbW9uaXRpb24uY2F1dGlvbiB7CiAgYm9yZGVyLWxlZnQtY29sb3I6IHJnYmEoMjU1LCAxNDUsIDAsIC44KTsKfQoKLmFkbW9uaXRpb24ud2FybmluZz4uYWRtb25pdGlvbi10aXRsZSwKLmFkbW9uaXRpb24uYXR0ZW50aW9uPi5hZG1vbml0aW9uLXRpdGxlLAouYWRtb25pdGlvbi5jYXV0aW9uPi5hZG1vbml0aW9uLXRpdGxlIHsKICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDI1NSwgMTQ1LCAwLCAuMSk7CiAgYm9yZGVyLWJvdHRvbS1jb2xvcjogcmdiYSgyNTUsIDE0NSwgMCwgLjIpOwp9CgouYWRtb25pdGlvbi5hdHRlbnRpb24+LmFkbW9uaXRpb24tdGl0bGU6YmVmb3JlIHsKICBjb2xvcjogcmdiYSgyNTUsIDE0NSwgMCwgMSk7CiAgY29udGVudDogIlxFNDE3IjsKfQoKLmFkbW9uaXRpb24ud2FybmluZz4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUsCi5hZG1vbml0aW9uLmNhdXRpb24+LmFkbW9uaXRpb24tdGl0bGU6YmVmb3JlIHsKICBjb2xvcjogcmdiYSgyNTUsIDE0NSwgMCwgMSk7CiAgY29udGVudDogIlxFMDAyIjsKfQoKLmFkbW9uaXRpb24uZmFpbHVyZSwKLmFkbW9uaXRpb24uZmFpbCwKLmFkbW9uaXRpb24ubWlzc2luZyB7CiAgYm9yZGVyLWxlZnQtY29sb3I6IHJnYmEoMjU1LCA4MiwgODIsIC44KTsKfQoKLmFkbW9uaXRpb24uZmFpbHVyZT4uYWRtb25pdGlvbi10aXRsZSwKLmFkbW9uaXRpb24uZmFpbD4uYWRtb25pdGlvbi10aXRsZSwKLmFkbW9uaXRpb24ubWlzc2luZz4uYWRtb25pdGlvbi10aXRsZSB7CiAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgyNTUsIDgyLCA4MiwgLjEpOwogIGJvcmRlci1ib3R0b20tY29sb3I6IHJnYmEoMjU1LCA4MiwgODIsIC4yKTsKfQoKLmFkbW9uaXRpb24uZmFpbHVyZT4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUsCi5hZG1vbml0aW9uLmZhaWw+LmFkbW9uaXRpb24tdGl0bGU6YmVmb3JlLAouYWRtb25pdGlvbi5taXNzaW5nPi5hZG1vbml0aW9uLXRpdGxlOmJlZm9yZSB7CiAgY29sb3I6IHJnYmEoMjU1LCA4MiwgODIsIDEpOwogIDsKICBjb250ZW50OiAiXEUxNEMiOwp9CgouYWRtb25pdGlvbi5kYW5nZXIsCi5hZG1vbml0aW9uLmVycm9yLAouYWRtb25pdGlvbi5idWcgewogIGJvcmRlci1sZWZ0LWNvbG9yOiByZ2JhKDI1NSwgMjMsIDY4LCAuOCk7Cn0KCi5hZG1vbml0aW9uLmRhbmdlcj4uYWRtb25pdGlvbi10aXRsZSwKLmFkbW9uaXRpb24uZXJyb3I+LmFkbW9uaXRpb24tdGl0bGUsCi5hZG1vbml0aW9uLmJ1Zz4uYWRtb25pdGlvbi10aXRsZSB7CiAgYmFja2dyb3VuZC1jb2xvcjogcmdiYSgyNTUsIDIzLCA2OCwgLjEpOwogIGJvcmRlci1ib3R0b20tY29sb3I6IHJnYmEoMjU1LCAyMywgNjgsIC4yKTsKfQoKLmFkbW9uaXRpb24uZGFuZ2VyPi5hZG1vbml0aW9uLXRpdGxlOmJlZm9yZSB7CiAgY29sb3I6IHJnYmEoMjU1LCAyMywgNjgsIDEpOwogIGNvbnRlbnQ6ICJcRTNFNyI7Cn0KCi5hZG1vbml0aW9uLmVycm9yPi5hZG1vbml0aW9uLXRpdGxlOmJlZm9yZSB7CiAgY29sb3I6IHJnYmEoMjU1LCAyMywgNjgsIDEpOwogIGNvbnRlbnQ6ICJcRTE0QyI7Cn0KCi5hZG1vbml0aW9uLmJ1Zz4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUgewogIGNvbG9yOiByZ2JhKDI1NSwgMjMsIDY4LCAxKTsKICBjb250ZW50OiAiXEU4NjgiOwp9CgouYWRtb25pdGlvbi5leGFtcGxlLAouYWRtb25pdGlvbi5zbmlwcGV0IHsKICBib3JkZXItbGVmdC1jb2xvcjogcmdiYSgwLCAxODQsIDIxMiwgLjgpOwp9CgouYWRtb25pdGlvbi5leGFtcGxlPi5hZG1vbml0aW9uLXRpdGxlLAouYWRtb25pdGlvbi5zbmlwcGV0Pi5hZG1vbml0aW9uLXRpdGxlIHsKICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDAsIDE4NCwgMjEyLCAuMSk7CiAgYm9yZGVyLWJvdHRvbS1jb2xvcjogcmdiYSgwLCAxODQsIDIxMiwgLjIpOwp9CgouYWRtb25pdGlvbi5leGFtcGxlPi5hZG1vbml0aW9uLXRpdGxlOmJlZm9yZSwKLmFkbW9uaXRpb24uc25pcHBldD4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUgewogIGNvbG9yOiByZ2JhKDAsIDE4NCwgMjEyLCAxKTsKICA7CiAgY29udGVudDogIlxFMjQyIjsKfQoKLmFkbW9uaXRpb24ucXVvdGUsCi5hZG1vbml0aW9uLmNpdGUgewogIGJvcmRlci1sZWZ0LWNvbG9yOiByZ2JhKDE1OCwgMTU4LCAxNTgsIC44KTsKfQoKLmFkbW9uaXRpb24ucXVvdGU+LmFkbW9uaXRpb24tdGl0bGUsCi5hZG1vbml0aW9uLmNpdGU+LmFkbW9uaXRpb24tdGl0bGUgewogIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMTU4LCAxNTgsIDE1OCwgLjEpOwogIGJvcmRlci1ib3R0b20tY29sb3I6IHJnYmEoMTU4LCAxNTgsIDE1OCwgLjIpOwp9CgouYWRtb25pdGlvbi5xdW90ZT4uYWRtb25pdGlvbi10aXRsZTpiZWZvcmUsCi5hZG1vbml0aW9uLmNpdGU+LmFkbW9uaXRpb24tdGl0bGU6YmVmb3JlIHsKICBjb2xvcjogcmdiYSgxNTgsIDE1OCwgMTU4LCAxKTsKICA7CiAgY29udGVudDogIlxFMjQ0IjsKfQ=="/>
+<!-- markdown-it-kbd.css -->
+<link rel="stylesheet" type="text/css" href="data:text/css;base64,LnZzY29kZS1saWdodCBrYmQsCi52c2NvZGUtZGFyayBrYmQsCi52c2NvZGUtaGlnaC1jb250cmFzdCBrYmQgewogIGRpc3BsYXk6IGlubGluZS1ibG9jazsKICBwYWRkaW5nOiAzcHggNXB4OwogIGZvbnQ6IDExcHggIlNGTW9uby1SZWd1bGFyIiwgQ29uc29sYXMsICJMaWJlcmF0aW9uIE1vbm8iLCBNZW5sbywgQ291cmllciwgbW9ub3NwYWNlOwogIGxpbmUtaGVpZ2h0OiAxMHB4OwogIHZlcnRpY2FsLWFsaWduOiBtaWRkbGU7CiAgYm9yZGVyOiBzb2xpZCAxcHggI2QxZDVkYTsKICBib3JkZXItYm90dG9tLWNvbG9yOiAjYzZjYmQxOwogIGJvcmRlci1yYWRpdXM6IDNweDsKICBib3gtc2hhZG93OiBpbnNldCAwIC0xcHggMCAjYzZjYmQxOwp9CgoudnNjb2RlLWxpZ2h0IGtiZCB7CiAgY29sb3I6ICM0NDRkNTY7CiAgYmFja2dyb3VuZC1jb2xvcjogI2ZhZmJmYzsKfQ=="/>
+<!-- third party styles end -->
+
+</head>
+<body class="markdown-body vscode-body vscode-light">
+<div class="content">
+    <a for="toc-anchor" id="contextual_analysis.dll-v.1.0.0.0-api-documentation"></a><h1 id="contextualanalysisdll-v1000-api-documentation" data-line="0" class="code-line">Contextual_analysis.dll v.1.0.0.0 API documentation</h1>
+<p data-line="2" class="code-line">Created by
+<a href="https://github.com/loxsmoke/mddox" data-href="https://github.com/loxsmoke/mddox">mddox</a> on 27/05/2020</p>
+<a for="toc-anchor" id="all-types"></a><h1 id="all-types-3" data-line="5" class="code-line">All types</h1>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#typechecker-class" data-href="#typechecker-class">TypeChecker Class</a></td>
+<td><a href="#invalidtypeexception-class" data-href="#invalidtypeexception-class">InvalidTypeException Class</a></td>
+<td><a href="#notdefinedexception-class" data-href="#notdefinedexception-class">NotDefinedException Class</a></td>
+</tr>
+<tr>
+<td><a href="#invalidreturnexception-class" data-href="#invalidreturnexception-class">InvalidReturnException Class</a></td>
+<td><a href="#multipledefinedexception-class" data-href="#multipledefinedexception-class">MultipleDefinedException Class</a></td>
+<td><a href="#outofrangeexception-class" data-href="#outofrangeexception-class">OutOfRangeException Class</a></td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="typechecker-class"></a><h1 id="typechecker-class" data-line="11" class="code-line">TypeChecker Class</h1>
+<p data-line="13" class="code-line">Namespace: Contextual_analysis</p>
+<p data-line="15" class="code-line">Base class: Visitor</p>
+<p data-line="17" class="code-line">The type checker of the PseudoIno compiler. Here types are checked and held against eachother.</p>
+<a for="toc-anchor" id="properties"></a><h2 id="properties-16" data-line="19" class="code-line">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>HasError</strong></td>
+<td>bool</td>
+<td>A static bool value signifying an error has been encountered</td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="methods"></a><h2 id="methods-13" data-line="24" class="code-line">Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Returns</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IsOfTypes(TypeContext ctx, TokenType[] types)</strong></td>
+<td>bool</td>
+<td>This method compares a type context to a list of tokentypes</td>
+</tr>
+<tr>
+<td><strong>Visit(TimesNode timesNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the TimesNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(AssignmentNode assignmentNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the AssignmentNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(WaitNode waitNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the WaitNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(VarNode varNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the VarNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(TimeSecondNode timeSecondNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the TimeSecondNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(TimeMinuteNode timeMinuteNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the TimeMinutesNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(TimeMillisecondNode timeMillisecondNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the TimeMillisecondNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(TimeHourNode timeHourNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the TimeHourNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(NumericNode numericNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the NumericNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(EqualNode equalNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the EqualNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(ProgramNode programNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the ProgramNode node in the AST.<br>This is the entry point for the type checker</td>
+</tr>
+<tr>
+<td><strong>Visit(CallNode callNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the CallNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(AndNode andNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the AndNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(APinNode apinNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the APinNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(DPinNode dpinNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the DPinNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(DivideNode divideNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the DivideNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(BinaryExpression expressionNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the BinaryExpression node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(ParenthesisExpression expressionNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the ParenthesisExpression node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(ExpressionTerm expressionNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the ExpressionTerm node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(ForNode forNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the ForNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(FuncNode funcNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the FuncNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(GreaterNode greaterNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the GreaterNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(IfStatementNode ifStatementNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the IfStatementNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(LessNode lessNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the LessNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(PlusNode plusNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the PlusNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(MinusNode minusNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the MinusNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(ModuloNode moduloNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the ModuloNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(OrNode orNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the OrNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(StringNode stringNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the StringNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(WhileNode whileNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the WhileNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(ElseStatementNode elseStatement)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the ElseStatementNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(ElseifStatementNode elseifStatementNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the ElseIfStatementNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(ReturnNode returnNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the ReturnNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(GreaterOrEqualNode greaterNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the GreaterOrEqualNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(LessOrEqualNode lessNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the LessOrEqualNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(BoolNode boolNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the BoolNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(ArrayNode arrayNode)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the ArrayNode node in the AST.</td>
+</tr>
+<tr>
+<td><strong>Visit(ArrayAccessNode arrayAccess)</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.object" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.object">Object</a></td>
+<td>This method type checks the ArrayAccessNode node in the AST.</td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="invalidreturnexception-class"></a><h1 id="invalidreturnexception-class" data-line="67" class="code-line">InvalidReturnException Class</h1>
+<p data-line="69" class="code-line">Namespace: Contextual_analysis.Exceptions</p>
+<p data-line="71" class="code-line">Base class: <a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></p>
+<p data-line="73" class="code-line">An exception thrown when a range is invalid</p>
+<a for="toc-anchor" id="properties"></a><h2 id="properties-17" data-line="75" class="code-line">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TargetSite</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase">MethodBase</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>StackTrace</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Message</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary">IDictionary</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>InnerException</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HelpLink</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Source</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HResult</strong></td>
+<td>int</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="constructors"></a><h2 id="constructors-14" data-line="87" class="code-line">Constructors</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>InvalidReturnException(string message)</strong></td>
+<td>An exception thrown when a range is invalid</td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="invalidtypeexception-class"></a><h1 id="invalidtypeexception-class-1" data-line="92" class="code-line">InvalidTypeException Class</h1>
+<p data-line="94" class="code-line">Namespace: Contextual_analysis.Exceptions</p>
+<p data-line="96" class="code-line">Base class: <a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></p>
+<p data-line="98" class="code-line">Raised when a type does not match its counterpart</p>
+<a for="toc-anchor" id="properties"></a><h2 id="properties-18" data-line="100" class="code-line">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TargetSite</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase">MethodBase</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>StackTrace</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Message</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary">IDictionary</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>InnerException</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HelpLink</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Source</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HResult</strong></td>
+<td>int</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="constructors"></a><h2 id="constructors-15" data-line="112" class="code-line">Constructors</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>InvalidTypeException(string message)</strong></td>
+<td>Raised in the typechecker when two types to not match</td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="multipledefinedexception-class"></a><h1 id="multipledefinedexception-class" data-line="117" class="code-line">MultipleDefinedException Class</h1>
+<p data-line="119" class="code-line">Namespace: Contextual_analysis.Exceptions</p>
+<p data-line="121" class="code-line">Base class: <a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></p>
+<p data-line="123" class="code-line">An exception raised when two functions with same amount of parameters and name has been defined</p>
+<a for="toc-anchor" id="properties"></a><h2 id="properties-19" data-line="125" class="code-line">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TargetSite</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase">MethodBase</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>StackTrace</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Message</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary">IDictionary</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>InnerException</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HelpLink</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Source</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HResult</strong></td>
+<td>int</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="constructors"></a><h2 id="constructors-16" data-line="137" class="code-line">Constructors</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MultipleDefinedException(string message)</strong></td>
+<td>An exception raised when two functions with the same amount of parameters and the same name are defined. This is handled in the typechecker</td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="notdefinedexception-class"></a><h1 id="notdefinedexception-class" data-line="142" class="code-line">NotDefinedException Class</h1>
+<p data-line="144" class="code-line">Namespace: Contextual_analysis.Exceptions</p>
+<p data-line="146" class="code-line">Base class: <a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></p>
+<p data-line="148" class="code-line">An exception to raise when something is used but not defined</p>
+<a for="toc-anchor" id="properties"></a><h2 id="properties-20" data-line="150" class="code-line">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TargetSite</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase">MethodBase</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>StackTrace</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Message</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary">IDictionary</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>InnerException</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HelpLink</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Source</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HResult</strong></td>
+<td>int</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="constructors"></a><h2 id="constructors-17" data-line="162" class="code-line">Constructors</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>NotDefinedException(string message)</strong></td>
+<td>An exception to raise when something is not defined but still used. This is handled in the typechecker</td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="outofrangeexception-class"></a><h1 id="outofrangeexception-class" data-line="167" class="code-line">OutOfRangeException Class</h1>
+<p data-line="169" class="code-line">Namespace: Contextual_analysis.Exceptions</p>
+<p data-line="171" class="code-line">Base class: <a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></p>
+<p data-line="173" class="code-line">An exception to raise when an array index is out of range</p>
+<a for="toc-anchor" id="properties"></a><h2 id="properties-21" data-line="175" class="code-line">Properties</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TargetSite</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.reflection.methodbase">MethodBase</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>StackTrace</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Message</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.collections.idictionary">IDictionary</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>InnerException</strong></td>
+<td><a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception" data-href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HelpLink</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Source</strong></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>HResult</strong></td>
+<td>int</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<a for="toc-anchor" id="constructors"></a><h2 id="constructors-18" data-line="187" class="code-line">Constructors</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OutOfRangeException(string message)</strong></td>
+<td>An exception to raise when an array is indexed with an index that is out of range.</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</body>
+</html>

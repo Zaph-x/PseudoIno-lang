@@ -1,7 +1,7 @@
 # Contextual_analysis.dll v.1.0.0.0 API documentation
 
 Created by 
-[mddox](https://github.com/loxsmoke/mddox) on 25/05/2020
+[mddox](https://github.com/loxsmoke/mddox) on 27/05/2020
 
 # All types
 

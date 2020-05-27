@@ -1,7 +1,7 @@
 # AbstractSyntaxTree.dll v.1.0.0.0 API documentation
 
 Created by 
-[mddox](https://github.com/loxsmoke/mddox) on 25/05/2020
+[mddox](https://github.com/loxsmoke/mddox) on 27/05/2020
 
 # All types
 
@@ -180,6 +180,7 @@ It inherits the visitor class to implement the visit method for each node
 
 Namespace: AbstractSyntaxTree.Objects
 
+The base visitor class
 
 ## Methods
 
@@ -229,6 +230,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [MathOperatorNode](#mathoperatornode-class)
 
+The class for And node
+inherits math operator node
 
 ## Properties
 
@@ -245,7 +248,7 @@ Base class: [MathOperatorNode](#mathoperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **AndNode(ScannerToken token)** | The constructor for the And node |
+| **AndNode(ScannerToken token)** | The constructor for And node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -257,12 +260,14 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [PinNode](#pinnode-class)
 
+The class for Analog pin node
+Inherits from the pin node class
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Id** | string |  |
+| **Id** | string | This sets and returns the ID |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -274,7 +279,7 @@ Base class: [PinNode](#pinnode-class)
 
 | Name | Summary |
 |---|---|
-| **APinNode(string pinNum, ScannerToken token)** |  |
+| **APinNode(string pinNum, ScannerToken token)** | The constructor for APin node<br>Id is set to the pin number |
 ## Methods
 
 | Name | Returns | Summary |
@@ -286,16 +291,19 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [AstNode](#astnode-class)
 
+The array access node class
+It inherits Ast node
+It implements IAssignment, IExpr and ITerm interfaces
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Accesses** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[ValNode](#valnode-class)\> |  |
-| **Actual** | [ArrayNode](#arraynode-class) |  |
-| **LeftHand** | [ITerm](#iterm-class) |  |
-| **Operator** | [OperatorNode](#operatornode-class) |  |
-| **RightHand** | [IExpr](#iexpr-class) |  |
+| **Accesses** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[ValNode](#valnode-class)\> | This is a list of accessers of the array with the type Valnode |
+| **Actual** | [ArrayNode](#arraynode-class) | This is the actual array |
+| **LeftHand** | [ITerm](#iterm-class) | Inerited property not used |
+| **Operator** | [OperatorNode](#operatornode-class) | Inerited property not used |
+| **RightHand** | [IExpr](#iexpr-class) | Inerited property not used |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -307,7 +315,7 @@ Base class: [AstNode](#astnode-class)
 
 | Name | Summary |
 |---|---|
-| **ArrayAccessNode([ArrayNode](#arraynode-class) array, int line, int offset)** |  |
+| **ArrayAccessNode([ArrayNode](#arraynode-class) array, int line, int offset)** | The constructor for Array access nodes<br>Actual is the actual array and has been accessed is set to true when visited. |
 ## Methods
 
 | Name | Returns | Summary |
@@ -319,18 +327,21 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [AstNode](#astnode-class)
 
+The Array node class
+It inherits Ast node
+It uses IAssignment, IExpr and ITerm interfaces
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Dimensions** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[NumericNode](#numericnode-class)\> |  |
-| **ActualId** | [VarNode](#varnode-class) |  |
-| **FirstAccess** | [AssignmentNode](#assignmentnode-class) |  |
-| **HasBeenAccessed** | bool |  |
-| **LeftHand** | [ITerm](#iterm-class) |  |
-| **Operator** | [OperatorNode](#operatornode-class) |  |
-| **RightHand** | [IExpr](#iexpr-class) |  |
+| **Dimensions** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[NumericNode](#numericnode-class)\> | is a list of the dimensions of the array, of the type numeric node |
+| **ActualId** | [VarNode](#varnode-class) | The Id of the array |
+| **FirstAccess** | [AssignmentNode](#assignmentnode-class) | This sets and returns the first access of the assignment node |
+| **HasBeenAccessed** | bool | This sets and returns the boolean value of has been accessed |
+| **LeftHand** | [ITerm](#iterm-class) | Inerited property not used |
+| **Operator** | [OperatorNode](#operatornode-class) | Inerited property not used |
+| **RightHand** | [IExpr](#iexpr-class) | Inerited property not used |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -342,7 +353,7 @@ Base class: [AstNode](#astnode-class)
 
 | Name | Summary |
 |---|---|
-| **ArrayNode(int line, int offset)** |  |
+| **ArrayNode(int line, int offset)** | This is the constructor of array node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -352,21 +363,23 @@ Base class: [AstNode](#astnode-class)
 
 | Name | Type | Summary |
 |---|---|---|
-| **_firstAccess** | [AssignmentNode](#assignmentnode-class) |  |
+| **_firstAccess** | [AssignmentNode](#assignmentnode-class) | This is the first access of the array |
 # AssignmentNode Class
 
 Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is the assignment node class
+It inherits statement node and the expression interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **RightHand** | [IExpr](#iexpr-class) |  |
-| **LeftHand** | [ITerm](#iterm-class) |  |
-| **Operator** | [OperatorNode](#operatornode-class) |  |
+| **RightHand** | [IExpr](#iexpr-class) | This is the right hand side of an expresstion |
+| **LeftHand** | [ITerm](#iterm-class) | This is the lefthand side of an expression, which is the term  |
+| **Operator** | [OperatorNode](#operatornode-class) | This is returns and sets the operator |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -378,7 +391,7 @@ Base class: [StatementNode](#statementnode-class)
 
 | Name | Summary |
 |---|---|
-| **AssignmentNode(int line, int offset)** |  |
+| **AssignmentNode(int line, int offset)** | This is the constructor for the assignment node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -390,16 +403,18 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [ExpressionNode](#expressionnode-class)
 
+This is the class for binary expression
+It inherits an expression node and the expression interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **LeftHand** | [ITerm](#iterm-class) |  |
-| **Operator** | [OperatorNode](#operatornode-class) |  |
-| **RightHand** | [IExpr](#iexpr-class) |  |
+| **LeftHand** | [ITerm](#iterm-class) | Returns and sets the left hands side of the expression |
+| **Operator** | [OperatorNode](#operatornode-class) | Returns and sets the operater of the expression |
+| **RightHand** | [IExpr](#iexpr-class) | Returns and sets the right hand side of the expression |
 | **Parent** | [ExpressionNode](#expressionnode-class) |  |
-| **Child** | [ExpressionNode](#expressionnode-class) |  |
+| **Child** | [ExpressionNode](#expressionnode-class) | This returns and sets the value of the child to the expression |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -411,27 +426,29 @@ Base class: [ExpressionNode](#expressionnode-class)
 
 | Name | Summary |
 |---|---|
-| **BinaryExpression(ScannerToken token)** |  |
-| **BinaryExpression(TokenType type, ScannerToken token)** |  |
-| **BinaryExpression(int line, int offset)** |  |
+| **BinaryExpression(ScannerToken token)** | This is the constructor of binaryesxpressions |
+| **BinaryExpression(TokenType type, ScannerToken token)** | This is the constructor for binaryexpressions |
+| **BinaryExpression(int line, int offset)** | This is the constructor for binaryexpressions |
 ## Methods
 
 | Name | Returns | Summary |
 |---|---|---|
 | **Accept([Visitor](#visitor-class) visitor)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | An accept method that accepts the AST node in the tree when the node is visited. |
-| **ToString()** | string |  |
+| **ToString()** | string | This method converts the left, right and operator of the expression to a string |
 # BoolNode Class
 
 Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [ValNode](#valnode-class)
 
+This is the node class for bool node
+It inherits a value node
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Value** | bool |  |
+| **Value** | bool | This returns and set s a value |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -443,7 +460,7 @@ Base class: [ValNode](#valnode-class)
 
 | Name | Summary |
 |---|---|
-| **BoolNode(string value, ScannerToken token)** |  |
+| **BoolNode(string value, ScannerToken token)** | This is the constructor of the bool node<br>It set the value to a bool |
 ## Methods
 
 | Name | Returns | Summary |
@@ -455,6 +472,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [OperatorNode](#operatornode-class)
 
+This is the booloperator node class
+It inherits from the operator node
 
 ## Properties
 
@@ -471,8 +490,8 @@ Base class: [OperatorNode](#operatornode-class)
 
 | Name | Summary |
 |---|---|
-| **BoolOperatorNode(ScannerToken token)** |  |
-| **BoolOperatorNode(TokenType type, int line, int offset)** |  |
+| **BoolOperatorNode(ScannerToken token)** | This is the bool operator node constructor. |
+| **BoolOperatorNode(TokenType type, int line, int offset)** | This is the constructor for bool operator node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -484,16 +503,18 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is the class for call node
+It inherits statement node and implements assignment, expression and term interfaces
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Id** | [VarNode](#varnode-class) |  |
-| **Parameters** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[ValNode](#valnode-class)\> |  |
-| **LeftHand** | [ITerm](#iterm-class) |  |
-| **Operator** | [OperatorNode](#operatornode-class) |  |
-| **RightHand** | [IExpr](#iexpr-class) |  |
+| **Id** | [VarNode](#varnode-class) | This is the ID of the var node |
+| **Parameters** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[ValNode](#valnode-class)\> | This is a list of the parameters of the val node |
+| **LeftHand** | [ITerm](#iterm-class) | This is the lefthand side of an expression |
+| **Operator** | [OperatorNode](#operatornode-class) | This is the operator |
+| **RightHand** | [IExpr](#iexpr-class) | This is the righthand side of an expression |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -505,7 +526,7 @@ Base class: [StatementNode](#statementnode-class)
 
 | Name | Summary |
 |---|---|
-| **CallNode(int line, int offset)** |  |
+| **CallNode(int line, int offset)** | This is the constructor for a call node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -517,6 +538,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [MathOperatorNode](#mathoperatornode-class)
 
+This is the divide node class
+It inherits math operator node
 
 ## Properties
 
@@ -533,7 +556,7 @@ Base class: [MathOperatorNode](#mathoperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **DivideNode(ScannerToken token)** |  |
+| **DivideNode(ScannerToken token)** | This is the constructor for divide node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -545,12 +568,14 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [PinNode](#pinnode-class)
 
+This is the DPin node class
+It inherits the Pin node class
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Id** | string |  |
+| **Id** | string | This sets and returns the ID |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -562,7 +587,7 @@ Base class: [PinNode](#pinnode-class)
 
 | Name | Summary |
 |---|---|
-| **DPinNode(string pinNum, ScannerToken token)** |  |
+| **DPinNode(string pinNum, ScannerToken token)** | This is the DPin constructor<br>The ID is set to the pin number |
 ## Methods
 
 | Name | Returns | Summary |
@@ -574,14 +599,16 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is the else if statement node class
+It inherits from statement class and implements the scope interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Val** | [ValNode](#valnode-class) |  |
-| **Expression** | [ExpressionNode](#expressionnode-class) |  |
-| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> |  |
+| **Val** | [ValNode](#valnode-class) | This returns the value and sets the value  |
+| **Expression** | [ExpressionNode](#expressionnode-class) | This returns and sets the expression |
+| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> | This returns and sets a list of statements |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -593,7 +620,7 @@ Base class: [StatementNode](#statementnode-class)
 
 | Name | Summary |
 |---|---|
-| **ElseifStatementNode(int line, int offset)** |  |
+| **ElseifStatementNode(int line, int offset)** | This is the constructor for else if statements<br>The statements is assigned to a list of statement |
 ## Methods
 
 | Name | Returns | Summary |
@@ -605,12 +632,14 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is the else statement node class
+Is inherits from statement node class and implements the scope interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> |  |
+| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> | This returns and sets the list of statement |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -622,7 +651,7 @@ Base class: [StatementNode](#statementnode-class)
 
 | Name | Summary |
 |---|---|
-| **ElseStatementNode(int line, int offset)** |  |
+| **ElseStatementNode(int line, int offset)** | This is the constructor for else statements<br>The statements is assigned to a list of type statement |
 ## Methods
 
 | Name | Returns | Summary |
@@ -634,6 +663,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [BoolOperatorNode](#booloperatornode-class)
 
+This is the equal node class
+It inherits the bool operator node class
 
 ## Properties
 
@@ -650,7 +681,7 @@ Base class: [BoolOperatorNode](#booloperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **EqualNode(ScannerToken token)** |  |
+| **EqualNode(ScannerToken token)** | This is the constructor for equal node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -662,17 +693,19 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is the expression node class
+It inherits the statement node class and the assignment, term and expression interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **_Parent** | [ExpressionNode](#expressionnode-class) |  |
+| **_Parent** | [ExpressionNode](#expressionnode-class) | This returns and set the value of the expression node parent |
 | **Parent** | [ExpressionNode](#expressionnode-class) |  |
-| **Child** | [ExpressionNode](#expressionnode-class) |  |
-| **LeftHand** | [ITerm](#iterm-class) |  |
-| **Operator** | [OperatorNode](#operatornode-class) |  |
-| **RightHand** | [IExpr](#iexpr-class) |  |
+| **Child** | [ExpressionNode](#expressionnode-class) | This returns and sets the value of the child to the expression |
+| **LeftHand** | [ITerm](#iterm-class) | This return and sets the value of the lefthand sideof the expression |
+| **Operator** | [OperatorNode](#operatornode-class) | This return and sets the value of the operator |
+| **RightHand** | [IExpr](#iexpr-class) | This return and sets the value of the righthand sideof the expression |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -691,16 +724,18 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [ExpressionNode](#expressionnode-class)
 
+This is the expression term node
+It inherits from the expression node class
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
 | **Parent** | [ExpressionNode](#expressionnode-class) |  |
-| **Child** | [ExpressionNode](#expressionnode-class) |  |
-| **LeftHand** | [ITerm](#iterm-class) |  |
-| **Operator** | [OperatorNode](#operatornode-class) |  |
-| **RightHand** | [IExpr](#iexpr-class) |  |
+| **Child** | [ExpressionNode](#expressionnode-class) | This returns and sets the value of the child to the expression |
+| **LeftHand** | [ITerm](#iterm-class) | This return and sets the value of the lefthand sideof the expression |
+| **Operator** | [OperatorNode](#operatornode-class) | This return and sets the value of the operator |
+| **RightHand** | [IExpr](#iexpr-class) | This return and sets the value of the righthand sideof the expression |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -712,7 +747,7 @@ Base class: [ExpressionNode](#expressionnode-class)
 
 | Name | Summary |
 |---|---|
-| **ExpressionTerm(ScannerToken token)** |  |
+| **ExpressionTerm(ScannerToken token)** | This is the constructor for expression term node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -724,15 +759,17 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is the class for For loop node
+It inherits the statement node class and implement the scope interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **CountingVariable** | [VarNode](#varnode-class) |  |
-| **From** | [NumericNode](#numericnode-class) |  |
-| **To** | [NumericNode](#numericnode-class) |  |
-| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> |  |
+| **CountingVariable** | [VarNode](#varnode-class) | This sets and returns the counter variable of the for loop |
+| **From** | [NumericNode](#numericnode-class) | This sets and returns the from value of the for loop |
+| **To** | [NumericNode](#numericnode-class) | This sets and returns the to value of the for loop |
+| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> | This sets and returns the list of statments |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -744,7 +781,7 @@ Base class: [StatementNode](#statementnode-class)
 
 | Name | Summary |
 |---|---|
-| **ForNode(int line, int offset)** |  |
+| **ForNode(int line, int offset)** | This is the constructor for a for loop<br>Statements is assigned to a list of type statementnode  |
 ## Methods
 
 | Name | Returns | Summary |
@@ -756,14 +793,16 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is the class for func node
+It inherits the statement node class and implement the scope interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> |  |
-| **Name** | [VarNode](#varnode-class) |  |
-| **FunctionParameters** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[VarNode](#varnode-class)\> |  |
+| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> | This sets and returns a list of statement nodes |
+| **Name** | [VarNode](#varnode-class) | This sets and returns the name of var node |
+| **FunctionParameters** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[VarNode](#varnode-class)\> | This sets and returns the function parameters with the type var node |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -775,7 +814,7 @@ Base class: [StatementNode](#statementnode-class)
 
 | Name | Summary |
 |---|---|
-| **FuncNode(int line, int offset)** |  |
+| **FuncNode(int line, int offset)** | This is the constructor for func node<br>Statement is assigned to a list of statementnodes |
 ## Methods
 
 | Name | Returns | Summary |
@@ -787,6 +826,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [MathOperatorNode](#mathoperatornode-class)
 
+This is the greater node class
+It inherits the math operator node class
 
 ## Properties
 
@@ -803,7 +844,7 @@ Base class: [MathOperatorNode](#mathoperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **GreaterNode(ScannerToken token)** |  |
+| **GreaterNode(ScannerToken token)** | This is the greater node constructor |
 ## Methods
 
 | Name | Returns | Summary |
@@ -815,6 +856,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [BoolOperatorNode](#booloperatornode-class)
 
+This is the class for greater or equal node class
+It inherits the bool operator node class
 
 ## Properties
 
@@ -831,7 +874,7 @@ Base class: [BoolOperatorNode](#booloperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **GreaterOrEqualNode([OperatorNode](#operatornode-class) node)** |  |
+| **GreaterOrEqualNode([OperatorNode](#operatornode-class) node)** | This is the constructor for greater or equal node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -841,33 +884,37 @@ Base class: [BoolOperatorNode](#booloperatornode-class)
 
 Namespace: AbstractSyntaxTree.Objects.Nodes
 
+This is the interface for an expresstion
+In implements the interface of typed
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **LeftHand** | [ITerm](#iterm-class) |  |
-| **Operator** | [OperatorNode](#operatornode-class) |  |
+| **LeftHand** | [ITerm](#iterm-class) | This sets and returns the value of the lefthand of an expression |
+| **Operator** | [OperatorNode](#operatornode-class) | This sets and returns the value of operator node |
 | **RightHand** | [IExpr](#iexpr-class) |  |
 ## Methods
 
 | Name | Returns | Summary |
 |---|---|---|
-| **Accept([Visitor](#visitor-class) visitor)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **IsType([Type](https://docs.microsoft.com/en-us/dotnet/api/system.type) type)** | bool |  |
+| **Accept([Visitor](#visitor-class) visitor)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This accept the object  |
+| **IsType([Type](https://docs.microsoft.com/en-us/dotnet/api/system.type) type)** | bool | This checks if it has been typed checked |
 # IfStatementNode Class
 
 Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is the if statement node class
+It inherits a statement class and implements the scope interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Expression** | [ExpressionNode](#expressionnode-class) |  |
-| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> |  |
+| **Expression** | [ExpressionNode](#expressionnode-class) | This sets and returns the value of expression node |
+| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> | This sets and returns the value of the list of expression node |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -879,7 +926,7 @@ Base class: [StatementNode](#statementnode-class)
 
 | Name | Summary |
 |---|---|
-| **IfStatementNode(int line, int offset)** |  |
+| **IfStatementNode(int line, int offset)** | This is the constructor for if statements<br>Statements is assigned to a list of statement |
 ## Methods
 
 | Name | Returns | Summary |
@@ -889,19 +936,23 @@ Base class: [StatementNode](#statementnode-class)
 
 Namespace: AbstractSyntaxTree.Objects.Nodes
 
+This is the interface for terms of expressions
+In implements the interface typed
 
 ## Methods
 
 | Name | Returns | Summary |
 |---|---|---|
-| **Accept([Visitor](#visitor-class) visitor)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) |  |
-| **IsType([Type](https://docs.microsoft.com/en-us/dotnet/api/system.type) type)** | bool |  |
+| **Accept([Visitor](#visitor-class) visitor)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | This method accepts the visited node |
+| **IsType([Type](https://docs.microsoft.com/en-us/dotnet/api/system.type) type)** | bool | This method checks if the node has been type checked |
 # LessNode Class
 
 Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [MathOperatorNode](#mathoperatornode-class)
 
+This is the class for less node
+It inherits the math operator node
 
 ## Properties
 
@@ -918,7 +969,7 @@ Base class: [MathOperatorNode](#mathoperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **LessNode(ScannerToken token)** |  |
+| **LessNode(ScannerToken token)** | This is the construcor for less node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -930,6 +981,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [BoolOperatorNode](#booloperatornode-class)
 
+This is the class for less or equal node
+It inherits the bool operator node
 
 ## Properties
 
@@ -946,7 +999,7 @@ Base class: [BoolOperatorNode](#booloperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **LessOrEqualNode([OperatorNode](#operatornode-class) node)** |  |
+| **LessOrEqualNode([OperatorNode](#operatornode-class) node)** | This is the contructor for the less or equal node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -958,6 +1011,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [OperatorNode](#operatornode-class)
 
+This is the math operator node class
+It inherits the operator node class
 
 ## Properties
 
@@ -974,7 +1029,7 @@ Base class: [OperatorNode](#operatornode-class)
 
 | Name | Summary |
 |---|---|
-| **MathOperatorNode(ScannerToken token)** |  |
+| **MathOperatorNode(ScannerToken token)** | This is the constructor for math operator |
 ## Methods
 
 | Name | Returns | Summary |
@@ -986,6 +1041,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [MathOperatorNode](#mathoperatornode-class)
 
+This is the minus node class
+It inherits the math operator node class
 
 ## Properties
 
@@ -1002,7 +1059,7 @@ Base class: [MathOperatorNode](#mathoperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **MinusNode(ScannerToken token)** |  |
+| **MinusNode(ScannerToken token)** | This is the constructor for minus node  |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1014,6 +1071,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [MathOperatorNode](#mathoperatornode-class)
 
+This is the class for modulo node
+It inherits the math operator node class
 
 ## Properties
 
@@ -1030,7 +1089,7 @@ Base class: [MathOperatorNode](#mathoperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **ModuloNode(ScannerToken token)** |  |
+| **ModuloNode(ScannerToken token)** | This is the constructor for modulo node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1042,13 +1101,15 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [ValNode](#valnode-class)
 
+This is the numeric node class
+It inherits the val node class
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **FValue** | float |  |
-| **IValue** | int |  |
+| **FValue** | float | This is sets and returns the floating point value  |
+| **IValue** | int | This sets and returns the integer value |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -1060,7 +1121,7 @@ Base class: [ValNode](#valnode-class)
 
 | Name | Summary |
 |---|---|
-| **NumericNode(string value, ScannerToken token)** |  |
+| **NumericNode(string value, ScannerToken token)** | This is the constructor for numeric node<br>It enables the program to use period seperator for floating points <br>FValue is set to be floating points and IValue is set to be integer |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1072,6 +1133,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [AstNode](#astnode-class)
 
+This is the operator node class
+It inherits the Ast node class 
 
 ## Properties
 
@@ -1088,8 +1151,8 @@ Base class: [AstNode](#astnode-class)
 
 | Name | Summary |
 |---|---|
-| **OperatorNode(ScannerToken token)** |  |
-| **OperatorNode(TokenType type, int line, int offset)** |  |
+| **OperatorNode(ScannerToken token)** | This is the constructor for operator node |
+| **OperatorNode(TokenType type, int line, int offset)** | This is the constructor for operator node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1101,6 +1164,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [MathOperatorNode](#mathoperatornode-class)
 
+This is the or node class
+It inherits the mathoperator node class
 
 ## Properties
 
@@ -1117,7 +1182,7 @@ Base class: [MathOperatorNode](#mathoperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **OrNode(ScannerToken token)** |  |
+| **OrNode(ScannerToken token)** | This is the constructor for or node  |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1129,16 +1194,18 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [ExpressionNode](#expressionnode-class)
 
+This is the class for parenthesis expression node
+It inherits the expression node class and implements the expression interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **LeftHand** | [ITerm](#iterm-class) |  |
-| **Operator** | [OperatorNode](#operatornode-class) |  |
-| **RightHand** | [IExpr](#iexpr-class) |  |
+| **LeftHand** | [ITerm](#iterm-class) | This sets and returns the value of lefthand side of expressions |
+| **Operator** | [OperatorNode](#operatornode-class) | This sets and returns the value of operators |
+| **RightHand** | [IExpr](#iexpr-class) | This sets and returns the value of right hands side of expressions |
 | **Parent** | [ExpressionNode](#expressionnode-class) |  |
-| **Child** | [ExpressionNode](#expressionnode-class) |  |
+| **Child** | [ExpressionNode](#expressionnode-class) | This returns and sets the value of the child to the expression |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -1150,7 +1217,7 @@ Base class: [ExpressionNode](#expressionnode-class)
 
 | Name | Summary |
 |---|---|
-| **ParenthesisExpression(int line, int offset)** |  |
+| **ParenthesisExpression(int line, int offset)** | This is the constructor of parenthesis espressions |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1163,12 +1230,14 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [ValNode](#valnode-class)
 
+This is the Pin node class
+It inherits the val node class and the assignable interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Id** | string |  |
+| **Id** | string | This sets and returns the ID |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -1180,7 +1249,7 @@ Base class: [ValNode](#valnode-class)
 
 | Name | Summary |
 |---|---|
-| **PinNode(ScannerToken token)** |  |
+| **PinNode(ScannerToken token)** | this is the constructor of Pin node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1192,6 +1261,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [MathOperatorNode](#mathoperatornode-class)
 
+This is the plus node class
+It inherits from the math operator node class
 
 ## Properties
 
@@ -1208,7 +1279,7 @@ Base class: [MathOperatorNode](#mathoperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **PlusNode(ScannerToken token)** |  |
+| **PlusNode(ScannerToken token)** | This is the constructor for plus node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1220,12 +1291,14 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [AstNode](#astnode-class)
 
+This is the program node class
+It inherits the Ast node class and implements the scope interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> |  |
+| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> | This sets and returns a list of statements of the type statementnode |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -1237,7 +1310,7 @@ Base class: [AstNode](#astnode-class)
 
 | Name | Summary |
 |---|---|
-| **ProgramNode(int line, int offset)** |  |
+| **ProgramNode(int line, int offset)** | This is the constructor for program node<br>Statements is assigned to a list of statement nodes |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1247,20 +1320,22 @@ Base class: [AstNode](#astnode-class)
 
 | Name | Type | Summary |
 |---|---|---|
-| **FunctionDefinitons** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[FuncNode](#funcnode-class)\> |  |
-| **LoopFunction** | [FuncNode](#funcnode-class) |  |
+| **FunctionDefinitons** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[FuncNode](#funcnode-class)\> | This sets and returns a list of function definitions with the type funcnode |
+| **LoopFunction** | [FuncNode](#funcnode-class) | This is the loopfunction |
 # ReturnNode Class
 
 Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is the return node class
+It inherits from statement node class
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **ReturnValue** | [ExpressionNode](#expressionnode-class) |  |
+| **ReturnValue** | [ExpressionNode](#expressionnode-class) | This sets and returns the value for retunr value |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -1272,7 +1347,7 @@ Base class: [StatementNode](#statementnode-class)
 
 | Name | Summary |
 |---|---|
-| **ReturnNode(int line, int offset)** |  |
+| **ReturnNode(int line, int offset)** | This is the constructor for return node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1284,6 +1359,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [AstNode](#astnode-class)
 
+This is the class for statement node
+It inherits the Ast node class
 
 ## Properties
 
@@ -1300,9 +1377,9 @@ Base class: [AstNode](#astnode-class)
 
 | Name | Summary |
 |---|---|
-| **StatementNode(ScannerToken token)** |  |
-| **StatementNode(TokenType type, ScannerToken token)** |  |
-| **StatementNode(TokenType type, int line, int offset)** |  |
+| **StatementNode(ScannerToken token)** | This is the constructor for statement node |
+| **StatementNode(TokenType type, ScannerToken token)** | This is the constructor for statement node |
+| **StatementNode(TokenType type, int line, int offset)** | This is the constructor for statement node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1314,12 +1391,14 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [ValNode](#valnode-class)
 
+This is the string node class
+It inherits from val node class
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Value** | string |  |
+| **Value** | string | This sets and returns the value |
 | **Type** | TokenType | The type of token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
 | **Line** | int | The line of the token |
@@ -1330,7 +1409,7 @@ Base class: [ValNode](#valnode-class)
 
 | Name | Summary |
 |---|---|
-| **StringNode(string value, ScannerToken token)** |  |
+| **StringNode(string value, ScannerToken token)** | This is the constructor for string node<br>Value is assigned to value |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1342,6 +1421,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [TimeNode](#timenode-class)
 
+This is the class time hour node
+It inherits from time node class
 
 ## Properties
 
@@ -1358,7 +1439,7 @@ Base class: [TimeNode](#timenode-class)
 
 | Name | Summary |
 |---|---|
-| **TimeHourNode(ScannerToken token)** |  |
+| **TimeHourNode(ScannerToken token)** | This is the time hour node constructor |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1370,6 +1451,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [TimeNode](#timenode-class)
 
+This is the time millisecond node class
+It inherits from the time node class
 
 ## Properties
 
@@ -1386,7 +1469,7 @@ Base class: [TimeNode](#timenode-class)
 
 | Name | Summary |
 |---|---|
-| **TimeMillisecondNode(ScannerToken token)** |  |
+| **TimeMillisecondNode(ScannerToken token)** | This is the constructor for time millisecond node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1398,6 +1481,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [TimeNode](#timenode-class)
 
+This is the time minute node class
+It inherits from time node
 
 ## Properties
 
@@ -1414,7 +1499,7 @@ Base class: [TimeNode](#timenode-class)
 
 | Name | Summary |
 |---|---|
-| **TimeMinuteNode(ScannerToken token)** |  |
+| **TimeMinuteNode(ScannerToken token)** | This is the constructor for time minuse node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1426,6 +1511,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [AstNode](#astnode-class)
 
+This is the time node class
+It inherits from the Ast node class
 
 ## Properties
 
@@ -1442,7 +1529,7 @@ Base class: [AstNode](#astnode-class)
 
 | Name | Summary |
 |---|---|
-| **TimeNode(ScannerToken token)** |  |
+| **TimeNode(ScannerToken token)** | This is the constructor for time node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1454,6 +1541,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [TimeNode](#timenode-class)
 
+This is the time second node class
+It inherits from the time node class
 
 ## Properties
 
@@ -1470,7 +1559,7 @@ Base class: [TimeNode](#timenode-class)
 
 | Name | Summary |
 |---|---|
-| **TimeSecondNode(ScannerToken token)** |  |
+| **TimeSecondNode(ScannerToken token)** | This is the constructor for time second node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1482,6 +1571,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [MathOperatorNode](#mathoperatornode-class)
 
+This is the times node class
+It inherits from the math operator node class
 
 ## Properties
 
@@ -1498,7 +1589,7 @@ Base class: [MathOperatorNode](#mathoperatornode-class)
 
 | Name | Summary |
 |---|---|
-| **TimesNode(ScannerToken token)** |  |
+| **TimesNode(ScannerToken token)** | This is the constructor for times node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1510,6 +1601,8 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [AstNode](#astnode-class)
 
+This is the val node class
+It inherits the Ast node class and the term interface
 
 ## Properties
 
@@ -1526,7 +1619,7 @@ Base class: [AstNode](#astnode-class)
 
 | Name | Summary |
 |---|---|
-| **ValNode(ScannerToken token)** |  |
+| **ValNode(ScannerToken token)** | This is the constructor for val node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1538,14 +1631,16 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [ValNode](#valnode-class)
 
+This is the var node class
+It inherits from val node class and implements the assignable interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Id** | string |  |
-| **Declaration** | bool |  |
-| **IsArray** | bool |  |
+| **Id** | string | This sets and returns the value of the ID |
+| **Declaration** | bool | This sets and returns the boolean value of decleration, |
+| **IsArray** | bool | This sets and returns the boolean value for isarray |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -1557,26 +1652,28 @@ Base class: [ValNode](#valnode-class)
 
 | Name | Summary |
 |---|---|
-| **VarNode(string id, ScannerToken token)** |  |
+| **VarNode(string id, ScannerToken token)** | This is the constructor for var node<br>Id is assigned to id |
 ## Methods
 
 | Name | Returns | Summary |
 |---|---|---|
 | **Accept([Visitor](#visitor-class) visitor)** | [Object](https://docs.microsoft.com/en-us/dotnet/api/system.object) | An accept method that accepts the AST node in the tree when the node is visited. |
-| **ToString()** | string |  |
+| **ToString()** | string | This method converts the ID to a string |
 # WaitNode Class
 
 Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is teh wait node class
+It inherits the statement node class
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **TimeModifier** | [TimeNode](#timenode-class) |  |
-| **TimeAmount** | [NumericNode](#numericnode-class) |  |
+| **TimeModifier** | [TimeNode](#timenode-class) | This sets and returns the time modifier with the type time node |
+| **TimeAmount** | [NumericNode](#numericnode-class) | This sets and returns the time amount with the type numeric node |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -1588,7 +1685,7 @@ Base class: [StatementNode](#statementnode-class)
 
 | Name | Summary |
 |---|---|
-| **WaitNode(int line, int offset)** |  |
+| **WaitNode(int line, int offset)** | This is the constructor for wait node |
 ## Methods
 
 | Name | Returns | Summary |
@@ -1600,13 +1697,15 @@ Namespace: AbstractSyntaxTree.Objects.Nodes
 
 Base class: [StatementNode](#statementnode-class)
 
+This is the whilenode class
+It inherits the statementnode and implements the scope interface
 
 ## Properties
 
 | Name | Type | Summary |
 |---|---|---|
-| **Expression** | [ExpressionNode](#expressionnode-class) |  |
-| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> |  |
+| **Expression** | [ExpressionNode](#expressionnode-class) | This sets and returns the value of the expression |
+| **Statements** | [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1)\<[StatementNode](#statementnode-class)\> | This sets and returns the value of the list of statements |
 | **Type** | TokenType | The type of token. |
 | **Value** | string | Value of the token. |
 | **SymbolType** | TypeContext | Symboltype helps the typechecker set the type of symbols |
@@ -1618,7 +1717,7 @@ Base class: [StatementNode](#statementnode-class)
 
 | Name | Summary |
 |---|---|
-| **WhileNode(int line, int offset)** |  |
+| **WhileNode(int line, int offset)** | This is the while node constructor<br>Statements are assigned to a list of statementnodes |
 ## Methods
 
 | Name | Returns | Summary |

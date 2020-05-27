@@ -184,7 +184,6 @@ namespace CodeGeneration
                 assign += (string)assignmentNode.RightHand.Accept(this);
             }
 
-
             assign += ";";
             return assign;
         }
