@@ -366,6 +366,8 @@ code {
     });
   </script>
 <h1 id="coredll-v1000-api-documentation">Core.dll v.1.0.0.0 API documentation</h1>
+<p>Created by
+<a href="https://github.com/loxsmoke/mddox">mddox</a> on 27/05/2020</p>
 <h1 id="all-types">All types</h1>
 <table>
 <thead>
@@ -420,7 +422,7 @@ This is where every step of the compiler is called from.</p>
 <tr>
 <td><strong>ParseOptions(<a href="https://docs.microsoft.com/en-us/dotnet/api/system.string%5B%5D">string[]</a> args)</strong></td>
 <td><a href="#commandlineoptions-class">CommandLineOptions</a></td>
-<td></td>
+<td>This function will parse the flags passed to the compiler.<br>This is done using a switch case, which will then set the correct flags and values in the compiler options.</td>
 </tr>
 </tbody>
 </table>
@@ -519,14 +521,11 @@ This class is used to add better shell integration, when calling commands in the
 <td><strong>EncodingNotSupportedException(string message)</strong></td>
 <td>An exception which will be thrown when a file encoding is not supported in the compiler.</td>
 </tr>
-<tr>
-<td><strong>EncodingNotSupportedException(string message, <a href="https://docs.microsoft.com/en-us/dotnet/api/system.exception">Exception</a> innerException)</strong></td>
-<td>An exception which will be thrown when a file encoding is not supported in the compiler.</td>
-</tr>
 </tbody>
 </table>
 <h1 id="commandlineoptions-class">CommandLineOptions Class</h1>
 <p>Namespace: Core.Objects</p>
+<p>The base class for the command line options that will be checked on compiler invokation.</p>
 <h2 id="properties">Properties</h2>
 <table>
 <thead>
