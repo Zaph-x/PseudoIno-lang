@@ -2,14 +2,18 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
+    /// <summary>
+    /// The class for Analog pin node
+    /// Inherits from the pin node class
+    /// </summary>
     public class APinNode : PinNode
     {
         /// <summary>
-        /// 
+        /// The constructor for APin node
+        /// Id is set to the pin number
         /// </summary>
-        /// <param name="pinNum"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
+        /// <param name="pinNum">The number of the pin</param>
+        /// <param name="token">The name of the token</param>
         public APinNode(string pinNum, ScannerToken token) : base(token)
         {
             this.Id = pinNum;

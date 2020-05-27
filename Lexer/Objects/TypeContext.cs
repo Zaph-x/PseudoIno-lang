@@ -26,7 +26,7 @@ namespace Lexer.Objects
         /// <summary>
         /// Getter setter property specifying if a value is a float.
         /// </summary>
-        /// <exception cref="InvalidOperationException" >If the type of the type context is not a numeric<exception/>
+        /// <exception cref="InvalidOperationException" >If the type of the type context is not a numeric</exception>
         /// <value></value>
         public bool IsFloat {
             get => _float;
@@ -85,6 +85,7 @@ namespace Lexer.Objects
         }
         /// <inheritdoc cref="System.Object.ToString()"/>
         public override string ToString() => ""+this.Type;
+        
         /// <inheritdoc cref="System.Object.Equals(Object)"/>
         public override bool Equals(object obj)
         {

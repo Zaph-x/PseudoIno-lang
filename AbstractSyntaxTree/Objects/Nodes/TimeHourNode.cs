@@ -2,8 +2,16 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
+    /// <summary>
+    /// This is the class time hour node
+    /// It inherits from time node class
+    /// </summary>
     public class TimeHourNode : TimeNode
     {
+        /// <summary>
+        /// This is the time hour node constructor
+        /// </summary>
+        /// <param name="token">This is the token</param>
         public TimeHourNode( ScannerToken token) : base(token)
         {
         }

@@ -2,11 +2,16 @@ using Lexer.Objects;
 
 namespace AbstractSyntaxTree.Objects.Nodes
 {
+    /// <summary>
+    /// The class for And node
+    /// inherits math operator node
+    /// </summary>
     public class AndNode : MathOperatorNode
     {
         /// <summary>
-        /// The constructor for the And node
+        /// The constructor for And node
         /// </summary>
+        /// <param name="token">The name of the token</param>
         public AndNode (ScannerToken token) : base(token)
         {
         }
