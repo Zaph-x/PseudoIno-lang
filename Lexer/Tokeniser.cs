@@ -12,7 +12,7 @@ namespace Lexer
     /// <summary>
     /// The class responsible for generating the tokens from the source language
     /// </summary>
-    public class Tokenizer
+    public class Tokeniser
     {
         /// <summary>
         /// The list of tokens generated when the source language is being scanned
@@ -50,7 +50,7 @@ namespace Lexer
         public long BufferOffset { get; private set; }
 
         /// <summary>
-        /// A bool value to check if the tokenizer found any illegal syntax
+        /// A bool value to check if the tokeniser found any illegal syntax
         /// </summary>
         /// <value>False, unless a syntax error has been found</value>
         public static bool HasError { get; set; }
@@ -63,10 +63,10 @@ namespace Lexer
 
 
         /// <summary>
-        /// The constructor for the Tokenizer class. This will set the iniitiate a reader and a recogniser.
+        /// The constructor for the tokeniser class. This will set the iniitiate a reader and a recogniser.
         /// </summary>
         /// <param name="stream">The StreamReader responsible for reading a class</param>
-        public Tokenizer(StreamReader stream)
+        public Tokeniser(StreamReader stream)
         {
             recogniser = new Recogniser();
             reader = stream;
@@ -408,6 +408,7 @@ namespace Lexer
                 }
                 return;
             }
+
             token = Token(TokenType.VAR, subString);
             if (Tokens.Any() && (Tokens.Last().Type == TokenType.FUNC || Tokens.Last().Type == TokenType.CALL))
             {
@@ -417,27 +418,14 @@ namespace Lexer
             {
                 token.SymbolicType = new TypeContext(TokenType.VAR);
             }
-            Tokens.AddLast(token);
-            subString = "";
-            if (Peek() == '\n')
-            {
-                return;
-            }
             if (Peek() == '@')
             {
                 Pop();
-                Tokens.AddLast(Token(TokenType.ARRAYINDEX));
+                token.SymbolicType = new TypeContext(TokenType.ARRAYINDEX);
+                token.Type = TokenType.ARRAYINDEX;
             }
-            else if (Peek() == '[')
-            {
-                Pop();
-                Tokens.AddLast(Token(TokenType.ARRAYLEFT));
-            }
-            else if (Peek() == ']')
-            {
-                Pop();
-                Tokens.AddLast(Token(TokenType.ARRAYRIGHT));
-            }
+            Tokens.AddLast(token);
+            subString = "";
         }
 
         /// <summary>
@@ -558,6 +546,15 @@ namespace Lexer
                         Tokens.AddLast(Token(TokenType.ASSIGN));
                     }
                     break;
+                case '[':
+                    Tokens.AddLast(Token(TokenType.ARRAYLEFT));
+                    break;
+                case ']':
+                    Tokens.AddLast(Token(TokenType.ARRAYRIGHT));
+                    break;
+                case '@':
+                    Tokens.AddLast(Token(TokenType.ARRAYINDEX));
+                    break;
                 default:
                     new InvalidSyntaxException($"'{CurrentChar}' was not recognised as a valid operator. Error at line {Line}:{Offset}.");
                     return;
@@ -581,7 +578,7 @@ namespace Lexer
                 else if (CurrentChar == '_' && (recogniser.IsAcceptedCharacter(Peek()) || recogniser.IsDigit(Peek()))) { ScanWord(); }
                 else if (CurrentChar == '#' && Peek() != '<') { ScanComment(); }
                 else if (CurrentChar == '#' && Peek() == '<') { ScanMultiLineComment(); }
-                else if ("+-*/%(),<>&|:=".Contains(CurrentChar)) { ScanOperators(); }
+                else if ("+-*/%(),<>&|:=[]@".Contains(CurrentChar)) { ScanOperators(); }
                 else if (CurrentChar == '"') { ScanString(); }
             }
             if (ParenthesisStack.Any())

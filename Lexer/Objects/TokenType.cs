@@ -52,7 +52,13 @@ namespace Lexer.Objects
         /// Array index accessor token type
         /// </summary>
         ARRAYINDEX,
+        ///<summary>
+        /// Array accessor token type
+        /// </summary>
         ARRAYACCESSING,
+        ///<summary>
+        /// Array indexer token type
+        /// </summary>
         INDEXER,
         // loops
         ///<summary>
@@ -339,7 +345,10 @@ namespace Lexer.Objects
         /// End for token, non terminal
         /// </summary>
         ENDFOR,
-        ENDVAR,
+        /// <summary>
+        /// Accessor Value for Arrays
+        /// </summary>
+        ARRAYACCESSOR,
         /// <summary>
         /// Assignment token, non terminal
         /// </summary>
@@ -392,12 +401,58 @@ namespace Lexer.Objects
         /// Comman seperator, terminal
         /// </summary>
         SEPARATOR,
+        ///<summary>
+        /// return token type
+        /// </summary>
         RETURN,
+        ///<summary>
+        /// Nonterminal for return statement
+        /// </summary>
         RETSTMNT,
+        ///<summary>
+        /// Endif nonterminal token type
+        /// </summary>
         ENDIF,
+        ///<summary>
+        /// Nonterminal comment token type
+        /// </summary>
         NT_COMMENT,
+        ///<summary>
+        /// Assignment statement nonterminal token type
+        /// </summary>
         ASSIGNSTMNT,
-        TERM, FOLLOWTERM, FACTOR, FOLLOWFACTOR, TERMOP, FACTOROP, OP_GEQ, OP_LEQ
+        ///<summary>
+        /// Term token type
+        /// </summary>
+        TERM, 
+        ///<summary>
+        /// follow term for expression token type
+        /// </summary>
+        FOLLOWTERM, 
+        ///<summary>
+        /// Factor for expression token type
+        /// </summary>
+        FACTOR, 
+        ///<summary>
+        /// Followfactor for expressions token type
+        /// </summary>
+        FOLLOWFACTOR, 
+        ///<summary>
+        /// Operator token type for terms
+        /// </summary>
+        TERMOP, 
+        ///<summary>
+        /// Factor operator token type
+        /// </summary>
+        FACTOROP, 
+        ///<summary>
+        /// Greater or equal token type
+        /// </summary>
+        OP_GEQ, 
+        ///<summary>
+        /// Less or equal token type
+        /// </summary>
+        OP_LEQ
     }
 
     /// <summary>
@@ -424,7 +479,6 @@ namespace Lexer.Objects
             || type == FOLLOWFACTOR
             || type == FACTOR
             || type == ARRAYACCESSING
-            || type == ARRAYINDEX
             || type == TERMOP
             || type == FACTOROP
             || type == BOOL_OP
@@ -451,6 +505,7 @@ namespace Lexer.Objects
             || type == RANGE
             || type == WAITSTMNT
             || type == TIME_MOD
+            || type == ARRAYACCESSOR
             || type == CALLPARAMS
             || type == CALLPARAM;
         }
@@ -472,22 +527,6 @@ namespace Lexer.Objects
 
         }
 
-        public static bool IsRef(TokenType type)
-        {
-            return type == ASSIGNMENT
-                   || type == APIN
-                   || type == DPIN
-                   || type == VAR
-                   || type == FUNCCALL;
-        }
-
-        public static bool IsDcl(TokenType type)
-        {
-            return type == ASSIGNMENT
-                   || type == FUNC
-                   || type == APIN
-                   || type == DPIN;
-        }
         /// <summary>
         /// Determines whether a token is an operator
         /// </summary>

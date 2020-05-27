@@ -1,21 +1,21 @@
-dotnet tool install --global minicover | out-null
+dotnet tool install minicover | out-null
 "Building project"
 dotnet restore | out-null
 dotnet build | out-null
 "Setting up minicover"
 # Instrument
-minicover instrument --sources .\**\*.cs --exclude-sources .\Tests\**\*.cs --tests .\Tests\**\*.cs | out-null
+dotnet minicover instrument --sources .\**\*.cs --exclude-sources .\Tests\**\*.cs --tests .\Tests\**\*.cs | out-null
 "Reseting previous tests"
 # Reset hits
-minicover reset | out-null
+dotnet minicover reset | out-null
 "Running tests"
 dotnet test --no-build | out-null
 
 # Uninstrument
-minicover uninstrument | out-null
+dotnet minicover uninstrument | out-null
 "Generating HTML report"
 # Create html reports inside folder coverage-html
-minicover htmlreport --threshold 90 | out-null
+dotnet minicover htmlreport --threshold 80 | out-null
 
 # Console report
-minicover report --threshold 90
+dotnet minicover report --threshold 80

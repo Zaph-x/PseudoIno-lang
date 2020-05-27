@@ -14,7 +14,7 @@ namespace Lexer.Exceptions
         public InvalidSyntaxException(string message)
         {
             Console.Error.WriteLine(message);
-            Tokenizer.HasError = true;
+            Tokeniser.HasError = true;
         }
     }
 }

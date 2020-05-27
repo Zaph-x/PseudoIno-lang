@@ -43,12 +43,12 @@ func foo with c, d
 end foo
 a is on
 b is 4
-
+c is 4
 dpin4 is b less (4 + (3 + 5))
 
 if a equal b do
     if b equal c do
-        a is 4
+        a is false
     end if
 else if b equal c do
     b is 4
@@ -56,34 +56,65 @@ else
     c is 4
 end if
 d is c less 4
-call foo
-f is call foo with 23
+call foo with 23, 2
+f is call foo with 23, 2
 func loop
-    a is a + 1
+    a is on
     call foo with 3
     wait 4s
-    a is a + 1
+    a is off
 end loop
 ";
+        private const string content3 =
+@"
+func loop
+    wait 4s
+    wait 4m
+    wait 4h
+    wait 4ms
+end loop
+";
+        private const string content4 =
+@"
+func loop
+  a is 2
+  b is 3
+ a is  a + b
+  a is a-b
+if( a or b) do
+ d is b%a
+c is ""test1222!""
+e is a/d
+end if 
+if( a > b and b >=a or b<=a) do
+#do nothing
+apin1 is on
+end if  
+a is [2]
+f is a@1
+end loop
+ ";
 
         string nowhere;
 
         [SetUp]
         public void TestInit()
         {
-            Parsenizer.HasError = false;
+            Parser.Parser.HasError = false;
         }
 
-        [Test]
-        public void Test_ASTHelper_Assign_2()
+        [TestCase(content2)]
+        [TestCase(content3)]
+        [TestCase(content4)]
+        public void Test_ASTHelper_Assign_2(string test)
         {
-            StreamReader FakeReader = CreateFakeReader(content2, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
+            StreamReader FakeReader = CreateFakeReader(test, Encoding.UTF8);
+            Tokeniser tokeniser = new Tokeniser(FakeReader);
+            tokeniser.GenerateTokens();
+            List<ScannerToken> tokens = tokeniser.Tokens.ToList();
+            Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out nowhere);
-            if (Parsenizer.HasError)
+            if (Parser.Parser.HasError)
                 Assert.Fail();
             parser.Root.Accept(new PrettyPrinter());
         }

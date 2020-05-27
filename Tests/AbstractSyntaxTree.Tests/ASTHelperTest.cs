@@ -58,7 +58,7 @@ namespace AbstractSyntaxTree.Tests
         [SetUp]
         public void TestInit()
         {
-            Parsenizer.HasError = false;
+            Parser.Parser.HasError = false;
         }
 
         [TestCase(content)]
@@ -66,12 +66,12 @@ namespace AbstractSyntaxTree.Tests
         public void Test_ASTHelper_Constructor(string content)
         {
             StreamReader FakeReader = CreateFakeReader(content, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
+            Tokeniser tokeniser = new Tokeniser(FakeReader);
+            tokeniser.GenerateTokens();
+            List<ScannerToken> tokens = tokeniser.Tokens.ToList();
+            Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out nowhere);
-            Assert.IsFalse(Parsenizer.HasError, "The parser encountered an error");
+            Assert.IsFalse(Parser.Parser.HasError, "The parser encountered an error");
         }
 
         public StreamReader CreateFakeReader(string content, Encoding enc)

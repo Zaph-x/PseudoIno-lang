@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using AbstractSyntaxTree.Objects.Nodes;
 using Contextual_analysis;
 using Lexer;
 using Lexer.Objects;
@@ -190,52 +191,211 @@ end loop";
 b is 3 - 1 - 1
 func loop
 end loop";
+        
+private const string Array_Declaration = @"
+a is [2]
+func loop
+	b is true
+end loop
+";
+private const string Array_Assignment = @"
+a is [2]
+a@0 is -10
+func loop
+	b is true
+end loop
+";
+private const string Array_Access = @"
+a is [2]
+a@0 is -10
+func loop
+	b is a@0
+end loop
+";
 
-        string dbg;
+private const string func_float =
+    @"
+func foo
+  b is 4.2
+  return b
+end foo
+
+func loop
+  a is 5.1
+  a is call foo
+end loop";
+
+private const string func_string =
+    "\n func foo \n b is \"HelloWorld\" \n return b \n end foo \n func loop \n a is call foo \n end loop";
+
+private const string func_bool =
+    @"
+func foo
+  b is true
+  return b
+end foo
+
+func loop
+  a is false
+  a is call foo
+end loop";
+
+private const string call_2_param =
+    @"
+func foo with c, f
+  b is c + f
+  return b
+end foo
+
+func loop
+  a is call foo with 2.1, 5.8
+end loop";
+
+private const string call_2_param_string =
+    "func foo with c, f \n b is c \n return b \n end foo \n func loop \n a is call foo with \"hello\", \"world\" \n end loop";
+
+private const string call_2_param_divide =
+    @"
+func foo with c, f
+  b is c / f
+  return b
+end foo
+
+func loop
+  a is call foo with 2.1, 5.8
+end loop";
+
+private const string call_2_param_and =
+    @"
+func foo with c, f
+  b is c && f
+  return b
+end foo
+
+func loop
+  a is call foo with true, false
+end loop";
+
+private const string pwm =
+    @"
+apin9 is 0
+apin9 is 128
+func loop
+
+end loop";
+
+private const string pin_fail =
+    @"
+dpin9 is 0
+a is dpin9
+func loop
+
+end loop";
+
+string dbg;
 
         [SetUp]
         public void TestInit()
         {
             CodeGenerationVisitor.HasError = false;
-            Parsenizer.HasError=false;
+            Parser.Parser.HasError = false;
             TypeChecker.HasError = false;
+            SymbolTableObject.FunctionCalls = new List<CallNode>();
+            SymbolTableObject.FunctionDefinitions = new List<FuncNode>();
+            SymbolTableObject.PredefinedFunctions = new List<FuncNode>();
             dbg = "";
         }
 
-        [OneTimeTearDown]
+        [TearDown]
         public void TearDown()
+        {
+            CodeGenerationVisitor.HasError = false;
+            Parser.Parser.HasError = false;
+            TypeChecker.HasError = false;
+        }
+
+        [OneTimeTearDown]
+        public void TearDownOneTime()
         {
             File.Delete(AppContext.BaseDirectory + "Codegen_output.cpp");
         }
 
-        [TestCase(content)]
-        [TestCase(content2)]
-        [TestCase(blink)]
-        [TestCase(forstatmenttest)]
-        [TestCase(Ifstatment)]
-        [TestCase(whilestatment)]
-        [TestCase(whilestatment2)]
-        [TestCase(whilestatment3)]
-        [TestCase(time)]
-        [TestCase(stringTest)]
-        [TestCase(program4)]
-        [TestCase(program5)]
-        public void Test_CodeGenVisitor_content(string prog)
+        [TestCase(0,content)]
+        [TestCase(1,content2)]
+        [TestCase(2,blink)]
+        [TestCase(3,forstatmenttest)]
+        [TestCase(4,Ifstatment)]
+        [TestCase(5,whilestatment)]
+        [TestCase(6,whilestatment2)]
+        [TestCase(7,whilestatment3)]
+        [TestCase(8,time)]
+        [TestCase(9,stringTest)]
+        [TestCase(10,program4)]
+        [TestCase(11,program5)]
+        //[TestCase(12,Array_Declaration)]
+        [TestCase(13,Array_Assignment)]
+        [TestCase(14,Array_Access)]
+        [TestCase(15,func_float)]
+        [TestCase(16,func_string)]
+        [TestCase(17,func_bool)]
+        [TestCase(18,call_2_param)]
+        [TestCase(19,call_2_param_divide)]
+        [TestCase(20,call_2_param_and)]
+        //[TestCase(21,call_2_param_string)]
+        [TestCase(22,pwm)]
+        public void Test_CodeGenVisitor_content(int n, string prog)
         {
             StreamReader FakeReader = CreateFakeReader(prog, Encoding.UTF8);
-            Tokenizer tokenizer = new Tokenizer(FakeReader);
-            tokenizer.GenerateTokens();
-            List<ScannerToken> tokens = tokenizer.Tokens.ToList();
-            Parsenizer parser = new Parsenizer(tokens);
+            Tokeniser tokeniser = new Tokeniser(FakeReader);
+            tokeniser.GenerateTokens();
+            List<ScannerToken> tokens = tokeniser.Tokens.ToList();
+            Parser.Parser parser = new Parser.Parser(tokens);
             parser.Parse(out dbg);
-            if (Parsenizer.HasError)
-                Assert.Fail("The parser encountered an error\n\n"+dbg);
+            if (Parser.Parser.HasError)
+                Assert.Fail("The parser encountered an error\n\n" + dbg);
             parser.Root.Accept(new TypeChecker());
             Assert.IsFalse(TypeChecker.HasError, "Typechecker visitor encountered an error");
-            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp");
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
             parser.Root.Accept(codeGenerationVisitor);
             Assert.IsFalse(CodeGenerationVisitor.HasError, "Code gen visitor encountered an error");
         }
+        
+        [Test]
+        public void Test_CodeGenVisitor_content_fail()
+        {
+            StreamReader FakeReader = CreateFakeReader(Array_Declaration, Encoding.UTF8);
+            Tokeniser tokeniser = new Tokeniser(FakeReader);
+            tokeniser.GenerateTokens();
+            List<ScannerToken> tokens = tokeniser.Tokens.ToList();
+            Parser.Parser parser = new Parser.Parser(tokens);
+            parser.Parse(out dbg);
+            if (Parser.Parser.HasError)
+                Assert.Fail("The parser encountered an error\n\n" + dbg);
+            parser.Root.Accept(new TypeChecker());
+            Assert.IsTrue(TypeChecker.HasError, "Typechecker visitor encountered an error");
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
+            parser.Root.Accept(codeGenerationVisitor);
+            Assert.IsFalse(CodeGenerationVisitor.HasError, "Code gen visitor encountered an error");
+        }
+        
+        [Test]
+        public void Test_CodeGenVisitor_pin_fail()
+        {
+            StreamReader FakeReader = CreateFakeReader(pin_fail, Encoding.UTF8);
+            Tokeniser tokeniser = new Tokeniser(FakeReader);
+            tokeniser.GenerateTokens();
+            List<ScannerToken> tokens = tokeniser.Tokens.ToList();
+            Parser.Parser parser = new Parser.Parser(tokens);
+            parser.Parse(out dbg);
+            if (Parser.Parser.HasError)
+                Assert.Fail("The parser encountered an error\n\n" + dbg);
+            parser.Root.Accept(new TypeChecker());
+            Assert.IsFalse(TypeChecker.HasError, "Typechecker visitor encountered an error");
+            CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
+            parser.Root.Accept(codeGenerationVisitor);
+            Assert.IsTrue(CodeGenerationVisitor.HasError, "Code gen visitor encountered an error");
+        }
+        
         public StreamReader CreateFakeReader(string content, Encoding enc)
         {
             byte[] fakeBytes = enc.GetBytes(content);
