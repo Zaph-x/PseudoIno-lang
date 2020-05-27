@@ -114,6 +114,7 @@ namespace Core.Tests
 
             Program.Main(args);
 
+
             Assert.IsFalse(writer.ToString() != "", $"The compiler fail to compile\n\nOutput: {writer.ToString()}");
         }
 
