@@ -13,7 +13,7 @@ matrix:
       dotnet: 3.1
       install:
       - dotnet restore
-      scipt:
+      script:
       - dotnet test
       - sh ./generatecoverage.sh
     - os: windows
