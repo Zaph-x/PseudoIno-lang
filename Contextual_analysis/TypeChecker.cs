@@ -8,6 +8,7 @@ using Lexer.Objects;
 using static Lexer.Objects.TokenType;
 using SymbolTable;
 using Contextual_analysis.Exceptions;
+using System.Collections.Generic;
 
 namespace Contextual_analysis
 {
@@ -29,10 +30,24 @@ namespace Contextual_analysis
         /// </summary>
         private SymbolTableObject _temp;
         /// <summary>
+        /// Constructor taking PWM pins
+        /// </summary>
+        /// <param name="pwm">List of PWM pins</param>
+        public TypeChecker(List<string> pwm)
+        {
+            PWM = pwm;
+        }
+
+        /// <summary>
         /// A static bool value signifying an error has been encountered
         /// </summary>
         /// <value>True if an error has been encountered. Else false.</value>
         public static bool HasError { get; set; } = false;
+        /// <summary>
+        /// A list of PWM pins
+        /// </summary>
+        /// <value>The PWM pins</value>
+        public List<string> PWM { get; }
 
         /// <summary>
         /// This method type checks the TimesNode node in the AST.
@@ -324,7 +339,7 @@ namespace Contextual_analysis
         /// <returns>APin type context</returns>
         public override object Visit(APinNode apinNode)
         {
-            return new TypeContext(APIN);
+            return new TypeContext(NUMERIC);
         }
         /// <summary>
         /// This method type checks the DPinNode node in the AST.
@@ -333,7 +348,7 @@ namespace Contextual_analysis
         /// <returns>DPin type context</returns>
         public override object Visit(DPinNode dpinNode)
         {
-            return new TypeContext(DPIN);
+            return PWM.Contains(dpinNode.Id) ? new TypeContext(NUMERIC) : new TypeContext(BOOL);
         }
         /// <summary>
         /// This method type checks the DivideNode node in the AST.
@@ -387,7 +402,23 @@ namespace Contextual_analysis
             {
                 return expressionNode.SymbolType = lhs;
             }
-            if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER, OP_EQUAL))
+            if (lhs.Type == DPIN)
+            {
+                if (IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
+                    lhs = new TypeContext(NUMERIC);
+                }
+            }
+            if (rhs.Type == DPIN)
+            {
+                if (IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
+                    rhs = new TypeContext(NUMERIC);
+                }
+            }
+            if (IsOfTypes(lhs, NUMERIC, APIN) && IsOfTypes(rhs, NUMERIC, APIN) && IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER, OP_EQUAL))
             {
                 return expressionNode.SymbolType = new TypeContext(BOOL);
             }
@@ -451,7 +482,23 @@ namespace Contextual_analysis
             {
                 return expressionNode.SymbolType = lhs;
             }
-            if (IsOfTypes(lhs, NUMERIC) && IsOfTypes(rhs, NUMERIC) && IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER, OP_EQUAL))
+            if (lhs.Type == DPIN)
+            {
+                if (IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
+                    lhs = new TypeContext(NUMERIC);
+                }
+            }
+            if (rhs.Type == DPIN)
+            {
+                if (IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER))
+                {
+                    CurrentScope.UpdateTypedef(((ExpressionTerm)expressionNode.LeftHand).LeftHand as VarNode, new TypeContext(NUMERIC), CurrentScope.Name, true);
+                    rhs = new TypeContext(NUMERIC);
+                }
+            }
+            if (IsOfTypes(lhs, NUMERIC, APIN) && IsOfTypes(rhs, NUMERIC, APIN) && IsOfTypes(opctx, OP_LEQ, OP_GEQ, OP_LESS, OP_GREATER, OP_EQUAL))
             {
                 return expressionNode.SymbolType = new TypeContext(BOOL);
             }
@@ -467,7 +514,7 @@ namespace Contextual_analysis
             {
                 return expressionNode.SymbolType = new TypeContext(BOOL);
             }
-            if (IsOfTypes(rhs, BOOL) && (lhs.Type == NUMERIC && expressionNode.RightHand.LeftHand.SymbolType.Type == NUMERIC))
+            else if (IsOfTypes(rhs, BOOL) && (lhs.Type == NUMERIC && expressionNode.RightHand.LeftHand.SymbolType.Type == NUMERIC))
             {
                 return expressionNode.SymbolType = rhs;
             }

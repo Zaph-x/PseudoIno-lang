@@ -125,7 +125,7 @@ namespace Core
                     parser.Root.Accept(new PrettyPrinter());
                 }
                 try {
-                    parser.Root.Accept(new TypeChecker());
+                    parser.Root.Accept(new TypeChecker(GetPWMSet()));
                 } catch {
                     verbosePrinter.Error("Encountered an error in the type checker. Stopping.");
                     return 3;

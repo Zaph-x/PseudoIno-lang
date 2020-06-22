@@ -353,7 +353,7 @@ string dbg;
             parser.Parse(out dbg);
             if (Parser.Parser.HasError)
                 Assert.Fail("The parser encountered an error\n\n" + dbg);
-            parser.Root.Accept(new TypeChecker());
+            parser.Root.Accept(new TypeChecker(new List<string>() {"3","5","6","9","10","11"}));
             Assert.IsFalse(TypeChecker.HasError, "Typechecker visitor encountered an error");
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
             parser.Root.Accept(codeGenerationVisitor);
@@ -371,7 +371,7 @@ string dbg;
             parser.Parse(out dbg);
             if (Parser.Parser.HasError)
                 Assert.Fail("The parser encountered an error\n\n" + dbg);
-            parser.Root.Accept(new TypeChecker());
+            parser.Root.Accept(new TypeChecker(new List<string>() {"3","5","6","9","10","11"}));
             Assert.IsTrue(TypeChecker.HasError, "Typechecker visitor encountered an error");
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
             parser.Root.Accept(codeGenerationVisitor);
@@ -389,7 +389,7 @@ string dbg;
             parser.Parse(out dbg);
             if (Parser.Parser.HasError)
                 Assert.Fail("The parser encountered an error\n\n" + dbg);
-            parser.Root.Accept(new TypeChecker());
+            parser.Root.Accept(new TypeChecker(new List<string>() {"3","5","6","9","10","11"}));
             Assert.IsFalse(TypeChecker.HasError, "Typechecker visitor encountered an error");
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
             parser.Root.Accept(codeGenerationVisitor);

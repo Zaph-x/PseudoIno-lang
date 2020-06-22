@@ -173,7 +173,7 @@ end loop
             parser.Parse(out nowhere);
             if (Parser.Parser.HasError)
                 Assert.Fail();
-            parser.Root.Accept(new TypeChecker());
+            parser.Root.Accept(new TypeChecker(new List<string>() {"3","5","6","9","10","11"}));
             CodeGenerationVisitor codeGenerationVisitor = new CodeGenerationVisitor("Codegen_output.cpp", new List<string>());
             parser.Root.Accept(codeGenerationVisitor);
         }

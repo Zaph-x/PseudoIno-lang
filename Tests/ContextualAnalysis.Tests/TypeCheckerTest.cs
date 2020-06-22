@@ -9,6 +9,7 @@ using System;
 using SymbolTable;
 using Lexer.Objects;
 using AbstractSyntaxTree.Objects.Nodes;
+using System.Collections.Generic;
 
 namespace ContextualAnalysis.Tests
 {
@@ -156,7 +157,7 @@ end loop
             Parser.Parser parser = new Parser.Parser(tokeniser.Tokens.ToList());
             parser.Parse(out nowhere);
             Assert.IsFalse(Parser.Parser.HasError, "Parser encountered an error state:\n\n"+ nowhere);
-            parser.Root.Accept(new TypeChecker());
+            parser.Root.Accept(new TypeChecker(new List<string>() {"3","5","6","9","10","11"}));
             Assert.IsFalse(TypeChecker.HasError, "Typechecker encountered an error.");
         }
 
@@ -169,7 +170,7 @@ end loop
             Parser.Parser parser = new Parser.Parser(tokeniser.Tokens.ToList());
             parser.Parse(out nowhere);
             Assert.IsFalse(Parser.Parser.HasError, "Parser encountered an error state:\n\n"+ nowhere);
-            parser.Root.Accept(new TypeChecker());
+            parser.Root.Accept(new TypeChecker(new List<string>() {"3","5","6","9","10","11"}));
             Assert.IsNull(((AssignmentNode)parser.Root.Statements[0]).Operator, "Operator was not null for assignment node");
         }
 
@@ -219,7 +220,7 @@ end loop
             parser.Parse(out nowhere);
             Assert.IsFalse(Parser.Parser.HasError, "Parser encountered an error state:\n\n"+ nowhere);
             try {
-                parser.Root.Accept(new TypeChecker());
+                parser.Root.Accept(new TypeChecker(new List<string>() {"3","5","6","9","10","11"}));
             } catch {
 
             }
